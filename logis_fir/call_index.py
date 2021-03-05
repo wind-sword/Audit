@@ -24,6 +24,11 @@ class Call_index(QtWidgets.QMainWindow,Ui_indexWindow):
         self.setWindowOpacity(1)  # 设置窗口透明度
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
 
+        self.tabWidget.setTabText(0,"项目浏览")
+        self.tabWidget.setTabsClosable(1)
+        self.tabWidget.tabBar().setTabButton(0,QtWidgets.QTabBar.RightSide,None)
+        self.tabWidget.tabCloseRequested.connect(self.mclose)
+
     def logi(self):
         self.btproview.clicked.connect(self.btfun1)
         self.btproadd.clicked.connect(self.btfun2)
@@ -35,6 +40,8 @@ class Call_index(QtWidgets.QMainWindow,Ui_indexWindow):
         self.comboBox_type.currentIndexChanged.connect(self.btfun7)
         self.pushButton_more.clicked.connect(self.btfun8)
 
+    def mclose(self,index):
+        self.tabWidget.removeTab(index)
 
     def btfun1(self):
         self.stackedWidget.setCurrentIndex(0)
@@ -73,7 +80,7 @@ class Call_index(QtWidgets.QMainWindow,Ui_indexWindow):
             self.stackedWidget_new.setCurrentIndex(index)
 
     def btfun8(self):
-        type=self.tableWidget.currentColumn()
+        type=self.tableWidget.currentRow()
         print(type)
         if type%2==0:
             tab_new=Call_zbdetail()

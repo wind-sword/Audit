@@ -165,9 +165,9 @@ QComboBox{background:white;
 }</string>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
-         <widget class="QWidget" name="stackedWidgetPage1" native="true">
+         <widget class="QWidget" name="stackedWidgetPage1">
           <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0">
            <item>
             <widget class="QTabWidget" name="tabWidget">
@@ -497,8 +497,37 @@ QComboBox{background:white;
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="stackedWidgetPage2" native="true">
+         <widget class="QWidget" name="stackedWidgetPage2">
           <layout class="QGridLayout" name="gridLayout_2">
+           <item row="2" column="1">
+            <widget class="QLabel" name="label_nh">
+             <property name="font">
+              <font>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <italic>false</italic>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>项目号:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLabel" name="label_type">
+             <property name="font">
+              <font>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>项目类型：</string>
+             </property>
+            </widget>
+           </item>
            <item row="0" column="0">
             <widget class="QLabel" name="label_nhead">
              <property name="font">
@@ -513,25 +542,24 @@ QComboBox{background:white;
              </property>
             </widget>
            </item>
-           <item row="1" column="0" colspan="5">
-            <widget class="Line" name="line_2">
+           <item row="5" column="0" colspan="5">
+            <widget class="Line" name="line_4">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
-            <widget class="QLabel" name="label_nh">
+           <item row="3" column="1">
+            <widget class="QLabel" name="label_time">
              <property name="font">
               <font>
                <pointsize>14</pointsize>
                <weight>75</weight>
-               <italic>true</italic>
                <bold>true</bold>
               </font>
              </property>
              <property name="text">
-              <string>项目号:</string>
+              <string>立项时间：</string>
              </property>
             </widget>
            </item>
@@ -547,47 +575,7 @@ QComboBox{background:white;
              </property>
             </widget>
            </item>
-           <item row="2" column="3">
-            <widget class="QLabel" name="label_time">
-             <property name="font">
-              <font>
-               <pointsize>14</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>收录时间：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="4">
-            <widget class="QLabel" name="label_tmres">
-             <property name="font">
-              <font>
-               <pointsize>14</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>（系统生成）</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLabel" name="label_type">
-             <property name="font">
-              <font>
-               <pointsize>14</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>项目类型：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
+           <item row="4" column="2">
             <widget class="QComboBox" name="comboBox_type">
              <property name="font">
               <font>
@@ -614,24 +602,36 @@ QComboBox{background:white;
              </item>
             </widget>
            </item>
-           <item row="4" column="0" colspan="5">
-            <widget class="Line" name="line_4">
+           <item row="1" column="0" colspan="5">
+            <widget class="Line" name="line_2">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
-           <item row="5" column="0" colspan="5">
+           <item row="3" column="2">
+            <widget class="QLabel" name="label_tmres">
+             <property name="font">
+              <font>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>（系统生成）</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0" colspan="5">
             <widget class="QStackedWidget" name="stackedWidget_new">
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_zb">
               <widget class="QLabel" name="label">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
-                 <y>50</y>
+                 <x>170</x>
+                 <y>80</y>
                  <width>91</width>
                  <height>31</height>
                 </rect>
@@ -650,8 +650,8 @@ QComboBox{background:white;
               <widget class="QPushButton" name="pushButton_file">
                <property name="geometry">
                 <rect>
-                 <x>379</x>
-                 <y>10</y>
+                 <x>509</x>
+                 <y>40</y>
                  <width>121</width>
                  <height>22</height>
                 </rect>
@@ -680,8 +680,8 @@ QComboBox{background:white;
               <widget class="QLineEdit" name="lineEdit_file">
                <property name="geometry">
                 <rect>
-                 <x>140</x>
-                 <y>10</y>
+                 <x>270</x>
+                 <y>40</y>
                  <width>200</width>
                  <height>22</height>
                 </rect>
@@ -702,8 +702,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_file">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
-                 <y>10</y>
+                 <x>170</x>
+                 <y>40</y>
                  <width>85</width>
                  <height>21</height>
                 </rect>
@@ -722,8 +722,8 @@ QComboBox{background:white;
               <widget class="QPushButton" name="pushButton_addac">
                <property name="geometry">
                 <rect>
-                 <x>390</x>
-                 <y>420</y>
+                 <x>480</x>
+                 <y>490</y>
                  <width>81</width>
                  <height>31</height>
                 </rect>
@@ -740,8 +740,8 @@ QComboBox{background:white;
               <widget class="QLineEdit" name="lineEdit">
                <property name="geometry">
                 <rect>
-                 <x>150</x>
-                 <y>49</y>
+                 <x>280</x>
+                 <y>79</y>
                  <width>661</width>
                  <height>31</height>
                 </rect>
@@ -750,8 +750,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_2">
                <property name="geometry">
                 <rect>
-                 <x>43</x>
-                 <y>101</y>
+                 <x>173</x>
+                 <y>131</y>
                  <width>91</width>
                  <height>21</height>
                 </rect>
@@ -770,8 +770,8 @@ QComboBox{background:white;
               <widget class="QLineEdit" name="lineEdit_2">
                <property name="geometry">
                 <rect>
-                 <x>150</x>
-                 <y>100</y>
+                 <x>280</x>
+                 <y>130</y>
                  <width>661</width>
                  <height>31</height>
                 </rect>
@@ -780,8 +780,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_3">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
-                 <y>160</y>
+                 <x>170</x>
+                 <y>190</y>
                  <width>91</width>
                  <height>21</height>
                 </rect>
@@ -800,8 +800,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_4">
                <property name="geometry">
                 <rect>
-                 <x>370</x>
-                 <y>160</y>
+                 <x>500</x>
+                 <y>190</y>
                  <width>91</width>
                  <height>21</height>
                 </rect>
@@ -820,8 +820,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_5">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
-                 <y>200</y>
+                 <x>170</x>
+                 <y>230</y>
                  <width>91</width>
                  <height>31</height>
                 </rect>
@@ -840,8 +840,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_6">
                <property name="geometry">
                 <rect>
-                 <x>370</x>
-                 <y>200</y>
+                 <x>500</x>
+                 <y>230</y>
                  <width>91</width>
                  <height>21</height>
                 </rect>
@@ -860,8 +860,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_7">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
-                 <y>240</y>
+                 <x>170</x>
+                 <y>270</y>
                  <width>91</width>
                  <height>21</height>
                 </rect>
@@ -880,8 +880,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_8">
                <property name="geometry">
                 <rect>
-                 <x>370</x>
-                 <y>250</y>
+                 <x>500</x>
+                 <y>280</y>
                  <width>201</width>
                  <height>21</height>
                 </rect>
@@ -900,8 +900,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_9">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
-                 <y>270</y>
+                 <x>170</x>
+                 <y>300</y>
                  <width>91</width>
                  <height>21</height>
                 </rect>
@@ -920,8 +920,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_10">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
-                 <y>300</y>
+                 <x>170</x>
+                 <y>330</y>
                  <width>121</width>
                  <height>21</height>
                 </rect>
@@ -940,8 +940,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_11">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
-                 <y>330</y>
+                 <x>170</x>
+                 <y>360</y>
                  <width>111</width>
                  <height>21</height>
                 </rect>
@@ -960,8 +960,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_12">
                <property name="geometry">
                 <rect>
-                 <x>40</x>
-                 <y>360</y>
+                 <x>170</x>
+                 <y>390</y>
                  <width>121</width>
                  <height>21</height>
                 </rect>
@@ -980,8 +980,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_13">
                <property name="geometry">
                 <rect>
-                 <x>370</x>
-                 <y>300</y>
+                 <x>500</x>
+                 <y>330</y>
                  <width>181</width>
                  <height>21</height>
                 </rect>
@@ -1000,8 +1000,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_14">
                <property name="geometry">
                 <rect>
-                 <x>370</x>
-                 <y>360</y>
+                 <x>500</x>
+                 <y>390</y>
                  <width>191</width>
                  <height>21</height>
                 </rect>
@@ -1017,13 +1017,133 @@ QComboBox{background:white;
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;审计办主任（厅长）：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
+              <widget class="QLineEdit" name="lineEdit_3">
+               <property name="geometry">
+                <rect>
+                 <x>290</x>
+                 <y>189</y>
+                 <width>161</width>
+                 <height>21</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_4">
+               <property name="geometry">
+                <rect>
+                 <x>610</x>
+                 <y>190</y>
+                 <width>161</width>
+                 <height>21</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_5">
+               <property name="geometry">
+                <rect>
+                 <x>290</x>
+                 <y>230</y>
+                 <width>161</width>
+                 <height>21</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_6">
+               <property name="geometry">
+                <rect>
+                 <x>610</x>
+                 <y>230</y>
+                 <width>161</width>
+                 <height>21</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_7">
+               <property name="geometry">
+                <rect>
+                 <x>290</x>
+                 <y>270</y>
+                 <width>161</width>
+                 <height>21</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_8">
+               <property name="geometry">
+                <rect>
+                 <x>290</x>
+                 <y>300</y>
+                 <width>161</width>
+                 <height>21</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_9">
+               <property name="geometry">
+                <rect>
+                 <x>290</x>
+                 <y>330</y>
+                 <width>161</width>
+                 <height>21</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_10">
+               <property name="geometry">
+                <rect>
+                 <x>290</x>
+                 <y>360</y>
+                 <width>161</width>
+                 <height>21</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_11">
+               <property name="geometry">
+                <rect>
+                 <x>290</x>
+                 <y>390</y>
+                 <width>161</width>
+                 <height>21</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_12">
+               <property name="geometry">
+                <rect>
+                 <x>690</x>
+                 <y>280</y>
+                 <width>161</width>
+                 <height>21</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_13">
+               <property name="geometry">
+                <rect>
+                 <x>680</x>
+                 <y>330</y>
+                 <width>161</width>
+                 <height>21</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="lineEdit_14">
+               <property name="geometry">
+                <rect>
+                 <x>690</x>
+                 <y>390</y>
+                 <width>161</width>
+                 <height>21</height>
+                </rect>
+               </property>
+              </widget>
              </widget>
              <widget class="QWidget" name="page_gw">
               <widget class="QLineEdit" name="lineEdit_num">
                <property name="geometry">
                 <rect>
-                 <x>150</x>
-                 <y>50</y>
+                 <x>280</x>
+                 <y>80</y>
                  <width>200</width>
                  <height>22</height>
                 </rect>
@@ -1044,8 +1164,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_num">
                <property name="geometry">
                 <rect>
-                 <x>50</x>
-                 <y>50</y>
+                 <x>180</x>
+                 <y>80</y>
                  <width>91</width>
                  <height>21</height>
                 </rect>
@@ -1064,8 +1184,8 @@ QComboBox{background:white;
               <widget class="QLineEdit" name="lineEdit_file_3">
                <property name="geometry">
                 <rect>
-                 <x>150</x>
-                 <y>10</y>
+                 <x>280</x>
+                 <y>40</y>
                  <width>200</width>
                  <height>22</height>
                 </rect>
@@ -1086,8 +1206,8 @@ QComboBox{background:white;
               <widget class="QPushButton" name="pushButton_file_3">
                <property name="geometry">
                 <rect>
-                 <x>389</x>
-                 <y>10</y>
+                 <x>519</x>
+                 <y>40</y>
                  <width>121</width>
                  <height>22</height>
                 </rect>
@@ -1116,8 +1236,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_file_3">
                <property name="geometry">
                 <rect>
-                 <x>50</x>
-                 <y>10</y>
+                 <x>180</x>
+                 <y>40</y>
                  <width>85</width>
                  <height>21</height>
                 </rect>
@@ -1136,8 +1256,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_num_3">
                <property name="geometry">
                 <rect>
-                 <x>50</x>
-                 <y>90</y>
+                 <x>180</x>
+                 <y>120</y>
                  <width>91</width>
                  <height>21</height>
                 </rect>
@@ -1156,8 +1276,8 @@ QComboBox{background:white;
               <widget class="QLineEdit" name="lineEdit_num_3">
                <property name="geometry">
                 <rect>
-                 <x>150</x>
-                 <y>90</y>
+                 <x>280</x>
+                 <y>120</y>
                  <width>200</width>
                  <height>22</height>
                 </rect>
@@ -1178,8 +1298,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_num_4">
                <property name="geometry">
                 <rect>
-                 <x>50</x>
-                 <y>125</y>
+                 <x>180</x>
+                 <y>155</y>
                  <width>141</width>
                  <height>21</height>
                 </rect>
@@ -1198,8 +1318,8 @@ QComboBox{background:white;
               <widget class="QTextEdit" name="textEdit">
                <property name="geometry">
                 <rect>
-                 <x>150</x>
-                 <y>150</y>
+                 <x>280</x>
+                 <y>180</y>
                  <width>541</width>
                  <height>51</height>
                 </rect>
@@ -1208,8 +1328,8 @@ QComboBox{background:white;
               <widget class="QTextEdit" name="textEdit_2">
                <property name="geometry">
                 <rect>
-                 <x>150</x>
-                 <y>250</y>
+                 <x>280</x>
+                 <y>280</y>
                  <width>541</width>
                  <height>61</height>
                 </rect>
@@ -1218,8 +1338,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_num_5">
                <property name="geometry">
                 <rect>
-                 <x>50</x>
-                 <y>220</y>
+                 <x>180</x>
+                 <y>250</y>
                  <width>201</width>
                  <height>21</height>
                 </rect>
@@ -1238,8 +1358,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_num_6">
                <property name="geometry">
                 <rect>
-                 <x>50</x>
-                 <y>320</y>
+                 <x>180</x>
+                 <y>350</y>
                  <width>231</width>
                  <height>21</height>
                 </rect>
@@ -1258,8 +1378,8 @@ QComboBox{background:white;
               <widget class="QTextEdit" name="textEdit_3">
                <property name="geometry">
                 <rect>
-                 <x>150</x>
-                 <y>350</y>
+                 <x>280</x>
+                 <y>380</y>
                  <width>541</width>
                  <height>51</height>
                 </rect>
@@ -1268,8 +1388,8 @@ QComboBox{background:white;
               <widget class="QPushButton" name="pushButton_addac_3">
                <property name="geometry">
                 <rect>
-                 <x>390</x>
-                 <y>420</y>
+                 <x>480</x>
+                 <y>480</y>
                  <width>81</width>
                  <height>31</height>
                 </rect>
@@ -1288,8 +1408,8 @@ QComboBox{background:white;
               <widget class="QLabel" name="label_29">
                <property name="geometry">
                 <rect>
-                 <x>50</x>
-                 <y>20</y>
+                 <x>180</x>
+                 <y>10</y>
                  <width>101</width>
                  <height>20</height>
                 </rect>
@@ -1310,7 +1430,7 @@ QComboBox{background:white;
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="stackedWidgetPage3" native="true">
+         <widget class="QWidget" name="stackedWidgetPage3">
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
             <widget class="QLabel" name="label_ahead">
