@@ -2,6 +2,8 @@ from PyQt5 import QtCore, QtWidgets
 from uipy_dir.index import Ui_indexWindow
 import sys
 import qtawesome
+from call_zbdetail import Call_zbdetail
+from call_gwdetail import Call_gwdetail
 
 
 class Call_index(QtWidgets.QMainWindow,Ui_indexWindow):
@@ -14,27 +16,24 @@ class Call_index(QtWidgets.QMainWindow,Ui_indexWindow):
     def init_ui(self):
         self.bt_search.setFont(qtawesome.font('fa', 16))
         self.bt_search.setText(chr(0xf002) + ' '+'搜索')
-        icon_close=qtawesome.icon("fa.close",color='white')
-        self.btclose.setIcon(icon_close)
-        icon_mini = qtawesome.icon("fa.minus", color='white')
-        self.btmini.setIcon(icon_mini)
-        icon_max = qtawesome.icon("fa.square", color='white')
-        self.btnone.setIcon(icon_max)
+        #qtawesome用法
+        #icon_close=qtawesome.icon("fa.close",color='white')
+        #self.btclose.setIcon(icon_close)
+
        # self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
         self.setWindowOpacity(1)  # 设置窗口透明度
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
-        self.btclose.clicked.connect(self.mclose)
-        self.btmini.clicked.connect(self.mmini)
-        self.btnone.clicked.connect(self.mmax)
 
     def logi(self):
         self.btproview.clicked.connect(self.btfun1)
         self.btproadd.clicked.connect(self.btfun2)
         self.btanalytemp.clicked.connect(self.btfun3)
-        self.pushButton_new.clicked.connect(self.btfun2)
+        self.btansear.clicked.connect(self.btfun3)
         self.bt_search.clicked.connect(self.btfun4)
         self.pushButton_file.clicked.connect(self.btfun5)
         self.pushButton_addac.clicked.connect(self.btfun6)
+        self.comboBox_type.currentIndexChanged.connect(self.btfun7)
+        self.pushButton_more.clicked.connect(self.btfun8)
 
 
     def btfun1(self):
@@ -70,14 +69,23 @@ class Call_index(QtWidgets.QMainWindow,Ui_indexWindow):
         #
         self.stackedWidget.setCurrentIndex(0)
 
-    def mclose(self):
-        self.close()
+    def btfun7(self,index):
+            self.stackedWidget_new.setCurrentIndex(index)
 
-    def mmini(self):
-        self.showMinimized()
+    def btfun8(self):
+        type=self.tableWidget.currentColumn()
+        print(type)
+        if type%2==0:
+            tab_new=Call_zbdetail()
+            tab_new.setObjectName('tab_new')
+            tabnum=self.tabWidget.addTab(tab_new,"专报项目详情")
+            self.tabWidget.setCurrentIndex(tabnum)
+        else:
+            tab_new = Call_gwdetail()
+            tab_new.setObjectName('tab_new')
+            tabnum = self.tabWidget.addTab(tab_new, "公文项目详情")
+            self.tabWidget.setCurrentIndex(tabnum)
 
-    def mmax(self):
-        self.showMaximized()
 
 
 if __name__ == '__main__':
