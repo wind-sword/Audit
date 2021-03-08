@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1366</width>
-    <height>767</height>
+    <height>809</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -399,7 +399,7 @@ QComboBox{background:white;
                  </row>
                  <column>
                   <property name="text">
-                   <string>报文号</string>
+                   <string>发文字号</string>
                   </property>
                   <property name="font">
                    <font>
@@ -409,7 +409,7 @@ QComboBox{background:white;
                  </column>
                  <column>
                   <property name="text">
-                   <string>收文号</string>
+                   <string>收文字号</string>
                   </property>
                   <property name="font">
                    <font>
@@ -419,7 +419,7 @@ QComboBox{background:white;
                  </column>
                  <column>
                   <property name="text">
-                   <string>批文号</string>
+                   <string>批文字号</string>
                   </property>
                   <property name="font">
                    <font>
@@ -429,7 +429,7 @@ QComboBox{background:white;
                  </column>
                  <column>
                   <property name="text">
-                   <string>立项时间</string>
+                   <string>专报标题</string>
                   </property>
                   <property name="font">
                    <font>
@@ -439,7 +439,67 @@ QComboBox{background:white;
                  </column>
                  <column>
                   <property name="text">
-                   <string>项目完成度</string>
+                   <string>公文标题</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>秘密等级</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>是否公开</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>紧急程度</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>报文内容</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>办文日期</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>整改进度</string>
                   </property>
                   <property name="font">
                    <font>
@@ -624,7 +684,7 @@ QComboBox{background:white;
            <item row="6" column="0" colspan="5">
             <widget class="QStackedWidget" name="stackedWidget_new">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="page_zb">
               <widget class="QLabel" name="label">
