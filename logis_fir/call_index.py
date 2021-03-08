@@ -59,11 +59,16 @@ class Call_index(QtWidgets.QMainWindow,Ui_indexWindow):
 
     # 显示项目表内容
     def showProjectTable(self):
-        self.tableWidget.clear()
+      #导致表头消失  self.tableWidget.clear()
         sql = 'select project.发文字号,project.收文字号,project.批文字号,project.专报标题,project.公文标题,project.秘密等级,project.是否公开,project.紧急程度,project.报文内容,project.办文日期,project.整改进度 from project'
         data = self.executeSql(sql)
         # 打印结果
         print(data)
+
+        size = len(data)
+        print(size)
+        self.tableWidget.setRowCount(size)
+
         x = 0
         for i in data:
             y = 0
@@ -77,6 +82,7 @@ class Call_index(QtWidgets.QMainWindow,Ui_indexWindow):
 
     def btfun1(self):
         self.stackedWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(0)
         self.showProjectTable()# 点击项目浏览显示项目表内容
 
     def btfun2(self):
