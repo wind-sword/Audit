@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1024</width>
-    <height>656</height>
+    <height>740</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -239,7 +239,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page_basicinfo">
       <layout class="QGridLayout" name="gridLayout">
@@ -362,7 +362,7 @@
           </font>
          </property>
          <property name="text">
-          <string>选择文件</string>
+          <string>打开文件</string>
          </property>
         </widget>
        </item>

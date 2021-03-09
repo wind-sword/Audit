@@ -1,12 +1,15 @@
+import os
+
 from PyQt5 import QtCore, QtWidgets
 from uipy_dir.gwdetail import Ui_Form
-
+from docx import Document
 
 class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
     mydata = []
     def __init__(self,data):
         super().__init__()
         self.setupUi(self)
+        self.logi()
         self.commandLinkButton.clicked.connect(self.btnbasic)
         self.commandLinkButton_2.clicked.connect(self.btnpro)
         self.commandLinkButton_3.clicked.connect(self.btnimport)
@@ -15,6 +18,16 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
 
         self.mydata = data
         self.display()
+
+    def logi(self):
+        self.pushButton_file.clicked.connect(self.openFile)
+
+    #根据文件名打开project_word中的专报/公文
+    def openFile(self):
+        #获取文件路径
+        path = os.path.dirname(os.getcwd())+'\project_word\\'+self.lineEdit_file_3.text()
+        print(path)
+        os.startfile(path)
 
     #显示公文详情
     def display(self):
@@ -32,6 +45,9 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
 
         str17 = self.label_num_6.text() # 办文情况说明和拟办意见
         self.textEdit_3.setText(self.mydata[0][17])
+
+        str18 = self.label_file_3.text() #公文内容
+        self.lineEdit_file_3.setText(self.mydata[0][19])
 
     def btnbasic(self):
         self.stackedWidget.setCurrentIndex(0)

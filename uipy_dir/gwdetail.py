@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1024, 656)
+        Form.resize(1024, 740)
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_head = QtWidgets.QLabel(Form)
@@ -351,7 +351,7 @@ class Ui_Form(object):
         self.verticalLayout.setStretch(3, 1)
 
         self.retranslateUi(Form)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -372,7 +372,7 @@ class Ui_Form(object):
         self.label_num_3.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#005500;\">文件标题：</span></p></body></html>"))
         self.label_num.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#005500;\">发文字号：</span></p></body></html>"))
         self.label_24.setText(_translate("Form", "立项时间："))
-        self.pushButton_file.setText(_translate("Form", "选择文件"))
+        self.pushButton_file.setText(_translate("Form", "打开文件"))
         self.label_file_3.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#000000;\">报文内容：</span></p></body></html>"))
         self.label_num_4.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#005500;\">领导审核意见：</span></p></body></html>"))
         self.label_11.setText(_translate("Form", "收文号："))

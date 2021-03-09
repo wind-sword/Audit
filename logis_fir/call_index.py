@@ -72,10 +72,6 @@ class Call_index(QtWidgets.QMainWindow,Ui_indexWindow):
         except:
             print("Unexpected error:", sys.exc_info())
 
-    #根据文件名打开project_word中的专报/公文
-    def openFile(self,name):
-        print("待开发")
-
     # 显示项目表内容
     def showProjectTable(self):
         #导致表头消失 self.tableWidget.clear()
@@ -177,7 +173,7 @@ class Call_index(QtWidgets.QMainWindow,Ui_indexWindow):
 
         str16 = self.label_file.text() #报文内容
         input_file_path = self.lineEdit_file.text() #文件路径
-        input16 = os.path.split(input_file_path.replace("\\", "/"))[1] #文件名
+        input16 = os.path.split(input_file_path)[1] #文件名
 
         # 执行插入
         sql = "insert into project(专报标题,报送范围,发文字号,紧急程度,秘密等级,是否公开,拟稿人,拟稿处室分管厅领导,拟稿处室审核,综合处编辑,综合处审核,秘书处审核,综合处分管厅领导,审计办主任,办文日期,报文内容,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',1);"%(input1,input2,input3,input4,input5,input6,input7,input8,input9,input10,input11,input12,input13,input14,input15,input16)
@@ -214,7 +210,7 @@ class Call_index(QtWidgets.QMainWindow,Ui_indexWindow):
 
         str7 = self.label_file_3.text() #公文内容
         input_file_path = self.lineEdit_file_3.text() #文件路径
-        input7 = os.path.split(input_file_path.replace("\\", "/"))[1] #文件名
+        input7 = os.path.split(input_file_path)[1] #文件名
 
         #执行插入
         sql = "insert into project(发文字号,公文标题,领导审核意见,审计办领导审核意见,办文情况说明和拟办意见,办文日期,报文内容,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s',2);"%(input1,input2,input3,input4,input5,input6,input7)
@@ -243,10 +239,9 @@ class Call_index(QtWidgets.QMainWindow,Ui_indexWindow):
         else:
             # 获取发文字号用于查询
             key = self.tableWidget.item(row,0).text()
-            sql = 'select project.专报标题,project.报送范围,project.发文字号,project.紧急程度,project.秘密等级,project.是否公开,project.拟稿人,project.拟稿处室分管厅领导,project.拟稿处室审核,project.综合处编辑,project.综合处审核,project.秘书处审核,project.综合处分管厅领导,project.审计办主任,project.公文标题,project.领导审核意见,project.审计办领导审核意见,project.办文情况说明和拟办意见,project.projectType from project where 发文字号 =  \'%s\''%key
+            sql = 'select project.专报标题,project.报送范围,project.发文字号,project.紧急程度,project.秘密等级,project.是否公开,project.拟稿人,project.拟稿处室分管厅领导,project.拟稿处室审核,project.综合处编辑,project.综合处审核,project.秘书处审核,project.综合处分管厅领导,project.审计办主任,project.公文标题,project.领导审核意见,project.审计办领导审核意见,project.办文情况说明和拟办意见,project.projectType,project.报文内容 from project where 发文字号 =  \'%s\''%key
             data = self.executeSql(sql)
             #print(data)
-
             #判断项目类型
             if data[0][18] == 1:
                 tab_new=Call_zbdetail(data)
