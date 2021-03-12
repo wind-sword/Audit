@@ -750,7 +750,7 @@ class Ui_Form(object):
         self.commandLinkButton_5.setDescription(_translate("Form", "未完成"))
         self.label_num_4.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#005500;\">领导审核意见：</span></p></body></html>"))
         self.label_file_3.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#000000;\">报文内容：</span></p></body></html>"))
-        self.pushButton_file.setText(_translate("Form", "选择文件"))
+        self.pushButton_file.setText(_translate("Form", "打开文件"))
         self.label_34.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#005500;\">办文日期：</span></p></body></html>"))
         self.label_28.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#005500;\">审核：</span></p></body></html>"))
         self.label_30.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#005500;\">办文编号：</span></p></body></html>"))

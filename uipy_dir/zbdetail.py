@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1024, 692)
+        Form.resize(1024, 660)
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_head = QtWidgets.QLabel(Form)
@@ -732,7 +732,7 @@ class Ui_Form(object):
         self.commandLinkButton_5.setDescription(_translate("Form", "未完成"))
         self.label_16.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#ff0000;\">报送范围：</span></p></body></html>"))
         self.label_file.setText(_translate("Form", "<html><head/><body><p>报文内容：</p></body></html>"))
-        self.pushButton_file.setText(_translate("Form", "选择文件"))
+        self.pushButton_file.setText(_translate("Form", "打开文件"))
         self.label_18.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#ff0000;\">秘书处审核：</span></p></body></html>"))
         self.label_12.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#ff0000;\">综合处审核：</span></p></body></html>"))
         self.label_15.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#ff0000;\">审计办主任（厅长）签发：</span></p></body></html>"))
