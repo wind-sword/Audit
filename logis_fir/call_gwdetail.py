@@ -33,6 +33,10 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
         self.displayDetail()
         self.displayqueDetail()
 
+    def logi(self):
+        self.pushButton_file.clicked.connect(self.openFile)
+        self.pushButton_queimport.clicked.connect(self.importExcel)
+
     # 执行sql语句
     def executeSql(self, sql):
         print("当前需要执行sql:" + sql)
@@ -53,6 +57,8 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
     # 跳转问题详情
     def jumpqueview(self):
         row = self.tableWidget.currentRow()
+        key = self.tableWidget.item(row, 2).text()
+        sql = "select problem.被审计领导干部,problem.所在地方和单位,problem.出具审计报告时间,problem.审计组主审,problem.审计组组长,problem.发文字号,problem.审计报告文号,problem.问题描述"
         if row == -1:
             QtWidgets.QMessageBox.information(self, "提示", "请选择问题！")
         else:
@@ -60,10 +66,6 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
             tab_new.setObjectName('tab_new')
             tab_num = self.tabWidget.addTab(tab_new, "问题详情")
             self.tabWidget.setCurrentIndex(tab_num)
-
-    def logi(self):
-        self.pushButton_file.clicked.connect(self.openFile)
-        self.pushButton_queimport.clicked.connect(self.importExcel)
 
     # 根据文件名打开project_word中的专报/公文
     def openFile(self):
@@ -77,43 +79,49 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
         # 文件路径
         path = p[0]
         path.replace('/', '\\\\')
+        # 用户没有选择文件
+        if path != "":
+            # 获取excel文件
+            data = xlrd.open_workbook(path)
+            print('All sheets: %s' % data.sheet_names())
 
-        # 获取excel文件
-        data = xlrd.open_workbook(path)
-        print('All sheets: %s' % data.sheet_names())
+            # 获取excel第一个sheet,也就是问题表所在sheet
+            sheet = data.sheets()[0]
+            sheet_name = sheet.name  # 获得名称
+            sheet_cols = sheet.ncols  # 获得列数
+            sheet_nrows = sheet.nrows  # 获得行数
+            print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s' % (sheet_name, sheet_cols, sheet_nrows))
 
-        # 获取excel第一个sheet,也就是问题表所在sheet
-        sheet = data.sheets()[0]
-        sheet_name = sheet.name  # 获得名称
-        sheet_cols = sheet.ncols  # 获得列数
-        sheet_nrows = sheet.nrows  # 获得行数
-        print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s' % (sheet_name, sheet_cols, sheet_nrows))
+            # 获取第六行数据,也就是问题的数据,后续获取多行数据加上循环,根据具体表结构做修改,此处仅作为演示
+            cell5_0 = sheet.row(4)[0].value  # 问题顺序号
+            cell5_1 = sheet.row(4)[1].value  # 被审计对象
+            cell5_2 = sheet.row(4)[2].value  # 所在地方或单位
+            cell5_3 = sheet.row(4)[3].value  # 报送专报期号
+            cell5_4 = sheet.row(4)[4].value  # 审计报告（意见）文号
+            cell5_5 = xlrd.xldate.xldate_as_datetime(sheet.cell(4, 5).value, 0).strftime(
+                "%Y/%m/%d")  # 出具出具审计专报时间 XXXX-XX-XX
+            cell5_6 = sheet.row(4)[6].value  # 审计组组长
+            cell5_7 = sheet.row(4)[7].value  # 审计组主审
+            cell5_8 = sheet.row(4)[8].value  # 问题描述
+            cell5_9 = sheet.row(4)[9].value  # 问题一级分类
+            cell5_10 = sheet.row(4)[10].value  # 问题二级分类
+            cell5_11 = sheet.row(4)[11].value  # 问题三级分类
+            cell5_12 = sheet.row(4)[12].value  # 问题四级分类
+            cell5_13 = sheet.row(4)[13].value  # 备注（不在前列问题类型中的，简单描述）
+            cell5_14 = sheet.row(4)[14].value  # 问题金额（万元）
+            cell5_15 = sheet.row(4)[15].value  # 移送及处理情况
 
-        # 获取第六行数据,也就是问题的数据,后续获取多行数据加上循环,根据具体表结构做修改,此处仅作为演示
-        cell5_1 = sheet.row(5)[1].value  # 被审计对象
-        cell5_2 = sheet.row(5)[2].value  # 所在地方或单位
-        cell5_3 = sheet.row(5)[3].value  # 报送专报期号
-        cell5_4 = sheet.row(5)[4].value  # 审计报告（意见）文号
-        cell5_5 = xlrd.xldate.xldate_as_datetime(sheet.cell(5, 5).value, 0).strftime(
-            "%Y/%m/%d")  # 出具出具审计专报时间 XXXX-XX-XX
-        cell5_6 = sheet.row(5)[6].value  # 审计组组长
-        cell5_7 = sheet.row(5)[7].value  # 审计组主审
-        cell5_8 = sheet.row(5)[8].value  # 问题描述
-        cell5_9 = sheet.row(5)[9].value  # 问题一级分类
-        cell5_10 = sheet.row(5)[10].value  # 问题二级分类
-        cell5_11 = sheet.row(5)[11].value  # 问题三级分类
-        cell5_12 = sheet.row(5)[12].value  # 问题四级分类
-        cell5_13 = sheet.row(5)[13].value  # 备注（不在前列问题类型中的，简单描述）
-        cell5_14 = sheet.row(5)[14].value  # 问题金额（万元）
-        cell5_15 = sheet.row(5)[15].value  # 移送及处理情况
+            if cell5_3 == self.mydata[0][2]:
+                sql = "insert into problem values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
+                      "'%s','%s','%s')" % (cell5_0, cell5_1, cell5_2, cell5_3, cell5_4, cell5_5, cell5_6, cell5_7,
+                                           cell5_8, cell5_9, cell5_10, cell5_11, cell5_12, cell5_13, cell5_14, cell5_15)
+                print(sql)
+                self.executeSql(sql)
+            else:
+                QtWidgets.QMessageBox.information(self, "提示", "问题表与发文文号不符！")
 
-        sql = "insert into problem values(NULL,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
-              "'%s')" % (cell5_1, cell5_2, cell5_3, cell5_4, cell5_5, cell5_6, cell5_7, cell5_8, cell5_9,
-                         cell5_10, cell5_11, cell5_12, cell5_13, cell5_14, cell5_15)
-        self.executeSql(sql)
-
-        # 导入完成后更新表格
-        self.displayqueDetail()
+            # 导入完成后更新表格
+            self.displayqueDetail()
 
     # 显示公文详情
     def displayDetail(self):
@@ -168,7 +176,7 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
     # 展示问题表格
     def displayqueDetail(self):
         # 选出该项目对应的所有问题
-        sql = 'select problem.被审计领导干部,problem.所在地方和单位,problem.发文字号,problem.审计报告文号,problem.出具审计报告时间,problem.审计组组长,' \
+        sql = 'select problem.问题顺序号,problem.被审计领导干部,problem.所在地方和单位,problem.发文字号,problem.审计报告文号,problem.出具审计报告时间,problem.审计组组长,' \
               'problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类,problem.问题四级分类,problem.备注,' \
               'problem.问题金额,problem.移送及处理情况 from problem where 发文字号 =  \'%s\'' % self.mydata[0][2]
         data = self.executeSql(sql)

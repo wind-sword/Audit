@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>810</height>
+    <width>1259</width>
+    <height>846</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,8 +47,8 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>170</width>
-         <height>66</height>
+         <width>200</width>
+         <height>80</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -89,8 +89,8 @@
       <widget class="QCommandLinkButton" name="commandLinkButton_2">
        <property name="minimumSize">
         <size>
-         <width>170</width>
-         <height>66</height>
+         <width>200</width>
+         <height>80</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -103,7 +103,7 @@
         <string notr="true">font: 14pt &quot;Adobe Devanagari&quot;;</string>
        </property>
        <property name="text">
-        <string>项目问题表导入</string>
+        <string>问题表导入</string>
        </property>
        <property name="iconSize">
         <size>
@@ -120,8 +120,8 @@
       <widget class="QCommandLinkButton" name="commandLinkButton_3">
        <property name="minimumSize">
         <size>
-         <width>170</width>
-         <height>66</height>
+         <width>200</width>
+         <height>80</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -151,8 +151,8 @@
       <widget class="QCommandLinkButton" name="commandLinkButton_4">
        <property name="minimumSize">
         <size>
-         <width>170</width>
-         <height>66</height>
+         <width>200</width>
+         <height>80</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -191,8 +191,8 @@
       <widget class="QCommandLinkButton" name="commandLinkButton_5">
        <property name="minimumSize">
         <size>
-         <width>170</width>
-         <height>66</height>
+         <width>200</width>
+         <height>80</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -237,8 +237,8 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>170</width>
-         <height>66</height>
+         <width>200</width>
+         <height>80</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -1387,7 +1387,7 @@
              </column>
              <column>
               <property name="text">
-               <string>新建列</string>
+               <string>问题金额</string>
               </property>
               <property name="font">
                <font>

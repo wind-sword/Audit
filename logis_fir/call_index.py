@@ -197,23 +197,25 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         str16 = self.label_file.text()  # 报文内容
         input_file_path = self.lineEdit_file.text()  # 文件路径
         input16 = os.path.split(input_file_path)[1]  # 文件名
+        if input3 != "":
+            # 执行插入
+            sql = "insert into project(专报标题,报送范围,发文字号,紧急程度,秘密等级,是否公开,拟稿人,拟稿处室分管厅领导,拟稿处室审核,综合处编辑,综合处审核,秘书处审核,综合处分管厅领导," \
+                  "审计办主任,办文日期,报文内容,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
+                  "'%s','%s','%s',1);" % (
+                input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11, input12, input13,
+                input14, input15, input16)
+            self.executeSql(sql)
 
-        # 执行插入
-        sql = "insert into project(专报标题,报送范围,发文字号,紧急程度,秘密等级,是否公开,拟稿人,拟稿处室分管厅领导,拟稿处室审核,综合处编辑,综合处审核,秘书处审核,综合处分管厅领导," \
-              "审计办主任,办文日期,报文内容,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
-              "'%s','%s','%s',1);" % (
-            input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11, input12, input13,
-            input14, input15, input16)
-        self.executeSql(sql)
+            # 导入文件
+            self.copyFile(input_file_path, self.project_word_path)
 
-        # 导入文件
-        self.copyFile(input_file_path, self.project_word_path)
+            QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
 
-        QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
-
-        # 返回显示页面,重新加载项目内容
-        self.stackedWidget.setCurrentIndex(0)
-        self.showProjectTable()
+            # 返回显示页面,重新加载项目内容
+            self.stackedWidget.setCurrentIndex(0)
+            self.showProjectTable()
+        else:
+            QtWidgets.QMessageBox.information(self, "提示", "发文字号不能为空!")
 
     # 新增项目下的确认按钮(公文)
     def btfun6_1(self):
