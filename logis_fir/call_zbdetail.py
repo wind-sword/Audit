@@ -65,9 +65,10 @@ class Call_zbdetail(QtWidgets.QWidget, Ui_Form):
             key1 = self.tableWidget.item(row, 0).text()
             # 主键2:发文字号
             key2 = self.tableWidget.item(row, 3).text()
-            sql = "select "
-
-            tab_new = Call_quedetail()
+            sql = "select problem.被审计领导干部,problem.所在地方和单位,problem.出具审计报告时间,problem.审计组主审,problem.审计组组长,problem.发文字号,problem.审计报告文号,problem.问题描述 from problem where 问题顺序号 = %s and 发文字号 =  \'%s\'"%(key1,key2)
+            data = self.executeSql(sql)
+            #print(data)
+            tab_new = Call_quedetail(data)
             tab_new.setObjectName('tab_new')
             tab_num = self.tabWidget.addTab(tab_new, "问题详情")
             self.tabWidget.setCurrentIndex(tab_num)
