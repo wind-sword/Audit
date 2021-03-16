@@ -5,8 +5,6 @@
   </qresource>
   <qresource prefix="/resource_dir">
     <file>gwdarkhead.png</file>
-    <file>darkgw.png</file>
-    <file>gwhead.png</file>
     <file>zbhead.png</file>
     <file>bg.jpg</file>
     <file>logo.png</file>
