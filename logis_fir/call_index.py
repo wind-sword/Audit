@@ -36,6 +36,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tabWidget.tabBar().setTabButton(0, QtWidgets.QTabBar.RightSide, None)
         self.tabWidget.tabCloseRequested.connect(self.mclose)
 
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()#根据内容调整框大小
+
         self.showProjectTable()  # 初始化显示
 
     def logi(self):
