@@ -22,8 +22,9 @@ class Call_zbdetail(QtWidgets.QWidget, Ui_Form):
         self.commandLinkButton_3.clicked.connect(self.btnimport)
         self.commandLinkButton_4.clicked.connect(self.btnelse)
         self.commandLinkButton_5.clicked.connect(self.btnanother)
+        self.commandLinkButton_6.clicked.connect(self.btnzgfh)
+        self.commandLinkButton_7.clicked.connect(self.btnzglr)
 
-        self.pushButton.clicked.connect(self.jumpqueview)
         self.tabWidget.setTabText(0, "问题浏览")
         self.tabWidget.setTabsClosable(1)
         self.tabWidget.tabBar().setTabButton(0, QtWidgets.QTabBar.RightSide, None)
@@ -32,11 +33,10 @@ class Call_zbdetail(QtWidgets.QWidget, Ui_Form):
         self.mydata = data
         self.displayDetail()
 
-        self.displayqueDetail()
-
     def logi(self):
         self.pushButton_file.clicked.connect(self.openFile)
         self.pushButton_queimport.clicked.connect(self.importExcel)
+        self.pushButton.clicked.connect(self.jumpqueview)
 
     # 执行sql语句
     def executeSql(self, sql):
@@ -80,6 +80,7 @@ class Call_zbdetail(QtWidgets.QWidget, Ui_Form):
         print(path)
         os.startfile(path)
 
+    # 根据excel中的信息导入问题表
     def importExcel(self):
         p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
         # 文件路径
@@ -93,38 +94,37 @@ class Call_zbdetail(QtWidgets.QWidget, Ui_Form):
 
             # 获取excel第一个sheet,也就是问题表所在sheet
             sheet = data.sheets()[0]
+
             sheet_name = sheet.name  # 获得名称
             sheet_cols = sheet.ncols  # 获得列数
             sheet_nrows = sheet.nrows  # 获得行数
             print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s' % (sheet_name, sheet_cols, sheet_nrows))
 
-            # 获取第六行数据,也就是问题的数据,后续获取多行数据加上循环,根据具体表结构做修改,此处仅作为演示
-            cell5_0 = sheet.row(4)[0].value  # 被审计对象
-            cell5_1 = sheet.row(4)[1].value  # 被审计对象
-            cell5_2 = sheet.row(4)[2].value  # 所在地方或单位
-            cell5_3 = sheet.row(4)[3].value  # 报送专报期号
-            cell5_4 = sheet.row(4)[4].value  # 审计报告（意见）文号
-            cell5_5 = xlrd.xldate.xldate_as_datetime(sheet.cell(4, 5).value, 0).strftime(
-                "%Y/%m/%d")  # 出具出具审计专报时间 XXXX-XX-XX
-            cell5_6 = sheet.row(4)[6].value  # 审计组组长
-            cell5_7 = sheet.row(4)[7].value  # 审计组主审
-            cell5_8 = sheet.row(4)[8].value  # 问题描述
-            cell5_9 = sheet.row(4)[9].value  # 问题一级分类
-            cell5_10 = sheet.row(4)[10].value  # 问题二级分类
-            cell5_11 = sheet.row(4)[11].value  # 问题三级分类
-            cell5_12 = sheet.row(4)[12].value  # 问题四级分类
-            cell5_13 = sheet.row(4)[13].value  # 备注（不在前列问题类型中的，简单描述）
-            cell5_14 = sheet.row(4)[14].value  # 问题金额（万元）
-            cell5_15 = sheet.row(4)[15].value  # 移送及处理情况
+            # 读取excel数据
+            for i in range(4, sheet_nrows):
+                celli_0 = sheet.row(i)[0].value  # 问题顺序号
+                celli_1 = sheet.row(i)[1].value  # 被审计对象
+                celli_2 = sheet.row(i)[2].value  # 所在地方或单位
+                celli_3 = sheet.row(i)[3].value  # 报送专报期号
+                celli_4 = sheet.row(i)[4].value  # 审计报告（意见）文号
+                celli_5 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 5).value, 0).strftime(
+                    "%Y/%m/%d")  # 出具出具审计专报时间 XXXX-XX-XX
+                celli_6 = sheet.row(i)[6].value  # 审计组组长
+                celli_7 = sheet.row(i)[7].value  # 审计组主审
+                celli_8 = sheet.row(i)[8].value  # 问题描述
+                celli_9 = sheet.row(i)[9].value  # 问题一级分类
+                celli_10 = sheet.row(i)[10].value  # 问题二级分类
+                celli_11 = sheet.row(i)[11].value  # 问题三级分类
+                celli_12 = sheet.row(i)[12].value  # 问题四级分类
+                celli_13 = sheet.row(i)[13].value  # 备注（不在前列问题类型中的，简单描述）
+                celli_14 = sheet.row(i)[14].value  # 问题金额（万元）
+                celli_15 = sheet.row(i)[15].value  # 移送及处理情况
 
-            if cell5_3 == self.mydata[0][2]:
-                sql = "insert into problem values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
-                      "'%s')" % (cell5_0,cell5_1, cell5_2, cell5_3, cell5_4, cell5_5, cell5_6, cell5_7, cell5_8, cell5_9,
-                                 cell5_10, cell5_11, cell5_12, cell5_13, cell5_14, cell5_15)
+                sql = "insert into problem values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
+                      "'%s','%s','%s')" % (celli_0, celli_1, celli_2, celli_3, celli_4, celli_5, celli_6, celli_7,
+                                           celli_8, celli_9, celli_10, celli_11, celli_12, celli_13, celli_14, celli_15)
                 print(sql)
                 self.executeSql(sql)
-            else:
-                QtWidgets.QMessageBox.information(self, "提示", "问题对应文号与该项目发文文号不符！")
 
             # 导入完成后更新表格
             self.displayqueDetail()
@@ -206,9 +206,11 @@ class Call_zbdetail(QtWidgets.QWidget, Ui_Form):
 
     def btnbasic(self):
         self.stackedWidget.setCurrentIndex(0)
+        self.displayDetail()
 
     def btnpro(self):
         self.stackedWidget.setCurrentIndex(2)
+        self.displayqueDetail()
 
     def btnimport(self):
         self.stackedWidget.setCurrentIndex(3)
@@ -218,3 +220,10 @@ class Call_zbdetail(QtWidgets.QWidget, Ui_Form):
 
     def btnanother(self):
         self.stackedWidget.setCurrentIndex(4)
+
+    def btnzgfh(self):
+        self.stackedWidget.setCurrentIndex(5)
+
+    def btnzglr(self):
+        self.stackedWidget.setCurrentIndex(6)
+

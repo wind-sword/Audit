@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1259</width>
-    <height>839</height>
+    <height>935</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1053,7 +1053,7 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_3"/>
+             <widget class="QDateEdit" name="dateEdit"/>
             </item>
            </layout>
           </item>
@@ -1601,7 +1601,7 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_4"/>
+             <widget class="QDateEdit" name="dateEdit_2"/>
             </item>
            </layout>
           </item>

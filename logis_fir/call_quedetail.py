@@ -9,9 +9,7 @@ class Call_quedetail(QtWidgets.QWidget, Ui_Form):
         super().__init__()
         self.setupUi(self)
         self.commandLinkButton_4.clicked.connect(self.btfun1)
-        self.commandLinkButton.clicked.connect(self.btfun2)
-        self.commandLinkButton_2.clicked.connect(self.btfun3)
-        self.commandLinkButton_3.clicked.connect(self.btfun4)
+        self.commandLinkButton_2.clicked.connect(self.btfun2)
         self.mydata = data
         self.displayquedetail()
 
@@ -53,11 +51,5 @@ class Call_quedetail(QtWidgets.QWidget, Ui_Form):
 
     def btfun2(self):
         self.stackedWidget.setCurrentIndex(1)
-
-    def btfun3(self):
-        self.stackedWidget.setCurrentIndex(2)
-
-    def btfun4(self):
-        self.stackedWidget.setCurrentIndex(3)
 
 

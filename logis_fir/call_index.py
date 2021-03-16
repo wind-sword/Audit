@@ -37,7 +37,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tabWidget.tabCloseRequested.connect(self.mclose)
 
         self.tableWidget.resizeColumnsToContents()
-        self.tableWidget.resizeRowsToContents()#根据内容调整框大小
+        self.tableWidget.resizeRowsToContents()  # 根据内容调整框大小
 
         self.showProjectTable()  # 初始化显示
 
@@ -81,11 +81,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         except:
             print("Unexpected error:", sys.exc_info())
 
-    # 显示项目表内容(需要修改成台账)
+    # 显示台账内容
     def showProjectTable(self):
         # 导致表头消失 self.tableWidget.clear()
-        sql = 'select sendfile.发文字号,sendfile.收文字号,sendfile.批文字号,sendfile.专报标题,sendfile.公文标题,sendfile.秘密等级,sendfile.是否公开,' \
-              'sendfile.紧急程度,sendfile.报文内容,sendfile.办文日期,sendfile.整改进度 from sendfile '
+        sql = 'select 时间,发文字号,收文字号,办文字号,秘密等级,来文单位,来文字号,来文标题,省领导批示内容,秘书处拟办意见,委办主任签批意见,批示任务办理要求时间,承办处室及承办人,办理结果,' \
+              '文件去向 from standingbook '
         data = self.executeSql(sql)
         # 打印结果
         # print(data)
@@ -202,15 +202,19 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input16 = os.path.split(input_file_path)[1]  # 文件名
 
         if input3 != "":
-            # 执行插入
+            # 执行插入sendfile表
             sql = "insert into sendfile(专报标题,报送范围,发文字号,紧急程度,秘密等级,是否公开,拟稿人,拟稿处室分管厅领导,拟稿处室审核,综合处编辑,综合处审核,秘书处审核,综合处分管厅领导," \
-                  "审计办主任,办文日期,报文内容,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
-                  "'%s','%s','%s',1);" % (input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11, input12, input13,
-                input14, input15, input16)
+                  "审计办主任,办文日期,报文内容,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
+                  "'%s','%s','%s','%s',1);" % (input1, input2, input3, input4, input5, input6, input7, input8, input9,
+                                               input10, input11, input12,input13,input14, input15, input16)
             self.executeSql(sql)
 
             # 导入文件
             self.copyFile(input_file_path, self.project_word_path)
+
+            # 执行插入台账表
+            sql = "insert into standingbook(发文字号,秘密等级) VALUES('%s','%s')" % (input3, input5)
+            self.executeSql(sql)
 
             QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
 
@@ -265,21 +269,28 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         str14 = self.label_22.text()  # 联系电话
         input14 = self.lineEdit_21.text()
 
-        # 执行插入
-        sql = "insert into sendfile(发文字号,公文标题,领导审核意见,审计办领导审核意见,办文情况说明和拟办意见,办文日期,报文内容,紧急程度,秘密等级,是否公开,审核,承办处室,承办人,联系电话," \
-              "projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',2);" % (
-            input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11, input12, input13,
-            input14)
-        self.executeSql(sql)
+        if input1 != "":
+            # 执行插入sendfile表
+            sql = "insert into sendfile(发文字号,公文标题,领导审核意见,审计办领导审核意见,办文情况说明和拟办意见,办文日期,报文内容,紧急程度,秘密等级,是否公开,审核,承办处室,承办人," \
+                  "联系电话,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',2);"%(
+                      input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11, input12,
+                      input13, input14)
+            self.executeSql(sql)
 
-        # 导入文件
-        self.copyFile(input_file_path, self.project_word_path)
+            # 执行插入台账表
+            sql = "insert into standingbook(发文字号,秘密等级) VALUES('%s','%s')" % (input1, input9)
+            self.executeSql(sql)
 
-        QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
+            # 导入文件
+            self.copyFile(input_file_path, self.project_word_path)
 
-        # 返回显示页面,重新加载项目内容
-        self.stackedWidget.setCurrentIndex(0)
-        self.showProjectTable()
+            QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
+
+            # 返回显示页面,重新加载项目内容
+            self.stackedWidget.setCurrentIndex(0)
+            self.showProjectTable()
+        else:
+            QtWidgets.QMessageBox.information(self, "提示", "发文字号不能为空!")
 
     # 新增项目下的项目类型切换栏
     def btfun7(self, index):
@@ -293,7 +304,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             QtWidgets.QMessageBox.information(self, "提示", "请选择项目！")
         else:
             # 获取发文字号用于查询
-            key = self.tableWidget.item(row, 0).text()
+            key = self.tableWidget.item(row, 1).text()
             sql = 'select sendfile.专报标题,sendfile.报送范围,sendfile.发文字号,sendfile.紧急程度,sendfile.秘密等级,sendfile.是否公开,' \
                   'sendfile.拟稿人,sendfile.拟稿处室分管厅领导,sendfile.拟稿处室审核,sendfile.综合处编辑,sendfile.综合处审核,sendfile.秘书处审核,' \
                   'sendfile.综合处分管厅领导,sendfile.审计办主任,sendfile.公文标题,sendfile.领导审核意见,sendfile.审计办领导审核意见,' \
@@ -306,12 +317,12 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 tab_new = Call_zbdetail(data)
                 tab_new.setObjectName('tab_new')
                 tab_new.setObjectName('tab_new')
-                tab_num = self.tabWidget.addTab(tab_new, "专报项目详情")
+                tab_num = self.tabWidget.addTab(tab_new, "专报%s详情"%key)
                 self.tabWidget.setCurrentIndex(tab_num)
             elif data[0][18] == 2:
                 tab_new = Call_gwdetail(data)
                 tab_new.setObjectName('tab_new')
-                tab_num = self.tabWidget.addTab(tab_new, "公文项目详情")
+                tab_num = self.tabWidget.addTab(tab_new, "公文%s详情"%key)
                 self.tabWidget.setCurrentIndex(tab_num)
 
 
