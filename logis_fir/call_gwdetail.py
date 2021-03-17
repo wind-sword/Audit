@@ -186,11 +186,12 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
 
             # 读取excel数据
             for i in range(4, sheet_nrows):
+                num = 1  # 要插入数据库中的问题序号
                 celli_0 = sheet.row(i)[0].value  # 问题顺序号
                 celli_3 = sheet.row(i)[3].value  # 报送专报期号
                 celli_16 = sheet.row(i)[16].value  # 整改责任部门
-                celli_17 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 17).value, 0).strftime("%Y/%m/%d") # 应上报整改报告时间
-                celli_18 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 18).value, 0).strftime("%Y/%m/%d")# 实际上报整改报告时间
+                celli_17 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 17).value, 0).strftime("%Y/%m/%d")  # 应上报整改报告时间
+                celli_18 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 18).value, 0).strftime("%Y/%m/%d")  # 实际上报整改报告时间
                 celli_19 = sheet.row(i)[19].value  # 整改情况
                 celli_20 = sheet.row(i)[20].value  # 已整改金额
                 celli_21 = sheet.row(i)[21].value  # 追责问责人数
@@ -203,10 +204,17 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
                 celli_28 = sheet.row(i)[28].value  # 认定整改金额
                 celli_29 = sheet.row(i)[29].value  # 整改率
 
-                sql = "insert into rectification values(NULL,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
-                      "'%s','%s','%s')" % (celli_0,celli_3,celli_16, celli_17, celli_18, celli_19, celli_20, celli_21, celli_22, celli_23,
-                                 celli_24, celli_25, celli_26, celli_27, celli_28, celli_29)
-                print(sql)
+                sql = "select max(序号) from rectification where 问题顺序号 = '%s' and 发文字号 = '%s' and 整改责任部门 = '%s'" % (celli_0,celli_3,celli_16)
+                data = self.executeSql(sql)
+
+                if data[0][0] is None:
+                    num = 1
+                else :
+                    num = data[0][0]+1
+
+                sql = "insert into rectification values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
+                      "'%s','%s','%s')" % (num, celli_0, celli_3, celli_16, celli_17, celli_18, celli_19, celli_20, celli_21, celli_22,
+                      celli_23, celli_24, celli_25, celli_26, celli_27, celli_28, celli_29)
                 self.executeSql(sql)
             QtWidgets.QMessageBox.information(self, "提示", "录入成功!")
         else:
@@ -438,6 +446,7 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
         self.displayDetail()
 
     def btnpro(self):
+
         self.stackedWidget.setCurrentIndex(2)
         self.displayqueDetail()
 

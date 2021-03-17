@@ -146,7 +146,7 @@ class Ui_Form(object):
         self.gridLayout_6.setObjectName("gridLayout_6")
         self.widget_gwhead = QtWidgets.QWidget(self.page_basicinfo)
         self.widget_gwhead.setMinimumSize(QtCore.QSize(0, 60))
-        self.widget_gwhead.setStyleSheet("image:url(./resource_dir/gwdarkhead.png)")
+        self.widget_gwhead.setStyleSheet("image:url(../resource_dir/gwdarkhead.png)")
         self.widget_gwhead.setObjectName("widget_gwhead")
         self.gridLayout_6.addWidget(self.widget_gwhead, 2, 0, 1, 2)
         self.frame_2 = QtWidgets.QFrame(self.page_basicinfo)
