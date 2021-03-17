@@ -31,7 +31,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.setWindowOpacity(1)  # 设置窗口透明度
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
 
-        self.tabWidget.setTabText(0, "项目浏览")
+        self.tabWidget.setTabText(0, "整改台账")
         self.tabWidget.setTabsClosable(1)
         self.tabWidget.tabBar().setTabButton(0, QtWidgets.QTabBar.RightSide, None)
         self.tabWidget.tabCloseRequested.connect(self.mclose)

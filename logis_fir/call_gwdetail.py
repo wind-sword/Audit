@@ -94,6 +94,12 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
             tab_num = self.tabWidget.addTab(tab_new, "序号%s问题详情" % key1)
             self.tabWidget.setCurrentIndex(tab_num)
 
+            #整改数据填充
+            sqlzg="select rectification.整改责任部门,rectification.序号,rectification.应上报整改报告时间,rectification.整改情况,rectification.已整改金额 from rectification  where 问题顺序号 = \'%s\' and 发文字号 =  \'%s\'" % (key1, key2)
+            print(self.executeSql(sqlzg))
+            tab_new.zgdata=self.executeSql(sqlzg)
+            tab_new.zgfill()
+
     # 保存整改发函文件(暂未实现)
     def savefile1(self):
         print("保存整改发函文件成功")
