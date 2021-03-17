@@ -5,6 +5,8 @@ from uipy_dir.quedetail import Ui_Form
 
 class Call_quedetail(QtWidgets.QWidget, Ui_Form):
     mydata = []
+    zgdata = []
+
     def __init__(self,data):
         super().__init__()
         self.setupUi(self)
@@ -12,6 +14,15 @@ class Call_quedetail(QtWidgets.QWidget, Ui_Form):
         self.commandLinkButton_2.clicked.connect(self.btfun2)
         self.mydata = data
         self.displayquedetail()
+
+    def zgfill(self):
+        x = 0
+        for i in self.zgdata:
+            y = 0
+            for j in i:
+                self.tableWidget_2.setItem(y, x, QtWidgets.QTableWidgetItem(str(j)))
+                y = y + 1
+            x = x + 1
 
     def displayquedetail(self):
         # 被审计领导干部
