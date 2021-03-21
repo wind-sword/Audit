@@ -2,6 +2,8 @@ import os
 import sqlite3
 
 from PyQt5 import QtCore, QtWidgets
+
+from call_lcdetail import Call_lcdetail
 from uipy_dir.index import Ui_indexWindow
 import sys
 import qtawesome
@@ -36,16 +38,27 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tabWidget.tabBar().setTabButton(0, QtWidgets.QTabBar.RightSide, None)
         self.tabWidget.tabCloseRequested.connect(self.mclose)
 
+        self.tabWidget_lczl.setTabText(0, "流程总览")
+        self.tabWidget_lczl.setTabsClosable(1)
+        self.tabWidget_lczl.tabBar().setTabButton(0, QtWidgets.QTabBar.RightSide, None)
+        self.tabWidget_lczl.tabCloseRequested.connect(self.mclose1)
+
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()  # 根据内容调整框大小
 
         self.showProjectTable()  # 初始化显示
 
     def logi(self):
-        self.btproview.clicked.connect(self.btfun1)
-        self.btproadd.clicked.connect(self.btfun2)
-        self.btanalytemp.clicked.connect(self.btfun3)
-        self.btansear.clicked.connect(self.btfun3)
+        #页面对应关系 0：流程总览 page_lczl | 1：整改台账 page_zgtz | 2：发文办理 page_fwbl  |  3：收文办理 page_swbl | 4:收文浏览 page_tjfx |5：统计分析 page_tjfx
+        self.btzgtz.clicked.connect(self.btfun1)
+
+        self.btlczl.clicked.connect(lambda:self.btjump(btname="lczl"))
+        self.btfwbl.clicked.connect(lambda:self.btjump(btname="fwbl"))
+        self.btswbl.clicked.connect(lambda:self.btjump(btname="swbl"))
+        self.btswll.clicked.connect(lambda:self.btjump(btname="swll"))
+
+        self.btcx.clicked.connect(self.btfun3)
+        self.bttj.clicked.connect(self.btfun3)
         self.bt_search.clicked.connect(self.btfun4)
         self.pushButton_file.clicked.connect(self.btfun5)
         self.pushButton_file_3.clicked.connect(self.btfun5_1)
@@ -58,6 +71,15 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.dateEdit_6.dateChanged.connect(self.autoSyn2)
         self.lineEdit_num.textChanged.connect(self.autoSyn3)
         self.lineEdit_18.textChanged.connect(self.autoSyn4)
+
+        self.btckxq.clicked.connect(self.btfun9)
+
+    def btfun9(self):
+        tab_new1 = Call_lcdetail()
+        tab_new1.setObjectName('tab_new')
+        tab_new1.setObjectName('tab_new')
+        tab_num1 = self.tabWidget_lczl.addTab(tab_new1, "流程详情")
+        self.tabWidget_lczl.setCurrentIndex(tab_num1)
 
     # 执行sql语句
     def executeSql(self, sql):
@@ -121,36 +143,46 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     def mclose(self, index):
         self.tabWidget.removeTab(index)
 
-    # 项目浏览按钮
-    def btfun1(self):
-        self.stackedWidget.setCurrentIndex(0)
-        self.tabWidget.setCurrentIndex(0)
-        self.showProjectTable()  # 点击项目浏览显示项目表内容
+    def mclose1(self, index):
+        self.tabWidget_lczl.removeTab(index)
 
-    # 新增项目按钮
-    def btfun2(self):
+    # 整改台账按钮
+    def btfun1(self):
         self.stackedWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
+        self.showProjectTable()  # 点击整改台账显示表内容
+
+    # 按钮跳转
+    def btjump(self,btname):
+        if btname=="lczl":
+            self.stackedWidget.setCurrentIndex(0)
+        if btname=="fwbl":
+            self.stackedWidget.setCurrentIndex(2)
+        if btname=="swbl":
+            self.stackedWidget.setCurrentIndex(3)
+        if btname=="swll":
+            self.stackedWidget.setCurrentIndex(4)
 
     # 统计分析按钮
     def btfun3(self):
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(5)
 
     # 项目详情下的项目搜索按钮
     def btfun4(self):
         # 需完成真实搜索逻辑
         QtWidgets.QMessageBox.information(self, "提示", "搜索完成！")
 
-    # 新增项目下的选择文件夹按钮(专报)
+    #发文办理下的选择文件夹按钮(专报)
     def btfun5(self):
         p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
         self.lineEdit_file.setText(p[0])
 
-    # 新增项目下的选择文件夹按钮(公文)
+    # 发文办理下的选择文件夹按钮(公文)
     def btfun5_1(self):
         p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
         self.lineEdit_file_3.setText(p[0])
 
-    # 新增项目下的确认按钮(专报)
+    # 发文办理下的确认按钮(专报)
     def btfun6(self):
         str1 = self.label.text()  # 专报标题
         input1 = self.lineEdit.text()
@@ -224,7 +256,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         else:
             QtWidgets.QMessageBox.information(self, "提示", "发文字号不能为空!")
 
-    # 新增项目下的确认按钮(公文)
+    # 发文办理下的确认按钮(公文)
     def btfun6_1(self):
         str1 = self.label_num.text()  # 发文字号
         input1 = self.lineEdit_num.text()
@@ -292,11 +324,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         else:
             QtWidgets.QMessageBox.information(self, "提示", "发文字号不能为空!")
 
-    # 新增项目下的项目类型切换栏
+    # 发文办理下的项目类型切换栏
     def btfun7(self, index):
         self.stackedWidget_new.setCurrentIndex(index)
 
-    # 项目详情下的查询按钮
+    # 整改台账下的查询按钮
     def btfun8(self):
         row = self.tableWidget.currentRow()
         # row为-1表示没有选中某一行,弹出提示信息
@@ -311,7 +343,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                   'sendfile.办文情况说明和拟办意见,sendfile.projectType,sendfile.报文内容,sendfile.审核,sendfile.承办处室,sendfile.承办人,' \
                   'sendfile.联系电话,sendfile.办文日期 from sendfile where 发文字号 =  \'%s\'' % key
             data = self.executeSql(sql)
-            # print(data)
             # 判断项目类型
             if data[0][18] == 1:
                 tab_new = Call_zbdetail(data)

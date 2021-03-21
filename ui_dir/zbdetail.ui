@@ -117,37 +117,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QCommandLinkButton" name="commandLinkButton_3">
-       <property name="minimumSize">
-        <size>
-         <width>160</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>160</width>
-         <height>66</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">font: 14pt &quot;Adobe Devanagari&quot;;</string>
-       </property>
-       <property name="text">
-        <string>信息采集补全</string>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>40</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="description">
-        <string>未完成</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QCommandLinkButton" name="commandLinkButton_4">
        <property name="minimumSize">
         <size>
@@ -1585,24 +1554,6 @@
            </item>
           </layout>
          </widget>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="page">
-      <layout class="QGridLayout" name="gridLayout_6">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_13">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>信息补全</string>
-         </property>
         </widget>
        </item>
       </layout>

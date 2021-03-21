@@ -19,7 +19,6 @@ class Call_zbdetail(QtWidgets.QWidget, Ui_Form):
         self.logi()
         self.commandLinkButton.clicked.connect(self.btnbasic)
         self.commandLinkButton_2.clicked.connect(self.btnpro)
-        self.commandLinkButton_3.clicked.connect(self.btnimport)
         self.commandLinkButton_4.clicked.connect(self.btnelse)
         self.commandLinkButton_5.clicked.connect(self.btnanother)
         self.commandLinkButton_6.clicked.connect(self.btnzgfh)
@@ -211,9 +210,6 @@ class Call_zbdetail(QtWidgets.QWidget, Ui_Form):
     def btnpro(self):
         self.stackedWidget.setCurrentIndex(2)
         self.displayqueDetail()
-
-    def btnimport(self):
-        self.stackedWidget.setCurrentIndex(3)
 
     def btnelse(self):
         self.stackedWidget.setCurrentIndex(1)

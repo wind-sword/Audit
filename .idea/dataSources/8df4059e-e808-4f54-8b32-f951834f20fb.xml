@@ -90,8 +90,6 @@
       <NameSurrogate>1</NameSurrogate>
       <ColNames>问题顺序号
 发文字号</ColNames>
-      <ColumnCollations>
-</ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="30" parent="6">
