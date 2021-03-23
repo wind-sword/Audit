@@ -20,6 +20,7 @@ class Call_quedetail(QtWidgets.QWidget, Ui_Form):
         for i in self.zgdata:
             y = 0
             for j in i:
+                print(str(j))
                 self.tableWidget_2.setItem(y, x, QtWidgets.QTableWidgetItem(str(j)))
                 y = y + 1
             x = x + 1

@@ -341,7 +341,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>6</number>
      </property>
      <widget class="QWidget" name="page_basicinfo">
       <layout class="QGridLayout" name="gridLayout_6">
@@ -2068,7 +2068,123 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QTableWidget" name="tableWidget_2"/>
+          <widget class="QTableWidget" name="tableWidget_2">
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>新建列</string>
+            </property>
+           </column>
+          </widget>
          </item>
         </layout>
        </item>

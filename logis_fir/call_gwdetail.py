@@ -94,10 +94,11 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
             tab_num = self.tabWidget.addTab(tab_new, "序号%s问题详情" % key1)
             self.tabWidget.setCurrentIndex(tab_num)
 
-            #整改数据填充
-            sqlzg="select rectification.整改责任部门,rectification.序号,rectification.应上报整改报告时间,rectification.整改情况,rectification.已整改金额 from rectification  where 问题顺序号 = \'%s\' and 发文字号 =  \'%s\'" % (key1, key2)
+            # 整改数据填充
+            sqlzg = "select rectification.整改责任部门,rectification.序号,rectification.应上报整改报告时间,rectification.整改情况,rectification.已整改金额 from rectification  where 问题顺序号 = \'%s\' and 发文字号 =  \'%s\'" % (
+            key1, key2)
             print(self.executeSql(sqlzg))
-            tab_new.zgdata=self.executeSql(sqlzg)
+            tab_new.zgdata = self.executeSql(sqlzg)
             tab_new.zgfill()
 
     # 保存整改发函文件(暂未实现)
@@ -210,16 +211,18 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
                 celli_28 = sheet.row(i)[28].value  # 认定整改金额
                 celli_29 = sheet.row(i)[29].value  # 整改率
 
-                sql = "select max(序号) from rectification where 问题顺序号 = '%s' and 发文字号 = '%s' and 整改责任部门 = '%s'" % (celli_0,celli_3,celli_16)
+                sql = "select max(序号) from rectification where 问题顺序号 = '%s' and 发文字号 = '%s' and 整改责任部门 = '%s'" % (
+                celli_0, celli_3, celli_16)
                 data = self.executeSql(sql)
 
                 if data[0][0] is None:
                     num = 1
-                else :
-                    num = data[0][0]+1
+                else:
+                    num = data[0][0] + 1
 
                 sql = "insert into rectification values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
-                      "'%s','%s','%s')" % (num, celli_0, celli_3, celli_16, celli_17, celli_18, celli_19, celli_20, celli_21, celli_22,
+                      "'%s','%s','%s')" % (
+                      num, celli_0, celli_3, celli_16, celli_17, celli_18, celli_19, celli_20, celli_21, celli_22,
                       celli_23, celli_24, celli_25, celli_26, celli_27, celli_28, celli_29)
                 self.executeSql(sql)
             QtWidgets.QMessageBox.information(self, "提示", "录入成功!")
@@ -446,6 +449,66 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
     def btnchoosefile2(self):
         p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
         self.lineEdit_2.setText(p[0])
+
+        path = p[0]
+        path.replace('/', '\\\\')
+        # 判断用户是否选择文件
+        if path != "":
+            # 获取excel文件
+            data = xlrd.open_workbook(path)
+            print('All sheets: %s' % data.sheet_names())
+
+            # 获取excel第一个sheet,也就是问题表所在sheet
+            sheet = data.sheets()[0]
+
+            sheet_name = sheet.name  # 获得名称
+            sheet_cols = sheet.ncols  # 获得列数
+            sheet_nrows = sheet.nrows  # 获得行数
+            print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s' % (sheet_name, sheet_cols, sheet_nrows))
+
+            # 读取excel数据
+            x = 0
+            for i in range(4, sheet_nrows):
+                celli_0 = sheet.row(i)[0].value  # 问题顺序号
+                celli_3 = sheet.row(i)[3].value  # 报送专报期号
+                celli_16 = sheet.row(i)[16].value  # 整改责任部门
+                celli_17 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 17).value, 0).strftime("%Y/%m/%d")  # 应上报整改报告时间
+                celli_18 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 18).value, 0).strftime("%Y/%m/%d")  # 实际上报整改报告时间
+                celli_19 = sheet.row(i)[19].value  # 整改情况
+                celli_20 = sheet.row(i)[20].value  # 已整改金额
+                celli_21 = sheet.row(i)[21].value  # 追责问责人数
+                celli_22 = sheet.row(i)[22].value  # 推动制度建设数目
+                celli_23 = sheet.row(i)[23].value  # 推动制度建设文件
+                celli_24 = sheet.row(i)[24].value  # 部分整改情况具体描述
+                celli_25 = sheet.row(i)[25].value  # 未整改原因说明
+                celli_26 = sheet.row(i)[26].value  # 下一步整改措施及时限
+                celli_27 = sheet.row(i)[27].value  # 认定整改情况
+                celli_28 = sheet.row(i)[28].value  # 认定整改金额
+                celli_29 = sheet.row(i)[29].value  # 整改率
+
+                self.tableWidget_2.setItem(x, 0, QtWidgets.QTableWidgetItem(celli_0))
+                self.tableWidget_2.setItem(x, 1, QtWidgets.QTableWidgetItem(celli_3))
+                self.tableWidget_2.setItem(x, 2, QtWidgets.QTableWidgetItem(celli_16))
+                self.tableWidget_2.setItem(x, 3, QtWidgets.QTableWidgetItem(celli_17))
+                self.tableWidget_2.setItem(x, 4, QtWidgets.QTableWidgetItem(celli_18))
+                self.tableWidget_2.setItem(x, 5, QtWidgets.QTableWidgetItem(celli_19))
+                self.tableWidget_2.setItem(x, 6, QtWidgets.QTableWidgetItem(celli_20))
+                self.tableWidget_2.setItem(x, 7, QtWidgets.QTableWidgetItem(celli_21))
+                self.tableWidget_2.setItem(x, 8, QtWidgets.QTableWidgetItem(celli_22))
+                self.tableWidget_2.setItem(x, 9, QtWidgets.QTableWidgetItem(celli_23))
+                self.tableWidget_2.setItem(x, 10, QtWidgets.QTableWidgetItem(celli_24))
+                self.tableWidget_2.setItem(x, 11, QtWidgets.QTableWidgetItem(celli_25))
+                self.tableWidget_2.setItem(x, 12, QtWidgets.QTableWidgetItem(celli_26))
+                self.tableWidget_2.setItem(x, 13, QtWidgets.QTableWidgetItem(celli_27))
+                self.tableWidget_2.setItem(x, 14, QtWidgets.QTableWidgetItem(celli_28))
+                self.tableWidget_2.setItem(x, 15, QtWidgets.QTableWidgetItem(celli_29))
+
+                x = x + 1
+
+
+
+
+
 
     def btnbasic(self):
         self.stackedWidget.setCurrentIndex(0)
