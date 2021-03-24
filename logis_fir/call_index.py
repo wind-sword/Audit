@@ -25,11 +25,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     def init_ui(self):
         self.bt_search.setFont(qtawesome.font('fa', 16))
         self.bt_search.setText(chr(0xf002) + ' ' + '搜索')
-        # qtawesome用法
-        # icon_close=qtawesome.icon("fa.close",color='white')
-        # self.btclose.setIcon(icon_close)
 
-        # self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
         self.setWindowOpacity(1)  # 设置窗口透明度
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
 
@@ -46,16 +42,17 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()  # 根据内容调整框大小
 
-        self.showProjectTable()  # 初始化显示
+        self.showLczlTable()  # 初始化显示
 
     def logi(self):
-        #页面对应关系 0：流程总览 page_lczl | 1：整改台账 page_zgtz | 2：发文办理 page_fwbl  |  3：收文办理 page_swbl | 4:收文浏览 page_tjfx |5：统计分析 page_tjfx
+        # 页面对应关系 0：流程总览 page_lczl | 1：整改台账 page_zgtz | 2：发文办理 page_fwbl  |  3：收文办理 page_swbl | 4:收文浏览 page_tjfx
+        # |5：统计分析 page_tjfx
         self.btzgtz.clicked.connect(self.btfun1)
 
-        self.btlczl.clicked.connect(lambda:self.btjump(btname="lczl"))
-        self.btfwbl.clicked.connect(lambda:self.btjump(btname="fwbl"))
-        self.btswbl.clicked.connect(lambda:self.btjump(btname="swbl"))
-        self.btswll.clicked.connect(lambda:self.btjump(btname="swll"))
+        self.btlczl.clicked.connect(lambda: self.btjump(btname="lczl"))
+        self.btfwbl.clicked.connect(lambda: self.btjump(btname="fwbl"))
+        self.btswbl.clicked.connect(lambda: self.btjump(btname="swbl"))
+        self.btswll.clicked.connect(lambda: self.btjump(btname="swll"))
 
         self.btcx.clicked.connect(self.btfun3)
         self.bttj.clicked.connect(self.btfun3)
@@ -66,20 +63,13 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.pushButton_addac_3.clicked.connect(self.btfun6_1)
         self.comboBox_type.currentIndexChanged.connect(self.btfun7)
         self.pushButton_more.clicked.connect(self.btfun8)
+        self.btckxq.clicked.connect(self.btfun9)
+        self.pushButton_3.clicked.connect(self.btfun10)
 
         self.dateEdit_5.dateChanged.connect(self.autoSyn1)
         self.dateEdit_6.dateChanged.connect(self.autoSyn2)
         self.lineEdit_num.textChanged.connect(self.autoSyn3)
         self.lineEdit_18.textChanged.connect(self.autoSyn4)
-
-        self.btckxq.clicked.connect(self.btfun9)
-
-    def btfun9(self):
-        tab_new1 = Call_lcdetail()
-        tab_new1.setObjectName('tab_new')
-        tab_new1.setObjectName('tab_new')
-        tab_num1 = self.tabWidget_lczl.addTab(tab_new1, "流程详情")
-        self.tabWidget_lczl.setCurrentIndex(tab_num1)
 
     # 执行sql语句
     def executeSql(self, sql):
@@ -107,7 +97,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     def showProjectTable(self):
         # 导致表头消失 self.tableWidget.clear()
         sql = 'select 时间,发文字号,收文字号,办文字号,秘密等级,来文单位,来文字号,来文标题,省领导批示内容,秘书处拟办意见,委办主任签批意见,批示任务办理要求时间,承办处室及承办人,办理结果,' \
-              '文件去向 from standingbook '
+              '文件去向 from standingbook'
         data = self.executeSql(sql)
         # 打印结果
         # print(data)
@@ -121,9 +111,35 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             y = 0
             for j in i:
                 if data[x][y] is None:
-                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem("无"))
+                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                 else:
                     self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                y = y + 1
+            x = x + 1
+
+    # 显示发文流程内容
+    def showLczlTable(self):
+        # 导致表头消失 self.tableWidget.clear()
+
+        # sql查询通过三表左外连接查询获取发文流程结果
+        sql = "SELECT sendfile.发文字号,revfile.收文字号,revfile.批文字号,bwprocess.是否加入整改 from bwprocess LEFT OUTER JOIN " \
+              "sendfile on sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN revfile on revfile.序号 = bwprocess.收文序号 "
+        data = self.executeSql(sql)
+        # 打印结果
+        # print(data)
+
+        size = len(data)
+        # print("项目数目为:"+str(size))
+        self.tableWidget_lczl.setRowCount(size)
+
+        x = 0
+        for i in data:
+            y = 0
+            for j in i:
+                if data[x][y] is None:
+                    self.tableWidget_lczl.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
+                else:
+                    self.tableWidget_lczl.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
                 y = y + 1
             x = x + 1
 
@@ -152,27 +168,28 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tabWidget.setCurrentIndex(0)
         self.showProjectTable()  # 点击整改台账显示表内容
 
-    # 按钮跳转
-    def btjump(self,btname):
-        if btname=="lczl":
+    # 办文流程下按钮跳转
+    def btjump(self, btname):
+        if btname == "lczl":
             self.stackedWidget.setCurrentIndex(0)
-        if btname=="fwbl":
+            self.showLczlTable()
+        if btname == "fwbl":
             self.stackedWidget.setCurrentIndex(2)
-        if btname=="swbl":
+        if btname == "swbl":
             self.stackedWidget.setCurrentIndex(3)
-        if btname=="swll":
+        if btname == "swll":
             self.stackedWidget.setCurrentIndex(4)
 
     # 统计分析按钮
     def btfun3(self):
         self.stackedWidget.setCurrentIndex(5)
 
-    # 项目详情下的项目搜索按钮
+    # 整改台账下的项目搜索按钮(未开发)
     def btfun4(self):
         # 需完成真实搜索逻辑
         QtWidgets.QMessageBox.information(self, "提示", "搜索完成！")
 
-    #发文办理下的选择文件夹按钮(专报)
+    # 发文办理下的选择文件夹按钮(专报)
     def btfun5(self):
         p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
         self.lineEdit_file.setText(p[0])
@@ -238,21 +255,25 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             sql = "insert into sendfile(专报标题,报送范围,发文字号,紧急程度,秘密等级,是否公开,拟稿人,拟稿处室分管厅领导,拟稿处室审核,综合处编辑,综合处审核,秘书处审核,综合处分管厅领导," \
                   "审计办主任,办文日期,报文内容,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
                   "'%s','%s','%s','%s',1);" % (input1, input2, input3, input4, input5, input6, input7, input8, input9,
-                                               input10, input11, input12,input13,input14, input15, input16)
+                                               input10, input11, input12, input13, input14, input15, input16)
+            self.executeSql(sql)
+
+            # 找到当前发文的序号
+            sql = "select 序号 from sendfile where 发文字号 = '%s'" % input3
+            data = self.executeSql(sql)
+
+            # 执行插入流程表
+            sql = "insert into bwprocess(发文序号,是否加入整改) VALUES('%s',0)" % data[0][0]
             self.executeSql(sql)
 
             # 导入文件
             self.copyFile(input_file_path, self.project_word_path)
 
-            # 执行插入台账表
-            sql = "insert into standingbook(发文字号,秘密等级) VALUES('%s','%s')" % (input3, input5)
-            self.executeSql(sql)
-
             QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
 
-            # 返回显示页面,重新加载项目内容
+            # 返回显示页面,重新加载流程内容
             self.stackedWidget.setCurrentIndex(0)
-            self.showProjectTable()
+            self.showLczlTable()
         else:
             QtWidgets.QMessageBox.information(self, "提示", "发文字号不能为空!")
 
@@ -304,23 +325,27 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         if input1 != "":
             # 执行插入sendfile表
             sql = "insert into sendfile(发文字号,公文标题,领导审核意见,审计办领导审核意见,办文情况说明和拟办意见,办文日期,报文内容,紧急程度,秘密等级,是否公开,审核,承办处室,承办人," \
-                  "联系电话,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',2);"%(
+                  "联系电话,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',2);" % (
                       input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11, input12,
                       input13, input14)
-            self.executeSql(sql)
-
-            # 执行插入台账表
-            sql = "insert into standingbook(发文字号,秘密等级) VALUES('%s','%s')" % (input1, input9)
             self.executeSql(sql)
 
             # 导入文件
             self.copyFile(input_file_path, self.project_word_path)
 
+            # 找到当前发文的序号
+            sql = "select 序号 from sendfile where 发文字号 = '%s'" % input1
+            data = self.executeSql(sql)
+
+            # 执行插入流程表
+            sql = "insert into bwprocess(发文序号,是否加入整改) VALUES('%s',0)" % data[0][0]
+            self.executeSql(sql)
+
             QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
 
-            # 返回显示页面,重新加载项目内容
+            # 返回显示页面,重新加载流程内容
             self.stackedWidget.setCurrentIndex(0)
-            self.showProjectTable()
+            self.showLczlTable()
         else:
             QtWidgets.QMessageBox.information(self, "提示", "发文字号不能为空!")
 
@@ -328,7 +353,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     def btfun7(self, index):
         self.stackedWidget_new.setCurrentIndex(index)
 
-    # 整改台账下的查询按钮
+    # 整改台账下的查看详情按钮(台账详情需要大修改,暂时未完成,先完成发文流程,此处逻辑为旧逻辑)
     def btfun8(self):
         row = self.tableWidget.currentRow()
         # row为-1表示没有选中某一行,弹出提示信息
@@ -347,14 +372,67 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             if data[0][18] == 1:
                 tab_new = Call_zbdetail(data)
                 tab_new.setObjectName('tab_new')
-                tab_new.setObjectName('tab_new')
-                tab_num = self.tabWidget.addTab(tab_new, "专报%s详情"%key)
+                tab_num = self.tabWidget.addTab(tab_new, "专报%s详情" % key)
                 self.tabWidget.setCurrentIndex(tab_num)
             elif data[0][18] == 2:
                 tab_new = Call_gwdetail(data)
                 tab_new.setObjectName('tab_new')
-                tab_num = self.tabWidget.addTab(tab_new, "公文%s详情"%key)
+                tab_num = self.tabWidget.addTab(tab_new, "公文%s详情" % key)
                 self.tabWidget.setCurrentIndex(tab_num)
+
+    # 办文流程详情下的查看详情按钮
+    def btfun9(self):
+        row = self.tableWidget_lczl.currentRow()
+        # row为-1表示没有选中某一行,弹出提示信息
+        if row == -1:
+            QtWidgets.QMessageBox.information(self, "提示", "请选择流程！")
+        else:
+            key1 = self.tableWidget_lczl.item(row, 0).text()  # 发文号
+            key2 = self.tableWidget_lczl.item(row, 1).text()  # 收文号
+            tab_new1 = Call_lcdetail(key1, key2)
+            tab_new1.setObjectName('tab_new')
+            tab_num1 = self.tabWidget_lczl.addTab(tab_new1, "流程详情")
+            self.tabWidget_lczl.setCurrentIndex(tab_num1)
+
+    # 收文办理下的录入按钮
+    def btfun10(self):
+        input1 = self.dateEdit_4.text()  # 收文时间
+        input2 = self.lineEdit_23.text()  # 密级
+        input3 = self.lineEdit_24.text()  # 是否公开
+        input4 = self.lineEdit_36.text()  # 紧急程度
+        input5 = self.lineEdit_38.text()  # 收文来文单位
+        input6 = self.lineEdit_37.text()  # 收文来文字号
+        input7 = self.lineEdit_35.text()  # 文件标题
+        input8 = self.lineEdit_33.text()  # 处理结果
+        input9 = self.lineEdit_30.text()  # 审核
+        input10 = self.lineEdit_31.text()  # 办文编号
+        input11 = self.lineEdit_34.text()  # 承办处室
+        input12 = self.lineEdit_32.text()  # 承办人
+        input13 = self.lineEdit_39.text()  # 联系电话
+        if input10 != "":
+            # 执行插入收文表
+            sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,文件标题,处理结果,审核,收文字号,承办处室,承办人,联系电话,tag) values(" \
+                  "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
+                      input1, input2, input3, input4, input5, input6,
+                      input7, input8, input9, input10, input11,
+                      input12, input13, 0)
+            self.executeSql(sql)
+
+            # 找到当前收文的序号
+            sql = "select 序号 from revfile where 收文字号 = '%s'" % input10
+            data = self.executeSql(sql)
+
+            # 执行插入流程表
+            sql = "insert into bwprocess(收文序号,是否加入整改) VALUES('%s',0)" % data[0][0]
+            self.executeSql(sql)
+
+            QtWidgets.QMessageBox.information(self, "提示", "录入成功！")
+
+            # 返回显示页面,重新加载流程内容
+            self.stackedWidget.setCurrentIndex(0)
+            self.showLczlTable()
+        else:
+            QtWidgets.QMessageBox.information(self, "提示", "办文编号不能为空!")
 
 
 if __name__ == '__main__':

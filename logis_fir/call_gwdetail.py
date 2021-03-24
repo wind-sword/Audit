@@ -305,7 +305,7 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
 
     # 展示收文信息,同时判断是应该插入收文还是修改收文
     def displayrev(self):
-        sql = "select 收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,文件标题,处理结果,审核,发文字号,承办处室,承办人,联系电话 from revfile where 发文字号 = " \
+        sql = "select 收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,文件标题,处理结果,审核,收文字号,承办处室,承办人,联系电话 from revfile where 收文来文字号 = " \
               "\'%s\'" % self.mydata[0][2]
         data = self.executeSql(sql)
         # print(data)
@@ -316,7 +316,7 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
             self.lineEdit_7.setText(self.mydata[0][5])  # 是否公开
             self.lineEdit_36.setText(self.mydata[0][3])  # 紧急程度
             self.lineEdit_35.setText(self.mydata[0][14])  # 文件标题
-            self.lineEdit_31.setText(self.mydata[0][2])  # 办文编号
+            self.lineEdit_37.setText(self.mydata[0][2])  # 来文字号
             self.lineEdit_34.setText(self.mydata[0][21])  # 承办处室
             self.lineEdit_32.setText(self.mydata[0][22])  # 承办人
             self.lineEdit_39.setText(self.mydata[0][23])  # 电话
@@ -364,7 +364,7 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
             str13 = self.label_48.text()  # 联系电话
             self.lineEdit_39.setText(data[0][12])
 
-    # 展示收文信息,同时判断是应该录入还是修改收文
+    # 展示批文信息,同时判断是应该录入还是修改批文
     def displayprev(self):
         # 将收文表字段复制过来
         self.dateEdit_2.setDate(self.dateEdit.date())  # 收文时间
@@ -404,7 +404,7 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
         input12 = self.lineEdit_32.text()  # 承办人
         input13 = self.lineEdit_39.text()  # 联系电话
         # 执行插入
-        sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,文件标题,处理结果,审核,发文字号,承办处室,承办人,联系电话) values('%s','%s'," \
+        sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,文件标题,处理结果,审核,办文编号,承办处室,承办人,联系电话) values('%s','%s'," \
               "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
                   input1, input2, input3, input4, input5, input6,
                   input7, input8, input9, input10, input11,
@@ -503,11 +503,6 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
                 self.tableWidget_2.setItem(x, 15, QtWidgets.QTableWidgetItem(celli_29))
 
                 x = x + 1
-
-
-
-
-
 
     def btnbasic(self):
         self.stackedWidget.setCurrentIndex(0)
