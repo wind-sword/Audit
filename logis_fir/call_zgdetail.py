@@ -5,20 +5,28 @@ import sys
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QDate
+from PyQt5.QtWidgets import QWidget
 
-from uipy_dir.gwdetail import Ui_Form
+from uipy_dir.zgdetail import Ui_Form
 from logis_fir.call_quedetail import Call_quedetail
 import xlrd
 
 
-class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
-    mydata = []
+class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
+    xh = -1  # 整改序号
+    xh_lc = -1  # 流程序号
+    xh_send = -1  # 发文序号
+    send_type = -1  # 发文类型
+    xh_rev = -1  # 收文序号
+    fw_id = ""  # 发文字号,用来标识问题
     db_path = "../db/database.db"
 
-    def __init__(self, data):
+    def __init__(self, key):
         super().__init__()
         self.setupUi(self)
-        self.logi()
+        self.cast(key)
+        self.openOrImport()
+
         self.commandLinkButton.clicked.connect(self.btnbasic)
         self.commandLinkButton_2.clicked.connect(self.btnpro)
         self.commandLinkButton_4.clicked.connect(self.btnelse)
@@ -26,15 +34,25 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
         self.commandLinkButton_6.clicked.connect(self.btnzgfh)
         self.commandLinkButton_7.clicked.connect(self.btnzglr)
 
+        self.commandLinkButton.setDescription("已完成")
+        self.commandLinkButton_4.setDescription("已完成")
+        self.commandLinkButton_5.setDescription("已完成")
+
         self.tabWidget.setTabText(0, "问题浏览")
         self.tabWidget.setTabsClosable(1)
         self.tabWidget.tabBar().setTabButton(0, QtWidgets.QTabBar.RightSide, None)
         self.tabWidget.tabCloseRequested.connect(self.mclose)
 
-        self.mydata = data
-        self.displayDetail()
+        # 初始化要展示的页面是专报还是公文
+        if self.send_type == 1:
+            self.stackedWidget.setCurrentIndex(6)
+        elif self.send_type == 2:
+            self.stackedWidget.setCurrentIndex(0)
 
-    def logi(self):
+        # 初始化展示
+        self.displaySendDetail()
+
+    def openOrImport(self):
         # 打开公文文件
         self.pushButton_file.clicked.connect(self.openFile)
         # 导入问题表
@@ -42,20 +60,37 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
         # 问题详情查看
         self.pushButton.clicked.connect(self.jumpqueview)
 
-        # 录入收文信息
-        self.pushButton_3.clicked.connect(self.insertrev)
-        # 录入批文信息
-        self.pushButton_4.clicked.connect(self.insertprev)
-
         # 选择发函文件
         self.pushButton_5.clicked.connect(self.btnchoosefile1)
         # 保存发函文件
-        self.pushButton_6.clicked.connect(self.savefile1)
+        self.pushButton_6.clicked.connect(self.savezgfh)
 
         # 选择问题Excel表
         self.pushButton_7.clicked.connect(self.btnchoosefile2)
         # 导入问题整改情况
         self.pushButton_8.clicked.connect(self.importExcel2)
+
+    # 用发文字号初始化变量
+    def cast(self, key):
+        sql = "select bwprocess.序号,bwprocess.发文序号,bwprocess.收文序号 from bwprocess,sendfile where " \
+              "bwprocess.发文序号=sendfile.序号 and sendfile.发文字号='%s'" % key
+        data = self.executeSql(sql)
+        # print(data)
+        self.xh_lc = data[0][0]
+        self.xh_send = data[0][1]
+        self.xh_rev = data[0][2]
+
+        # 初始化整改序号
+        sql = "select 序号 from standingbook where 流程序号=%s" % self.xh_lc
+        result = self.executeSql(sql)
+        self.xh = result[0][0]
+
+        # 初始化发文类型
+        sql = "select projectType from sendfile where 序号=%s" % self.xh_send
+        result = self.executeSql(sql)
+        self.send_type = result[0][0]
+
+        self.fw_id = key
 
     # 执行sql语句
     def executeSql(self, sql):
@@ -70,15 +105,25 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
         con.close()
         return data
 
+    # source对应的文件复制一份到target(project_word)文件夹下,copy方法保留当前文件权限,暂未考虑同名文件
+    def copyFile(self, source, target):
+        try:
+            shutil.copy(source, target)
+        except IOError as e:
+            print("Unable to copy file. %s" % e)
+        except:
+            print("Unexpected error:", sys.exc_info())
+
     # 关闭tab
     def mclose(self, index):
         self.tabWidget.removeTab(index)
 
     # 跳转问题详情
     def jumpqueview(self):
+        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
         row = self.tableWidget.currentRow()
         if row == -1:
-            QtWidgets.QMessageBox.information(self, "提示", "请选择问题！")
+            QtWidgets.QMessageBox.information(w, "提示", "请选择问题！")
         else:
             # 主键1:序号
             key1 = self.tableWidget.item(row, 0).text()
@@ -94,24 +139,11 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
             self.tabWidget.setCurrentIndex(tab_num)
 
             # 整改数据填充
-            sqlzg = "select rectification.整改责任部门,rectification.序号,rectification.应上报整改报告时间,rectification.整改情况,rectification.已整改金额 from rectification  where 问题顺序号 = \'%s\' and 发文字号 =  \'%s\'" % (
-            key1, key2)
+            sqlzg = "select rectification.整改责任部门,rectification.序号,rectification.应上报整改报告时间,rectification.整改情况," \
+                    "rectification.已整改金额 from rectification  where 问题顺序号 = \'%s\' and 发文字号 =  \'%s\'" % (key1, key2)
             print(self.executeSql(sqlzg))
             tab_new.zgdata = self.executeSql(sqlzg)
             tab_new.zgfill()
-
-    # 保存整改发函文件(暂未实现)
-    def savefile1(self):
-        print("保存整改发函文件成功")
-
-    # source对应的文件复制一份到target(project_word)文件夹下,copy方法保留当前文件权限,暂未考虑同名文件
-    def copyFile(self, source, target):
-        try:
-            shutil.copy(source, target)
-        except IOError as e:
-            print("Unable to copy file. %s" % e)
-        except:
-            print("Unexpected error:", sys.exc_info())
 
     # 根据文件名打开project_word中的专报/公文
     def openFile(self):
@@ -120,8 +152,13 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
         print(path)
         os.startfile(path)
 
+    # 保存整改发函文件(暂未实现)
+    def savezgfh(self):
+        print("保存整改发函文件成功")
+
     # 根据excel中的左边问题基本信息导入问题表
     def importExcel1(self):
+        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
         p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
         # 文件路径
         path = p[0]
@@ -167,13 +204,15 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
                 print(sql)
                 self.executeSql(sql)
 
+            QtWidgets.QMessageBox.information(w, "提示", "导入完成")
             # 导入完成后更新表格
             self.displayqueDetail()
         else:
-            QtWidgets.QMessageBox.information(self, "提示", "请选择文件!")
+            QtWidgets.QMessageBox.information(w, "提示", "请选择文件!")
 
     # 根据excel中的右边问题整改信息导入问题表
     def importExcel2(self):
+        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
         path = self.lineEdit_2.text()
         path.replace('/', '\\\\')
         # 判断用户是否选择文件
@@ -211,7 +250,7 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
                 celli_29 = sheet.row(i)[29].value  # 整改率
 
                 sql = "select max(序号) from rectification where 问题顺序号 = '%s' and 发文字号 = '%s' and 整改责任部门 = '%s'" % (
-                celli_0, celli_3, celli_16)
+                    celli_0, celli_3, celli_16)
                 data = self.executeSql(sql)
 
                 if data[0][0] is None:
@@ -219,74 +258,25 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
                 else:
                     num = data[0][0] + 1
 
-                sql = "insert into rectification values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
-                      "'%s','%s','%s')" % (
-                      num, celli_0, celli_3, celli_16, celli_17, celli_18, celli_19, celli_20, celli_21, celli_22,
-                      celli_23, celli_24, celli_25, celli_26, celli_27, celli_28, celli_29)
+                sql = "insert into rectification values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
+                      "'%s','%s','%s','%s','%s')" % (
+                          num, celli_0, celli_3, celli_16, celli_17, celli_18, celli_19, celli_20, celli_21, celli_22,
+                          celli_23, celli_24, celli_25, celli_26, celli_27, celli_28, celli_29)
                 self.executeSql(sql)
-            QtWidgets.QMessageBox.information(self, "提示", "录入成功!")
+
+            QtWidgets.QMessageBox.information(w, "提示", "录入成功!")
         else:
-            QtWidgets.QMessageBox.information(self, "提示", "请选择文件!")
-
-    # 显示公文详情
-    def displayDetail(self):
-        str1 = self.label_num.text()  # 发文字号
-        self.lineEdit_num.setText(self.mydata[0][2])
-
-        str2 = self.label_num_3.text()  # 公文标题
-        self.lineEdit_num_3.setText(self.mydata[0][14])
-
-        str3 = self.label_num_4.text()  # 领导审核意见
-        self.textEdit_2.setText(self.mydata[0][15])
-
-        str4 = self.label_num_5.text()  # 审计办领导审核意见
-        self.textEdit_4.setText(self.mydata[0][16])
-
-        str5 = self.label_num_6.text()  # 办文情况说明和拟办意见
-        self.textEdit_3.setText(self.mydata[0][17])
-
-        str6 = self.label_file_3.text()  # 公文内容
-        self.lineEdit_file_3.setText(self.mydata[0][19])
-
-        str7 = self.label_26.text()  # 保密等级
-        self.lineEdit_22.setText(self.mydata[0][4])
-
-        str8 = self.label_27.text()  # 是否公开
-        self.lineEdit_23.setText(self.mydata[0][5])
-
-        str9 = self.label_35.text()  # 紧急程度
-        self.lineEdit_29.setText(self.mydata[0][3])
-
-        str10 = self.label_28.text()  # 审核
-        self.lineEdit_24.setText(self.mydata[0][20])
-
-        str11 = self.label_31.text()  # 承办处室
-        self.lineEdit_26.setText(self.mydata[0][21])
-
-        str12 = self.label_32.text()  # 承办人
-        self.lineEdit_27.setText(self.mydata[0][22])
-
-        str13 = self.label_33.text()  # 联系电话
-        self.lineEdit_28.setText(self.mydata[0][23])
-
-        str14 = self.label_34.text()  # 办文日期
-        self.dateEdit_7.setDate(QDate.fromString(self.mydata[0][24], 'yyyy/M/d'))
-
-        str15 = self.label_29.text()  # 日期
-        self.dateEdit_6.setDate(QDate.fromString(self.mydata[0][24], 'yyyy/M/d'))
-
-        str16 = self.label_30.text()  # 办文编号
-        self.lineEdit_25.setText(self.mydata[0][2])
+            QtWidgets.QMessageBox.information(w, "提示", "请选择文件!")
 
     # 展示问题表格
     def displayqueDetail(self):
         # 选出该项目对应的所有问题
-        sql = 'select problem.问题顺序号,problem.被审计领导干部,problem.所在地方和单位,problem.发文字号,problem.审计报告文号,problem.出具审计报告时间,problem.审计组组长,' \
-              'problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类,problem.问题四级分类,problem.备注,' \
-              'problem.问题金额,problem.移送及处理情况 from problem where 发文字号 =  \'%s\'' % self.mydata[0][2]
+        sql = 'select problem.问题顺序号,problem.被审计领导干部,problem.所在地方和单位,problem.发文字号,problem.审计报告文号,problem.出具审计报告时间,' \
+              'problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类,problem.问题四级分类,' \
+              'problem.备注,problem.问题金额,problem.移送及处理情况 from problem where 发文字号 =  \'%s\'' % self.fw_id
         data = self.executeSql(sql)
         # 打印结果
-        # print(data)
+        print(data)
 
         size = len(data)
         # print("项目数目为:"+str(size))
@@ -297,147 +287,97 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
             y = 0
             for j in i:
                 if data[x][y] is None:
-                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem("无"))
+                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                 else:
                     self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
                 y = y + 1
             x = x + 1
 
-    # 展示收文信息,同时判断是应该插入收文还是修改收文
-    def displayrev(self):
-        sql = "select 收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,文件标题,处理结果,审核,收文字号,承办处室,承办人,联系电话 from revfile where 收文来文字号 = " \
-              "\'%s\'" % self.mydata[0][2]
+    # 显示公文详情
+    def displaySendDetail(self):
+        sql = "select 专报标题,报送范围,发文字号,紧急程度,秘密等级,是否公开,拟稿人,拟稿处室分管厅领导,拟稿处室审核,综合处编辑,综合处审核,秘书处审核,综合处分管厅领导,审计办主任," \
+              "公文标题,领导审核意见,审计办领导审核意见,办文情况说明和拟办意见,projectType,报文内容,审核,承办处室,承办人,联系电话,办文日期 from sendfile where " \
+              "序号 =  %s" % self.xh_send
         data = self.executeSql(sql)
         # print(data)
-        if len(data) == 0:
 
-            # 从公文信息中读取已知信息填充
-            self.lineEdit_6.setText(self.mydata[0][4])  # 密级
-            self.lineEdit_7.setText(self.mydata[0][5])  # 是否公开
-            self.lineEdit_36.setText(self.mydata[0][3])  # 紧急程度
-            self.lineEdit_35.setText(self.mydata[0][14])  # 文件标题
-            self.lineEdit_37.setText(self.mydata[0][2])  # 来文字号
-            self.lineEdit_34.setText(self.mydata[0][21])  # 承办处室
-            self.lineEdit_32.setText(self.mydata[0][22])  # 承办人
-            self.lineEdit_39.setText(self.mydata[0][23])  # 电话
+        # 专报类型
+        if self.send_type == 1:
+            self.lineEdit_3.setText(data[0][0])  # 专报标题
+            self.lineEdit_4.setText(data[0][1])  # 报送范围
+            self.lineEdit_5.setText(data[0][2])  # 发文字号
+            self.lineEdit_13.setText(data[0][3])  # 紧急程度
+            self.lineEdit_10.setText(data[0][4])  # 秘密等级
+            self.lineEdit_14.setText(data[0][5])  # 是否公开
+            self.lineEdit_11.setText(data[0][6])  # 拟稿人
+            self.lineEdit_15.setText(data[0][7])  # 拟稿处室分管厅领导
+            self.lineEdit_12.setText(data[0][8])  # 拟稿处室
+            self.lineEdit_16.setText(data[0][9])  # 综合处编辑
+            self.lineEdit_18.setText(data[0][10])  # 综合处审核
+            self.lineEdit_19.setText(data[0][11])  # 秘书处审核
+            self.lineEdit_17.setText(data[0][12])  # 综合处分管厅领导
+            self.lineEdit_20.setText(data[0][13])  # 审计办主任
+            self.lineEdit_file.setText(data[0][19])  # 报文内容
+            self.dateEdit_3.setDate(QDate.fromString(data[0][24], 'yyyy/M/d'))  # 办文日期
 
-        else:
-            # 有数据就隐藏插入按钮
-            self.pushButton_3.hide()
+        # 公文类型
+        elif self.send_type == 2:
+            self.lineEdit_num.setText(data[0][2])  # 发文字号
+            self.lineEdit_num_3.setText(data[0][14])  # 公文标题
+            self.textEdit_2.setText(data[0][15])  # 领导审核意见
+            self.textEdit_4.setText(data[0][16])  # 审计办领导审核意见
+            self.textEdit_3.setText(data[0][17])  # 办文情况说明和拟办意见
+            self.lineEdit_file_3.setText(data[0][19])  # 公文内容
+            self.lineEdit_22.setText(data[0][4])  # 保密等级
+            self.lineEdit_23.setText(data[0][5])  # 是否公开
+            self.lineEdit_29.setText(data[0][3])  # 紧急程度
+            self.lineEdit_24.setText(data[0][20])  # 审核
+            self.lineEdit_26.setText(data[0][21])  # 承办处室
+            self.lineEdit_27.setText(data[0][22])  # 承办人
+            self.lineEdit_28.setText(data[0][23])  # 联系电话
+            self.dateEdit_7.setDate(QDate.fromString(data[0][24], 'yyyy/M/d'))  # 办文日期
+            self.dateEdit_6.setDate(QDate.fromString(data[0][24], 'yyyy/M/d'))  # 日期
+            self.lineEdit_25.setText(data[0][2])  # 办文编号
 
-            str1 = self.label_11.text()  # 收文时间
-            self.dateEdit.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))
-
-            str2 = self.label_19.text()  # 密级
-            self.lineEdit_6.setText(data[0][1])
-
-            str3 = self.label_39.text()  # 是否公开
-            self.lineEdit_7.setText(data[0][2])
-
-            str4 = self.label_44.text()  # 紧急程度
-            self.lineEdit_36.setText(data[0][3])
-
-            str5 = self.label_47.text()  # 来文单位
-            self.lineEdit_38.setText(data[0][4])
-
-            str6 = self.label_45.text()  # 来文字号
-            self.lineEdit_37.setText(data[0][5])
-
-            str7 = self.label_43.text()  # 文件标题
-            self.lineEdit_35.setText(data[0][6])
-
-            str8 = self.label_41.text()  # 处理结果
-            self.lineEdit_33.setText(data[0][7])
-
-            str9 = self.label_36.text()  # 审核
-            self.lineEdit_30.setText(data[0][8])
-
-            str10 = self.label_37.text()  # 办文编号
-            self.lineEdit_31.setText(data[0][9])
-
-            str11 = self.label_42.text()  # 承办处室
-            self.lineEdit_34.setText(data[0][10])
-
-            str12 = self.label_38.text()  # 承办人
-            self.lineEdit_32.setText(data[0][11])
-
-            str13 = self.label_48.text()  # 联系电话
-            self.lineEdit_39.setText(data[0][12])
+    # 展示收文信息,同时判断是应该插入收文还是修改收文
+    def displayRev(self):
+        sql = "select 收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,文件标题,处理结果,审核,收文字号,承办处室,承办人,联系电话 from revfile where 序号 = %s" % self.xh_rev
+        data = self.executeSql(sql)
+        print(data)
+        self.dateEdit.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
+        self.lineEdit_6.setText(data[0][1])  # 密级
+        self.lineEdit_7.setText(data[0][2])  # 是否公开
+        self.lineEdit_36.setText(data[0][3])  # 紧急程度
+        self.lineEdit_38.setText(data[0][4])  # 收文来文单位
+        self.lineEdit_37.setText(data[0][5])  # 收文来文字号
+        self.lineEdit_35.setText(data[0][6])  # 文件标题
+        self.lineEdit_33.setText(data[0][7])  # 处理结果
+        self.lineEdit_30.setText(data[0][8])  # 审核
+        self.lineEdit_31.setText(data[0][9])  # 办文编号
+        self.lineEdit_34.setText(data[0][10])  # 承办处室
+        self.lineEdit_32.setText(data[0][11])  # 承办人
+        self.lineEdit_39.setText(data[0][12])  # 联系电话
 
     # 展示批文信息,同时判断是应该录入还是修改批文
-    def displayprev(self):
-        # 将收文表字段复制过来
-        self.dateEdit_2.setDate(self.dateEdit.date())  # 收文时间
-        self.lineEdit_8.setText(self.lineEdit_6.text())  # 密级
-        self.lineEdit_9.setText(self.lineEdit_7.text())  # 是否公开
-        self.lineEdit_40.setText(self.lineEdit_36.text())  # 紧急程度
-        self.lineEdit_43.setText(self.lineEdit_35.text())  # 文件标题
-        self.lineEdit_48.setText(self.lineEdit_33.text())  # 处理结果
-        self.lineEdit_49.setText(self.lineEdit_30.text())  # 审核
-        self.lineEdit_44.setText(self.lineEdit_31.text())  # 办文编号
-        self.lineEdit_45.setText(self.lineEdit_34.text())  # 承办处室
-        self.lineEdit_46.setText(self.lineEdit_32.text())  # 承办人
-        self.lineEdit_47.setText(self.lineEdit_39.text())  # 联系电话
-        sql = "select 内容摘要和拟办意见,领导批示,批文来文单位,批文来文字号 from revfile where 发文字号 = \'%s\'" % self.mydata[0][2]
+    def display2Rev(self):
+        sql = "select 收文时间,秘密等级,是否公开,紧急程度,批文来文单位,批文来文字号,文件标题,处理结果,审核,批文字号,承办处室,承办人,联系电话,内容摘要和拟办意见,领导批示 from " \
+              "revfile where 序号 = %s" % self.xh_rev
         data = self.executeSql(sql)
-        # 批文表中有数据录入了则隐藏插入按钮
-        if not (data[0][0] is None and data[0][1] is None and data[0][2] is None and data[0][3] is None):
-            self.pushButton_4.hide()
-            self.lineEdit_41.setText(data[0][2])  # 批文来文单位
-            self.lineEdit_42.setText(data[0][3])  # 批文来文字号
-            self.textEdit_6.setText(data[0][0])  # 内容摘要和拟办意见
-            self.textEdit_7.setText(data[0][1])  # 领导批示
-
-    # 插入收文表
-    def insertrev(self):
-        input1 = self.dateEdit.text()  # 收文时间
-        input2 = self.lineEdit_6.text()  # 密级
-        input3 = self.lineEdit_7.text()  # 是否公开
-        input4 = self.lineEdit_36.text()  # 紧急程度
-        input5 = self.lineEdit_38.text()  # 收文来文单位
-        input6 = self.lineEdit_37.text()  # 收文来文字号
-        input7 = self.lineEdit_35.text()  # 文件标题
-        input8 = self.lineEdit_33.text()  # 处理结果
-        input9 = self.lineEdit_30.text()  # 审核
-        input10 = self.lineEdit_31.text()  # 办文编号
-        input11 = self.lineEdit_34.text()  # 承办处室
-        input12 = self.lineEdit_32.text()  # 承办人
-        input13 = self.lineEdit_39.text()  # 联系电话
-        # 执行插入
-        sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,文件标题,处理结果,审核,办文编号,承办处室,承办人,联系电话) values('%s','%s'," \
-              "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
-                  input1, input2, input3, input4, input5, input6,
-                  input7, input8, input9, input10, input11,
-                  input12, input13)
-        self.executeSql(sql)
-
-        QtWidgets.QMessageBox.information(self, "提示", "录入成功！")
-
-        # 录入成功后显示
-        self.displayrev()
-
-    # 更新收文表
-    def updaterev(self):
-        print("更新收文表")
-
-    # 插入批文表
-    def insertprev(self):
-        input1 = self.lineEdit_41.text()  # 批文来文单位
-        input2 = self.lineEdit_42.text()  # 批文来文字号
-        input3 = self.textEdit_6.toPlainText()  # 内容摘要和拟办意见
-        input4 = self.textEdit_7.toPlainText()  # 领导批示
-        sql = "update revfile set 批文来文单位 = '%s',批文来文字号 = '%s',内容摘要和拟办意见 = '%s',领导批示 = '%s' where 发文字号 = '%s'" \
-              % (input1, input2, input3, input4, self.mydata[0][2])
-        self.executeSql(sql)
-
-        QtWidgets.QMessageBox.information(self, "提示", "录入成功！")
-
-        # 录入成功后显示
-        self.displayprev()
-
-    # 更新批文表
-    def updateprev(self):
-        print("更新批文表")
+        self.dateEdit_2.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
+        self.lineEdit_8.setText(data[0][1])  # 密级
+        self.lineEdit_9.setText(data[0][2])  # 是否公开
+        self.lineEdit_40.setText(data[0][3])  # 紧急程度
+        self.lineEdit_41.setText(data[0][4])  # 批文来文单位
+        self.lineEdit_42.setText(data[0][5])  # 批文来文字号
+        self.lineEdit_43.setText(data[0][6])  # 文件标题
+        self.lineEdit_48.setText(data[0][7])  # 处理结果
+        self.lineEdit_49.setText(data[0][8])  # 审核
+        self.lineEdit_44.setText(data[0][9])  # 批文编号
+        self.lineEdit_45.setText(data[0][10])  # 承办处室
+        self.lineEdit_46.setText(data[0][11])  # 承办人
+        self.lineEdit_47.setText(data[0][12])  # 联系电话
+        self.textEdit_6.setText(data[0][13])  # 内容摘要和拟办意见
+        self.textEdit_7.setText(data[0][14])  # 领导批示
 
     # 选择整改发函文件
     def btnchoosefile1(self):
@@ -465,7 +405,7 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
             sheet_nrows = sheet.nrows  # 获得行数
             print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s' % (sheet_name, sheet_cols, sheet_nrows))
 
-            # 读取excel数据
+            # 预览excel数据
             x = 0
             for i in range(4, sheet_nrows):
                 celli_0 = sheet.row(i)[0].value  # 问题顺序号
@@ -505,24 +445,26 @@ class Call_gwdetail(QtWidgets.QWidget, Ui_Form):
                 x = x + 1
 
     def btnbasic(self):
-        self.stackedWidget.setCurrentIndex(0)
-        self.displayDetail()
+        if self.send_type == 2:
+            self.stackedWidget.setCurrentIndex(0)
+        elif self.send_type == 1:
+            self.stackedWidget.setCurrentIndex(6)
+        self.displaySendDetail()
 
     def btnpro(self):
-
         self.stackedWidget.setCurrentIndex(2)
         self.displayqueDetail()
 
     def btnelse(self):
         self.stackedWidget.setCurrentIndex(1)
-        self.displayrev()
+        self.displayRev()
 
     def btnanother(self):
-        self.stackedWidget.setCurrentIndex(4)
-        self.displayprev()
+        self.stackedWidget.setCurrentIndex(3)
+        self.display2Rev()
 
     def btnzgfh(self):
-        self.stackedWidget.setCurrentIndex(5)
+        self.stackedWidget.setCurrentIndex(4)
 
     def btnzglr(self):
-        self.stackedWidget.setCurrentIndex(6)
+        self.stackedWidget.setCurrentIndex(5)

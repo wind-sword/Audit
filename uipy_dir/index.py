@@ -26,6 +26,85 @@ class Ui_indexWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setHorizontalSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
+        self.widget_menu = QtWidgets.QWidget(self.centralwidget)
+        self.widget_menu.setStyleSheet("QPushButton{color:white;}\n"
+"QPushButton#btprog,#btanaly,#btbwlc{\n"
+"        border:none;\n"
+"        border-bottom:1px solid white;\n"
+"        font-size:26px;\n"
+"        font-weight:700;\n"
+"        font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n"
+"    }\n"
+"QPushButton#btzgtz,#btcx,#bttj,#btlczl,#btfwbl,#btswbl,#btswll{\n"
+"        border:none;\n"
+"        border-left:4px solid red;\n"
+"        font-weight:700;\n"
+"        font-size:20px;}\n"
+"\n"
+"QWidget#widget_menu{\n"
+"    background:gray;\n"
+"    border-top:1px solid white;\n"
+"    border-bottom:1px solid white;\n"
+"    border-left:1px solid white;\n"
+"    border-top-left-radius:10px;\n"
+"    border-bottom-left-radius:10px;\n"
+"}")
+        self.widget_menu.setObjectName("widget_menu")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.widget_menu)
+        self.verticalLayout.setSpacing(20)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_2.setSpacing(6)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.headwidget = QtWidgets.QWidget(self.widget_menu)
+        self.headwidget.setStyleSheet("image: url(../resource_dir/logo.png);")
+        self.headwidget.setObjectName("headwidget")
+        self.verticalLayout_2.addWidget(self.headwidget)
+        self.verticalLayout.addLayout(self.verticalLayout_2)
+        self.btbwlc = QtWidgets.QPushButton(self.widget_menu)
+        self.btbwlc.setObjectName("btbwlc")
+        self.verticalLayout.addWidget(self.btbwlc)
+        self.btlczl = QtWidgets.QPushButton(self.widget_menu)
+        self.btlczl.setObjectName("btlczl")
+        self.verticalLayout.addWidget(self.btlczl)
+        self.btfwbl = QtWidgets.QPushButton(self.widget_menu)
+        self.btfwbl.setObjectName("btfwbl")
+        self.verticalLayout.addWidget(self.btfwbl)
+        self.btswbl = QtWidgets.QPushButton(self.widget_menu)
+        self.btswbl.setObjectName("btswbl")
+        self.verticalLayout.addWidget(self.btswbl)
+        self.btswll = QtWidgets.QPushButton(self.widget_menu)
+        self.btswll.setObjectName("btswll")
+        self.verticalLayout.addWidget(self.btswll)
+        self.btprog = QtWidgets.QPushButton(self.widget_menu)
+        self.btprog.setObjectName("btprog")
+        self.verticalLayout.addWidget(self.btprog)
+        self.btzgtz = QtWidgets.QPushButton(self.widget_menu)
+        self.btzgtz.setObjectName("btzgtz")
+        self.verticalLayout.addWidget(self.btzgtz)
+        self.btanaly = QtWidgets.QPushButton(self.widget_menu)
+        self.btanaly.setObjectName("btanaly")
+        self.verticalLayout.addWidget(self.btanaly)
+        self.btcx = QtWidgets.QPushButton(self.widget_menu)
+        self.btcx.setObjectName("btcx")
+        self.verticalLayout.addWidget(self.btcx)
+        self.bttj = QtWidgets.QPushButton(self.widget_menu)
+        self.bttj.setObjectName("bttj")
+        self.verticalLayout.addWidget(self.bttj)
+        self.verticalLayout_space = QtWidgets.QVBoxLayout()
+        self.verticalLayout_space.setObjectName("verticalLayout_space")
+        self.emptywidget = QtWidgets.QWidget(self.widget_menu)
+        self.emptywidget.setObjectName("emptywidget")
+        self.verticalLayout_space.addWidget(self.emptywidget)
+        self.verticalLayout.addLayout(self.verticalLayout_space)
+        self.verticalLayout.setStretch(0, 3)
+        self.verticalLayout.setStretch(6, 2)
+        self.verticalLayout.setStretch(7, 1)
+        self.verticalLayout.setStretch(8, 2)
+        self.verticalLayout.setStretch(9, 1)
+        self.verticalLayout.setStretch(10, 1)
+        self.verticalLayout.setStretch(11, 8)
+        self.gridLayout.addWidget(self.widget_menu, 0, 0, 1, 1)
         self.widget_view = QtWidgets.QWidget(self.centralwidget)
         self.widget_view.setStyleSheet("QWidget#widget_view{\n"
 "        color:#232C51;\n"
@@ -133,11 +212,24 @@ class Ui_indexWindow(object):
         item.setFont(font)
         self.tableWidget_lczl.setHorizontalHeaderItem(3, item)
         self.verticalLayout_7.addWidget(self.tableWidget_lczl)
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.btckxq = QtWidgets.QPushButton(self.tab_lczl)
         self.btckxq.setMinimumSize(QtCore.QSize(0, 28))
         self.btckxq.setMaximumSize(QtCore.QSize(300, 16777215))
         self.btckxq.setObjectName("btckxq")
-        self.verticalLayout_7.addWidget(self.btckxq, 0, QtCore.Qt.AlignHCenter)
+        self.horizontalLayout_6.addWidget(self.btckxq)
+        self.btszzg = QtWidgets.QPushButton(self.tab_lczl)
+        self.btszzg.setMinimumSize(QtCore.QSize(0, 28))
+        self.btszzg.setMaximumSize(QtCore.QSize(300, 16777215))
+        self.btszzg.setObjectName("btszzg")
+        self.horizontalLayout_6.addWidget(self.btszzg)
+        self.btjrzg = QtWidgets.QPushButton(self.tab_lczl)
+        self.btjrzg.setMinimumSize(QtCore.QSize(0, 28))
+        self.btjrzg.setMaximumSize(QtCore.QSize(300, 16777215))
+        self.btjrzg.setObjectName("btjrzg")
+        self.horizontalLayout_6.addWidget(self.btjrzg)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_6)
         self.tabWidget_lczl.addTab(self.tab_lczl, "")
         self.verticalLayout_8.addWidget(self.tabWidget_lczl)
         self.stackedWidget.addWidget(self.page_lczl)
@@ -421,7 +513,7 @@ class Ui_indexWindow(object):
         self.gridLayout_5.setObjectName("gridLayout_5")
         self.widget_zbhead = QtWidgets.QWidget(self.page_zb)
         self.widget_zbhead.setMinimumSize(QtCore.QSize(250, 100))
-        self.widget_zbhead.setStyleSheet("image: url(../resource_dir/zbhead.png);")
+        self.widget_zbhead.setStyleSheet("image: url(:/resource_dir/zbhead.png);")
         self.widget_zbhead.setObjectName("widget_zbhead")
         self.gridLayout_5.addWidget(self.widget_zbhead, 1, 0, 1, 2)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
@@ -743,7 +835,7 @@ class Ui_indexWindow(object):
         self.pushButton_addac_3.setObjectName("pushButton_addac_3")
         self.gridLayout_8.addWidget(self.pushButton_addac_3, 4, 1, 1, 1, QtCore.Qt.AlignHCenter)
         self.widget_gwhead = QtWidgets.QWidget(self.page_gw)
-        self.widget_gwhead.setStyleSheet("image:url(../resource_dir/gwdarkhead.png)")
+        self.widget_gwhead.setStyleSheet("image:url(:/resource_dir/gwdarkhead.png)")
         self.widget_gwhead.setObjectName("widget_gwhead")
         self.gridLayout_8.addWidget(self.widget_gwhead, 1, 1, 1, 1)
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
@@ -1360,85 +1452,6 @@ class Ui_indexWindow(object):
         self.stackedWidget.addWidget(self.page_tjfx)
         self.gridLayout_3.addWidget(self.stackedWidget, 0, 0, 1, 1)
         self.gridLayout.addWidget(self.widget_view, 0, 1, 1, 1)
-        self.widget_menu = QtWidgets.QWidget(self.centralwidget)
-        self.widget_menu.setStyleSheet("QPushButton{color:white;}\n"
-"QPushButton#btprog,#btanaly,#btbwlc{\n"
-"        border:none;\n"
-"        border-bottom:1px solid white;\n"
-"        font-size:26px;\n"
-"        font-weight:700;\n"
-"        font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n"
-"    }\n"
-"QPushButton#btzgtz,#btcx,#bttj,#btlczl,#btfwbl,#btswbl,#btswll{\n"
-"        border:none;\n"
-"        border-left:4px solid red;\n"
-"        font-weight:700;\n"
-"        font-size:20px;}\n"
-"\n"
-"QWidget#widget_menu{\n"
-"    background:gray;\n"
-"    border-top:1px solid white;\n"
-"    border-bottom:1px solid white;\n"
-"    border-left:1px solid white;\n"
-"    border-top-left-radius:10px;\n"
-"    border-bottom-left-radius:10px;\n"
-"}")
-        self.widget_menu.setObjectName("widget_menu")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.widget_menu)
-        self.verticalLayout.setSpacing(20)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_2.setSpacing(6)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.headwidget = QtWidgets.QWidget(self.widget_menu)
-        self.headwidget.setStyleSheet("image: url(../resource_dir/logo.png);")
-        self.headwidget.setObjectName("headwidget")
-        self.verticalLayout_2.addWidget(self.headwidget)
-        self.verticalLayout.addLayout(self.verticalLayout_2)
-        self.btbwlc = QtWidgets.QPushButton(self.widget_menu)
-        self.btbwlc.setObjectName("btbwlc")
-        self.verticalLayout.addWidget(self.btbwlc)
-        self.btlczl = QtWidgets.QPushButton(self.widget_menu)
-        self.btlczl.setObjectName("btlczl")
-        self.verticalLayout.addWidget(self.btlczl)
-        self.btfwbl = QtWidgets.QPushButton(self.widget_menu)
-        self.btfwbl.setObjectName("btfwbl")
-        self.verticalLayout.addWidget(self.btfwbl)
-        self.btswbl = QtWidgets.QPushButton(self.widget_menu)
-        self.btswbl.setObjectName("btswbl")
-        self.verticalLayout.addWidget(self.btswbl)
-        self.btswll = QtWidgets.QPushButton(self.widget_menu)
-        self.btswll.setObjectName("btswll")
-        self.verticalLayout.addWidget(self.btswll)
-        self.btprog = QtWidgets.QPushButton(self.widget_menu)
-        self.btprog.setObjectName("btprog")
-        self.verticalLayout.addWidget(self.btprog)
-        self.btzgtz = QtWidgets.QPushButton(self.widget_menu)
-        self.btzgtz.setObjectName("btzgtz")
-        self.verticalLayout.addWidget(self.btzgtz)
-        self.btanaly = QtWidgets.QPushButton(self.widget_menu)
-        self.btanaly.setObjectName("btanaly")
-        self.verticalLayout.addWidget(self.btanaly)
-        self.btcx = QtWidgets.QPushButton(self.widget_menu)
-        self.btcx.setObjectName("btcx")
-        self.verticalLayout.addWidget(self.btcx)
-        self.bttj = QtWidgets.QPushButton(self.widget_menu)
-        self.bttj.setObjectName("bttj")
-        self.verticalLayout.addWidget(self.bttj)
-        self.verticalLayout_space = QtWidgets.QVBoxLayout()
-        self.verticalLayout_space.setObjectName("verticalLayout_space")
-        self.emptywidget = QtWidgets.QWidget(self.widget_menu)
-        self.emptywidget.setObjectName("emptywidget")
-        self.verticalLayout_space.addWidget(self.emptywidget)
-        self.verticalLayout.addLayout(self.verticalLayout_space)
-        self.verticalLayout.setStretch(0, 3)
-        self.verticalLayout.setStretch(6, 2)
-        self.verticalLayout.setStretch(7, 1)
-        self.verticalLayout.setStretch(8, 2)
-        self.verticalLayout.setStretch(9, 1)
-        self.verticalLayout.setStretch(10, 1)
-        self.verticalLayout.setStretch(11, 8)
-        self.gridLayout.addWidget(self.widget_menu, 0, 0, 1, 1)
         self.gridLayout.setColumnStretch(0, 1)
         self.gridLayout.setColumnStretch(1, 4)
         indexWindow.setCentralWidget(self.centralwidget)
@@ -1452,6 +1465,16 @@ class Ui_indexWindow(object):
     def retranslateUi(self, indexWindow):
         _translate = QtCore.QCoreApplication.translate
         indexWindow.setWindowTitle(_translate("indexWindow", "审计整改信息管理系统"))
+        self.btbwlc.setText(_translate("indexWindow", "办文流程"))
+        self.btlczl.setText(_translate("indexWindow", "流程总览"))
+        self.btfwbl.setText(_translate("indexWindow", "发文办理"))
+        self.btswbl.setText(_translate("indexWindow", "收文办理"))
+        self.btswll.setText(_translate("indexWindow", "收文浏览"))
+        self.btprog.setText(_translate("indexWindow", "整改管理"))
+        self.btzgtz.setText(_translate("indexWindow", "整改台账"))
+        self.btanaly.setText(_translate("indexWindow", "统计分析"))
+        self.btcx.setText(_translate("indexWindow", "查询"))
+        self.bttj.setText(_translate("indexWindow", "统计"))
         self.label_25.setText(_translate("indexWindow", "流程总览"))
         item = self.tableWidget_lczl.horizontalHeaderItem(0)
         item.setText(_translate("indexWindow", "发文号"))
@@ -1462,6 +1485,8 @@ class Ui_indexWindow(object):
         item = self.tableWidget_lczl.horizontalHeaderItem(3)
         item.setText(_translate("indexWindow", "是否整改"))
         self.btckxq.setText(_translate("indexWindow", "查看详情"))
+        self.btszzg.setText(_translate("indexWindow", "设置整改"))
+        self.btjrzg.setText(_translate("indexWindow", "进入整改"))
         self.tabWidget_lczl.setTabText(self.tabWidget_lczl.indexOf(self.tab_lczl), _translate("indexWindow", "Tab 1"))
         self.label_vhead.setText(_translate("indexWindow", "整改台账"))
         self.label_key.setText(_translate("indexWindow", "关键字："))
@@ -1564,13 +1589,3 @@ class Ui_indexWindow(object):
         self.comboBox.setItemText(0, _translate("indexWindow", "情字"))
         self.comboBox.setItemText(1, _translate("indexWindow", "请字"))
         self.label_ahead.setText(_translate("indexWindow", "统计分析"))
-        self.btbwlc.setText(_translate("indexWindow", "办文流程"))
-        self.btlczl.setText(_translate("indexWindow", "流程总览"))
-        self.btfwbl.setText(_translate("indexWindow", "发文办理"))
-        self.btswbl.setText(_translate("indexWindow", "收文办理"))
-        self.btswll.setText(_translate("indexWindow", "收文浏览"))
-        self.btprog.setText(_translate("indexWindow", "整改管理"))
-        self.btzgtz.setText(_translate("indexWindow", "整改台账"))
-        self.btanaly.setText(_translate("indexWindow", "统计分析"))
-        self.btcx.setText(_translate("indexWindow", "查询"))
-        self.bttj.setText(_translate("indexWindow", "统计"))

@@ -7,8 +7,7 @@ from call_lcdetail import Call_lcdetail
 from uipy_dir.index import Ui_indexWindow
 import sys
 import qtawesome
-from call_zbdetail import Call_zbdetail
-from call_gwdetail import Call_gwdetail
+from call_zgdetail import Call_zgdetail
 import shutil
 
 
@@ -47,24 +46,31 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     def logi(self):
         # 页面对应关系 0：流程总览 page_lczl | 1：整改台账 page_zgtz | 2：发文办理 page_fwbl  |  3：收文办理 page_swbl | 4:收文浏览 page_tjfx
         # |5：统计分析 page_tjfx
-        self.btzgtz.clicked.connect(self.btfun1)
+        self.btzgtz.clicked.connect(self.zgtz)
 
         self.btlczl.clicked.connect(lambda: self.btjump(btname="lczl"))
         self.btfwbl.clicked.connect(lambda: self.btjump(btname="fwbl"))
         self.btswbl.clicked.connect(lambda: self.btjump(btname="swbl"))
         self.btswll.clicked.connect(lambda: self.btjump(btname="swll"))
 
-        self.btcx.clicked.connect(self.btfun3)
-        self.bttj.clicked.connect(self.btfun3)
-        self.bt_search.clicked.connect(self.btfun4)
-        self.pushButton_file.clicked.connect(self.btfun5)
-        self.pushButton_file_3.clicked.connect(self.btfun5_1)
-        self.pushButton_addac.clicked.connect(self.btfun6)
-        self.pushButton_addac_3.clicked.connect(self.btfun6_1)
-        self.comboBox_type.currentIndexChanged.connect(self.btfun7)
-        self.pushButton_more.clicked.connect(self.btfun8)
-        self.btckxq.clicked.connect(self.btfun9)
-        self.pushButton_3.clicked.connect(self.btfun10)
+        self.btcx.clicked.connect(self.tjfx)
+        self.bttj.clicked.connect(self.tjfx)
+
+        self.bt_search.clicked.connect(self.search)
+
+        self.pushButton_file.clicked.connect(self.choose_file_zb)
+        self.pushButton_file_3.clicked.connect(self.choose_file_gw)
+
+        self.pushButton_addac.clicked.connect(self.add_zb)
+        self.pushButton_addac_3.clicked.connect(self.add_gw)
+        self.pushButton_3.clicked.connect(self.add_sw)
+
+        self.comboBox_type.currentIndexChanged.connect(self.fwexchange)
+
+        self.pushButton_more.clicked.connect(self.tz_detail)
+        self.btckxq.clicked.connect(self.lc_detail)
+        self.btszzg.clicked.connect(self.lc_to_tz)
+        self.btjrzg.clicked.connect(self.to_tz_detail)
 
         self.dateEdit_5.dateChanged.connect(self.autoSyn1)
         self.dateEdit_6.dateChanged.connect(self.autoSyn2)
@@ -95,9 +101,12 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     # 显示台账内容
     def showProjectTable(self):
-        # 导致表头消失 self.tableWidget.clear()
-        sql = 'select 时间,发文字号,收文字号,办文字号,秘密等级,来文单位,来文字号,来文标题,省领导批示内容,秘书处拟办意见,委办主任签批意见,批示任务办理要求时间,承办处室及承办人,办理结果,' \
-              '文件去向 from standingbook'
+        # sql由台账表的流程序号出发,通过多表查询获得台账所有字段
+        sql = 'select revfile.收文时间,sendfile.发文字号,revfile.收文字号,revfile.批文字号,sendfile.秘密等级,revfile.批文来文单位,' \
+              'revfile.批文来文字号,revfile.文件标题,revfile.领导批示,revfile.内容摘要和拟办意见,standingbook.委办主任签批意见,' \
+              'standingbook.批示任务办理要求时间,standingbook.承办处室及承办人,standingbook.办理结果,standingbook.文件去向 from standingbook ' \
+              'join bwprocess on standingbook.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join ' \
+              'revfile on bwprocess.收文序号 = revfile.序号 '
         data = self.executeSql(sql)
         # 打印结果
         # print(data)
@@ -119,8 +128,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     # 显示发文流程内容
     def showLczlTable(self):
-        # 导致表头消失 self.tableWidget.clear()
-
         # sql查询通过三表左外连接查询获取发文流程结果
         sql = "SELECT sendfile.发文字号,revfile.收文字号,revfile.批文字号,bwprocess.是否加入整改 from bwprocess LEFT OUTER JOIN " \
               "sendfile on sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN revfile on revfile.序号 = bwprocess.收文序号 "
@@ -163,7 +170,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tabWidget_lczl.removeTab(index)
 
     # 整改台账按钮
-    def btfun1(self):
+    def zgtz(self):
         self.stackedWidget.setCurrentIndex(1)
         self.tabWidget.setCurrentIndex(0)
         self.showProjectTable()  # 点击整改台账显示表内容
@@ -181,72 +188,45 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.stackedWidget.setCurrentIndex(4)
 
     # 统计分析按钮
-    def btfun3(self):
+    def tjfx(self):
         self.stackedWidget.setCurrentIndex(5)
 
     # 整改台账下的项目搜索按钮(未开发)
-    def btfun4(self):
+    def search(self):
         # 需完成真实搜索逻辑
         QtWidgets.QMessageBox.information(self, "提示", "搜索完成！")
 
     # 发文办理下的选择文件夹按钮(专报)
-    def btfun5(self):
+    def choose_file_zb(self):
         p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
         self.lineEdit_file.setText(p[0])
 
     # 发文办理下的选择文件夹按钮(公文)
-    def btfun5_1(self):
+    def choose_file_gw(self):
         p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
         self.lineEdit_file_3.setText(p[0])
 
+    # 发文办理下的项目类型切换栏
+    def fwexchange(self, index):
+        self.stackedWidget_new.setCurrentIndex(index)
+
     # 发文办理下的确认按钮(专报)
-    def btfun6(self):
-        str1 = self.label.text()  # 专报标题
-        input1 = self.lineEdit.text()
-
-        str2 = self.label_2.text()  # 报送范围
-        input2 = self.lineEdit_2.text()
-
-        str3 = self.label_3.text()  # 发文字号
-        input3 = self.lineEdit_3.text()
-
-        str4 = self.label_4.text()  # 紧急程度
-        input4 = self.lineEdit_4.text()
-
-        str5 = self.label_5.text()  # 秘密等级
-        input5 = self.lineEdit_5.text()
-
-        str6 = self.label_6.text()  # 是否公开
-        input6 = self.lineEdit_6.text()
-
-        str7 = self.label_7.text()  # 拟稿人
-        input7 = self.lineEdit_7.text()
-
-        str8 = self.label_8.text()  # 拟稿处室分管厅领导
-        input8 = self.lineEdit_12.text()
-
-        str9 = self.label_9.text()  # 拟稿处室审核
-        input9 = self.lineEdit_8.text()
-
-        str10 = self.label_10.text()  # 综合处编辑
-        input10 = self.lineEdit_9.text()
-
-        str11 = self.label_11.text()  # 综合处审核
-        input11 = self.lineEdit_10.text()
-
-        str12 = self.label_12.text()  # 秘书处审核
-        input12 = self.lineEdit_11.text()
-
-        str13 = self.label_13.text()  # 综合处分管厅领导
-        input13 = self.lineEdit_13.text()
-
-        str14 = self.label_14.text()  # 审计办主任
-        input14 = self.lineEdit_14.text()
-
-        str15 = self.label_time.text()  # 办文日期
-        input15 = self.dateEdit_3.text()
-
-        str16 = self.label_file.text()  # 报文内容
+    def add_zb(self):
+        input1 = self.lineEdit.text()  # 专报标题
+        input2 = self.lineEdit_2.text()  # 报送范围
+        input3 = self.lineEdit_3.text()  # 发文字号
+        input4 = self.lineEdit_4.text()  # 紧急程度
+        input5 = self.lineEdit_5.text()  # 秘密等级
+        input6 = self.lineEdit_6.text()  # 是否公开
+        input7 = self.lineEdit_7.text()  # 拟稿人
+        input8 = self.lineEdit_12.text()  # 拟稿处室分管厅领导
+        input9 = self.lineEdit_8.text()  # 拟稿处室审核
+        input10 = self.lineEdit_9.text()  # 综合处编辑
+        input11 = self.lineEdit_10.text()  # 综合处审核
+        input12 = self.lineEdit_11.text()  # 秘书处审核
+        input13 = self.lineEdit_13.text()  # 综合处分管厅领导
+        input14 = self.lineEdit_14.text()  # 审计办主任
+        input15 = self.dateEdit_3.text()  # 办文日期
         input_file_path = self.lineEdit_file.text()  # 文件路径
         input16 = os.path.split(input_file_path)[1]  # 文件名
 
@@ -263,7 +243,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             data = self.executeSql(sql)
 
             # 执行插入流程表
-            sql = "insert into bwprocess(发文序号,是否加入整改) VALUES('%s',0)" % data[0][0]
+            sql = "insert into bwprocess(发文序号,是否加入整改) VALUES(%s,0)" % data[0][0]
             self.executeSql(sql)
 
             # 导入文件
@@ -275,52 +255,25 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.stackedWidget.setCurrentIndex(0)
             self.showLczlTable()
         else:
-            QtWidgets.QMessageBox.information(self, "提示", "发文字号不能为空!")
+            QtWidgets.QMessageBox.critical(self, "新建失败", "发文字号不能为空!")
 
     # 发文办理下的确认按钮(公文)
-    def btfun6_1(self):
-        str1 = self.label_num.text()  # 发文字号
-        input1 = self.lineEdit_num.text()
-
-        str2 = self.label_num_3.text()  # 公文标题
-        input2 = self.lineEdit_num_3.text()
-
-        str3 = self.label_num_4.text()  # 领导审核意见
-        input3 = self.textEdit.toPlainText()
-
-        str4 = self.label_num_5.text()  # 审计办领导审核意见
-        input4 = self.textEdit_2.toPlainText()
-
-        str5 = self.label_num_6.text()  # 办文情况说明和拟办意见
-        input5 = self.textEdit_3.toPlainText()
-
-        str6 = self.label_23.text()  # 办文日期
-        input6 = self.dateEdit_6.text()
-
-        str7 = self.label_file_3.text()  # 公文内容
+    def add_gw(self):
+        input1 = self.lineEdit_num.text()  # 发文字号
+        input2 = self.lineEdit_num_3.text()  # 公文标题
+        input3 = self.textEdit.toPlainText()  # 领导审核意见
+        input4 = self.textEdit_2.toPlainText()  # 审计办领导审核意见
+        input5 = self.textEdit_3.toPlainText()  # 办文情况说明和拟办意见
+        input6 = self.dateEdit_6.text()  # 办文日期
         input_file_path = self.lineEdit_file_3.text()  # 文件路径
         input7 = os.path.split(input_file_path)[1]  # 文件名
-
-        str8 = self.label_24.text()  # 紧急程度
-        input8 = self.lineEdit_22.text()
-
-        str9 = self.label_15.text()  # 保密等级
-        input9 = self.lineEdit_15.text()
-
-        str10 = self.label_16.text()  # 是否公开
-        input10 = self.lineEdit_16.text()
-
-        str11 = self.label_17.text()  # 审核
-        input11 = self.lineEdit_17.text()
-
-        str12 = self.label_20.text()  # 承办处室
-        input12 = self.lineEdit_19.text()
-
-        str13 = self.label_21.text()  # 承办人
-        input13 = self.lineEdit_20.text()
-
-        str14 = self.label_22.text()  # 联系电话
-        input14 = self.lineEdit_21.text()
+        input8 = self.lineEdit_22.text()  # 紧急程度
+        input9 = self.lineEdit_15.text()  # 保密等级
+        input10 = self.lineEdit_16.text()  # 是否公开
+        input11 = self.lineEdit_17.text()  # 审核
+        input12 = self.lineEdit_19.text()  # 承办处室
+        input13 = self.lineEdit_20.text()  # 承办人
+        input14 = self.lineEdit_21.text()  # 联系电话
 
         if input1 != "":
             # 执行插入sendfile表
@@ -338,7 +291,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             data = self.executeSql(sql)
 
             # 执行插入流程表
-            sql = "insert into bwprocess(发文序号,是否加入整改) VALUES('%s',0)" % data[0][0]
+            sql = "insert into bwprocess(发文序号,是否加入整改) VALUES(%s,0)" % data[0][0]
             self.executeSql(sql)
 
             QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
@@ -347,55 +300,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.stackedWidget.setCurrentIndex(0)
             self.showLczlTable()
         else:
-            QtWidgets.QMessageBox.information(self, "提示", "发文字号不能为空!")
-
-    # 发文办理下的项目类型切换栏
-    def btfun7(self, index):
-        self.stackedWidget_new.setCurrentIndex(index)
-
-    # 整改台账下的查看详情按钮(台账详情需要大修改,暂时未完成,先完成发文流程,此处逻辑为旧逻辑)
-    def btfun8(self):
-        row = self.tableWidget.currentRow()
-        # row为-1表示没有选中某一行,弹出提示信息
-        if row == -1:
-            QtWidgets.QMessageBox.information(self, "提示", "请选择项目！")
-        else:
-            # 获取发文字号用于查询
-            key = self.tableWidget.item(row, 1).text()
-            sql = 'select sendfile.专报标题,sendfile.报送范围,sendfile.发文字号,sendfile.紧急程度,sendfile.秘密等级,sendfile.是否公开,' \
-                  'sendfile.拟稿人,sendfile.拟稿处室分管厅领导,sendfile.拟稿处室审核,sendfile.综合处编辑,sendfile.综合处审核,sendfile.秘书处审核,' \
-                  'sendfile.综合处分管厅领导,sendfile.审计办主任,sendfile.公文标题,sendfile.领导审核意见,sendfile.审计办领导审核意见,' \
-                  'sendfile.办文情况说明和拟办意见,sendfile.projectType,sendfile.报文内容,sendfile.审核,sendfile.承办处室,sendfile.承办人,' \
-                  'sendfile.联系电话,sendfile.办文日期 from sendfile where 发文字号 =  \'%s\'' % key
-            data = self.executeSql(sql)
-            # 判断项目类型
-            if data[0][18] == 1:
-                tab_new = Call_zbdetail(data)
-                tab_new.setObjectName('tab_new')
-                tab_num = self.tabWidget.addTab(tab_new, "专报%s详情" % key)
-                self.tabWidget.setCurrentIndex(tab_num)
-            elif data[0][18] == 2:
-                tab_new = Call_gwdetail(data)
-                tab_new.setObjectName('tab_new')
-                tab_num = self.tabWidget.addTab(tab_new, "公文%s详情" % key)
-                self.tabWidget.setCurrentIndex(tab_num)
-
-    # 办文流程详情下的查看详情按钮
-    def btfun9(self):
-        row = self.tableWidget_lczl.currentRow()
-        # row为-1表示没有选中某一行,弹出提示信息
-        if row == -1:
-            QtWidgets.QMessageBox.information(self, "提示", "请选择流程！")
-        else:
-            key1 = self.tableWidget_lczl.item(row, 0).text()  # 发文号
-            key2 = self.tableWidget_lczl.item(row, 1).text()  # 收文号
-            tab_new1 = Call_lcdetail(key1, key2)
-            tab_new1.setObjectName('tab_new')
-            tab_num1 = self.tabWidget_lczl.addTab(tab_new1, "流程详情")
-            self.tabWidget_lczl.setCurrentIndex(tab_num1)
+            QtWidgets.QMessageBox.critical(self, "新建失败", "发文字号不能为空!")
 
     # 收文办理下的录入按钮
-    def btfun10(self):
+    def add_sw(self):
         input1 = self.dateEdit_4.text()  # 收文时间
         input2 = self.lineEdit_23.text()  # 密级
         input3 = self.lineEdit_24.text()  # 是否公开
@@ -423,7 +331,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             data = self.executeSql(sql)
 
             # 执行插入流程表
-            sql = "insert into bwprocess(收文序号,是否加入整改) VALUES('%s',0)" % data[0][0]
+            sql = "insert into bwprocess(收文序号,是否加入整改) VALUES(%s,0)" % data[0][0]
             self.executeSql(sql)
 
             QtWidgets.QMessageBox.information(self, "提示", "录入成功！")
@@ -432,7 +340,80 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.stackedWidget.setCurrentIndex(0)
             self.showLczlTable()
         else:
-            QtWidgets.QMessageBox.information(self, "提示", "办文编号不能为空!")
+            QtWidgets.QMessageBox.critical(self, "录入失败", "办文编号不能为空!")
+
+    # 整改台账下的查看详情按钮
+    def tz_detail(self):
+        row = self.tableWidget.currentRow()
+        # row为-1表示没有选中某一行,弹出提示信息
+        if row == -1:
+            QtWidgets.QMessageBox.information(self, "提示", "请选择整改项目！")
+        else:
+            # 获取发文字号用于查询
+            key = self.tableWidget.item(row, 1).text()
+            tab_new = Call_zgdetail(key)
+            tab_new.setObjectName('tab_new')
+            tab_num = self.tabWidget.addTab(tab_new, "整改详情")
+            self.tabWidget.setCurrentIndex(tab_num)
+
+    # 办文流程详情下的查看详情按钮
+    def lc_detail(self):
+        row = self.tableWidget_lczl.currentRow()
+        # row为-1表示没有选中某一行,弹出提示信息
+        if row == -1:
+            QtWidgets.QMessageBox.information(self, "提示", "请选择流程！")
+        else:
+            key1 = self.tableWidget_lczl.item(row, 0).text()  # 发文号
+            key2 = self.tableWidget_lczl.item(row, 1).text()  # 收文号
+            tab_new1 = Call_lcdetail(key1, key2)
+            tab_new1.setObjectName('tab_new')
+            tab_num1 = self.tabWidget_lczl.addTab(tab_new1, "流程详情")
+            self.tabWidget_lczl.setCurrentIndex(tab_num1)
+
+    # 办文流程下设置整改按钮
+    def lc_to_tz(self):
+        row = self.tableWidget_lczl.currentRow()
+        # row为-1表示没有选中某一行,弹出提示信息
+        if row == -1:
+            QtWidgets.QMessageBox.information(self, "提示", "请选择流程！")
+        else:
+            key1 = self.tableWidget_lczl.item(row, 0).text()  # 发文号
+            key2 = self.tableWidget_lczl.item(row, 1).text()  # 收文号
+            key3 = self.tableWidget_lczl.item(row, 2).text()  # 批文号
+            key4 = self.tableWidget_lczl.item(row, 3).text()  # 是否整改
+
+            # key1,key2,key3都不为空表示办文流程已经完成,可以设置整改了
+            if key1 != "/" and key2 != "/" and key3 != "/" and key4 != "1":
+                sql = "select bwprocess.序号 from bwprocess,sendfile where sendfile.序号 = bwprocess.发文序号 and " \
+                      "sendfile.发文字号 = '%s'" % key1
+                data = self.executeSql(sql)
+                xh = data[0][0]
+
+                # 将流程加入到台账中
+                sql = "insert into standingbook(流程序号) VALUES(%s)" % xh
+                self.executeSql(sql)
+
+                # 修改流程整改状态为1
+                sql = "update bwprocess set 是否加入整改 = 1 where 序号 = %s" % xh
+                self.executeSql(sql)
+
+                QtWidgets.QMessageBox.information(self, "提示", "添加成功！")
+
+                # 刷新流程页面
+                self.showLczlTable()
+
+            # 否则不能整改
+            else:
+                if key1 == "/":
+                    QtWidgets.QMessageBox.warning(self, "警告", "无法设置整改！该办文流程无发文")
+                elif key1 != "/" and (key2 == "/" or key3 == "/"):
+                    QtWidgets.QMessageBox.warning(self, "警告", "无法设置整改！该办文流程未完成")
+                elif key4 == "1":
+                    QtWidgets.QMessageBox.warning(self, "警告", "无法设置整改！该办文流程已设置整改")
+
+    # 办文流程下进入整改按钮,调用整改台账下的查看详情(待完成)
+    def to_tz_detail(self):
+        print("ok")
 
 
 if __name__ == '__main__':

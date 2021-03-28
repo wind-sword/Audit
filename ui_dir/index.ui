@@ -27,6 +27,130 @@
     <property name="horizontalSpacing">
      <number>0</number>
     </property>
+    <item row="0" column="0">
+     <widget class="QWidget" name="widget_menu" native="true">
+      <property name="styleSheet">
+       <string notr="true">QPushButton{color:white;}
+QPushButton#btprog,#btanaly,#btbwlc{
+        border:none;
+        border-bottom:1px solid white;
+        font-size:26px;
+        font-weight:700;
+        font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;
+    }
+QPushButton#btzgtz,#btcx,#bttj,#btlczl,#btfwbl,#btswbl,#btswll{
+		border:none;
+		border-left:4px solid red;
+		font-weight:700;
+		font-size:20px;}
+
+QWidget#widget_menu{
+    background:gray;
+    border-top:1px solid white;
+    border-bottom:1px solid white;
+    border-left:1px solid white;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+}</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout" stretch="3,0,0,0,0,0,2,1,2,1,1,8">
+       <property name="spacing">
+        <number>20</number>
+       </property>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QWidget" name="headwidget" native="true">
+           <property name="styleSheet">
+            <string notr="true">image: url(:/resource_dir/logo.png);</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btbwlc">
+         <property name="text">
+          <string>办文流程</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btlczl">
+         <property name="text">
+          <string>流程总览</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btfwbl">
+         <property name="text">
+          <string>发文办理</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btswbl">
+         <property name="text">
+          <string>收文办理</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btswll">
+         <property name="text">
+          <string>收文浏览</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btprog">
+         <property name="text">
+          <string>整改管理</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btzgtz">
+         <property name="text">
+          <string>整改台账</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btanaly">
+         <property name="text">
+          <string>统计分析</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btcx">
+         <property name="text">
+          <string>查询</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="bttj">
+         <property name="text">
+          <string>统计</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_space">
+         <item>
+          <widget class="QWidget" name="emptywidget" native="true"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
     <item row="0" column="1">
      <widget class="QWidget" name="widget_view" native="true">
       <property name="styleSheet">
@@ -169,24 +293,66 @@ QComboBox{background:white;
                  </column>
                 </widget>
                </item>
-               <item alignment="Qt::AlignHCenter">
-                <widget class="QPushButton" name="btckxq">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>28</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>300</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>查看详情</string>
-                 </property>
-                </widget>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                 <item>
+                  <widget class="QPushButton" name="btckxq">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>300</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>查看详情</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="btszzg">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>300</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>设置整改</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="btjrzg">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>300</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>进入整改</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </widget>
@@ -2531,130 +2697,6 @@ QComboBox{background:white;
           </layout>
          </widget>
         </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QWidget" name="widget_menu" native="true">
-      <property name="styleSheet">
-       <string notr="true">QPushButton{color:white;}
-QPushButton#btprog,#btanaly,#btbwlc{
-        border:none;
-        border-bottom:1px solid white;
-        font-size:26px;
-        font-weight:700;
-        font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;
-    }
-QPushButton#btzgtz,#btcx,#bttj,#btlczl,#btfwbl,#btswbl,#btswll{
-		border:none;
-		border-left:4px solid red;
-		font-weight:700;
-		font-size:20px;}
-
-QWidget#widget_menu{
-    background:gray;
-    border-top:1px solid white;
-    border-bottom:1px solid white;
-    border-left:1px solid white;
-    border-top-left-radius:10px;
-    border-bottom-left-radius:10px;
-}</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout" stretch="3,0,0,0,0,0,2,1,2,1,1,8">
-       <property name="spacing">
-        <number>20</number>
-       </property>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <property name="spacing">
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QWidget" name="headwidget" native="true">
-           <property name="styleSheet">
-            <string notr="true">image: url(:/resource_dir/logo.png);</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btbwlc">
-         <property name="text">
-          <string>办文流程</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btlczl">
-         <property name="text">
-          <string>流程总览</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btfwbl">
-         <property name="text">
-          <string>发文办理</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btswbl">
-         <property name="text">
-          <string>收文办理</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btswll">
-         <property name="text">
-          <string>收文浏览</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btprog">
-         <property name="text">
-          <string>整改管理</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btzgtz">
-         <property name="text">
-          <string>整改台账</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btanaly">
-         <property name="text">
-          <string>统计分析</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btcx">
-         <property name="text">
-          <string>查询</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="bttj">
-         <property name="text">
-          <string>统计</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_space">
-         <item>
-          <widget class="QWidget" name="emptywidget" native="true"/>
-         </item>
-        </layout>
        </item>
       </layout>
      </widget>
