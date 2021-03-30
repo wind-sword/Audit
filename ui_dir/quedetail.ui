@@ -72,7 +72,7 @@
       <widget class="QCommandLinkButton" name="commandLinkButton_2">
        <property name="minimumSize">
         <size>
-         <width>161</width>
+         <width>180</width>
          <height>60</height>
         </size>
        </property>
@@ -111,7 +111,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page_info">
       <layout class="QGridLayout" name="gridLayout">
@@ -418,66 +418,156 @@
        </item>
        <item row="2" column="1">
         <widget class="QTableWidget" name="tableWidget_2">
-         <row>
+         <column>
           <property name="text">
-           <string>\</string>
+           <string>整改责任部门</string>
           </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
            </font>
           </property>
-         </row>
-         <row>
+         </column>
+         <column>
           <property name="text">
-           <string>\</string>
+           <string>第几次上报</string>
           </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
            </font>
           </property>
-         </row>
-         <row>
+         </column>
+         <column>
           <property name="text">
-           <string>应上报时间</string>
+           <string>应上报整改报告时间</string>
           </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
            </font>
           </property>
-         </row>
-         <row>
+         </column>
+         <column>
+          <property name="text">
+           <string>实际上报整改报告时间</string>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </column>
+         <column>
           <property name="text">
            <string>整改情况</string>
           </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
            </font>
           </property>
-         </row>
-         <row>
+         </column>
+         <column>
           <property name="text">
-           <string>金额</string>
+           <string>已整改金额</string>
           </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
            </font>
           </property>
-         </row>
+         </column>
+         <column>
+          <property name="text">
+           <string>追责问责人数</string>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>推动制度建设个数</string>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>推动制度建设（文件名称及文号）</string>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>部分整改情况具体描述</string>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>未整改原因说明</string>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>下一步整改措施及时限</string>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>整改情况</string>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>整改金额</string>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>整改率</string>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </column>
         </widget>
        </item>
       </layout>

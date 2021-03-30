@@ -593,7 +593,7 @@ class Ui_Form(object):
         self.formLayout_54 = QtWidgets.QFormLayout()
         self.formLayout_54.setObjectName("formLayout_54")
         self.label_10 = QtWidgets.QLabel(self.frame_4)
-        self.label_10.setMinimumSize(QtCore.QSize(125, 0))
+        self.label_10.setMinimumSize(QtCore.QSize(150, 0))
         self.label_10.setMaximumSize(QtCore.QSize(125, 16777215))
         font = QtGui.QFont()
         font.setPointSize(14)
@@ -1125,7 +1125,7 @@ class Ui_Form(object):
         self.gridLayout_2.addLayout(self.horizontalLayout, 2, 0, 1, 3)
 
         self.retranslateUi(Form)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):

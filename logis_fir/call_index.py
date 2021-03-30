@@ -41,6 +41,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()  # 根据内容调整框大小
 
+        self.stackedWidget.setCurrentIndex(0)
+
         self.showLczlTable()  # 初始化显示
 
     def logi(self):
@@ -102,8 +104,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     # 显示台账内容
     def showProjectTable(self):
         # sql由台账表的流程序号出发,通过多表查询获得台账所有字段
-        sql = 'select revfile.收文时间,sendfile.发文字号,revfile.收文字号,revfile.批文字号,sendfile.秘密等级,revfile.批文来文单位,' \
-              'revfile.批文来文字号,revfile.文件标题,revfile.领导批示,revfile.内容摘要和拟办意见,standingbook.委办主任签批意见,' \
+        sql = 'select revfile.批文收文时间,sendfile.发文字号,revfile.收文字号,revfile.批文字号,revfile.秘密等级,revfile.批文来文单位,' \
+              'revfile.批文来文字号,revfile.批文标题,revfile.领导批示,revfile.内容摘要和拟办意见,standingbook.委办主任签批意见,' \
               'standingbook.批示任务办理要求时间,standingbook.承办处室及承办人,standingbook.办理结果,standingbook.文件去向 from standingbook ' \
               'join bwprocess on standingbook.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join ' \
               'revfile on bwprocess.收文序号 = revfile.序号 '
@@ -129,8 +131,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     # 显示发文流程内容
     def showLczlTable(self):
         # sql查询通过三表左外连接查询获取发文流程结果
-        sql = "SELECT sendfile.发文字号,revfile.收文字号,revfile.批文字号,bwprocess.是否加入整改 from bwprocess LEFT OUTER JOIN " \
-              "sendfile on sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN revfile on revfile.序号 = bwprocess.收文序号 "
+        sql = "SELECT sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号,revfile.批文标题,revfile.批文字号,bwprocess.是否加入整改 " \
+              "from bwprocess LEFT OUTER JOIN sendfile on sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN revfile on " \
+              "revfile.序号 = bwprocess.收文序号 "
         data = self.executeSql(sql)
         # 打印结果
         # print(data)
@@ -212,7 +215,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     # 发文办理下的确认按钮(专报)
     def add_zb(self):
-        input1 = self.lineEdit.text()  # 专报标题
+        input1 = self.lineEdit.text()  # 发文标题
         input2 = self.lineEdit_2.text()  # 报送范围
         input3 = self.lineEdit_3.text()  # 发文字号
         input4 = self.lineEdit_4.text()  # 紧急程度
@@ -232,7 +235,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         if input3 != "":
             # 执行插入sendfile表
-            sql = "insert into sendfile(专报标题,报送范围,发文字号,紧急程度,秘密等级,是否公开,拟稿人,拟稿处室分管厅领导,拟稿处室审核,综合处编辑,综合处审核,秘书处审核,综合处分管厅领导," \
+            sql = "insert into sendfile(发文标题,报送范围,发文字号,紧急程度,秘密等级,是否公开,拟稿人,拟稿处室分管厅领导,拟稿处室审核,综合处编辑,综合处审核,秘书处审核,综合处分管厅领导," \
                   "审计办主任,办文日期,报文内容,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
                   "'%s','%s','%s','%s',1);" % (input1, input2, input3, input4, input5, input6, input7, input8, input9,
                                                input10, input11, input12, input13, input14, input15, input16)
@@ -260,7 +263,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     # 发文办理下的确认按钮(公文)
     def add_gw(self):
         input1 = self.lineEdit_num.text()  # 发文字号
-        input2 = self.lineEdit_num_3.text()  # 公文标题
+        input2 = self.lineEdit_num_3.text()  # 发文标题
         input3 = self.textEdit.toPlainText()  # 领导审核意见
         input4 = self.textEdit_2.toPlainText()  # 审计办领导审核意见
         input5 = self.textEdit_3.toPlainText()  # 办文情况说明和拟办意见
@@ -277,7 +280,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         if input1 != "":
             # 执行插入sendfile表
-            sql = "insert into sendfile(发文字号,公文标题,领导审核意见,审计办领导审核意见,办文情况说明和拟办意见,办文日期,报文内容,紧急程度,秘密等级,是否公开,审核,承办处室,承办人," \
+            sql = "insert into sendfile(发文字号,发文标题,领导审核意见,审计办领导审核意见,办文情况说明和拟办意见,办文日期,报文内容,紧急程度,秘密等级,是否公开,审核,承办处室,承办人," \
                   "联系电话,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',2);" % (
                       input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11, input12,
                       input13, input14)
@@ -319,8 +322,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input13 = self.lineEdit_39.text()  # 联系电话
         if input10 != "":
             # 执行插入收文表
-            sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,文件标题,处理结果,审核,收文字号,承办处室,承办人,联系电话,tag) values(" \
-                  "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
+            sql = "insert into revfile(收文收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,收文标题,处理结果,审核,收文字号,收文承办处室,收文承办人,收文联系电话," \
+                  "tag) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
                       input1, input2, input3, input4, input5, input6,
                       input7, input8, input9, input10, input11,
                       input12, input13, 0)
@@ -353,7 +356,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             key = self.tableWidget.item(row, 1).text()
             tab_new = Call_zgdetail(key)
             tab_new.setObjectName('tab_new')
-            tab_num = self.tabWidget.addTab(tab_new, "整改详情")
+            tab_num = self.tabWidget.addTab(tab_new, key)
             self.tabWidget.setCurrentIndex(tab_num)
 
     # 办文流程详情下的查看详情按钮
@@ -363,8 +366,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         if row == -1:
             QtWidgets.QMessageBox.information(self, "提示", "请选择流程！")
         else:
-            key1 = self.tableWidget_lczl.item(row, 0).text()  # 发文号
-            key2 = self.tableWidget_lczl.item(row, 1).text()  # 收文号
+            key1 = self.tableWidget_lczl.item(row, 1).text()  # 发文号
+            key2 = self.tableWidget_lczl.item(row, 3).text()  # 收文号
             tab_new1 = Call_lcdetail(key1, key2)
             tab_new1.setObjectName('tab_new')
             tab_num1 = self.tabWidget_lczl.addTab(tab_new1, "流程详情")
@@ -377,10 +380,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         if row == -1:
             QtWidgets.QMessageBox.information(self, "提示", "请选择流程！")
         else:
-            key1 = self.tableWidget_lczl.item(row, 0).text()  # 发文号
-            key2 = self.tableWidget_lczl.item(row, 1).text()  # 收文号
-            key3 = self.tableWidget_lczl.item(row, 2).text()  # 批文号
-            key4 = self.tableWidget_lczl.item(row, 3).text()  # 是否整改
+            key1 = self.tableWidget_lczl.item(row, 1).text()  # 发文号
+            key2 = self.tableWidget_lczl.item(row, 3).text()  # 收文号
+            key3 = self.tableWidget_lczl.item(row, 5).text()  # 批文号
+            key4 = self.tableWidget_lczl.item(row, 6).text()  # 是否整改
 
             # key1,key2,key3都不为空表示办文流程已经完成,可以设置整改了
             if key1 != "/" and key2 != "/" and key3 != "/" and key4 != "1":
@@ -405,11 +408,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             # 否则不能整改
             else:
                 if key1 == "/":
-                    QtWidgets.QMessageBox.warning(self, "警告", "无法设置整改！该办文流程无发文")
+                    QtWidgets.QMessageBox.warning(self, "警告", "无法设置整改！")
                 elif key1 != "/" and (key2 == "/" or key3 == "/"):
-                    QtWidgets.QMessageBox.warning(self, "警告", "无法设置整改！该办文流程未完成")
+                    QtWidgets.QMessageBox.warning(self, "警告", "无法设置整改！")
                 elif key4 == "1":
-                    QtWidgets.QMessageBox.warning(self, "警告", "无法设置整改！该办文流程已设置整改")
+                    QtWidgets.QMessageBox.warning(self, "警告", "已设置整改！")
 
     # 办文流程下进入整改按钮,调用整改台账下的查看详情(待完成)
     def to_tz_detail(self):

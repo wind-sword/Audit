@@ -18,7 +18,11 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
     xh_send = -1  # 发文序号
     send_type = -1  # 发文类型
     xh_rev = -1  # 收文序号
-    fw_id = ""  # 发文字号,用来标识问题
+    fw_id = ""  # 发文字号,用来标识问题(暂时使用发文字号,后续使用发文序号)
+
+    pro_tag = -1  # 表示问题表是否录入
+    zgfh_tag = -1  # 表示整改发函是否录入
+
     db_path = "../db/database.db"
 
     def __init__(self, key):
@@ -33,10 +37,6 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.commandLinkButton_5.clicked.connect(self.btnanother)
         self.commandLinkButton_6.clicked.connect(self.btnzgfh)
         self.commandLinkButton_7.clicked.connect(self.btnzglr)
-
-        self.commandLinkButton.setDescription("已完成")
-        self.commandLinkButton_4.setDescription("已完成")
-        self.commandLinkButton_5.setDescription("已完成")
 
         self.tabWidget.setTabText(0, "问题浏览")
         self.tabWidget.setTabsClosable(1)
@@ -54,11 +54,14 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     def openOrImport(self):
         # 打开公文文件
-        self.pushButton_file.clicked.connect(self.openFile)
+        self.pushButton_file.clicked.connect(self.openfw)
+
+        # 选择问题表
+        self.pushButton_quechoose.clicked.connect(self.btnchoosefile0)
         # 导入问题表
         self.pushButton_queimport.clicked.connect(self.importExcel1)
         # 问题详情查看
-        self.pushButton.clicked.connect(self.jumpqueview)
+        self.pushButton.clicked.connect(self.questionDetail)
 
         # 选择发函文件
         self.pushButton_5.clicked.connect(self.btnchoosefile1)
@@ -73,7 +76,7 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
     # 用发文字号初始化变量
     def cast(self, key):
         sql = "select bwprocess.序号,bwprocess.发文序号,bwprocess.收文序号 from bwprocess,sendfile where " \
-              "bwprocess.发文序号=sendfile.序号 and sendfile.发文字号='%s'" % key
+              "bwprocess.发文序号 = sendfile.序号 and sendfile.发文字号 = '%s'" % key
         data = self.executeSql(sql)
         # print(data)
         self.xh_lc = data[0][0]
@@ -81,16 +84,30 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.xh_rev = data[0][2]
 
         # 初始化整改序号
-        sql = "select 序号 from standingbook where 流程序号=%s" % self.xh_lc
+        sql = "select 序号 from standingbook where 流程序号 = %s" % self.xh_lc
         result = self.executeSql(sql)
         self.xh = result[0][0]
 
         # 初始化发文类型
-        sql = "select projectType from sendfile where 序号=%s" % self.xh_send
+        sql = "select projectType from sendfile where 序号 = %s" % self.xh_send
         result = self.executeSql(sql)
         self.send_type = result[0][0]
 
+        # 初始化发文字号
         self.fw_id = key
+
+        # 初始化问题表状态
+        sql = "select * from problem where 发文序号 = %s" % self.xh_send
+        result = self.executeSql(sql)
+        if len(result) != 0:
+            self.pro_tag = 1
+
+        # 初始化流程状态
+        self.commandLinkButton.setDescription("已完成")
+        self.commandLinkButton_4.setDescription("已完成")
+        self.commandLinkButton_5.setDescription("已完成")
+        if self.pro_tag == 1:
+            self.commandLinkButton_2.setDescription("已完成")
 
     # 执行sql语句
     def executeSql(self, sql):
@@ -119,7 +136,7 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.tabWidget.removeTab(index)
 
     # 跳转问题详情
-    def jumpqueview(self):
+    def questionDetail(self):
         w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
         row = self.tableWidget.currentRow()
         if row == -1:
@@ -128,25 +145,14 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             # 主键1:序号
             key1 = self.tableWidget.item(row, 0).text()
             # 主键2:发文字号
-            key2 = self.tableWidget.item(row, 3).text()
-            sql = "select problem.被审计领导干部,problem.所在地方和单位,problem.出具审计报告时间,problem.审计组主审,problem.审计组组长,problem.发文字号," \
-                  "problem.审计报告文号,problem.问题描述 from problem where 问题顺序号 = \'%s\' and 发文字号 =  \'%s\'" % (key1, key2)
-            data = self.executeSql(sql)
-            print(data)
-            tab_new = Call_quedetail(data)
+            key2 = self.xh_send
+            tab_new = Call_quedetail(key1, key2)
             tab_new.setObjectName('tab_new')
-            tab_num = self.tabWidget.addTab(tab_new, "序号%s问题详情" % key1)
+            tab_num = self.tabWidget.addTab(tab_new, "问题顺序号%s详情" % key1)
             self.tabWidget.setCurrentIndex(tab_num)
 
-            # 整改数据填充
-            sqlzg = "select rectification.整改责任部门,rectification.序号,rectification.应上报整改报告时间,rectification.整改情况," \
-                    "rectification.已整改金额 from rectification  where 问题顺序号 = \'%s\' and 发文字号 =  \'%s\'" % (key1, key2)
-            print(self.executeSql(sqlzg))
-            tab_new.zgdata = self.executeSql(sqlzg)
-            tab_new.zgfill()
-
     # 根据文件名打开project_word中的专报/公文
-    def openFile(self):
+    def openfw(self):
         # 获取文件路径
         path = os.path.dirname(os.getcwd()) + '\project_word\\' + self.lineEdit_file_3.text()
         print(path)
@@ -159,9 +165,8 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
     # 根据excel中的左边问题基本信息导入问题表
     def importExcel1(self):
         w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
         # 文件路径
-        path = p[0]
+        path = self.lineEdit_21.text()
         path.replace('/', '\\\\')
 
         # 判断用户是否选择文件
@@ -180,13 +185,14 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
             # 读取excel数据
             for i in range(4, sheet_nrows):
-                celli_0 = sheet.row(i)[0].value  # 问题顺序号
+                celli_0 = int(sheet.row(i)[0].value)  # 问题顺序号
                 celli_1 = sheet.row(i)[1].value  # 被审计对象
                 celli_2 = sheet.row(i)[2].value  # 所在地方或单位
-                celli_3 = sheet.row(i)[3].value  # 报送专报期号
+                # celli_3 = sheet.row(i)[3].value  # 报送专报期号
+                celli_3 = self.xh_send  # 报送专报期号,忽略excel表中发文字号这一列,直接读入发文序号
                 celli_4 = sheet.row(i)[4].value  # 审计报告（意见）文号
                 celli_5 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 5).value, 0).strftime(
-                    "%Y/%m/%d")  # 出具出具审计专报时间 XXXX-XX-XX
+                    "%Y/%m/%d")  # 出具审计专报时间 XXXX-XX-XX
                 celli_6 = sheet.row(i)[6].value  # 审计组组长
                 celli_7 = sheet.row(i)[7].value  # 审计组主审
                 celli_8 = sheet.row(i)[8].value  # 问题描述
@@ -205,6 +211,10 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                 self.executeSql(sql)
 
             QtWidgets.QMessageBox.information(w, "提示", "导入完成")
+
+            self.pro_tag = 1
+            self.commandLinkButton_2.setDescription("已完成")
+
             # 导入完成后更新表格
             self.displayqueDetail()
         else:
@@ -233,14 +243,15 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             for i in range(4, sheet_nrows):
                 num = 1  # 要插入数据库中的问题序号
                 celli_0 = sheet.row(i)[0].value  # 问题顺序号
-                celli_3 = sheet.row(i)[3].value  # 报送专报期号
+                # celli_3 = sheet.row(i)[3].value  # 报送专报期号
+                celli_3 = self.xh_send  # 报送专报期号,忽略excel表中发文字号这一列,直接读入发文序号
                 celli_16 = sheet.row(i)[16].value  # 整改责任部门
                 celli_17 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 17).value, 0).strftime("%Y/%m/%d")  # 应上报整改报告时间
                 celli_18 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 18).value, 0).strftime("%Y/%m/%d")  # 实际上报整改报告时间
                 celli_19 = sheet.row(i)[19].value  # 整改情况
                 celli_20 = sheet.row(i)[20].value  # 已整改金额
-                celli_21 = sheet.row(i)[21].value  # 追责问责人数
-                celli_22 = sheet.row(i)[22].value  # 推动制度建设数目
+                celli_21 = int(sheet.row(i)[21].value)  # 追责问责人数
+                celli_22 = int(sheet.row(i)[22].value)  # 推动制度建设数目
                 celli_23 = sheet.row(i)[23].value  # 推动制度建设文件
                 celli_24 = sheet.row(i)[24].value  # 部分整改情况具体描述
                 celli_25 = sheet.row(i)[25].value  # 未整改原因说明
@@ -249,7 +260,7 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                 celli_28 = sheet.row(i)[28].value  # 认定整改金额
                 celli_29 = sheet.row(i)[29].value  # 整改率
 
-                sql = "select max(序号) from rectification where 问题顺序号 = '%s' and 发文字号 = '%s' and 整改责任部门 = '%s'" % (
+                sql = "select max(序号) from rectification where 问题顺序号 = %s and 发文序号 = %s and 整改责任部门 = '%s'" % (
                     celli_0, celli_3, celli_16)
                 data = self.executeSql(sql)
 
@@ -270,13 +281,20 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 展示问题表格
     def displayqueDetail(self):
+        # 问题已导入时,隐藏按钮
+        if self.pro_tag != -1:
+            self.pushButton_quechoose.hide()
+            self.pushButton_queimport.hide()
+            self.lineEdit_21.hide()
+            self.label_63.hide()
         # 选出该项目对应的所有问题
-        sql = 'select problem.问题顺序号,problem.被审计领导干部,problem.所在地方和单位,problem.发文字号,problem.审计报告文号,problem.出具审计报告时间,' \
+        sql = 'select problem.问题顺序号,problem.被审计领导干部,problem.所在地方和单位,sendfile.发文字号,problem.审计报告文号,problem.出具审计报告时间,' \
               'problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类,problem.问题四级分类,' \
-              'problem.备注,problem.问题金额,problem.移送及处理情况 from problem where 发文字号 =  \'%s\'' % self.fw_id
+              'problem.备注,problem.问题金额,problem.移送及处理情况 from problem,sendfile where 发文序号 =  %s and sendfile.序号 = ' \
+              'problem.发文序号' % self.xh_send
         data = self.executeSql(sql)
         # 打印结果
-        print(data)
+        # print(data)
 
         size = len(data)
         # print("项目数目为:"+str(size))
@@ -295,8 +313,8 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 显示公文详情
     def displaySendDetail(self):
-        sql = "select 专报标题,报送范围,发文字号,紧急程度,秘密等级,是否公开,拟稿人,拟稿处室分管厅领导,拟稿处室审核,综合处编辑,综合处审核,秘书处审核,综合处分管厅领导,审计办主任," \
-              "公文标题,领导审核意见,审计办领导审核意见,办文情况说明和拟办意见,projectType,报文内容,审核,承办处室,承办人,联系电话,办文日期 from sendfile where " \
+        sql = "select 发文标题,报送范围,发文字号,紧急程度,秘密等级,是否公开,拟稿人,拟稿处室分管厅领导,拟稿处室审核,综合处编辑,综合处审核,秘书处审核,综合处分管厅领导,审计办主任," \
+              "领导审核意见,审计办领导审核意见,办文情况说明和拟办意见,projectType,报文内容,审核,承办处室,承办人,联系电话,办文日期 from sendfile where " \
               "序号 =  %s" % self.xh_send
         data = self.executeSql(sql)
         # print(data)
@@ -317,33 +335,34 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             self.lineEdit_19.setText(data[0][11])  # 秘书处审核
             self.lineEdit_17.setText(data[0][12])  # 综合处分管厅领导
             self.lineEdit_20.setText(data[0][13])  # 审计办主任
-            self.lineEdit_file.setText(data[0][19])  # 报文内容
-            self.dateEdit_3.setDate(QDate.fromString(data[0][24], 'yyyy/M/d'))  # 办文日期
+            self.lineEdit_file.setText(data[0][18])  # 报文内容
+            self.dateEdit_3.setDate(QDate.fromString(data[0][23], 'yyyy/M/d'))  # 办文日期
 
         # 公文类型
         elif self.send_type == 2:
             self.lineEdit_num.setText(data[0][2])  # 发文字号
-            self.lineEdit_num_3.setText(data[0][14])  # 公文标题
-            self.textEdit_2.setText(data[0][15])  # 领导审核意见
-            self.textEdit_4.setText(data[0][16])  # 审计办领导审核意见
-            self.textEdit_3.setText(data[0][17])  # 办文情况说明和拟办意见
-            self.lineEdit_file_3.setText(data[0][19])  # 公文内容
+            self.lineEdit_num_3.setText(data[0][0])  # 公文标题
+            self.textEdit_2.setText(data[0][14])  # 领导审核意见
+            self.textEdit_4.setText(data[0][15])  # 审计办领导审核意见
+            self.textEdit_3.setText(data[0][16])  # 办文情况说明和拟办意见
+            self.lineEdit_file_3.setText(data[0][18])  # 公文内容
             self.lineEdit_22.setText(data[0][4])  # 保密等级
             self.lineEdit_23.setText(data[0][5])  # 是否公开
             self.lineEdit_29.setText(data[0][3])  # 紧急程度
-            self.lineEdit_24.setText(data[0][20])  # 审核
-            self.lineEdit_26.setText(data[0][21])  # 承办处室
-            self.lineEdit_27.setText(data[0][22])  # 承办人
-            self.lineEdit_28.setText(data[0][23])  # 联系电话
-            self.dateEdit_7.setDate(QDate.fromString(data[0][24], 'yyyy/M/d'))  # 办文日期
-            self.dateEdit_6.setDate(QDate.fromString(data[0][24], 'yyyy/M/d'))  # 日期
+            self.lineEdit_24.setText(data[0][19])  # 审核
+            self.lineEdit_26.setText(data[0][20])  # 承办处室
+            self.lineEdit_27.setText(data[0][21])  # 承办人
+            self.lineEdit_28.setText(data[0][22])  # 联系电话
+            self.dateEdit_7.setDate(QDate.fromString(data[0][23], 'yyyy/M/d'))  # 办文日期
+            self.dateEdit_6.setDate(QDate.fromString(data[0][23], 'yyyy/M/d'))  # 日期
             self.lineEdit_25.setText(data[0][2])  # 办文编号
 
     # 展示收文信息,同时判断是应该插入收文还是修改收文
     def displayRev(self):
-        sql = "select 收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,文件标题,处理结果,审核,收文字号,承办处室,承办人,联系电话 from revfile where 序号 = %s" % self.xh_rev
+        sql = "select 收文收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,收文标题,处理结果,审核,收文字号,收文承办处室,收文承办人,收文联系电话 from revfile where 序号 " \
+              "= %s" % self.xh_rev
         data = self.executeSql(sql)
-        print(data)
+        # print(data)
         self.dateEdit.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
         self.lineEdit_6.setText(data[0][1])  # 密级
         self.lineEdit_7.setText(data[0][2])  # 是否公开
@@ -360,7 +379,7 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 展示批文信息,同时判断是应该录入还是修改批文
     def display2Rev(self):
-        sql = "select 收文时间,秘密等级,是否公开,紧急程度,批文来文单位,批文来文字号,文件标题,处理结果,审核,批文字号,承办处室,承办人,联系电话,内容摘要和拟办意见,领导批示 from " \
+        sql = "select 批文收文时间,秘密等级,是否公开,紧急程度,批文来文单位,批文来文字号,批文标题,处理结果,审核,批文字号,批文承办处室,批文承办人,批文联系电话,内容摘要和拟办意见,领导批示 from " \
               "revfile where 序号 = %s" % self.xh_rev
         data = self.executeSql(sql)
         self.dateEdit_2.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
@@ -378,6 +397,11 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.lineEdit_47.setText(data[0][12])  # 联系电话
         self.textEdit_6.setText(data[0][13])  # 内容摘要和拟办意见
         self.textEdit_7.setText(data[0][14])  # 领导批示
+
+    # 选择问题表
+    def btnchoosefile0(self):
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
+        self.lineEdit_21.setText(p[0])
 
     # 选择整改发函文件
     def btnchoosefile1(self):
@@ -405,18 +429,34 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             sheet_nrows = sheet.nrows  # 获得行数
             print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s' % (sheet_name, sheet_cols, sheet_nrows))
 
+            self.tableWidget_2.setRowCount(sheet_nrows)
             # 预览excel数据
             x = 0
             for i in range(4, sheet_nrows):
-                celli_0 = sheet.row(i)[0].value  # 问题顺序号
+                celli_0 = int(sheet.row(i)[0].value)  # 问题顺序号
+                celli_1 = sheet.row(i)[1].value  # 被审计对象
+                celli_2 = sheet.row(i)[2].value  # 所在地方或单位
                 celli_3 = sheet.row(i)[3].value  # 报送专报期号
+                celli_4 = sheet.row(i)[4].value  # 审计报告（意见）文号
+                celli_5 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 5).value, 0).strftime(
+                    "%Y/%m/%d")  # 出具审计专报时间 XXXX-XX-XX
+                celli_6 = sheet.row(i)[6].value  # 审计组组长
+                celli_7 = sheet.row(i)[7].value  # 审计组主审
+                celli_8 = sheet.row(i)[8].value  # 问题描述
+                celli_9 = sheet.row(i)[9].value  # 问题一级分类
+                celli_10 = sheet.row(i)[10].value  # 问题二级分类
+                celli_11 = sheet.row(i)[11].value  # 问题三级分类
+                celli_12 = sheet.row(i)[12].value  # 问题四级分类
+                celli_13 = sheet.row(i)[13].value  # 备注（不在前列问题类型中的，简单描述）
+                celli_14 = sheet.row(i)[14].value  # 问题金额（万元）
+                celli_15 = sheet.row(i)[15].value  # 移送及处理情况
                 celli_16 = sheet.row(i)[16].value  # 整改责任部门
                 celli_17 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 17).value, 0).strftime("%Y/%m/%d")  # 应上报整改报告时间
                 celli_18 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 18).value, 0).strftime("%Y/%m/%d")  # 实际上报整改报告时间
                 celli_19 = sheet.row(i)[19].value  # 整改情况
                 celli_20 = sheet.row(i)[20].value  # 已整改金额
-                celli_21 = sheet.row(i)[21].value  # 追责问责人数
-                celli_22 = sheet.row(i)[22].value  # 推动制度建设数目
+                celli_21 = int(sheet.row(i)[21].value)  # 追责问责人数
+                celli_22 = int(sheet.row(i)[22].value)  # 推动制度建设数目
                 celli_23 = sheet.row(i)[23].value  # 推动制度建设文件
                 celli_24 = sheet.row(i)[24].value  # 部分整改情况具体描述
                 celli_25 = sheet.row(i)[25].value  # 未整改原因说明
@@ -425,22 +465,36 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                 celli_28 = sheet.row(i)[28].value  # 认定整改金额
                 celli_29 = sheet.row(i)[29].value  # 整改率
 
-                self.tableWidget_2.setItem(x, 0, QtWidgets.QTableWidgetItem(celli_0))
-                self.tableWidget_2.setItem(x, 1, QtWidgets.QTableWidgetItem(celli_3))
-                self.tableWidget_2.setItem(x, 2, QtWidgets.QTableWidgetItem(celli_16))
-                self.tableWidget_2.setItem(x, 3, QtWidgets.QTableWidgetItem(celli_17))
-                self.tableWidget_2.setItem(x, 4, QtWidgets.QTableWidgetItem(celli_18))
-                self.tableWidget_2.setItem(x, 5, QtWidgets.QTableWidgetItem(celli_19))
-                self.tableWidget_2.setItem(x, 6, QtWidgets.QTableWidgetItem(celli_20))
-                self.tableWidget_2.setItem(x, 7, QtWidgets.QTableWidgetItem(celli_21))
-                self.tableWidget_2.setItem(x, 8, QtWidgets.QTableWidgetItem(celli_22))
-                self.tableWidget_2.setItem(x, 9, QtWidgets.QTableWidgetItem(celli_23))
-                self.tableWidget_2.setItem(x, 10, QtWidgets.QTableWidgetItem(celli_24))
-                self.tableWidget_2.setItem(x, 11, QtWidgets.QTableWidgetItem(celli_25))
-                self.tableWidget_2.setItem(x, 12, QtWidgets.QTableWidgetItem(celli_26))
-                self.tableWidget_2.setItem(x, 13, QtWidgets.QTableWidgetItem(celli_27))
-                self.tableWidget_2.setItem(x, 14, QtWidgets.QTableWidgetItem(celli_28))
-                self.tableWidget_2.setItem(x, 15, QtWidgets.QTableWidgetItem(celli_29))
+                self.tableWidget_2.setItem(x, 0, QtWidgets.QTableWidgetItem(str(celli_0)))
+                self.tableWidget_2.setItem(x, 1, QtWidgets.QTableWidgetItem(str(celli_1)))
+                self.tableWidget_2.setItem(x, 2, QtWidgets.QTableWidgetItem(str(celli_2)))
+                self.tableWidget_2.setItem(x, 3, QtWidgets.QTableWidgetItem(str(celli_3)))
+                self.tableWidget_2.setItem(x, 4, QtWidgets.QTableWidgetItem(str(celli_4)))
+                self.tableWidget_2.setItem(x, 5, QtWidgets.QTableWidgetItem(str(celli_5)))
+                self.tableWidget_2.setItem(x, 6, QtWidgets.QTableWidgetItem(str(celli_6)))
+                self.tableWidget_2.setItem(x, 7, QtWidgets.QTableWidgetItem(str(celli_7)))
+                self.tableWidget_2.setItem(x, 8, QtWidgets.QTableWidgetItem(str(celli_8)))
+                self.tableWidget_2.setItem(x, 9, QtWidgets.QTableWidgetItem(str(celli_9)))
+                self.tableWidget_2.setItem(x, 10, QtWidgets.QTableWidgetItem(str(celli_10)))
+                self.tableWidget_2.setItem(x, 11, QtWidgets.QTableWidgetItem(str(celli_11)))
+                self.tableWidget_2.setItem(x, 12, QtWidgets.QTableWidgetItem(str(celli_12)))
+                self.tableWidget_2.setItem(x, 13, QtWidgets.QTableWidgetItem(str(celli_13)))
+                self.tableWidget_2.setItem(x, 14, QtWidgets.QTableWidgetItem(str(celli_14)))
+                self.tableWidget_2.setItem(x, 15, QtWidgets.QTableWidgetItem(str(celli_15)))
+                self.tableWidget_2.setItem(x, 16, QtWidgets.QTableWidgetItem(str(celli_16)))
+                self.tableWidget_2.setItem(x, 17, QtWidgets.QTableWidgetItem(str(celli_17)))
+                self.tableWidget_2.setItem(x, 18, QtWidgets.QTableWidgetItem(str(celli_18)))
+                self.tableWidget_2.setItem(x, 19, QtWidgets.QTableWidgetItem(str(celli_19)))
+                self.tableWidget_2.setItem(x, 20, QtWidgets.QTableWidgetItem(str(celli_20)))
+                self.tableWidget_2.setItem(x, 21, QtWidgets.QTableWidgetItem(str(celli_21)))
+                self.tableWidget_2.setItem(x, 22, QtWidgets.QTableWidgetItem(str(celli_22)))
+                self.tableWidget_2.setItem(x, 23, QtWidgets.QTableWidgetItem(str(celli_23)))
+                self.tableWidget_2.setItem(x, 24, QtWidgets.QTableWidgetItem(str(celli_24)))
+                self.tableWidget_2.setItem(x, 25, QtWidgets.QTableWidgetItem(str(celli_25)))
+                self.tableWidget_2.setItem(x, 26, QtWidgets.QTableWidgetItem(str(celli_26)))
+                self.tableWidget_2.setItem(x, 27, QtWidgets.QTableWidgetItem(str(celli_27)))
+                self.tableWidget_2.setItem(x, 28, QtWidgets.QTableWidgetItem(str(celli_28)))
+                self.tableWidget_2.setItem(x, 29, QtWidgets.QTableWidgetItem(str(celli_29)))
 
                 x = x + 1
 

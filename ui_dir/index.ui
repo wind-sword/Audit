@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1920</width>
-    <height>1080</height>
+    <height>951</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -203,7 +203,7 @@ QComboBox{background:white;
 }</string>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="page_lczl">
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -245,6 +245,18 @@ QComboBox{background:white;
                 <widget class="QTableWidget" name="tableWidget_lczl">
                  <column>
                   <property name="text">
+                   <string>发文标题</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
                    <string>发文号</string>
                   </property>
                   <property name="font">
@@ -257,7 +269,31 @@ QComboBox{background:white;
                  </column>
                  <column>
                   <property name="text">
+                   <string>收文标题</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
                    <string>收文号</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>批文标题</string>
                   </property>
                   <property name="font">
                    <font>
@@ -852,7 +888,7 @@ QComboBox{background:white;
               <enum>QFrame::Plain</enum>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="page_zb">
               <layout class="QGridLayout" name="gridLayout_5" rowstretch="2,1,10,1">
@@ -2091,13 +2127,13 @@ QComboBox{background:white;
                      <widget class="QLabel" name="label_16">
                       <property name="minimumSize">
                        <size>
-                        <width>75</width>
+                        <width>0</width>
                         <height>0</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>75</width>
+                        <width>16777215</width>
                         <height>16777215</height>
                        </size>
                       </property>
@@ -2135,7 +2171,7 @@ QComboBox{background:white;
                      <widget class="QLabel" name="label_15">
                       <property name="minimumSize">
                        <size>
-                        <width>125</width>
+                        <width>150</width>
                         <height>0</height>
                        </size>
                       </property>

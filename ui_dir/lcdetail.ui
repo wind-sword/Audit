@@ -33,7 +33,7 @@
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="page_gw">
       <layout class="QGridLayout" name="gridLayout_6">
@@ -1250,7 +1250,7 @@
              <widget class="QLabel" name="label_10">
               <property name="minimumSize">
                <size>
-                <width>125</width>
+                <width>150</width>
                 <height>0</height>
                </size>
               </property>
