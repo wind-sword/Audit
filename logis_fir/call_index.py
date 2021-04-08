@@ -19,7 +19,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         super().__init__()
         self.setupUi(self)
         self.init_ui()
-        self.logi()
+        self.initButton()
 
     def init_ui(self):
         self.bt_search.setFont(qtawesome.font('fa', 16))
@@ -38,14 +38,17 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tabWidget_lczl.tabBar().setTabButton(0, QtWidgets.QTabBar.RightSide, None)
         self.tabWidget_lczl.tabCloseRequested.connect(self.mclose1)
 
-        self.tableWidget.resizeColumnsToContents()
-        self.tableWidget.resizeRowsToContents()  # 根据内容调整框大小
+        self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget.resizeRowsToContents()  # 根据行调整框大小
 
+        self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
+
+        # 初始化显示
         self.stackedWidget.setCurrentIndex(0)
+        self.showLczlTable()
 
-        self.showLczlTable()  # 初始化显示
-
-    def logi(self):
+    def initButton(self):
         # 页面对应关系 0：流程总览 page_lczl | 1：整改台账 page_zgtz | 2：发文办理 page_fwbl  |  3：收文办理 page_swbl | 4:收文浏览 page_tjfx
         # |5：统计分析 page_tjfx
         self.btzgtz.clicked.connect(self.zgtz)
@@ -69,7 +72,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         self.comboBox_type.currentIndexChanged.connect(self.fwexchange)
 
+        self.pushButton.clicked.connect(self.showRegisTable)
+
         self.pushButton_more.clicked.connect(self.tz_detail)
+
         self.btckxq.clicked.connect(self.lc_detail)
         self.btszzg.clicked.connect(self.lc_to_tz)
         self.btjrzg.clicked.connect(self.to_tz_detail)
@@ -78,6 +84,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.dateEdit_6.dateChanged.connect(self.autoSyn2)
         self.lineEdit_num.textChanged.connect(self.autoSyn3)
         self.lineEdit_18.textChanged.connect(self.autoSyn4)
+        self.comboBox_2.currentIndexChanged.connect(self.autoSyn5)
 
     # 执行sql语句
     def executeSql(self, sql):
@@ -103,6 +110,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     # 显示台账内容
     def showProjectTable(self):
+        # 表格不可编辑
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
         # sql由台账表的流程序号出发,通过多表查询获得台账所有字段
         sql = 'select revfile.批文收文时间,sendfile.发文字号,revfile.收文字号,revfile.批文字号,revfile.秘密等级,revfile.批文来文单位,' \
               'revfile.批文来文字号,revfile.批文标题,revfile.领导批示,revfile.内容摘要和拟办意见,standingbook.委办主任签批意见,' \
@@ -130,6 +140,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     # 显示发文流程内容
     def showLczlTable(self):
+        # 表格不可编辑
+        self.tableWidget_lczl.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
         # sql查询通过三表左外连接查询获取发文流程结果
         sql = "SELECT sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号,revfile.批文标题,revfile.批文字号,bwprocess.是否加入整改 " \
               "from bwprocess LEFT OUTER JOIN sendfile on sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN revfile on " \
@@ -153,7 +166,77 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 y = y + 1
             x = x + 1
 
-    # 同步输入框内容
+    # 显示发文流程内容(未完成)
+    def showRegisTable(self):
+        # 表格不可编辑
+        self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
+        # 清空表格
+        self.tableWidget_2.clear()
+        # 表格不可编辑
+        self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
+        type1 = self.comboBox_2.currentText()  # 种类一
+        type2 = self.comboBox.currentText()  # 种类二
+
+        '''
+        if type1 == "发文登记表":
+            if type2 == "委文":
+                
+            elif type2 == "":
+            elif type2 == "":
+            elif type2 == "":
+            elif type2 == "":
+            elif type2 == "":
+            elif type2 == "":
+            elif type2 == "":
+            elif type2 == "":
+            elif type2 == "":
+        elif type1 == "收文登记表":
+            self.label_35.setText("1、红色：件未办结。2、绿色：件已办结，事项在办。3、黑色：件与事项完全办结并共同归档。4、蓝色：临时交办审计任务。")
+            self.tableWidget_2.setColumnCount(12)
+            self.tableWidget_2.setHorizontalHeaderLabels(
+                ['时间', '编号', '秘级', '来文单位', '来文字号', '来文标题', '拟办意见', '要求时间', '厅领导签批意见', '承办处室', '办理结果', '文件去向'])
+            if type2 == "请字":
+                self.label_34.setText("请字[2021]（平级、下级报送的请示类文件）→")
+            elif type2 == "情字":
+                self.label_34.setText("情字[2021]（平级、下级报送的情况类文件）→")
+            elif type2 == "综字":
+                self.label_34.setText("综字[2021]（上级下发的各类文件）→")
+            elif type2 == "会字":
+                self.label_34.setText("会[2021]（各级会议通知）→")
+            elif type2 == "电字":
+                self.label_34.setText("电[2021]（电报文件）→")
+        elif type1 == "批文登记表":
+            self.label_35.setText("1、红色：件未办结。2、绿色：件已办结，事项在办。3、黑色：件与事项完全办结并共同归档。")
+            self.label_34.setText("批字[2021]（省领导对审计委员会及委员会办公室文件资料的批示）")
+            self.tableWidget_2.setColumnCount(15)
+            self.tableWidget_2.setHorizontalHeaderLabels(['时间', '发文编号', '收文编号', '办文编号', '秘级', '来文单位', '来文字号', '来文标题', '省领导批示内容', '秘书处拟办意见', '委办主任签批意见', '批示任务办理要求时间', '承办处室及承办人', '办理结果', '文件去向'])
+        '''
+        self.tableWidget_2.setColumnCount(11)
+        self.tableWidget_2.setHorizontalHeaderLabels(
+            ['时间', '编号', '秘级', '来文单位', '来文字号', '来文标题', '拟办意见', '领导签批意见', '厅承办处室', '办理结果', '文件去向'])
+        sql = "select 收文收文时间,序号,秘密等级,收文来文单位,收文来文字号,收文标题,内容摘要和拟办意见,领导批示,收文承办处室,处理结果 from revfile"
+        data = self.executeSql(sql)
+        # 打印结果
+        print(data)
+
+        size = len(data)
+        # print("项目数目为:"+str(size))
+        self.tableWidget_2.setRowCount(size)
+
+        x = 0
+        for i in data:
+            y = 0
+            for j in i:
+                if data[x][y] is None:
+                    self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
+                else:
+                    self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                y = y + 1
+            x = x + 1
+
+    # 同步输入框内容,1、2为公文时间同步,3、4为公文编号同步,5为办文登记表下拉框同步
     def autoSyn1(self):
         self.dateEdit_6.setDate(self.dateEdit_5.date())
 
@@ -165,6 +248,16 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     def autoSyn4(self):
         self.lineEdit_num.setText(self.lineEdit_18.text())
+
+    def autoSyn5(self):
+        type1 = self.comboBox_2.currentText()
+        self.comboBox.clear()
+        if type1 == "发文登记表":
+            self.comboBox.addItems(["委文", "委发", "委办文", "委办发", "委函", "委办函", "委便签", "委办便签", "会议纪要", "审计专报"])
+        elif type1 == "收文登记表":
+            self.comboBox.addItems(["请字", "情字", "综字", "会字", "电字"])
+        elif type1 == "批文登记表":
+            self.comboBox.addItem("批字")
 
     def mclose(self, index):
         self.tabWidget.removeTab(index)
@@ -393,7 +486,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 xh = data[0][0]
 
                 # 将流程加入到台账中
-                sql = "insert into standingbook(流程序号) VALUES(%s)" % xh
+                sql = "insert into standingbook(流程序号,整改发函内容,tag) VALUES(%s,'',0)" % xh
                 self.executeSql(sql)
 
                 # 修改流程整改状态为1

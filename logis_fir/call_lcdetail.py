@@ -1,5 +1,6 @@
 import sqlite3
 
+import xlrd
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QWidget
@@ -13,6 +14,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
     send_type = -1  # 发文类型
     xh_rev = -1  # 收文序号
     rev_tag = -1  # 是否批改
+    pro_tag = -1  # 问题表是否导入
     db_path = "../db/database.db"
 
     def __init__(self, k1, k2):
@@ -21,11 +23,16 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.commandLinkButton.clicked.connect(lambda: self.btjump(btname="0"))
         self.commandLinkButton_2.clicked.connect(lambda: self.btjump(btname="2"))
         self.commandLinkButton_3.clicked.connect(lambda: self.btjump(btname="3"))
+        self.commandLinkButton_4.clicked.connect(lambda: self.btjump(btname="4"))
 
+        # 同步公文页面输入框
         self.dateEdit_6.dateChanged.connect(self.autoSyn1)
         self.dateEdit_7.dateChanged.connect(self.autoSyn2)
         self.lineEdit_num.textChanged.connect(self.autoSyn3)
         self.lineEdit_25.textChanged.connect(self.autoSyn4)
+
+        self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget.resizeRowsToContents()  # 根据内容调整框大小
 
         self.cast(k1, k2)
 
@@ -41,7 +48,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         print("当前发文序号:%s" % self.xh_send)
         print("当前收文序号:%s" % self.xh_rev)
         print("当前发文类型:%s" % self.send_type)
-        print("当前收文批改情况:%s\n" % self.rev_tag)
+        print("当前收文批改情况:%s" % self.rev_tag)
+        print("当前问题表导入情况:%s\n" % self.pro_tag)
 
         self.insertOrUpdate()
 
@@ -94,6 +102,12 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 result = self.executeSql(sql)
                 self.rev_tag = result[0][0]
 
+            # 初始化问题表状态
+            sql = "select * from problem where 发文序号 = %s" % self.xh_send
+            result = self.executeSql(sql)
+            if len(result) != 0:
+                self.pro_tag = 1
+
         # 表明发文字号为空,对各状态变量初始化
         elif k1 == "/" and k2 != "/":
             sql = "select bwprocess.序号,bwprocess.发文序号,bwprocess.收文序号 from bwprocess,revfile where " \
@@ -128,6 +142,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         if btname == "3":
             self.stackedWidget.setCurrentIndex(3)
             self.displayRev2File()
+        if btname == "4":
+            self.stackedWidget.setCurrentIndex(4)
+            self.displayqueDetail()
 
     # 绑定添加修改按钮
     def insertOrUpdate(self):
@@ -137,12 +154,17 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.pushButton_5.clicked.connect(lambda: self.updateSendFile(btname="zb"))
         self.pushButton_6.clicked.connect(self.updateRevFile)
         self.pushButton_7.clicked.connect(self.updateRev2File)
+        # 选择问题Excel表
+        self.pushButton_quechoose.clicked.connect(self.btnchoosefile)
+        # 导入问题表
+        self.pushButton_queimport.clicked.connect(self.importExcel)
 
     # 从初始化的序号中判断要展示的页面
     def screenView(self):
         # 没有发文流程
         if self.xh_send == -1:
             self.commandLinkButton.hide()
+            self.commandLinkButton_4.hide()
             self.stackedWidget.setCurrentIndex(2)
         # 有发文流程
         else:
@@ -152,6 +174,38 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             # 公文类型
             elif self.send_type == 2:
                 self.stackedWidget.setCurrentIndex(0)
+
+    # 展示问题表格
+    def displayqueDetail(self):
+        # 问题已导入时,隐藏相关信息
+        if self.pro_tag != -1:
+            self.pushButton_quechoose.hide()
+            self.pushButton_queimport.hide()
+            self.lineEdit_3.hide()
+            self.label_23.hide()
+        # 选出该项目对应的所有问题
+        sql = 'select problem.问题顺序号,problem.被审计领导干部,problem.所在地方和单位,sendfile.发文字号,problem.审计报告文号,problem.出具审计报告时间,' \
+              'problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类,problem.问题四级分类,' \
+              'problem.备注,problem.问题金额,problem.移送及处理情况 from problem,sendfile where 发文序号 =  %s and sendfile.序号 = ' \
+              'problem.发文序号' % self.xh_send
+        data = self.executeSql(sql)
+        # 打印结果
+        # print(data)
+
+        size = len(data)
+        # print("项目数目为:"+str(size))
+        self.tableWidget.setRowCount(size)
+
+        x = 0
+        for i in data:
+            y = 0
+            for j in i:
+                if data[x][y] is None:
+                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
+                else:
+                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                y = y + 1
+            x = x + 1
 
     # 展示发文页面
     def displaySendFile(self):
@@ -240,18 +294,17 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
     def displayRev2File(self):
         # 表示收文还没有录入,此时展示空页面
         if self.rev_tag == -1:
-            pass
+            self.pushButton_4.show()
+            self.pushButton_7.hide()
         # 表示收文还没有批示,此时继承收文的必要字段,按照收文继承发文的逻辑,应该读数据库,而不是复制收文前端的输入文本框
         elif self.rev_tag == 0:
             self.pushButton_4.show()
             self.pushButton_7.hide()
-            sql = "select 秘密等级,是否公开,紧急程度,处理结果,审核 from revfile where 序号 = %s" % self.xh_rev
+            sql = "select 秘密等级,是否公开,紧急程度 from revfile where 序号 = %s" % self.xh_rev
             data = self.executeSql(sql)
             self.lineEdit_8.setText(data[0][0])  # 密级
             self.lineEdit_9.setText(data[0][1])  # 是否公开
             self.lineEdit_40.setText(data[0][2])  # 紧急程度
-            self.lineEdit_48.setText(data[0][3])  # 处理结果
-            self.lineEdit_49.setText(data[0][4])  # 审核
 
         # 表示收文已经完成批改,此时读取数据库,隐藏录入按钮
         elif self.rev_tag == 1:
@@ -427,3 +480,66 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
     # 修改批文
     def updateRev2File(self):
         print("暂未开发")
+
+    # 选择问题表
+    def btnchoosefile(self):
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
+        self.lineEdit_3.setText(p[0])
+
+    # 根据excel中的左边问题基本信息导入问题表
+    def importExcel(self):
+        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+        # 文件路径
+        path = self.lineEdit_3.text()
+        path.replace('/', '\\\\')
+
+        # 判断用户是否选择文件
+        if path != "":
+            # 获取excel文件
+            data = xlrd.open_workbook(path)
+            print('All sheets: %s' % data.sheet_names())
+
+            # 获取excel第一个sheet,也就是问题表所在sheet
+            sheet = data.sheets()[0]
+
+            sheet_name = sheet.name  # 获得名称
+            sheet_cols = sheet.ncols  # 获得列数
+            sheet_nrows = sheet.nrows  # 获得行数
+            print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s' % (sheet_name, sheet_cols, sheet_nrows))
+
+            # 读取excel数据
+            for i in range(4, sheet_nrows):
+                celli_0 = int(sheet.row(i)[0].value)  # 问题顺序号
+                celli_1 = sheet.row(i)[1].value  # 被审计对象
+                celli_2 = sheet.row(i)[2].value  # 所在地方或单位
+                # celli_3 = sheet.row(i)[3].value  # 报送专报期号
+                celli_3 = self.xh_send  # 报送专报期号,忽略excel表中发文字号这一列,直接读入发文序号
+                celli_4 = sheet.row(i)[4].value  # 审计报告（意见）文号
+                celli_5 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 5).value, 0).strftime(
+                    "%Y/%m/%d")  # 出具审计专报时间 XXXX-XX-XX
+                celli_6 = sheet.row(i)[6].value  # 审计组组长
+                celli_7 = sheet.row(i)[7].value  # 审计组主审
+                celli_8 = sheet.row(i)[8].value  # 问题描述
+                celli_9 = sheet.row(i)[9].value  # 问题一级分类
+                celli_10 = sheet.row(i)[10].value  # 问题二级分类
+                celli_11 = sheet.row(i)[11].value  # 问题三级分类
+                celli_12 = sheet.row(i)[12].value  # 问题四级分类
+                celli_13 = sheet.row(i)[13].value  # 备注（不在前列问题类型中的，简单描述）
+                celli_14 = sheet.row(i)[14].value  # 问题金额（万元）
+                celli_15 = sheet.row(i)[15].value  # 移送及处理情况
+
+                sql = "insert into problem values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
+                      "'%s','%s','%s')" % (celli_0, celli_1, celli_2, celli_3, celli_4, celli_5, celli_6, celli_7,
+                                           celli_8, celli_9, celli_10, celli_11, celli_12, celli_13, celli_14, celli_15)
+                print(sql)
+                self.executeSql(sql)
+
+            QtWidgets.QMessageBox.information(w, "提示", "导入完成")
+
+            # 更新问题表状态
+            self.pro_tag = 1
+
+            # 导入完成后更新表格
+            self.displayqueDetail()
+        else:
+            QtWidgets.QMessageBox.information(w, "提示", "请选择文件!")

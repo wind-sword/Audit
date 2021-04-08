@@ -16,6 +16,10 @@ class Call_quedetail(QtWidgets.QWidget, Ui_Form):
         self.setupUi(self)
         self.commandLinkButton_4.clicked.connect(self.proinfo)
         self.commandLinkButton_2.clicked.connect(self.prozgxq)
+        self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
+        self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 表格不可修改
+
         self.xh_pro = key1
         self.xh_send = key2
         self.stackedWidget.setCurrentIndex(0)
