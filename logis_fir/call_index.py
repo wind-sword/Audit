@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import datetime
 
 from PyQt5 import QtCore, QtWidgets
 
@@ -37,12 +38,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tabWidget_lczl.setTabsClosable(1)
         self.tabWidget_lczl.tabBar().setTabButton(0, QtWidgets.QTabBar.RightSide, None)
         self.tabWidget_lczl.tabCloseRequested.connect(self.mclose1)
-
-        self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
-        self.tableWidget.resizeRowsToContents()  # 根据行调整框大小
-
-        self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
-        self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
 
         # 初始化显示
         self.stackedWidget.setCurrentIndex(0)
@@ -114,11 +109,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
         # sql由台账表的流程序号出发,通过多表查询获得台账所有字段
-        sql = 'select revfile.批文收文时间,sendfile.发文字号,revfile.收文字号,revfile.批文字号,revfile.秘密等级,revfile.批文来文单位,' \
-              'revfile.批文来文字号,revfile.批文标题,revfile.领导批示,revfile.内容摘要和拟办意见,standingbook.委办主任签批意见,' \
-              'standingbook.批示任务办理要求时间,standingbook.承办处室及承办人,standingbook.办理结果,standingbook.文件去向 from standingbook ' \
-              'join bwprocess on standingbook.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join ' \
-              'revfile on bwprocess.收文序号 = revfile.序号 '
+        sql = 'select bwprocess.流程开始时间,sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号,GROUP_CONCAT(' \
+              'corfile.批文标题),GROUP_CONCAT(corfile.批文字号),standingbook.整改发函内容 from standingbook join bwprocess on ' \
+              'standingbook.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join revfile on ' \
+              'bwprocess.收文序号 = revfile.序号 join bw_cast_cor on bwprocess.序号 = bw_cast_cor.流程序号 join corfile on ' \
+              'bw_cast_cor.批文序号 = corfile.序号 GROUP BY standingbook.序号 '
         data = self.executeSql(sql)
         # 打印结果
         # print(data)
@@ -138,15 +133,20 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 y = y + 1
             x = x + 1
 
+        self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget.resizeRowsToContents()  # 根据行调整框大小
+
     # 显示发文流程内容
     def showLczlTable(self):
         # 表格不可编辑
         self.tableWidget_lczl.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
-        # sql查询通过三表左外连接查询获取发文流程结果
-        sql = "SELECT sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号,revfile.批文标题,revfile.批文字号,bwprocess.是否加入整改 " \
-              "from bwprocess LEFT OUTER JOIN sendfile on sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN revfile on " \
-              "revfile.序号 = bwprocess.收文序号 "
+        # sql查询通过多表左外连接查询获取发文流程结果.并且根据流程序号这一唯一标识分组,将批文标题和字号用逗号连接起来
+        sql = "SELECT bwprocess.流程开始时间,sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号,GROUP_CONCAT(" \
+              "corfile.批文标题),GROUP_CONCAT(corfile.批文字号),bwprocess.是否加入整改 FROM bwprocess LEFT OUTER JOIN sendfile ON " \
+              "sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN revfile ON revfile.序号 = bwprocess.收文序号 LEFT OUTER JOIN " \
+              "bw_cast_cor ON bw_cast_cor.流程序号 = bwprocess.序号 LEFT OUTER JOIN corfile ON corfile.序号 = " \
+              "bw_cast_cor.批文序号 GROUP BY bwprocess.序号 "
         data = self.executeSql(sql)
         # 打印结果
         # print(data)
@@ -166,37 +166,58 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 y = y + 1
             x = x + 1
 
-    # 显示发文流程内容(未完成)
+        self.tableWidget_lczl.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget_lczl.resizeRowsToContents()  # 根据行调整框大小
+
+    # 显示发文流程内容(未完成,需要和审计厅的人确认登记表字段来源再进行开发)
     def showRegisTable(self):
         # 表格不可编辑
         self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
         # 清空表格
         self.tableWidget_2.clear()
+
         # 表格不可编辑
         self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
         type1 = self.comboBox_2.currentText()  # 种类一
         type2 = self.comboBox.currentText()  # 种类二
 
-        '''
+        sql = ""
+
         if type1 == "发文登记表":
+            self.label_34.setText("湖北省审计厅发文登记簿 注：红色办理中，黑色办结。")
+            self.tableWidget_2.setColumnCount(11)
+            self.tableWidget_2.setHorizontalHeaderLabels(
+                ['登记时间', '发文字号', '密级', '标识', '标题', '签发人', '份数', '公文运转情况', '批示情况', '批示办理情况', '起草处室'])
             if type2 == "委文":
-                
-            elif type2 == "":
-            elif type2 == "":
-            elif type2 == "":
-            elif type2 == "":
-            elif type2 == "":
-            elif type2 == "":
-            elif type2 == "":
-            elif type2 == "":
-            elif type2 == "":
+                self.label_35.setText("鄂审计委文")
+            elif type2 == "委发":
+                self.label_35.setText("鄂审计委发")
+            elif type2 == "委办文":
+                self.label_35.setText("鄂审计委办文")
+            elif type2 == "委办发":
+                self.label_35.setText("鄂审计委办发")
+            elif type2 == "委函":
+                self.label_35.setText("鄂审计委函")
+            elif type2 == "委办函":
+                self.label_35.setText("鄂审计委办函")
+            elif type2 == "委便签":
+                self.label_35.setText("鄂审计委便签")
+            elif type2 == "委办便签":
+                self.label_35.setText("鄂审计委办便签:（无编号）")
+            elif type2 == "会议纪要":
+                self.label_35.setText("会议纪要")
+            elif type2 == "审计专报":
+                self.label_35.setText("审计专报")
+
+            sql = ''
+
         elif type1 == "收文登记表":
             self.label_35.setText("1、红色：件未办结。2、绿色：件已办结，事项在办。3、黑色：件与事项完全办结并共同归档。4、蓝色：临时交办审计任务。")
             self.tableWidget_2.setColumnCount(12)
             self.tableWidget_2.setHorizontalHeaderLabels(
-                ['时间', '编号', '秘级', '来文单位', '来文字号', '来文标题', '拟办意见', '要求时间', '厅领导签批意见', '承办处室', '办理结果', '文件去向'])
+                ['时间', '编号', '秘级', '来文单位', '来文字号', '来文标题', '拟办意见', '厅领导签批意见', '承办处室', '办理结果', '要求时间', '文件去向'])
             if type2 == "请字":
                 self.label_34.setText("请字[2021]（平级、下级报送的请示类文件）→")
             elif type2 == "情字":
@@ -207,19 +228,26 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 self.label_34.setText("会[2021]（各级会议通知）→")
             elif type2 == "电字":
                 self.label_34.setText("电[2021]（电报文件）→")
+
+            sql = 'select 收文时间,收文字号,秘密等级,来文单位,来文字号,收文标题,内容摘要和拟办意见,领导批示,承办处室,处理结果 from revfile'
+
         elif type1 == "批文登记表":
             self.label_35.setText("1、红色：件未办结。2、绿色：件已办结，事项在办。3、黑色：件与事项完全办结并共同归档。")
             self.label_34.setText("批字[2021]（省领导对审计委员会及委员会办公室文件资料的批示）")
             self.tableWidget_2.setColumnCount(15)
-            self.tableWidget_2.setHorizontalHeaderLabels(['时间', '发文编号', '收文编号', '办文编号', '秘级', '来文单位', '来文字号', '来文标题', '省领导批示内容', '秘书处拟办意见', '委办主任签批意见', '批示任务办理要求时间', '承办处室及承办人', '办理结果', '文件去向'])
-        '''
-        self.tableWidget_2.setColumnCount(11)
-        self.tableWidget_2.setHorizontalHeaderLabels(
-            ['时间', '编号', '秘级', '来文单位', '来文字号', '来文标题', '拟办意见', '领导签批意见', '厅承办处室', '办理结果', '文件去向'])
-        sql = "select 收文收文时间,序号,秘密等级,收文来文单位,收文来文字号,收文标题,内容摘要和拟办意见,领导批示,收文承办处室,处理结果 from revfile"
+            self.tableWidget_2.setHorizontalHeaderLabels(
+                ['时间', '发文编号', '收文编号', '办文编号', '秘级', '来文单位', '来文字号', '来文标题', '省领导批示内容', '秘书处拟办意见', '委办主任签批意见',
+                 '批示任务办理要求时间', '承办处室及承办人', '办理结果', '文件去向'])
+
+            sql = 'select corfile.收文时间,sendfile.发文字号,revfile.收文字号,corfile.批文字号,corfile.秘密等级,corfile.来文单位,' \
+                  'corfile.来文字号,corfile.批文标题,corfile.领导批示,corfile.内容摘要和拟办意见,corfile.委办主任签批意见,' \
+                  'corfile.批示任务办理要求时间,corfile.承办处室及承办人,corfile.办理结果,corfile.文件去向 from bwprocess join sendfile on ' \
+                  'bwprocess.发文序号 = sendfile.序号 join revfile on bwprocess.收文序号 = revfile.序号 join bw_cast_cor on ' \
+                  'bwprocess.序号 = bw_cast_cor.流程序号 join corfile on bw_cast_cor.批文序号 = corfile.序号 '
+
         data = self.executeSql(sql)
         # 打印结果
-        print(data)
+        # print(data)
 
         size = len(data)
         # print("项目数目为:"+str(size))
@@ -235,6 +263,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
                 y = y + 1
             x = x + 1
+
+        self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
 
     # 同步输入框内容,1、2为公文时间同步,3、4为公文编号同步,5为办文登记表下拉框同步
     def autoSyn1(self):
@@ -339,7 +370,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             data = self.executeSql(sql)
 
             # 执行插入流程表
-            sql = "insert into bwprocess(发文序号,是否加入整改) VALUES(%s,0)" % data[0][0]
+            curr_time = datetime.datetime.now()
+            time_str = curr_time.strftime("%Y/%m/%d")
+            sql = "insert into bwprocess(发文序号,是否加入整改,流程开始时间) VALUES(%s,0,'%s')" % (data[0][0], time_str)
             self.executeSql(sql)
 
             # 导入文件
@@ -387,7 +420,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             data = self.executeSql(sql)
 
             # 执行插入流程表
-            sql = "insert into bwprocess(发文序号,是否加入整改) VALUES(%s,0)" % data[0][0]
+            curr_time = datetime.datetime.now()
+            time_str = curr_time.strftime("%Y/%m/%d")
+            sql = "insert into bwprocess(发文序号,是否加入整改,流程开始时间) VALUES(%s,0,'%s')" % (data[0][0], time_str)
             self.executeSql(sql)
 
             QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
@@ -415,11 +450,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input13 = self.lineEdit_39.text()  # 联系电话
         if input10 != "":
             # 执行插入收文表
-            sql = "insert into revfile(收文收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,收文标题,处理结果,审核,收文字号,收文承办处室,收文承办人,收文联系电话," \
-                  "tag) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
+            sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,来文单位,来文字号,收文标题,处理结果,审核,收文字号,承办处室,承办人,联系电话) values('%s'," \
+                  "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
                       input1, input2, input3, input4, input5, input6,
                       input7, input8, input9, input10, input11,
-                      input12, input13, 0)
+                      input12, input13)
             self.executeSql(sql)
 
             # 找到当前收文的序号
@@ -427,7 +462,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             data = self.executeSql(sql)
 
             # 执行插入流程表
-            sql = "insert into bwprocess(收文序号,是否加入整改) VALUES(%s,0)" % data[0][0]
+            curr_time = datetime.datetime.now()
+            time_str = curr_time.strftime("%Y/%m/%d")
+            sql = "insert into bwprocess(收文序号,是否加入整改,流程开始时间) VALUES(%s,0,'%s')" % (data[0][0], time_str)
             self.executeSql(sql)
 
             QtWidgets.QMessageBox.information(self, "提示", "录入成功！")
@@ -459,8 +496,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         if row == -1:
             QtWidgets.QMessageBox.information(self, "提示", "请选择流程！")
         else:
-            key1 = self.tableWidget_lczl.item(row, 1).text()  # 发文号
-            key2 = self.tableWidget_lczl.item(row, 3).text()  # 收文号
+            key1 = self.tableWidget_lczl.item(row, 2).text()  # 发文号
+            key2 = self.tableWidget_lczl.item(row, 4).text()  # 收文号
             tab_new1 = Call_lcdetail(key1, key2)
             tab_new1.setObjectName('tab_new')
             tab_num1 = self.tabWidget_lczl.addTab(tab_new1, "流程详情")

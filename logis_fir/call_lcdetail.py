@@ -11,8 +11,9 @@ from uipy_dir.lcdetail import Ui_Form
 class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
     xh = -1  # 流程序号
     xh_send = -1  # 发文序号
-    send_type = -1  # 发文类型
     xh_rev = -1  # 收文序号
+    xh_cor_list = []  # 批文序号列表
+    send_type = -1  # 发文类型
     rev_tag = -1  # 是否批改
     pro_tag = -1  # 问题表是否导入
     db_path = "../db/database.db"
@@ -31,9 +32,6 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.lineEdit_num.textChanged.connect(self.autoSyn3)
         self.lineEdit_25.textChanged.connect(self.autoSyn4)
 
-        self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
-        self.tableWidget.resizeRowsToContents()  # 根据内容调整框大小
-
         self.cast(k1, k2)
 
         # 初始化页面展示
@@ -47,6 +45,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         print("当前流程序号:%s" % self.xh)
         print("当前发文序号:%s" % self.xh_send)
         print("当前收文序号:%s" % self.xh_rev)
+        print("当前批文序号列表:%s" % self.xh_cor_list)
         print("当前发文类型:%s" % self.send_type)
         print("当前收文批改情况:%s" % self.rev_tag)
         print("当前问题表导入情况:%s\n" % self.pro_tag)
@@ -87,6 +86,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                   "bwprocess.发文序号=sendfile.序号 and sendfile.发文字号='%s'" % k1
             data = self.executeSql(sql)
             # print(data)
+
+            # 流程序号和发文序号必定存在,初始化
             self.xh = data[0][0]
             self.xh_send = data[0][1]
 
@@ -95,12 +96,19 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             result = self.executeSql(sql)
             self.send_type = result[0][0]
 
+            # 判断收文序号是否存在
             if data[0][2] is not None:
+                # 初始化收文序号
                 self.xh_rev = data[0][2]
-                # 初始化收文是否批改
-                sql = "select tag from revfile where 序号=%s" % self.xh_rev
+
+                # 初始化批文序号列表
+                sql = 'select bw_cast_cor.批文序号 from bw_cast_cor where bw_cast_cor.流程序号 = %s' % self.xh
                 result = self.executeSql(sql)
-                self.rev_tag = result[0][0]
+                # 如果有批文序号,那么初始化批文序号列表
+                if len(result) != 0:
+                    for i in result:
+                        for j in i:
+                            self.xh_cor_list.append(j)
 
             # 初始化问题表状态
             sql = "select * from problem where 发文序号 = %s" % self.xh_send
@@ -114,19 +122,26 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                   "bwprocess.收文序号=revfile.序号 and revfile.收文字号='%s'" % k2
             data = self.executeSql(sql)
             # print(data)
+
+            # 流程序号和收文序号必定存在,初始化
             self.xh = data[0][0]
+            self.xh_rev = data[0][2]
+
+            # 实际上并不会执行,因为发文编号为空,发文序号也应该为空
             if data[0][1] is not None:
                 self.xh_send = data[0][1]
                 # 初始化发文类型
                 sql = "select projectType from sendfile where 序号=%s" % self.xh_send
                 result = self.executeSql(sql)
                 self.send_type = result[0][0]
-            self.xh_rev = data[0][2]
 
-            # 初始化收文是否批改
-            sql = "select tag from revfile where 序号=%s" % self.xh_rev
+            # 初始化批文序号列表
+            sql = 'select bw_cast_cor.批文序号 from bw_cast_cor where bw_cast_cor.流程序号 = %s' % self.xh
             result = self.executeSql(sql)
-            self.rev_tag = result[0][0]
+            if len(result) != 0:
+                for i in result:
+                    for j in i:
+                        self.xh_cor_list.append(j)
 
     # 按钮跳转,同时刷新页面
     def btjump(self, btname):
@@ -141,21 +156,36 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.displayRevFile()
         if btname == "3":
             self.stackedWidget.setCurrentIndex(3)
-            self.displayRev2File()
+            self.displayCorFile()
         if btname == "4":
             self.stackedWidget.setCurrentIndex(4)
             self.displayqueDetail()
 
     # 绑定添加修改按钮
     def insertOrUpdate(self):
+        # 专报/公文下按钮绑定增删改查功能
+        self.pushButton_2.clicked.connect(lambda: self.reviseSendFile(btname="gw"))
+        self.pushButton_5.clicked.connect(lambda: self.reviseSendFile(btname="zb"))
+
+        self.pushButton_8.clicked.connect(lambda: self.updateSendFile(btname="gw"))
+        self.pushButton.clicked.connect(lambda: self.updateSendFile(btname="zb"))
+
+        self.pushButton_9.clicked.connect(lambda: self.cancelSendFile(btname="gw"))
+        self.pushButton_10.clicked.connect(lambda: self.cancelSendFile(btname="zb"))
+
+        # 收文下按钮绑定增删改查功能
         self.pushButton_3.clicked.connect(self.insertRevFile)
-        self.pushButton_4.clicked.connect(self.insertRev2File)
-        self.pushButton_2.clicked.connect(lambda: self.updateSendFile(btname="gw"))
-        self.pushButton_5.clicked.connect(lambda: self.updateSendFile(btname="zb"))
-        self.pushButton_6.clicked.connect(self.updateRevFile)
-        self.pushButton_7.clicked.connect(self.updateRev2File)
+        self.pushButton_6.clicked.connect(self.reviseRevFile)
+        self.pushButton_11.clicked.connect(self.updateRevFile)
+        self.pushButton_12.clicked.connect(self.cancelRevFile)
+
+        # 批文下按钮绑定增删改查功能
+        self.pushButton_4.clicked.connect(self.insertCorFile)
+        self.pushButton_7.clicked.connect(self.reviseCorFile)
+
         # 选择问题Excel表
         self.pushButton_quechoose.clicked.connect(self.btnchoosefile)
+
         # 导入问题表
         self.pushButton_queimport.clicked.connect(self.importExcel)
 
@@ -207,6 +237,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 y = y + 1
             x = x + 1
 
+        self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget.resizeRowsToContents()  # 根据内容调整框大小
+
     # 展示发文页面
     def displaySendFile(self):
         if self.xh_send != -1:
@@ -217,6 +250,13 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             # print(data)
             # 专报类型
             if self.send_type == 1:
+                # 隐藏确认取消按钮
+                self.pushButton.hide()
+                self.pushButton_10.hide()
+
+                # 显示修改按钮
+                self.pushButton_5.show()
+
                 self.lineEdit.setText(data[0][0])  # 发文标题
                 self.lineEdit_2.setText(data[0][1])  # 报送范围
                 self.lineEdit_4.setText(data[0][2])  # 发文字号
@@ -234,8 +274,33 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 self.lineEdit_file.setText(data[0][18])  # 报文内容
                 self.dateEdit_3.setDate(QDate.fromString(data[0][23], 'yyyy/M/d'))  # 办文日期
 
+                # 设置只读
+                self.lineEdit.setReadOnly(True)
+                self.lineEdit_2.setReadOnly(True)
+                self.lineEdit_4.setReadOnly(True)
+                self.lineEdit_13.setReadOnly(True)
+                self.lineEdit_5.setReadOnly(True)
+                self.lineEdit_14.setReadOnly(True)
+                self.lineEdit_10.setReadOnly(True)
+                self.lineEdit_15.setReadOnly(True)
+                self.lineEdit_11.setReadOnly(True)
+                self.lineEdit_12.setReadOnly(True)
+                self.lineEdit_17.setReadOnly(True)
+                self.lineEdit_18.setReadOnly(True)
+                self.lineEdit_16.setReadOnly(True)
+                self.lineEdit_19.setReadOnly(True)
+                self.lineEdit_file.setReadOnly(True)
+                self.dateEdit_3.setReadOnly(True)
+
             # 公文类型
             elif self.send_type == 2:
+                # 隐藏确认取消按钮
+                self.pushButton_8.hide()
+                self.pushButton_9.hide()
+
+                # 显示修改按钮
+                self.pushButton_2.show()
+
                 self.lineEdit_num.setText(data[0][2])  # 发文字号
                 self.lineEdit_num_3.setText(data[0][0])  # 发文标题
                 self.textEdit_2.setText(data[0][14])  # 领导审核意见
@@ -250,18 +315,42 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 self.lineEdit_27.setText(data[0][21])  # 承办人
                 self.lineEdit_28.setText(data[0][22])  # 联系电话
                 self.dateEdit_7.setDate(QDate.fromString(data[0][23], 'yyyy/M/d'))  # 办文日期
-                # self.dateEdit_6.setDate(QDate.fromString(data[0][24], 'yyyy/M/d'))  # 日期
-                # self.lineEdit_25.setText(data[0][2])  # 办文编号
+                self.dateEdit_6.setDate(QDate.fromString(data[0][23], 'yyyy/M/d'))  # 日期
+                self.lineEdit_25.setText(data[0][2])  # 办文编号
+
+                # 设置只读
+                self.lineEdit_num.setReadOnly(True)
+                self.lineEdit_num_3.setReadOnly(True)
+                self.textEdit_2.setReadOnly(True)
+                self.textEdit_4.setReadOnly(True)
+                self.textEdit_3.setReadOnly(True)
+                self.lineEdit_file_3.setReadOnly(True)
+                self.lineEdit_22.setReadOnly(True)
+                self.lineEdit_23.setReadOnly(True)
+                self.lineEdit_29.setReadOnly(True)
+                self.lineEdit_24.setReadOnly(True)
+                self.lineEdit_26.setReadOnly(True)
+                self.lineEdit_27.setReadOnly(True)
+                self.lineEdit_28.setReadOnly(True)
+                self.dateEdit_7.setReadOnly(True)
+                self.dateEdit_6.setReadOnly(True)
+                self.lineEdit_25.setReadOnly(True)
 
     # 展示收文页面
     def displayRevFile(self):
-        # 收文表本来就存在,此时读数据库,隐藏新增收文按钮,展示修改按钮
+        # 隐藏确认和取消按钮
+        self.pushButton_11.hide()
+        self.pushButton_12.hide()
+
+        # 收文表本来就存在,此时读数据库,隐藏新增收文按钮,展示修改按钮,设置文本输入只读模式
         if self.xh_rev != -1:
-            sql = "select 收文收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,收文标题,处理结果,审核,收文字号,收文承办处室,收文承办人,收文联系电话 from revfile " \
+            sql = "select 收文时间,秘密等级,是否公开,紧急程度,来文单位,来文字号,收文标题,内容摘要和拟办意见,领导批示,处理结果,审核,收文字号,承办处室,承办人,联系电话 from revfile " \
                   "where 序号 = %s" % self.xh_rev
             data = self.executeSql(sql)
+
             self.pushButton_3.hide()
             self.pushButton_6.show()
+
             self.dateEdit.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
             self.lineEdit_6.setText(data[0][1])  # 密级
             self.lineEdit_7.setText(data[0][2])  # 是否公开
@@ -269,12 +358,30 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.lineEdit_38.setText(data[0][4])  # 收文来文单位
             self.lineEdit_37.setText(data[0][5])  # 收文来文字号
             self.lineEdit_35.setText(data[0][6])  # 文件标题
-            self.lineEdit_33.setText(data[0][7])  # 处理结果
-            self.lineEdit_30.setText(data[0][8])  # 审核
-            self.lineEdit_31.setText(data[0][9])  # 办文编号
-            self.lineEdit_34.setText(data[0][10])  # 承办处室
-            self.lineEdit_32.setText(data[0][11])  # 承办人
-            self.lineEdit_39.setText(data[0][12])  # 联系电话
+            self.textEdit.setText(data[0][7])  # 内容摘要和拟办意见
+            self.textEdit_5.setText(data[0][8])  # 领导批示
+            self.lineEdit_33.setText(data[0][9])  # 处理结果
+            self.lineEdit_30.setText(data[0][10])  # 审核
+            self.lineEdit_31.setText(data[0][11])  # 办文编号
+            self.lineEdit_34.setText(data[0][12])  # 承办处室
+            self.lineEdit_32.setText(data[0][13])  # 承办人
+            self.lineEdit_39.setText(data[0][14])  # 联系电话
+
+            self.dateEdit.setReadOnly(True)
+            self.lineEdit_6.setReadOnly(True)
+            self.lineEdit_7.setReadOnly(True)
+            self.lineEdit_36.setReadOnly(True)
+            self.lineEdit_38.setReadOnly(True)
+            self.lineEdit_37.setReadOnly(True)
+            self.lineEdit_35.setReadOnly(True)
+            self.lineEdit_33.setReadOnly(True)
+            self.lineEdit_30.setReadOnly(True)
+            self.lineEdit_31.setReadOnly(True)
+            self.lineEdit_34.setReadOnly(True)
+            self.lineEdit_32.setReadOnly(True)
+            self.lineEdit_39.setReadOnly(True)
+            self.textEdit.setReadOnly(True)
+            self.textEdit_5.setReadOnly(True)
 
         # 收文表本来不存在,但是发文表存在,此时应该继承发文表中已有内容,隐藏修改收文按钮,展示新增收文按钮
         elif self.xh_rev == -1 and self.xh_send != -1:
@@ -290,8 +397,15 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.lineEdit_36.setText(data[0][2])  # 紧急程度
             self.lineEdit_37.setText(data[0][1])  # 来文字号
 
+            # 继承而来的字段不可改变
+            self.lineEdit_6.setReadOnly(True)
+            self.lineEdit_7.setReadOnly(True)
+            self.lineEdit_35.setReadOnly(True)
+            self.lineEdit_36.setReadOnly(True)
+            self.lineEdit_37.setReadOnly(True)
+
     # 展示批文页面
-    def displayRev2File(self):
+    def displayCorFile(self):
         # 表示收文还没有录入,此时展示空页面
         if self.rev_tag == -1:
             self.pushButton_4.show()
@@ -313,6 +427,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             sql = "select 批文收文时间,秘密等级,是否公开,紧急程度,批文来文单位,批文来文字号,批文标题,处理结果,审核,批文字号,批文承办处室,批文承办人,批文联系电话,内容摘要和拟办意见," \
                   "领导批示 from revfile where 序号 = %s" % self.xh_rev
             data = self.executeSql(sql)
+
             self.dateEdit_2.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
             self.lineEdit_8.setText(data[0][1])  # 密级
             self.lineEdit_9.setText(data[0][2])  # 是否公开
@@ -329,84 +444,54 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.textEdit_6.setText(data[0][13])  # 内容摘要和拟办意见
             self.textEdit_7.setText(data[0][14])  # 领导批示
 
-    # 录入收文
-    def insertRevFile(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
-        input1 = self.dateEdit.text()  # 收文时间
-        input2 = self.lineEdit_6.text()  # 密级
-        input3 = self.lineEdit_7.text()  # 是否公开
-        input4 = self.lineEdit_36.text()  # 紧急程度
-        input5 = self.lineEdit_38.text()  # 收文来文单位
-        input6 = self.lineEdit_37.text()  # 收文来文字号
-        input7 = self.lineEdit_35.text()  # 文件标题
-        input8 = self.lineEdit_33.text()  # 处理结果
-        input9 = self.lineEdit_30.text()  # 审核
-        input10 = self.lineEdit_31.text()  # 办文编号
-        input11 = self.lineEdit_34.text()  # 承办处室
-        input12 = self.lineEdit_32.text()  # 承办人
-        input13 = self.lineEdit_39.text()  # 联系电话
+    # 修改发文按钮
+    def reviseSendFile(self, btname):
+        # 设置可写,确认和取消按钮可见,修改按钮不可见
+        if btname == "zb":
+            self.pushButton.show()
+            self.pushButton_10.show()
+            self.pushButton_5.hide()
 
-        if input10 != "":
-            # 执行插入收文表
-            sql = "insert into revfile(收文收文时间,秘密等级,是否公开,紧急程度,收文来文单位,收文来文字号,收文标题,处理结果,审核,收文字号,收文承办处室,收文承办人,收文联系电话," \
-                  "tag) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
-                      input1, input2, input3, input4, input5, input6,
-                      input7, input8, input9, input10, input11,
-                      input12, input13, 0)
-            self.executeSql(sql)
+            self.lineEdit.setReadOnly(False)
+            self.lineEdit_2.setReadOnly(False)
+            self.lineEdit_4.setReadOnly(False)
+            self.lineEdit_13.setReadOnly(False)
+            self.lineEdit_5.setReadOnly(False)
+            self.lineEdit_14.setReadOnly(False)
+            self.lineEdit_10.setReadOnly(False)
+            self.lineEdit_15.setReadOnly(False)
+            self.lineEdit_11.setReadOnly(False)
+            self.lineEdit_12.setReadOnly(False)
+            self.lineEdit_17.setReadOnly(False)
+            self.lineEdit_18.setReadOnly(False)
+            self.lineEdit_16.setReadOnly(False)
+            self.lineEdit_19.setReadOnly(False)
+            self.lineEdit_file.setReadOnly(False)
+            self.dateEdit_3.setReadOnly(False)
 
-            # 找到当前收文的序号
-            sql = "select 序号 from revfile where 收文字号 = '%s'" % input10
-            data = self.executeSql(sql)
+        elif btname == "gw":
+            self.pushButton_8.show()
+            self.pushButton_9.show()
+            self.pushButton_2.hide()
 
-            # 更新流程表,根据流程序号更新收文序号
-            sql = "update bwprocess set 收文序号 = %s where 序号 = %s" % (data[0][0], self.xh)
-            self.executeSql(sql)
+            self.lineEdit_num.setReadOnly(False)
+            self.lineEdit_num_3.setReadOnly(False)
+            self.textEdit_2.setReadOnly(False)
+            self.textEdit_4.setReadOnly(False)
+            self.textEdit_3.setReadOnly(False)
+            self.lineEdit_file_3.setReadOnly(False)
+            self.lineEdit_22.setReadOnly(False)
+            self.lineEdit_23.setReadOnly(False)
+            self.lineEdit_29.setReadOnly(False)
+            self.lineEdit_24.setReadOnly(False)
+            self.lineEdit_26.setReadOnly(False)
+            self.lineEdit_27.setReadOnly(False)
+            self.lineEdit_28.setReadOnly(False)
+            self.dateEdit_7.setReadOnly(False)
+            self.dateEdit_6.setReadOnly(False)
+            self.lineEdit_25.setReadOnly(False)
 
-            # 更新变量
-            self.xh_rev = data[0][0]
-            self.rev_tag = 0
-
-            QtWidgets.QMessageBox.information(w, "提示", "录入成功！")
-
-            # 重新展示收文界面
-            self.displayRevFile()
-
-        else:
-            QtWidgets.QMessageBox.critical(w, "录入错误", "办文编号不能为空!")
-
-    # 录入批文
-    def insertRev2File(self):
-        print("ok")
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
-        input1 = self.dateEdit_2.text()  # 批文收文时间
-        input2 = self.lineEdit_41.text()  # 批文来文单位
-        input3 = self.lineEdit_42.text()  # 批文来文字号
-        input4 = self.lineEdit_43.text()  # 批文标题
-        input5 = self.lineEdit_44.text()  # 批文编号
-        input6 = self.textEdit_6.toPlainText()  # 内容摘要和拟办意见
-        input7 = self.textEdit_7.toPlainText()  # 领导批示
-        input8 = self.lineEdit_45.text()  # 批文承办处室
-        input9 = self.lineEdit_46.text()  # 批文承办人
-        input10 = self.lineEdit_47.text()  # 批文联系电话
-        if input5 != "":
-            sql = "update revfile set 批文收文时间 = '%s',批文来文单位 = '%s',批文来文字号 = '%s',批文标题 = '%s',批文字号 = '%s',内容摘要和拟办意见 = " \
-                  "'%s',领导批示 = '%s',批文承办处室 = '%s',批文承办人 = '%s',批文联系电话 = '%s',tag = 1 where 序号 = %s" % (
-                      input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, self.xh_rev)
-            self.executeSql(sql)
-
-            # 更新变量
-            self.rev_tag = 1
-
-            QtWidgets.QMessageBox.information(w, "提示", "录入成功！")
-
-            # 重新展示批文界面
-            self.displayRev2File()
-
-        else:
-            QtWidgets.QMessageBox.critical(w, "录入错误", "办文编号不能为空!")
-
-    # 修改发文
+    # 提交修改发文
     def updateSendFile(self, btname):
         w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
         if btname == "zb":
@@ -473,12 +558,164 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             else:
                 QtWidgets.QMessageBox.critical(w, "修改错误", "发文字号不能为空!")
 
-    # 修改收文
+    # 取消修改发文
+    def cancelSendFile(self, btname):
+        # 回到展示页面
+        self.displaySendFile()
+
+    # 录入收文
+    def insertRevFile(self):
+        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
+        input1 = self.dateEdit.text()  # 收文时间
+        input2 = self.lineEdit_6.text()  # 密级
+        input3 = self.lineEdit_7.text()  # 是否公开
+        input4 = self.lineEdit_36.text()  # 紧急程度
+        input5 = self.lineEdit_38.text()  # 收文来文单位
+        input6 = self.lineEdit_37.text()  # 收文来文字号
+        input7 = self.lineEdit_35.text()  # 文件标题
+        input8 = self.lineEdit_33.text()  # 处理结果
+        input9 = self.lineEdit_30.text()  # 审核
+        input10 = self.lineEdit_31.text()  # 办文编号
+        input11 = self.lineEdit_34.text()  # 承办处室
+        input12 = self.lineEdit_32.text()  # 承办人
+        input13 = self.lineEdit_39.text()  # 联系电话
+
+        if input10 != "":
+            # 执行插入收文表
+            sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,来文单位,来文字号,收文标题,处理结果,审核,收文字号,承办处室,承办人,联系电话) values('%s'," \
+                  "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
+                      input1, input2, input3, input4, input5, input6,
+                      input7, input8, input9, input10, input11,
+                      input12, input13)
+            self.executeSql(sql)
+
+            # 找到当前收文的序号
+            sql = "select 序号 from revfile where 收文字号 = '%s'" % input10
+            data = self.executeSql(sql)
+
+            # 更新流程表,根据流程序号更新收文序号
+            sql = "update bwprocess set 收文序号 = %s where 序号 = %s" % (data[0][0], self.xh)
+            self.executeSql(sql)
+
+            # 更新状态变量
+            self.xh_rev = data[0][0]
+            self.rev_tag = 0
+
+            QtWidgets.QMessageBox.information(w, "提示", "录入成功！")
+
+            # 重新展示收文界面
+            self.displayRevFile()
+
+        else:
+            QtWidgets.QMessageBox.critical(w, "录入错误", "办文编号不能为空!")
+
+    # 修改收文按钮
+    def reviseRevFile(self):
+        # 隐藏修改按钮,展示确认和取消按钮
+        self.pushButton_6.hide()
+        self.pushButton_11.show()
+        self.pushButton_12.show()
+
+        # 设置可写
+        self.dateEdit.setReadOnly(False)
+        self.lineEdit_6.setReadOnly(False)
+        self.lineEdit_7.setReadOnly(False)
+        self.lineEdit_36.setReadOnly(False)
+        self.lineEdit_38.setReadOnly(False)
+        self.lineEdit_37.setReadOnly(False)
+        self.lineEdit_35.setReadOnly(False)
+        self.lineEdit_33.setReadOnly(False)
+        self.lineEdit_30.setReadOnly(False)
+        self.lineEdit_31.setReadOnly(False)
+        self.lineEdit_34.setReadOnly(False)
+        self.lineEdit_32.setReadOnly(False)
+        self.lineEdit_39.setReadOnly(False)
+        self.textEdit.setReadOnly(False)
+        self.textEdit_5.setReadOnly(False)
+
+    # 确认修改收文
     def updateRevFile(self):
+        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
+        input1 = self.dateEdit.text()  # 收文时间
+        input2 = self.lineEdit_6.text()  # 密级
+        input3 = self.lineEdit_7.text()  # 是否公开
+        input4 = self.lineEdit_36.text()  # 紧急程度
+        input5 = self.lineEdit_38.text()  # 收文来文单位
+        input6 = self.lineEdit_37.text()  # 收文来文字号
+        input7 = self.lineEdit_35.text()  # 文件标题
+        input8 = self.textEdit.toPlainText()  # 内容摘要和拟办意见
+        input9 = self.textEdit_5.toPlainText()  # 领导批示
+        input10 = self.lineEdit_33.text()  # 处理结果
+        input11 = self.lineEdit_30.text()  # 审核
+        input12 = self.lineEdit_31.text()  # 办文编号
+        input13 = self.lineEdit_34.text()  # 承办处室
+        input14 = self.lineEdit_32.text()  # 承办人
+        input15 = self.lineEdit_39.text()  # 联系电话
+
+        if input10 != "":
+            # 执行更新收文表
+            sql = "update revfile set 收文时间 = '%s',秘密等级 = '%s',是否公开 = '%s',紧急程度 = '%s',来文单位 = '%s',来文字号 = '%s'," \
+                  "收文标题 = '%s',内容摘要和拟办意见 = '%s',领导批示 = '%s',处理结果 = '%s',审核 = '%s',收文字号 = '%s',承办处室 = '%s',承办人 = '%s'," \
+                  "联系电话 = '%s' where 序号 = %s" % (
+                      input1, input2, input3, input4, input5, input6,
+                      input7, input8, input9, input10, input11,
+                      input12, input13, input14, input15, self.xh_rev)
+
+            self.executeSql(sql)
+
+            QtWidgets.QMessageBox.information(w, "提示", "修改成功！")
+
+            self.displayRevFile()
+
+        else:
+            QtWidgets.QMessageBox.critical(w, "修改错误", "收文字号不能为空!")
+
+    # 取消修改收文
+    def cancelRevFile(self):
+        self.displayRevFile()
+
+    # 录入批文
+    def insertCorFile(self):
+        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+        input1 = self.dateEdit_2.text()  # 批文收文时间
+        input2 = self.lineEdit_41.text()  # 批文来文单位
+        input3 = self.lineEdit_42.text()  # 批文来文字号
+        input4 = self.lineEdit_43.text()  # 批文标题
+        input5 = self.lineEdit_44.text()  # 批文编号
+        input6 = self.textEdit_6.toPlainText()  # 内容摘要和拟办意见
+        input7 = self.textEdit_7.toPlainText()  # 领导批示
+        input8 = self.lineEdit_45.text()  # 批文承办处室
+        input9 = self.lineEdit_46.text()  # 批文承办人
+        input10 = self.lineEdit_47.text()  # 批文联系电话
+        if input5 != "":
+            sql = "update revfile set 批文收文时间 = '%s',批文来文单位 = '%s',批文来文字号 = '%s',批文标题 = '%s',批文字号 = '%s',内容摘要和拟办意见 = " \
+                  "'%s',领导批示 = '%s',批文承办处室 = '%s',批文承办人 = '%s',批文联系电话 = '%s',tag = 1 where 序号 = %s" % (
+                      input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, self.xh_rev)
+            self.executeSql(sql)
+
+            # 更新变量
+            self.rev_tag = 1
+
+            QtWidgets.QMessageBox.information(w, "提示", "录入成功！")
+
+            # 重新展示批文界面
+            self.displayCorFile()
+
+        else:
+            QtWidgets.QMessageBox.critical(w, "录入错误", "办文编号不能为空!")
+
+    # 修改批文按钮
+    def reviseCorFile(self):
         print("暂未开发")
 
-    # 修改批文
-    def updateRev2File(self):
+    # 确认修改批文
+    def updateCorFile(self):
+        print("暂未开发")
+
+    # 取消修改批文
+    def cancelCorFile(self):
         print("暂未开发")
 
     # 选择问题表

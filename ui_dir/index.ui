@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1967</width>
-    <height>1078</height>
+    <height>1109</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -200,7 +200,7 @@ QComboBox{background:white;
 }</string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="page_lczl">
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -240,6 +240,18 @@ QComboBox{background:white;
                </item>
                <item>
                 <widget class="QTableWidget" name="tableWidget_lczl">
+                 <column>
+                  <property name="text">
+                   <string>流程开始时间</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                 </column>
                  <column>
                   <property name="text">
                    <string>发文标题</string>
@@ -614,11 +626,25 @@ QComboBox{background:white;
                  </attribute>
                  <column>
                   <property name="text">
-                   <string>时间</string>
+                   <string>流程开始时间</string>
                   </property>
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>发文标题</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                  </column>
@@ -629,6 +655,20 @@ QComboBox{background:white;
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>收文标题</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                  </column>
@@ -639,126 +679,44 @@ QComboBox{background:white;
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                  </column>
                  <column>
                   <property name="text">
-                   <string>办文编号</string>
+                   <string>批文标题</string>
                   </property>
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                  </column>
                  <column>
                   <property name="text">
-                   <string>秘级</string>
+                   <string>批文编号</string>
                   </property>
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                  </column>
                  <column>
                   <property name="text">
-                   <string>来文单位</string>
+                   <string>整改发函标题</string>
                   </property>
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>来文字号</string>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>来文标题</string>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>省领导批示内容</string>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>秘书处拟办意见</string>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>委办主任签批意见</string>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>批示任务办理要求时间</string>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>审计厅 承办处室及承办人</string>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>办理结果</string>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>文件去向</string>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
                    </font>
                   </property>
                  </column>
@@ -899,7 +857,7 @@ QComboBox{background:white;
               <enum>QFrame::Plain</enum>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="page_zb">
               <layout class="QGridLayout" name="gridLayout_5" rowstretch="2,1,10,1">
@@ -1506,6 +1464,9 @@ QComboBox{background:white;
                      <pointsize>14</pointsize>
                     </font>
                    </property>
+                   <property name="calendarPopup">
+                    <bool>true</bool>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -1703,6 +1664,9 @@ QComboBox{background:white;
                        <font>
                         <pointsize>14</pointsize>
                        </font>
+                      </property>
+                      <property name="calendarPopup">
+                       <bool>true</bool>
                       </property>
                      </widget>
                     </item>
@@ -2266,6 +2230,9 @@ QComboBox{background:white;
                         <height>28</height>
                        </size>
                       </property>
+                      <property name="calendarPopup">
+                       <bool>true</bool>
+                      </property>
                      </widget>
                     </item>
                    </layout>
@@ -2597,7 +2564,11 @@ QComboBox{background:white;
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QDateEdit" name="dateEdit_4"/>
+                 <widget class="QDateEdit" name="dateEdit_4">
+                  <property name="calendarPopup">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -2673,7 +2644,7 @@ QComboBox{background:white;
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_swll">
+         <widget class="QWidget" name="page_bwll">
           <layout class="QGridLayout" name="gridLayout_10">
            <item row="6" column="0">
             <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -2749,19 +2720,6 @@ QComboBox{background:white;
               <string>办文登记表浏览</string>
              </property>
             </widget>
-           </item>
-           <item row="2" column="1">
-            <spacer name="horizontalSpacer_4">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>567</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
            </item>
            <item row="2" column="0">
             <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -2907,6 +2865,19 @@ QComboBox{background:white;
                 <string>浏览</string>
                </property>
               </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </item>
