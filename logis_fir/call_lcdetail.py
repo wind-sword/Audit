@@ -9,17 +9,20 @@ from uipy_dir.lcdetail import Ui_Form
 
 
 class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
-    xh = -1  # 流程序号
-    xh_send = -1  # 发文序号
-    xh_rev = -1  # 收文序号
-    xh_cor_list = []  # 批文序号列表
-    send_type = -1  # 发文类型
-    rev_tag = -1  # 是否批改
-    pro_tag = -1  # 问题表是否导入
+    # 类成员变量
     db_path = "../db/database.db"
 
     def __init__(self, k1, k2):
         super().__init__()
+        # 成员变量
+        self.xh = -1  # 流程序号
+        self.xh_send = -1  # 发文序号
+        self.xh_rev = -1  # 收文序号
+        self.xh_cor_list = []  # 批文序号列表
+        self.send_type = -1  # 发文类型
+        self.comboBox_dict = dict()  # 用下拉框下标映射到批文序号列表
+        self.pro_tag = -1  # 问题表是否导入
+
         self.setupUi(self)
         self.commandLinkButton.clicked.connect(lambda: self.btjump(btname="0"))
         self.commandLinkButton_2.clicked.connect(lambda: self.btjump(btname="2"))
@@ -47,10 +50,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         print("当前收文序号:%s" % self.xh_rev)
         print("当前批文序号列表:%s" % self.xh_cor_list)
         print("当前发文类型:%s" % self.send_type)
-        print("当前收文批改情况:%s" % self.rev_tag)
         print("当前问题表导入情况:%s\n" % self.pro_tag)
 
-        self.insertOrUpdate()
+        self.insertOrUpdateButton()
 
     # 同步公文输入框内容
     def autoSyn1(self):
@@ -138,6 +140,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             # 初始化批文序号列表
             sql = 'select bw_cast_cor.批文序号 from bw_cast_cor where bw_cast_cor.流程序号 = %s' % self.xh
             result = self.executeSql(sql)
+            print("序号列表" + str(self.xh_cor_list))
             if len(result) != 0:
                 for i in result:
                     for j in i:
@@ -162,7 +165,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.displayqueDetail()
 
     # 绑定添加修改按钮
-    def insertOrUpdate(self):
+    def insertOrUpdateButton(self):
         # 专报/公文下按钮绑定增删改查功能
         self.pushButton_2.clicked.connect(lambda: self.reviseSendFile(btname="gw"))
         self.pushButton_5.clicked.connect(lambda: self.reviseSendFile(btname="zb"))
@@ -182,6 +185,12 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         # 批文下按钮绑定增删改查功能
         self.pushButton_4.clicked.connect(self.insertCorFile)
         self.pushButton_7.clicked.connect(self.reviseCorFile)
+        self.pushButton_13.clicked.connect(self.insertOrUpdateCorFile)
+        self.pushButton_14.clicked.connect(self.cancelCorFile)
+
+        # 绑定下拉框切换
+        self.comboBox.currentIndexChanged.connect(
+            lambda: self.displayCorFileForIndex(xh_cur_cor=self.comboBox_dict[self.comboBox.currentIndex()]))
 
         # 选择问题Excel表
         self.pushButton_quechoose.clicked.connect(self.btnchoosefile)
@@ -406,43 +415,93 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 展示批文页面
     def displayCorFile(self):
-        # 表示收文还没有录入,此时展示空页面
-        if self.rev_tag == -1:
-            self.pushButton_4.show()
-            self.pushButton_7.hide()
-        # 表示收文还没有批示,此时继承收文的必要字段,按照收文继承发文的逻辑,应该读数据库,而不是复制收文前端的输入文本框
-        elif self.rev_tag == 0:
-            self.pushButton_4.show()
-            self.pushButton_7.hide()
-            sql = "select 秘密等级,是否公开,紧急程度 from revfile where 序号 = %s" % self.xh_rev
-            data = self.executeSql(sql)
-            self.lineEdit_8.setText(data[0][0])  # 密级
-            self.lineEdit_9.setText(data[0][1])  # 是否公开
-            self.lineEdit_40.setText(data[0][2])  # 紧急程度
+        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
 
-        # 表示收文已经完成批改,此时读取数据库,隐藏录入按钮
-        elif self.rev_tag == 1:
-            self.pushButton_4.hide()
-            self.pushButton_7.show()
-            sql = "select 批文收文时间,秘密等级,是否公开,紧急程度,批文来文单位,批文来文字号,批文标题,处理结果,审核,批文字号,批文承办处室,批文承办人,批文联系电话,内容摘要和拟办意见," \
-                  "领导批示 from revfile where 序号 = %s" % self.xh_rev
-            data = self.executeSql(sql)
+        # 表示收文还没有录入,此时不允许录入批文,跳转到收文录入页面
+        if self.xh_rev == -1:
+            QtWidgets.QMessageBox.critical(w, "错误", "收文未录入！")
+            self.stackedWidget.setCurrentIndex(2)
+            self.displayRevFile()
+            return
 
-            self.dateEdit_2.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
-            self.lineEdit_8.setText(data[0][1])  # 密级
-            self.lineEdit_9.setText(data[0][2])  # 是否公开
-            self.lineEdit_40.setText(data[0][3])  # 紧急程度
-            self.lineEdit_41.setText(data[0][4])  # 批文来文单位
-            self.lineEdit_42.setText(data[0][5])  # 批文来文字号
-            self.lineEdit_43.setText(data[0][6])  # 文件标题
-            self.lineEdit_48.setText(data[0][7])  # 处理结果
-            self.lineEdit_49.setText(data[0][8])  # 审核
-            self.lineEdit_44.setText(data[0][9])  # 批文编号
-            self.lineEdit_45.setText(data[0][10])  # 承办处室
-            self.lineEdit_46.setText(data[0][11])  # 承办人
-            self.lineEdit_47.setText(data[0][12])  # 联系电话
-            self.textEdit_6.setText(data[0][13])  # 内容摘要和拟办意见
-            self.textEdit_7.setText(data[0][14])  # 领导批示
+        print("ok")
+        # 获取批文数量
+        cor_num = len(self.xh_cor_list)
+        print(cor_num)
+        print("ok1")
+
+        # 设置不可修改
+        self.dateEdit_2.setReadOnly(True)  # 收文时间
+        self.lineEdit_8.setReadOnly(True)  # 密级
+        self.lineEdit_9.setReadOnly(True)  # 是否公开
+        self.lineEdit_40.setReadOnly(True)  # 紧急程度
+        self.lineEdit_41.setReadOnly(True)  # 批文来文单位
+        self.lineEdit_42.setReadOnly(True)  # 批文来文字号
+        self.lineEdit_43.setReadOnly(True)  # 文件标题
+        self.lineEdit_48.setReadOnly(True)  # 处理结果
+        self.lineEdit_49.setReadOnly(True)  # 审核
+        self.lineEdit_44.setReadOnly(True)  # 批文编号
+        self.lineEdit_45.setReadOnly(True)  # 承办处室
+        self.lineEdit_46.setReadOnly(True)  # 承办人
+        self.lineEdit_47.setReadOnly(True)  # 联系电话
+        self.textEdit_6.setReadOnly(True)  # 内容摘要和拟办意见
+        self.textEdit_7.setReadOnly(True)  # 领导批示
+
+        # 隐藏确认和修改按钮,展示下拉框和标签
+        self.pushButton_4.show()
+        self.pushButton_7.show()
+        self.pushButton_13.hide()
+        self.pushButton_14.hide()
+        self.label_25.show()
+        self.comboBox.show()
+
+        # 表示收文已经完成批改,此时读取数据库,显示新增和修改按钮
+        if cor_num != 0:
+
+            self.comboBox_dict.clear()  # 清空当前字典
+            self.comboBox.disconnect()  # 先断开comboBox,防止绑定函数出错
+            self.comboBox.clear()  # 清空复选框
+
+            sql = "select corfile.序号,corfile.批文字号 from corfile,bw_cast_cor where bw_cast_cor.流程序号 = %s and corfile.序号 " \
+                  "= bw_cast_cor.批文序号" % self.xh
+            result = self.executeSql(sql)
+            index = 0
+            if len(result) != 0:
+                for i in result:
+                    self.comboBox_dict[index] = i[0]
+                    self.comboBox.addItem(i[1])
+                    index = index + 1
+
+            print("当前下拉框字典:" + str(self.comboBox_dict))
+
+            # 有了数据后再重新绑定
+            self.comboBox.currentIndexChanged.connect(
+                lambda: self.displayCorFileForIndex(xh_cur_cor=self.comboBox_dict[self.comboBox.currentIndex()]))
+
+            xh_cur_cor = self.comboBox_dict[self.comboBox.currentIndex()]
+
+            self.displayCorFileForIndex(xh_cur_cor)
+
+    def displayCorFileForIndex(self, xh_cur_cor):
+        sql = "select 收文时间,秘密等级,是否公开,紧急程度,来文单位,来文字号,批文标题,处理结果,审核,批文字号,承办处室,承办人,联系电话,内容摘要和拟办意见," \
+              "领导批示 from corfile where 序号 = %s" % xh_cur_cor
+        data = self.executeSql(sql)
+
+        self.dateEdit_2.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
+        self.lineEdit_8.setText(data[0][1])  # 密级
+        self.lineEdit_9.setText(data[0][2])  # 是否公开
+        self.lineEdit_40.setText(data[0][3])  # 紧急程度
+        self.lineEdit_41.setText(data[0][4])  # 批文来文单位
+        self.lineEdit_42.setText(data[0][5])  # 批文来文字号
+        self.lineEdit_43.setText(data[0][6])  # 文件标题
+        self.lineEdit_48.setText(data[0][7])  # 处理结果
+        self.lineEdit_49.setText(data[0][8])  # 审核
+        self.lineEdit_44.setText(data[0][9])  # 批文编号
+        self.lineEdit_45.setText(data[0][10])  # 承办处室
+        self.lineEdit_46.setText(data[0][11])  # 承办人
+        self.lineEdit_47.setText(data[0][12])  # 联系电话
+        self.textEdit_6.setText(data[0][13])  # 内容摘要和拟办意见
+        self.textEdit_7.setText(data[0][14])  # 领导批示
 
     # 修改发文按钮
     def reviseSendFile(self, btname):
@@ -600,7 +659,6 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
             # 更新状态变量
             self.xh_rev = data[0][0]
-            self.rev_tag = 0
 
             QtWidgets.QMessageBox.information(w, "提示", "录入成功！")
 
@@ -676,47 +734,155 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
     def cancelRevFile(self):
         self.displayRevFile()
 
-    # 录入批文
+    # 新增批文
     def insertCorFile(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
-        input1 = self.dateEdit_2.text()  # 批文收文时间
-        input2 = self.lineEdit_41.text()  # 批文来文单位
-        input3 = self.lineEdit_42.text()  # 批文来文字号
-        input4 = self.lineEdit_43.text()  # 批文标题
-        input5 = self.lineEdit_44.text()  # 批文编号
-        input6 = self.textEdit_6.toPlainText()  # 内容摘要和拟办意见
-        input7 = self.textEdit_7.toPlainText()  # 领导批示
-        input8 = self.lineEdit_45.text()  # 批文承办处室
-        input9 = self.lineEdit_46.text()  # 批文承办人
-        input10 = self.lineEdit_47.text()  # 批文联系电话
-        if input5 != "":
-            sql = "update revfile set 批文收文时间 = '%s',批文来文单位 = '%s',批文来文字号 = '%s',批文标题 = '%s',批文字号 = '%s',内容摘要和拟办意见 = " \
-                  "'%s',领导批示 = '%s',批文承办处室 = '%s',批文承办人 = '%s',批文联系电话 = '%s',tag = 1 where 序号 = %s" % (
-                      input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, self.xh_rev)
-            self.executeSql(sql)
+        # 显示确认和取消按钮,用确认按钮的name判断是新增还是修改
+        self.pushButton_4.hide()
+        self.pushButton_7.hide()
+        self.pushButton_13.show()
+        self.pushButton_14.show()
 
-            # 更新变量
-            self.rev_tag = 1
+        # 隐藏下拉选择框和标签
+        self.label_25.hide()
+        self.comboBox.hide()
 
-            QtWidgets.QMessageBox.information(w, "提示", "录入成功！")
+        self.pushButton_13.setText("确认新增")
 
-            # 重新展示批文界面
-            self.displayCorFile()
+        # 设置继承字段,从收文表中继承
+        sql = "select 秘密等级,是否公开,紧急程度 from revfile where 序号 = %s" % self.xh_rev
+        data = self.executeSql(sql)
+        self.lineEdit_8.setText(data[0][0])  # 密级
+        self.lineEdit_9.setText(data[0][1])  # 是否公开
+        self.lineEdit_40.setText(data[0][2])  # 紧急程度
 
-        else:
-            QtWidgets.QMessageBox.critical(w, "录入错误", "办文编号不能为空!")
+        self.dateEdit_2.setDate(QDate.currentDate())  # 收文时间
+        self.lineEdit_41.clear()  # 批文来文单位
+        self.lineEdit_42.clear()  # 批文来文字号
+        self.lineEdit_43.clear()  # 文件标题
+        self.lineEdit_48.clear()  # 处理结果
+        self.lineEdit_49.clear()  # 审核
+        self.lineEdit_44.clear()  # 批文编号
+        self.lineEdit_45.clear()  # 承办处室
+        self.lineEdit_46.clear()  # 承办人
+        self.lineEdit_47.clear()  # 联系电话
+        self.textEdit_6.clear()  # 内容摘要和拟办意见
+        self.textEdit_7.clear()  # 领导批示
+
+        # self.lineEdit_8.setReadOnly(False)  # 密级
+        # self.lineEdit_9.setReadOnly(False)  # 是否公开
+        # self.lineEdit_40.setReadOnly(False)  # 紧急程度
+        self.dateEdit_2.setReadOnly(False)  # 收文时间
+        self.lineEdit_41.setReadOnly(False)  # 批文来文单位
+        self.lineEdit_42.setReadOnly(False)  # 批文来文字号
+        self.lineEdit_43.setReadOnly(False)  # 文件标题
+        self.lineEdit_48.setReadOnly(False)  # 处理结果
+        self.lineEdit_49.setReadOnly(False)  # 审核
+        self.lineEdit_44.setReadOnly(False)  # 批文编号
+        self.lineEdit_45.setReadOnly(False)  # 承办处室
+        self.lineEdit_46.setReadOnly(False)  # 承办人
+        self.lineEdit_47.setReadOnly(False)  # 联系电话
+        self.textEdit_6.setReadOnly(False)  # 内容摘要和拟办意见
+        self.textEdit_7.setReadOnly(False)  # 领导批示
 
     # 修改批文按钮
     def reviseCorFile(self):
-        print("暂未开发")
+        # 显示确认和取消按钮,用确认按钮的name判断是新增还是修改
+        self.pushButton_4.hide()
+        self.pushButton_7.hide()
+        self.pushButton_13.show()
+        self.pushButton_14.show()
 
-    # 确认修改批文
-    def updateCorFile(self):
-        print("暂未开发")
+        self.pushButton_13.setText("确认修改")
 
-    # 取消修改批文
-    def cancelCorFile(self):
-        print("暂未开发")
+        self.dateEdit_2.setReadOnly(False)  # 收文时间
+        self.lineEdit_8.setReadOnly(False)  # 密级
+        self.lineEdit_9.setReadOnly(False)  # 是否公开
+        self.lineEdit_40.setReadOnly(False)  # 紧急程度
+        self.lineEdit_41.setReadOnly(False)  # 批文来文单位
+        self.lineEdit_42.setReadOnly(False)  # 批文来文字号
+        self.lineEdit_43.setReadOnly(False)  # 文件标题
+        self.lineEdit_48.setReadOnly(False)  # 处理结果
+        self.lineEdit_49.setReadOnly(False)  # 审核
+        self.lineEdit_44.setReadOnly(False)  # 批文编号
+        self.lineEdit_45.setReadOnly(False)  # 承办处室
+        self.lineEdit_46.setReadOnly(False)  # 承办人
+        self.lineEdit_47.setReadOnly(False)  # 联系电话
+        self.textEdit_6.setReadOnly(False)  # 内容摘要和拟办意见
+        self.textEdit_7.setReadOnly(False)  # 领导批示
+
+    # 确认新增/修改批文
+    def insertOrUpdateCorFile(self):
+        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+        input1 = self.dateEdit_2.text()  # 收文时间
+        input2 = self.lineEdit_8.text()  # 密级
+        input3 = self.lineEdit_9.text()  # 是否公开
+        input4 = self.lineEdit_40.text()  # 紧急程度
+        input5 = self.lineEdit_41.text()  # 来文单位
+        input6 = self.lineEdit_42.text()  # 来文字号
+        input7 = self.lineEdit_43.text()  # 批文标题
+        input8 = self.lineEdit_44.text()  # 批文编号
+        input9 = self.textEdit_6.toPlainText()  # 内容摘要和拟办意见
+        input10 = self.textEdit_7.toPlainText()  # 领导批示
+        input11 = self.lineEdit_48.text()  # 处理结果
+        input12 = self.lineEdit_49.text()  # 审核
+        input13 = self.lineEdit_45.text()  # 承办处室
+        input14 = self.lineEdit_46.text()  # 承办人
+        input15 = self.lineEdit_47.text()  # 联系电话
+
+        if self.pushButton_13.text() == "确认新增":
+            if input8 != "":
+                sql = "insert into corfile(收文时间,秘密等级,是否公开,紧急程度,来文单位,来文字号,批文标题,批文字号,内容摘要和拟办意见,领导批示,处理结果,审核,承办处室,承办人," \
+                      "联系电话) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
+                          input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11,
+                          input12, input13, input14, input15)
+                self.executeSql(sql)
+
+                # 获取批文序号
+                sql = "select 序号 from corfile where 批文字号 = '%s'" % input8
+                data = self.executeSql(sql)
+
+                # 插入映射表中
+                sql = "insert into bw_cast_cor(流程序号,批文序号) VALUES(%s,%s)" % (self.xh, data[0][0])
+                self.executeSql(sql)
+
+                # 断开连接
+                self.comboBox.disconnect()
+                # 插入字典中,更新映射
+                self.comboBox.addItem(input8)
+                # 重新连接
+                self.comboBox.currentIndexChanged.connect(
+                    lambda: self.displayCorFileForIndex(xh_cur_cor=self.comboBox_dict[self.comboBox.currentIndex()]))
+
+                self.comboBox_dict[self.comboBox.count() - 1] = data[0][0]
+
+                QtWidgets.QMessageBox.information(w, "提示", "录入成功！")
+
+                # 重新展示批文界面
+                self.displayCorFile()
+
+            else:
+                QtWidgets.QMessageBox.critical(w, "录入错误", "批文编号不能为空!")
+
+        elif self.pushButton_13.text() == "确认修改":
+            if input8 != "":
+                sql = "update corfile set 收文时间 = '%s',秘密等级 = '%s',是否公开 = '%s',紧急程度 = '%s',来文单位 = '%s',来文字号 = '%s'," \
+                      "批文标题 = '%s',批文字号 = '%s',内容摘要和拟办意见 = '%s',领导批示 = '%s',处理结果 = '%s',审核 = '%s',承办处室 = '%s'," \
+                      "承办人 = '%s',联系电话 = '%s' where 序号 = %s" % (
+                          input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11,
+                          input12, input13, input14, input15, self.comboBox_dict[self.comboBox.currentIndex()])
+                self.executeSql(sql)
+
+                QtWidgets.QMessageBox.information(w, "提示", "修改成功！")
+
+                # 重新展示批文界面
+                self.displayCorFile()
+
+            else:
+                QtWidgets.QMessageBox.critical(w, "修改错误", "批文编号不能为空!")
+
+    # 取消新增/修改批文
+    def cancelCorFile(self, tag):
+        self.displayCorFile()
 
     # 选择问题表
     def btnchoosefile(self):

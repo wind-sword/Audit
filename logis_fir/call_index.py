@@ -13,6 +13,7 @@ import shutil
 
 
 class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
+    # 类成员变量
     db_path = "../db/database.db"
     project_word_path = "../project_word"
 
@@ -510,10 +511,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         if row == -1:
             QtWidgets.QMessageBox.information(self, "提示", "请选择流程！")
         else:
-            key1 = self.tableWidget_lczl.item(row, 1).text()  # 发文号
-            key2 = self.tableWidget_lczl.item(row, 3).text()  # 收文号
-            key3 = self.tableWidget_lczl.item(row, 5).text()  # 批文号
-            key4 = self.tableWidget_lczl.item(row, 6).text()  # 是否整改
+            key1 = self.tableWidget_lczl.item(row, 2).text()  # 发文号
+            key2 = self.tableWidget_lczl.item(row, 4).text()  # 收文号
+            key3 = self.tableWidget_lczl.item(row, 6).text()  # 批文号
+            key4 = self.tableWidget_lczl.item(row, 7).text()  # 是否整改
 
             # key1,key2,key3都不为空表示办文流程已经完成,可以设置整改了
             if key1 != "/" and key2 != "/" and key3 != "/" and key4 != "1":
@@ -523,7 +524,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 xh = data[0][0]
 
                 # 将流程加入到台账中
-                sql = "insert into standingbook(流程序号,整改发函内容,tag) VALUES(%s,'',0)" % xh
+                sql = "insert into standingbook(流程序号,tag) VALUES(%s,0)" % xh
                 self.executeSql(sql)
 
                 # 修改流程整改状态为1
