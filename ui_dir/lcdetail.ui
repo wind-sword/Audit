@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1920</width>
+    <width>1471</width>
     <height>1080</height>
    </rect>
   </property>
@@ -42,7 +42,7 @@
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page_gw">
       <layout class="QGridLayout" name="gridLayout_10">
@@ -122,7 +122,7 @@
             </font>
            </property>
            <property name="text">
-            <string>选择文件</string>
+            <string>修改文件</string>
            </property>
           </widget>
          </item>
@@ -1541,7 +1541,7 @@
             </font>
            </property>
            <property name="text">
-            <string>选择文件</string>
+            <string>修改文件</string>
            </property>
           </widget>
          </item>
@@ -2392,20 +2392,7 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_8">
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
+        <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,0,0,0">
          <item>
           <widget class="QLabel" name="label_23">
            <property name="font">

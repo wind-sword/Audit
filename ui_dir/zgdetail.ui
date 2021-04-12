@@ -1483,6 +1483,19 @@
        <item row="0" column="0">
         <widget class="QWidget" name="widget_2" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <spacer name="horizontalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
           <item alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="label_3">
             <property name="text">
@@ -1490,10 +1503,39 @@
             </property>
            </widget>
           </item>
+          <item>
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="0" column="1">
+        <widget class="QWidget" name="widget_3" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLabel" name="label_63">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;请选择批文：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
         <widget class="QFrame" name="frame_3">
          <property name="styleSheet">
           <string notr="true">color: rgb(255, 0, 0);</string>
@@ -1997,6 +2039,16 @@
            </property>
            <column>
             <property name="text">
+             <string>整改上报次序</string>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+           </column>
+           <column>
+            <property name="text">
              <string>问题顺序号</string>
             </property>
             <property name="font">
@@ -2160,16 +2212,6 @@
            <column>
             <property name="text">
              <string>整改责任部门</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>整改上报次序</string>
             </property>
             <property name="font">
              <font>

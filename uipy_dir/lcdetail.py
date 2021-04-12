@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1920, 1080)
+        Form.resize(1471, 1080)
         self.gridLayout_6 = QtWidgets.QGridLayout(Form)
         self.gridLayout_6.setObjectName("gridLayout_6")
         self.line = QtWidgets.QFrame(Form)
@@ -1174,8 +1174,6 @@ class Ui_Form(object):
         self.gridLayout_2.addWidget(self.label_22, 0, 0, 1, 1)
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_8.addItem(spacerItem3)
         self.label_23 = QtWidgets.QLabel(self.page_que)
         font = QtGui.QFont()
         font.setPointSize(14)
@@ -1345,14 +1343,14 @@ class Ui_Form(object):
         self.gridLayout_6.addLayout(self.horizontalLayout, 2, 0, 1, 1)
 
         self.retranslateUi(Form)
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label_file_3.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#000000;\">报文内容：</span></p></body></html>"))
-        self.pushButton_file.setText(_translate("Form", "选择文件"))
+        self.pushButton_file.setText(_translate("Form", "修改文件"))
         self.pushButton_opfile.setText(_translate("Form", "打开文件"))
         self.label_29.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#005500;\">日期：</span></p></body></html>"))
         self.label_32.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#005500;\">承办人：</span></p></body></html>"))
@@ -1387,7 +1385,7 @@ class Ui_Form(object):
         self.label_18.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#ff0000;\">秘书处审核：</span></p></body></html>"))
         self.label_21.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#ff0000;\">审计办主任（厅长）签发：</span></p></body></html>"))
         self.label_file.setText(_translate("Form", "<html><head/><body><p>报文内容：</p></body></html>"))
-        self.pushButton_file_2.setText(_translate("Form", "选择文件"))
+        self.pushButton_file_2.setText(_translate("Form", "修改文件"))
         self.pushButton_opfile_2.setText(_translate("Form", "打开文件"))
         self.pushButton.setText(_translate("Form", "确认"))
         self.pushButton_10.setText(_translate("Form", "取消"))
