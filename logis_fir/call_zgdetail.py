@@ -1,7 +1,3 @@
-import os
-import shutil
-import sys
-
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QWidget
@@ -49,10 +45,7 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.initVar(key)
 
         # 初始化页面展示
-        if self.send_type == 1:
-            self.stackedWidget.setCurrentIndex(6)
-        elif self.send_type == 2:
-            self.stackedWidget.setCurrentIndex(0)
+        self.initView()
 
         # 初始化页面数据
         self.displaySendDetail()
@@ -87,7 +80,7 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 控件绑定功能函数
     def initControlFunction(self):
-        # 打开发文文件
+        # 打开公文文件
         self.pushButton_file.clicked.connect(
             lambda: tools.openFile(file_folder="project_word", file=self.lineEdit_file_3.text()))
 
@@ -100,6 +93,9 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
         # 问题详情查看
         self.pushButton.clicked.connect(self.jumpQuestionDetail)
+
+        # 打开整改详情修改框
+        self.pushButton_10.clicked.connect(self.reviseZgdetail)
 
         # 选择发函文件
         self.pushButton_5.clicked.connect(self.chooseFileZgfh)
@@ -165,21 +161,17 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         if self.zgfh_tag == 1:
             self.commandLinkButton_6.setDescription("已完成")
 
-    # source对应的文件复制一份到target(project_word)文件夹下,copy方法保留当前文件权限,暂未考虑同名文件
-    def copyFile(self, source, target):
-        try:
-            shutil.copy(source, target)
-        except IOError as e:
-            print("Unable to copy file. %s" % e)
-        except:
-            print("Unexpected error:", sys.exc_info())
+    # 初始化整改界面显示
+    def initView(self):
+        if self.send_type == 1:
+            self.stackedWidget.setCurrentIndex(6)
+        elif self.send_type == 2:
+            self.stackedWidget.setCurrentIndex(0)
 
-    # 根据文件名打开相应文件
-    def openFile(self, file_folder, file):
-        # 获取文件路径
-        path = os.path.dirname(os.getcwd()) + '\\' + file_folder + '\\' + file
-        print(path)
-        os.startfile(path)
+        # 设置整改流程标题为发文标题
+        sql = "select 发文标题 from sendfile where 序号 = %s" % self.xh_send
+        data = tools.executeSql(sql)
+        self.label_title.setText(data[0][0])
 
     # 跳转问题详情
     def jumpQuestionDetail(self):
@@ -196,6 +188,24 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             tab_new.setObjectName('tab_new')
             tab_num = self.tabWidget.addTab(tab_new, "问题顺序号%s详情" % key1)
             self.tabWidget.setCurrentIndex(tab_num)
+
+    # 打开整改详情修改框(未开发)
+    def reviseZgdetail(self):
+        """
+        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+        row = self.tableWidget_4.currentRow()
+        if row == -1:
+            QtWidgets.QMessageBox.information(w, "提示", "请选择问题！")
+        else:
+            # 主键1:序号
+            key1 = self.tableWidget.item(row, 0).text()
+            # 主键2:发文字号
+            key2 = self.xh_send
+            tab_new = Call_quedetail(key1, key2)
+            tab_new.setObjectName('tab_new')
+            tab_num = self.tabWidget.addTab(tab_new, "问题顺序号%s详情" % key1)
+            self.tabWidget.setCurrentIndex(tab_num)
+        """
 
     # 展示问题表格
     def displayQuestionTable(self):
@@ -457,21 +467,32 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             size = len(data)
             # print("项目数目为:"+str(size))
             self.tableWidget_2.setRowCount(size)
+            self.tableWidget_4.setRowCount(size)
 
             x = 0
             for i in data:
                 y = 0
                 for j in i:
                     if data[x][y] is None:
-                        self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
+                        if y < 17:
+                            self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
+                        else:
+                            self.tableWidget_4.setItem(x, y - 17, QtWidgets.QTableWidgetItem("/"))
                     else:
-                        self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                        if y < 17:
+                            self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                        else:
+                            self.tableWidget_4.setItem(x, y - 17, QtWidgets.QTableWidgetItem(str(data[x][y])))
                     y = y + 1
                 x = x + 1
 
             self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 表格不可修改
             self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
             self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
+
+            self.tableWidget_4.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 表格不可修改
+            self.tableWidget_4.resizeColumnsToContents()  # 根据列调整框大小
+            self.tableWidget_4.resizeRowsToContents()  # 根据行调整框大小
 
     '''
     # 展示补全信息
@@ -502,11 +523,11 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
         input_file_path = self.lineEdit.text()
         if input_file_path != "":
-            filename = os.path.split(input_file_path)[1]  # 文件名
+            filename = tools.getFileName(input_file_path)  # 文件名
             sql = "update standingbook set 整改发函内容 = '%s' where 序号 = %s" % (filename, self.xh)
             tools.executeSql(sql)
             # 导入文件
-            self.copyFile(input_file_path, self.zgfh_word_path)
+            tools.copyFile(input_file_path, tools.zgfh_word_path)
 
             # 更新整改发函状态
             self.zgfh_tag = 1

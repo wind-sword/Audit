@@ -1,4 +1,3 @@
-import os
 import datetime
 
 from PyQt5 import QtCore, QtWidgets
@@ -65,13 +64,18 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.showBwprocessTable()
         elif btname == "fwbl":
             self.stackedWidget.setCurrentIndex(2)
+            self.stackedWidget_new.setCurrentIndex(self.comboBox_type.currentIndex())  # 初始化发文办理页面
+            self.dateEdit_3.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
+            self.dateEdit_6.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
         elif btname == "swbl":
             self.stackedWidget.setCurrentIndex(3)
+            self.dateEdit_4.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
         elif btname == "swll":
             self.stackedWidget.setCurrentIndex(4)
         elif btname == "tjfx":
             self.stackedWidget.setCurrentIndex(5)
 
+    # 关闭tab
     def closeTab1(self, index):
         self.tabWidget.removeTab(index)
 
@@ -112,7 +116,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.pushButton_addac_3.clicked.connect(self.add_gw)
         self.pushButton_3.clicked.connect(self.add_rev)
 
-        self.comboBox_type.currentIndexChanged.connect(self.chooseSendfileType)
+        self.comboBox_type.currentIndexChanged.connect(
+            lambda: self.chooseSendfileType(index=self.comboBox_type.currentIndex()))
 
         self.pushButton.clicked.connect(self.showRegisTable)
 
@@ -128,11 +133,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
         # sql由台账表的流程序号出发,通过多表查询获得台账所有字段
-        sql = 'select bwprocess.流程开始时间,sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号,GROUP_CONCAT(' \
-              'corfile.批文标题),GROUP_CONCAT(corfile.批文字号),standingbook.整改发函内容 from standingbook join bwprocess on ' \
-              'standingbook.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join revfile on ' \
-              'bwprocess.收文序号 = revfile.序号 join bw_cast_cor on bwprocess.序号 = bw_cast_cor.流程序号 join corfile on ' \
-              'bw_cast_cor.批文序号 = corfile.序号 GROUP BY standingbook.序号 '
+        sql = "select bwprocess.流程开始时间,sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号,GROUP_CONCAT(" \
+              "corfile.批文标题,'\n'),GROUP_CONCAT(corfile.批文字号,'\n'),standingbook.整改发函内容 from standingbook join " \
+              "bwprocess on standingbook.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join " \
+              "revfile on bwprocess.收文序号 = revfile.序号 join bw_cast_cor on bwprocess.序号 = bw_cast_cor.流程序号 join " \
+              "corfile on bw_cast_cor.批文序号 = corfile.序号 GROUP BY standingbook.序号 "
         data = tools.executeSql(sql)
         # 打印结果
         # print(data)
@@ -162,9 +167,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         # sql查询通过多表左外连接查询获取发文流程结果.并且根据流程序号这一唯一标识分组,将批文标题和字号用逗号连接起来
         sql = "SELECT bwprocess.流程开始时间,sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号,GROUP_CONCAT(" \
-              "corfile.批文标题),GROUP_CONCAT(corfile.批文字号),bwprocess.是否加入整改 FROM bwprocess LEFT OUTER JOIN sendfile ON " \
-              "sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN revfile ON revfile.序号 = bwprocess.收文序号 LEFT OUTER JOIN " \
-              "bw_cast_cor ON bw_cast_cor.流程序号 = bwprocess.序号 LEFT OUTER JOIN corfile ON corfile.序号 = " \
+              "corfile.批文标题,'\n'),GROUP_CONCAT(corfile.批文字号,'\n'),bwprocess.是否加入整改 FROM bwprocess LEFT OUTER JOIN " \
+              "sendfile ON sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN revfile ON revfile.序号 = bwprocess.收文序号 LEFT " \
+              "OUTER JOIN bw_cast_cor ON bw_cast_cor.流程序号 = bwprocess.序号 LEFT OUTER JOIN corfile ON corfile.序号 = " \
               "bw_cast_cor.批文序号 GROUP BY bwprocess.序号 "
         data = tools.executeSql(sql)
         # 打印结果
@@ -304,34 +309,59 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input14 = self.lineEdit_14.text()  # 审计办主任
         input15 = self.dateEdit_3.text()  # 办文日期
         input_file_path = self.lineEdit_file.text()  # 文件路径
-        input16 = os.path.split(input_file_path)[1]  # 文件名
+        input16 = tools.getFileName(input_file_path) # 文件名
 
         if input3 != "":
-            # 执行插入sendfile表
-            sql = "insert into sendfile(发文标题,报送范围,发文字号,紧急程度,秘密等级,是否公开,拟稿人,拟稿处室分管厅领导,拟稿处室审核,综合处编辑,综合处审核,秘书处审核,综合处分管厅领导," \
-                  "审计办主任,办文日期,报文内容,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
-                  "'%s','%s','%s','%s',1);" % (input1, input2, input3, input4, input5, input6, input7, input8, input9,
-                                               input10, input11, input12, input13, input14, input15, input16)
-            tools.executeSql(sql)
-
-            # 找到当前发文的序号
-            sql = "select 序号 from sendfile where 发文字号 = '%s'" % input3
+            sql = "select 发文字号 from sendfile where 发文字号 = '%s'" % input3
             data = tools.executeSql(sql)
+            # 数据库中发文字号是否存在,不允许重复的发文字号输入
+            if len(data) != 0:
+                QtWidgets.QMessageBox.critical(self, "新建失败", "发文字号已经存在!")
+            else:
+                # 导入文件
+                tools.copyFile(input_file_path, tools.project_word_path)
 
-            # 执行插入流程表
-            curr_time = datetime.datetime.now()
-            time_str = curr_time.strftime("%Y/%m/%d")
-            sql = "insert into bwprocess(发文序号,是否加入整改,流程开始时间) VALUES(%s,0,'%s')" % (data[0][0], time_str)
-            tools.executeSql(sql)
+                # 执行插入sendfile表
+                sql = "insert into sendfile(发文标题,报送范围,发文字号,紧急程度,秘密等级,是否公开,拟稿人,拟稿处室分管厅领导,拟稿处室审核,综合处编辑,综合处审核,秘书处审核," \
+                      "综合处分管厅领导,审计办主任,办文日期,报文内容,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
+                      "'%s','%s','%s','%s','%s','%s','%s',1)" % (
+                          input1, input2, input3, input4, input5, input6, input7, input8, input9,
+                          input10, input11, input12, input13, input14, input15, input16)
+                tools.executeSql(sql)
 
-            # 导入文件
-            tools.copyFile(input_file_path, tools.zgfh_word_path)
+                # 找到当前发文的序号
+                sql = "select 序号 from sendfile where 发文字号 = '%s'" % input3
+                data = tools.executeSql(sql)
 
-            QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
+                # 执行插入流程表
+                curr_time = datetime.datetime.now()
+                time_str = curr_time.strftime("%Y/%m/%d")
+                sql = "insert into bwprocess(发文序号,是否加入整改,流程开始时间) VALUES(%s,0,'%s')" % (data[0][0], time_str)
+                tools.executeSql(sql)
 
-            # 返回显示页面,重新加载流程内容
-            self.stackedWidget.setCurrentIndex(0)
-            self.showBwprocessTable()
+                QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
+
+                # 插入完成后清空所有输入,时间重置
+                self.lineEdit.clear()  # 发文标题
+                self.lineEdit_2.clear()  # 报送范围
+                self.lineEdit_3.clear()  # 发文字号
+                self.lineEdit_4.clear()  # 紧急程度
+                self.lineEdit_5.clear()  # 秘密等级
+                self.lineEdit_6.clear()  # 是否公开
+                self.lineEdit_7.clear()  # 拟稿人
+                self.lineEdit_12.clear()  # 拟稿处室分管厅领导
+                self.lineEdit_8.clear()  # 拟稿处室审核
+                self.lineEdit_9.clear()  # 综合处编辑
+                self.lineEdit_10.clear()  # 综合处审核
+                self.lineEdit_11.clear()  # 秘书处审核
+                self.lineEdit_13.clear()  # 综合处分管厅领导
+                self.lineEdit_14.clear()  # 审计办主任
+                self.dateEdit_3.setDate(datetime.datetime.now())  # 办文日期
+                self.lineEdit_file.clear()  # 文件路径
+
+                # 返回显示页面,重新加载流程内容
+                self.stackedWidget.setCurrentIndex(0)
+                self.showBwprocessTable()
         else:
             QtWidgets.QMessageBox.critical(self, "新建失败", "发文字号不能为空!")
 
@@ -344,7 +374,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input5 = self.textEdit_3.toPlainText()  # 办文情况说明和拟办意见
         input6 = self.dateEdit_6.text()  # 办文日期
         input_file_path = self.lineEdit_file_3.text()  # 文件路径
-        input7 = os.path.split(input_file_path)[1]  # 文件名
+        input7 = tools.getFileName(input_file_path)  # 文件名
         input8 = self.lineEdit_22.text()  # 紧急程度
         input9 = self.lineEdit_15.text()  # 保密等级
         input10 = self.lineEdit_16.text()  # 是否公开
@@ -354,31 +384,55 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input14 = self.lineEdit_21.text()  # 联系电话
 
         if input1 != "":
-            # 执行插入sendfile表
-            sql = "insert into sendfile(发文字号,发文标题,领导审核意见,审计办领导审核意见,办文情况说明和拟办意见,办文日期,报文内容,紧急程度,秘密等级,是否公开,审核,承办处室,承办人," \
-                  "联系电话,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',2);" % (
-                      input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11, input12,
-                      input13, input14)
-            tools.executeSql(sql)
-
-            # 导入文件
-            tools.copyFile(input_file_path, tools.zgfh_word_path)
-
-            # 找到当前发文的序号
-            sql = "select 序号 from sendfile where 发文字号 = '%s'" % input1
+            sql = "select 发文字号 from sendfile where 发文字号 = '%s'" % input1
             data = tools.executeSql(sql)
+            # 数据库中发文字号是否存在,不允许重复的发文字号输入
+            if len(data) != 0:
+                QtWidgets.QMessageBox.critical(self, "新建失败", "发文字号已经存在!")
+            else:
+                # 导入文件
+                tools.copyFile(input_file_path, tools.project_word_path)
 
-            # 执行插入流程表
-            curr_time = datetime.datetime.now()
-            time_str = curr_time.strftime("%Y/%m/%d")
-            sql = "insert into bwprocess(发文序号,是否加入整改,流程开始时间) VALUES(%s,0,'%s')" % (data[0][0], time_str)
-            tools.executeSql(sql)
+                # 执行插入sendfile表
+                sql = "insert into sendfile(发文字号,发文标题,领导审核意见,审计办领导审核意见,办文情况说明和拟办意见,办文日期,报文内容,紧急程度,秘密等级,是否公开,审核,承办处室," \
+                      "承办人,联系电话,projectType) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
+                      "'%s',2)" % (
+                          input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11,
+                          input12,
+                          input13, input14)
+                tools.executeSql(sql)
 
-            QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
+                # 找到当前发文的序号
+                sql = "select 序号 from sendfile where 发文字号 = '%s'" % input1
+                data = tools.executeSql(sql)
 
-            # 返回显示页面,重新加载流程内容
-            self.stackedWidget.setCurrentIndex(0)
-            self.showBwprocessTable()
+                # 执行插入流程表
+                curr_time = datetime.datetime.now()
+                time_str = curr_time.strftime("%Y/%m/%d")
+                sql = "insert into bwprocess(发文序号,是否加入整改,流程开始时间) VALUES(%s,0,'%s')" % (data[0][0], time_str)
+                tools.executeSql(sql)
+
+                QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
+
+                # 插入完成后清空显示页面
+                self.lineEdit_num.clear()  # 发文字号
+                self.lineEdit_num_3.clear()  # 发文标题
+                self.textEdit.clear()  # 领导审核意见
+                self.textEdit_2.clear()  # 审计办领导审核意见
+                self.textEdit_3.clear()  # 办文情况说明和拟办意见
+                self.dateEdit_6.setDate(datetime.datetime.now())  # 办文日期
+                self.lineEdit_file_3.clear()  # 文件路径
+                self.lineEdit_22.clear()  # 紧急程度
+                self.lineEdit_15.clear()  # 保密等级
+                self.lineEdit_16.clear()  # 是否公开
+                self.lineEdit_17.clear()  # 审核
+                self.lineEdit_19.clear()  # 承办处室
+                self.lineEdit_20.clear()  # 承办人
+                self.lineEdit_21.clear()  # 联系电话
+
+                # 返回显示页面,重新加载流程内容
+                self.stackedWidget.setCurrentIndex(0)
+                self.showBwprocessTable()
         else:
             QtWidgets.QMessageBox.critical(self, "新建失败", "发文字号不能为空!")
 
@@ -398,29 +452,50 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input12 = self.lineEdit_32.text()  # 承办人
         input13 = self.lineEdit_39.text()  # 联系电话
         if input10 != "":
-            # 执行插入收文表
-            sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,来文单位,来文字号,收文标题,处理结果,审核,收文字号,承办处室,承办人,联系电话) values('%s'," \
-                  "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
-                      input1, input2, input3, input4, input5, input6,
-                      input7, input8, input9, input10, input11,
-                      input12, input13)
-            tools.executeSql(sql)
-
-            # 找到当前收文的序号
-            sql = "select 序号 from revfile where 收文字号 = '%s'" % input10
+            sql = "select 收文字号 from revfile where 收文字号 = '%s'" % input10
             data = tools.executeSql(sql)
+            # 数据库中收文字号是否存在,不允许重复的收文字号输入
+            if len(data) != 0:
+                QtWidgets.QMessageBox.critical(self, "新建失败", "收文字号已经存在!")
+            else:
+                # 执行插入收文表
+                sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,来文单位,来文字号,收文标题,处理结果,审核,收文字号,承办处室,承办人,联系电话) values('%s'," \
+                      "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
+                          input1, input2, input3, input4, input5, input6,
+                          input7, input8, input9, input10, input11,
+                          input12, input13)
+                tools.executeSql(sql)
 
-            # 执行插入流程表
-            curr_time = datetime.datetime.now()
-            time_str = curr_time.strftime("%Y/%m/%d")
-            sql = "insert into bwprocess(收文序号,是否加入整改,流程开始时间) VALUES(%s,0,'%s')" % (data[0][0], time_str)
-            tools.executeSql(sql)
+                # 找到当前收文的序号
+                sql = "select 序号 from revfile where 收文字号 = '%s'" % input10
+                data = tools.executeSql(sql)
 
-            QtWidgets.QMessageBox.information(self, "提示", "录入成功！")
+                # 执行插入流程表
+                curr_time = datetime.datetime.now()
+                time_str = curr_time.strftime("%Y/%m/%d")
+                sql = "insert into bwprocess(收文序号,是否加入整改,流程开始时间) VALUES(%s,0,'%s')" % (data[0][0], time_str)
+                tools.executeSql(sql)
 
-            # 返回显示页面,重新加载流程内容
-            self.stackedWidget.setCurrentIndex(0)
-            self.showBwprocessTable()
+                QtWidgets.QMessageBox.information(self, "提示", "录入成功！")
+
+                # 返回显示页面,重新加载流程内容
+                self.stackedWidget.setCurrentIndex(0)
+                self.showBwprocessTable()
+
+                # 插入完成后清空显示页面
+                self.dateEdit_4.setDate(datetime.datetime.now())  # 收文时间
+                self.lineEdit_23.clear()  # 密级
+                self.lineEdit_24.clear()  # 是否公开
+                self.lineEdit_36.clear()  # 紧急程度
+                self.lineEdit_38.clear()  # 收文来文单位
+                self.lineEdit_37.clear()  # 收文来文字号
+                self.lineEdit_35.clear()  # 文件标题
+                self.lineEdit_33.clear()  # 处理结果
+                self.lineEdit_30.clear()  # 审核
+                self.lineEdit_31.clear()  # 办文编号
+                self.lineEdit_34.clear()  # 承办处室
+                self.lineEdit_32.clear()  # 承办人
+                self.lineEdit_39.clear()  # 联系电话
         else:
             QtWidgets.QMessageBox.critical(self, "录入失败", "办文编号不能为空!")
 
@@ -472,7 +547,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 xh = data[0][0]
 
                 # 将流程加入到台账中
-                sql = "insert into standingbook(流程序号,tag) VALUES(%s,0)" % xh
+                sql = "insert into standingbook(流程序号) VALUES(%s)" % xh
                 tools.executeSql(sql)
 
                 # 修改流程整改状态为1

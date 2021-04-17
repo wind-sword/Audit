@@ -42,7 +42,7 @@
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page_gw">
       <layout class="QGridLayout" name="gridLayout_10">
@@ -122,7 +122,7 @@
             </font>
            </property>
            <property name="text">
-            <string>修改文件</string>
+            <string>替换文件</string>
            </property>
           </widget>
          </item>
@@ -1541,7 +1541,7 @@
             </font>
            </property>
            <property name="text">
-            <string>修改文件</string>
+            <string>替换文件</string>
            </property>
           </widget>
          </item>

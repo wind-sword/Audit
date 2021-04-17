@@ -240,6 +240,11 @@ QComboBox{background:white;
                </item>
                <item>
                 <widget class="QTableWidget" name="tableWidget_lczl">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
                  <column>
                   <property name="text">
                    <string>流程开始时间</string>
@@ -768,7 +773,7 @@ QComboBox{background:white;
                     </font>
                    </property>
                    <property name="text">
-                    <string>删除项目</string>
+                    <string>撤销整改</string>
                    </property>
                   </widget>
                  </item>
@@ -857,7 +862,7 @@ QComboBox{background:white;
               <enum>QFrame::Plain</enum>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_zb">
               <layout class="QGridLayout" name="gridLayout_5" rowstretch="2,1,10,1">
@@ -2882,7 +2887,13 @@ QComboBox{background:white;
             </layout>
            </item>
            <item row="5" column="0">
-            <widget class="QTableWidget" name="tableWidget_2"/>
+            <widget class="QTableWidget" name="tableWidget_2">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+            </widget>
            </item>
            <item row="4" column="0">
             <widget class="QLabel" name="label_35">
