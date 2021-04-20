@@ -282,9 +282,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 self.lineEdit.setText(data[0][0])  # 发文标题
                 self.lineEdit_2.setText(data[0][1])  # 报送范围
                 self.lineEdit_4.setText(data[0][2])  # 发文字号
-                self.lineEdit_13.setText(data[0][3])  # 紧急程度
+                self.comboBox_2.setCurrentText(data[0][3])  # 紧急程度
                 self.lineEdit_5.setText(data[0][4])  # 秘密等级
-                self.lineEdit_14.setText(data[0][5])  # 是否公开
+                self.comboBox_3.setCurrentText(data[0][5])  # 是否公开
                 self.lineEdit_10.setText(data[0][6])  # 拟稿人
                 self.lineEdit_15.setText(data[0][7])  # 拟稿处室分管厅领导
                 self.lineEdit_11.setText(data[0][8])  # 拟稿处室
@@ -300,9 +300,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 self.lineEdit.setReadOnly(True)
                 self.lineEdit_2.setReadOnly(True)
                 self.lineEdit_4.setReadOnly(True)
-                self.lineEdit_13.setReadOnly(True)
+                self.comboBox_2.setDisabled(True)
                 self.lineEdit_5.setReadOnly(True)
-                self.lineEdit_14.setReadOnly(True)
+                self.comboBox_3.setDisabled(True)
                 self.lineEdit_10.setReadOnly(True)
                 self.lineEdit_15.setReadOnly(True)
                 self.lineEdit_11.setReadOnly(True)
@@ -338,8 +338,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 self.textEdit_3.setText(data[0][16])  # 办文情况说明和拟办意见
                 self.lineEdit_file_3.setText(data[0][18])  # 公文内容
                 self.lineEdit_22.setText(data[0][4])  # 保密等级
-                self.lineEdit_23.setText(data[0][5])  # 是否公开
-                self.lineEdit_29.setText(data[0][3])  # 紧急程度
+                self.comboBox_5.setCurrentText(data[0][5])  # 是否公开
+                self.comboBox_4.setCurrentText(data[0][3])  # 紧急程度
                 self.lineEdit_24.setText(data[0][19])  # 审核
                 self.lineEdit_26.setText(data[0][20])  # 承办处室
                 self.lineEdit_27.setText(data[0][21])  # 承办人
@@ -356,8 +356,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 self.textEdit_3.setReadOnly(True)
                 self.lineEdit_file_3.setReadOnly(True)
                 self.lineEdit_22.setReadOnly(True)
-                self.lineEdit_23.setReadOnly(True)
-                self.lineEdit_29.setReadOnly(True)
+                self.comboBox_5.setDisabled(True)
+                self.comboBox_4.setDisabled(True)
                 self.lineEdit_24.setReadOnly(True)
                 self.lineEdit_26.setReadOnly(True)
                 self.lineEdit_27.setReadOnly(True)
@@ -383,8 +383,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
             self.dateEdit.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
             self.lineEdit_6.setText(data[0][1])  # 密级
-            self.lineEdit_7.setText(data[0][2])  # 是否公开
-            self.lineEdit_36.setText(data[0][3])  # 紧急程度
+            self.comboBox_6.setCurrentText(data[0][2])  # 是否公开
+            self.comboBox_7.setCurrentText(data[0][3])  # 紧急程度
             self.lineEdit_38.setText(data[0][4])  # 收文来文单位
             self.lineEdit_37.setText(data[0][5])  # 收文来文字号
             self.lineEdit_35.setText(data[0][6])  # 文件标题
@@ -399,8 +399,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
             self.dateEdit.setReadOnly(True)
             self.lineEdit_6.setReadOnly(True)
-            self.lineEdit_7.setReadOnly(True)
-            self.lineEdit_36.setReadOnly(True)
+            self.comboBox_6.setDisabled(True)
+            self.comboBox_7.setDisabled(True)
             self.lineEdit_38.setReadOnly(True)
             self.lineEdit_37.setReadOnly(True)
             self.lineEdit_35.setReadOnly(True)
@@ -422,17 +422,17 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.pushButton_6.hide()
 
             self.lineEdit_6.setText(data[0][3])  # 密级
-            self.lineEdit_7.setText(data[0][4])  # 是否公开
+            self.comboBox_6.setCurrentText(data[0][4])  # 是否公开
             self.lineEdit_35.setText(data[0][0])  # 文件标题
-            self.lineEdit_36.setText(data[0][2])  # 紧急程度
+            self.comboBox_7.setCurrentText(data[0][2])  # 紧急程度
             self.lineEdit_37.setText(data[0][1])  # 来文字号
             self.dateEdit.setDate(datetime.datetime.now())  # 初始化时间时间默认值为当前时间
 
             # 继承而来的字段不可改变
             self.lineEdit_6.setReadOnly(True)
-            self.lineEdit_7.setReadOnly(True)
+            self.comboBox_6.setDisabled(True)
             self.lineEdit_35.setReadOnly(True)
-            self.lineEdit_36.setReadOnly(True)
+            self.comboBox_7.setDisabled(True)
             self.lineEdit_37.setReadOnly(True)
 
     # 展示所有批文页面
@@ -442,8 +442,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         # 设置不可修改
         self.dateEdit_2.setReadOnly(True)  # 收文时间
         self.lineEdit_8.setReadOnly(True)  # 密级
-        self.lineEdit_9.setReadOnly(True)  # 是否公开
-        self.lineEdit_40.setReadOnly(True)  # 紧急程度
+        self.comboBox_8.setDisabled(True)  # 是否公开
+        self.comboBox_9.setDisabled(True)  # 紧急程度
         self.lineEdit_41.setReadOnly(True)  # 批文来文单位
         self.lineEdit_42.setReadOnly(True)  # 批文来文字号
         self.lineEdit_43.setReadOnly(True)  # 文件标题
@@ -509,8 +509,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
         self.dateEdit_2.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
         self.lineEdit_8.setText(data[0][1])  # 密级
-        self.lineEdit_9.setText(data[0][2])  # 是否公开
-        self.lineEdit_40.setText(data[0][3])  # 紧急程度
+        self.comboBox_8.setCurrentText(data[0][2])  # 是否公开
+        self.comboBox_9.setCurrentText(data[0][3])  # 紧急程度
         self.lineEdit_41.setText(data[0][4])  # 批文来文单位
         self.lineEdit_42.setText(data[0][5])  # 批文来文字号
         self.lineEdit_43.setText(data[0][6])  # 文件标题
@@ -536,9 +536,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.lineEdit.setReadOnly(False)
             self.lineEdit_2.setReadOnly(False)
             self.lineEdit_4.setReadOnly(False)
-            self.lineEdit_13.setReadOnly(False)
+            self.comboBox_2.setEnabled(True)
             self.lineEdit_5.setReadOnly(False)
-            self.lineEdit_14.setReadOnly(False)
+            self.comboBox_3.setEnabled(True)
             self.lineEdit_10.setReadOnly(False)
             self.lineEdit_15.setReadOnly(False)
             self.lineEdit_11.setReadOnly(False)
@@ -564,8 +564,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.textEdit_3.setReadOnly(False)
             # self.lineEdit_file_3.setReadOnly(False)
             self.lineEdit_22.setReadOnly(False)
-            self.lineEdit_23.setReadOnly(False)
-            self.lineEdit_29.setReadOnly(False)
+            self.comboBox_5.setEnabled(True)
+            self.comboBox_4.setEnabled(True)
             self.lineEdit_24.setReadOnly(False)
             self.lineEdit_26.setReadOnly(False)
             self.lineEdit_27.setReadOnly(False)
@@ -581,9 +581,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             input1 = self.lineEdit.text()  # 发文标题
             input2 = self.lineEdit_2.text()  # 报送范围
             input3 = self.lineEdit_4.text()  # 发文字号
-            input4 = self.lineEdit_13.text()  # 紧急程度
+            input4 = self.comboBox_2.currentText()  # 紧急程度
             input5 = self.lineEdit_5.text()  # 秘密等级
-            input6 = self.lineEdit_14.text()  # 是否公开
+            input6 = self.comboBox_3.currentText()  # 是否公开
             input7 = self.lineEdit_10.text()  # 拟稿人
             input8 = self.lineEdit_15.text()  # 拟稿处室分管厅领导
             input9 = self.lineEdit_11.text()  # 拟稿处室
@@ -634,8 +634,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             input5 = self.textEdit_3.toPlainText()  # 办文情况说明和拟办意见
             input6 = self.lineEdit_file_3.text()  # 公文内容
             input7 = self.lineEdit_22.text()  # 秘密等级
-            input8 = self.lineEdit_23.text()  # 是否公开
-            input9 = self.lineEdit_29.text()  # 紧急程度
+            input8 = self.comboBox_5.currentText()  # 是否公开
+            input9 = self.comboBox_4.currentText()  # 紧急程度
             input10 = self.lineEdit_24.text()  # 审核
             input11 = self.lineEdit_26.text()  # 承办处室
             input12 = self.lineEdit_27.text()  # 承办人
@@ -686,8 +686,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
         input1 = self.dateEdit.text()  # 收文时间
         input2 = self.lineEdit_6.text()  # 密级
-        input3 = self.lineEdit_7.text()  # 是否公开
-        input4 = self.lineEdit_36.text()  # 紧急程度
+        input3 = self.comboBox_6.currentText()  # 是否公开
+        input4 = self.comboBox_7.currentText()  # 紧急程度
         input5 = self.lineEdit_38.text()  # 收文来文单位
         input6 = self.lineEdit_37.text()  # 收文来文字号
         input7 = self.lineEdit_35.text()  # 文件标题
@@ -742,8 +742,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         # 设置可写
         self.dateEdit.setReadOnly(False)
         self.lineEdit_6.setReadOnly(False)
-        self.lineEdit_7.setReadOnly(False)
-        self.lineEdit_36.setReadOnly(False)
+        self.comboBox_6.setEnabled(True)
+        self.comboBox_7.setEnabled(True)
         self.lineEdit_38.setReadOnly(False)
         self.lineEdit_37.setReadOnly(False)
         self.lineEdit_35.setReadOnly(False)
@@ -762,8 +762,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
         input1 = self.dateEdit.text()  # 收文时间
         input2 = self.lineEdit_6.text()  # 密级
-        input3 = self.lineEdit_7.text()  # 是否公开
-        input4 = self.lineEdit_36.text()  # 紧急程度
+        input3 = self.comboBox_6.currentText()  # 是否公开
+        input4 = self.comboBox_7.currentText()  # 紧急程度
         input5 = self.lineEdit_38.text()  # 收文来文单位
         input6 = self.lineEdit_37.text()  # 收文来文字号
         input7 = self.lineEdit_35.text()  # 文件标题
@@ -824,8 +824,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         sql = "select 秘密等级,是否公开,紧急程度 from revfile where 序号 = %s" % self.xh_rev
         data = tools.executeSql(sql)
         self.lineEdit_8.setText(data[0][0])  # 密级
-        self.lineEdit_9.setText(data[0][1])  # 是否公开
-        self.lineEdit_40.setText(data[0][2])  # 紧急程度
+        self.comboBox_8.setCurrentText(data[0][1])  # 是否公开
+        self.comboBox_9.setCurrentText(data[0][2])  # 紧急程度
 
         self.dateEdit_2.setDate(QDate.currentDate())  # 收文时间
         self.lineEdit_41.clear()  # 批文来文单位
@@ -868,8 +868,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
         self.dateEdit_2.setReadOnly(False)  # 收文时间
         self.lineEdit_8.setReadOnly(False)  # 密级
-        self.lineEdit_9.setReadOnly(False)  # 是否公开
-        self.lineEdit_40.setReadOnly(False)  # 紧急程度
+        self.comboBox_8.setEnabled(True)  # 是否公开
+        self.comboBox_9.setEnabled(True)  # 紧急程度
         self.lineEdit_41.setReadOnly(False)  # 批文来文单位
         self.lineEdit_42.setReadOnly(False)  # 批文来文字号
         self.lineEdit_43.setReadOnly(False)  # 文件标题
@@ -887,8 +887,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
         input1 = self.dateEdit_2.text()  # 收文时间
         input2 = self.lineEdit_8.text()  # 密级
-        input3 = self.lineEdit_9.text()  # 是否公开
-        input4 = self.lineEdit_40.text()  # 紧急程度
+        input3 = self.comboBox_8.currentText()  # 是否公开
+        input4 = self.comboBox_9.currentText()  # 紧急程度
         input5 = self.lineEdit_41.text()  # 来文单位
         input6 = self.lineEdit_42.text()  # 来文字号
         input7 = self.lineEdit_43.text()  # 批文标题
@@ -929,7 +929,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                     self.comboBox.addItem(input8)
                     # 重新连接
                     self.comboBox.currentIndexChanged.connect(
-                        lambda: self.displayCorFileForIndex(xh_cur_cor=self.comboBox_dict[self.comboBox.currentIndex()]))
+                        lambda: self.displayCorFileForIndex(
+                            xh_cur_cor=self.comboBox_dict[self.comboBox.currentIndex()]))
 
                     self.comboBox_dict[self.comboBox.count() - 1] = data[0][0]
 

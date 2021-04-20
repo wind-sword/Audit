@@ -235,13 +235,13 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             elif type2 == "审计专报":
                 self.label_35.setText("审计专报")
 
-            sql = ''
+            sql = ""
 
         elif type1 == "收文登记表":
             self.label_35.setText("1、红色：件未办结。2、绿色：件已办结，事项在办。3、黑色：件与事项完全办结并共同归档。4、蓝色：临时交办审计任务。")
             self.tableWidget_2.setColumnCount(12)
             self.tableWidget_2.setHorizontalHeaderLabels(
-                ['时间', '编号', '秘级', '来文单位', '来文字号', '来文标题', '拟办意见', '厅领导签批意见', '承办处室', '办理结果', '要求时间', '文件去向'])
+                ['时间', '编号', '秘级', '来文单位', '来文字号', '来文标题', '拟办意见', '要求时间', '厅领导签批意见', '承办处室', '办理结果', '文件去向'])
             if type2 == "请字":
                 self.label_34.setText("请字[2021]（平级、下级报送的请示类文件）→")
             elif type2 == "情字":
@@ -253,7 +253,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             elif type2 == "电字":
                 self.label_34.setText("电[2021]（电报文件）→")
 
-            sql = 'select 收文时间,收文字号,秘密等级,来文单位,来文字号,收文标题,内容摘要和拟办意见,领导批示,承办处室,处理结果 from revfile'
+            sql = 'select 收文时间,收文字号,秘密等级,来文单位,来文字号,收文标题,内容摘要和拟办意见,要求时间,领导批示,承办处室,处理结果,文件去向 from revfile'
 
         elif type1 == "批文登记表":
             self.label_35.setText("1、红色：件未办结。2、绿色：件已办结，事项在办。3、黑色：件与事项完全办结并共同归档。")
@@ -296,9 +296,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input1 = self.lineEdit.text()  # 发文标题
         input2 = self.lineEdit_2.text()  # 报送范围
         input3 = self.lineEdit_3.text()  # 发文字号
-        input4 = self.lineEdit_4.text()  # 紧急程度
+        input4 = self.comboBox_4.currentText()  # 紧急程度
         input5 = self.lineEdit_5.text()  # 秘密等级
-        input6 = self.lineEdit_6.text()  # 是否公开
+        input6 = self.comboBox_3.currentText()  # 是否公开
         input7 = self.lineEdit_7.text()  # 拟稿人
         input8 = self.lineEdit_12.text()  # 拟稿处室分管厅领导
         input9 = self.lineEdit_8.text()  # 拟稿处室审核
@@ -309,7 +309,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input14 = self.lineEdit_14.text()  # 审计办主任
         input15 = self.dateEdit_3.text()  # 办文日期
         input_file_path = self.lineEdit_file.text()  # 文件路径
-        input16 = tools.getFileName(input_file_path) # 文件名
+        input16 = tools.getFileName(input_file_path)  # 文件名
 
         if input3 != "":
             sql = "select 发文字号 from sendfile where 发文字号 = '%s'" % input3
@@ -345,9 +345,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 self.lineEdit.clear()  # 发文标题
                 self.lineEdit_2.clear()  # 报送范围
                 self.lineEdit_3.clear()  # 发文字号
-                self.lineEdit_4.clear()  # 紧急程度
+                self.comboBox_4.setCurrentIndex(0)  # 紧急程度
                 self.lineEdit_5.clear()  # 秘密等级
-                self.lineEdit_6.clear()  # 是否公开
+                self.comboBox_3.setCurrentIndex(0)  # 是否公开
                 self.lineEdit_7.clear()  # 拟稿人
                 self.lineEdit_12.clear()  # 拟稿处室分管厅领导
                 self.lineEdit_8.clear()  # 拟稿处室审核
@@ -375,9 +375,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input6 = self.dateEdit_6.text()  # 办文日期
         input_file_path = self.lineEdit_file_3.text()  # 文件路径
         input7 = tools.getFileName(input_file_path)  # 文件名
-        input8 = self.lineEdit_22.text()  # 紧急程度
+        input8 = self.comboBox_5.currentText()  # 紧急程度
         input9 = self.lineEdit_15.text()  # 保密等级
-        input10 = self.lineEdit_16.text()  # 是否公开
+        input10 = self.comboBox_6.currentText()  # 是否公开
         input11 = self.lineEdit_17.text()  # 审核
         input12 = self.lineEdit_19.text()  # 承办处室
         input13 = self.lineEdit_20.text()  # 承办人
@@ -422,9 +422,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 self.textEdit_3.clear()  # 办文情况说明和拟办意见
                 self.dateEdit_6.setDate(datetime.datetime.now())  # 办文日期
                 self.lineEdit_file_3.clear()  # 文件路径
-                self.lineEdit_22.clear()  # 紧急程度
+                self.comboBox_5.setCurrentIndex(0)  # 紧急程度
                 self.lineEdit_15.clear()  # 保密等级
-                self.lineEdit_16.clear()  # 是否公开
+                self.comboBox_6.setCurrentIndex(0)  # 是否公开
                 self.lineEdit_17.clear()  # 审核
                 self.lineEdit_19.clear()  # 承办处室
                 self.lineEdit_20.clear()  # 承办人
@@ -440,8 +440,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     def add_rev(self):
         input1 = self.dateEdit_4.text()  # 收文时间
         input2 = self.lineEdit_23.text()  # 密级
-        input3 = self.lineEdit_24.text()  # 是否公开
-        input4 = self.lineEdit_36.text()  # 紧急程度
+        input3 = self.comboBox_8.currentText()  # 是否公开
+        input4 = self.comboBox_7.currentText()  # 紧急程度
         input5 = self.lineEdit_38.text()  # 收文来文单位
         input6 = self.lineEdit_37.text()  # 收文来文字号
         input7 = self.lineEdit_35.text()  # 文件标题
@@ -485,8 +485,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 # 插入完成后清空显示页面
                 self.dateEdit_4.setDate(datetime.datetime.now())  # 收文时间
                 self.lineEdit_23.clear()  # 密级
-                self.lineEdit_24.clear()  # 是否公开
-                self.lineEdit_36.clear()  # 紧急程度
+                self.comboBox_8.setCurrentIndex(0)  # 是否公开
+                self.comboBox_7.setCurrentIndex(0)  # 紧急程度
                 self.lineEdit_38.clear()  # 收文来文单位
                 self.lineEdit_37.clear()  # 收文来文字号
                 self.lineEdit_35.clear()  # 文件标题
