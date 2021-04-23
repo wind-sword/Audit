@@ -200,7 +200,7 @@ QComboBox{background:white;
 }</string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="page_lczl">
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -245,6 +245,18 @@ QComboBox{background:white;
                    <pointsize>12</pointsize>
                   </font>
                  </property>
+                 <column>
+                  <property name="text">
+                   <string>主键</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                 </column>
                  <column>
                   <property name="text">
                    <string>流程开始时间</string>
@@ -629,6 +641,18 @@ QComboBox{background:white;
                  <attribute name="horizontalHeaderCascadingSectionResizes">
                   <bool>true</bool>
                  </attribute>
+                 <column>
+                  <property name="text">
+                   <string>主键</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                 </column>
                  <column>
                   <property name="text">
                    <string>流程开始时间</string>
@@ -2712,6 +2736,13 @@ QComboBox{background:white;
               </item>
               <item row="4" column="0" colspan="5">
                <layout class="QFormLayout" name="formLayout_36">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_40">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;内容摘要和拟办意见：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
                 <item row="0" column="1">
                  <widget class="QTextEdit" name="textEdit_4">
                   <property name="maximumSize">
@@ -2719,13 +2750,6 @@ QComboBox{background:white;
                     <width>16777215</width>
                     <height>16777215</height>
                    </size>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_40">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;内容摘要和拟办意见：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>

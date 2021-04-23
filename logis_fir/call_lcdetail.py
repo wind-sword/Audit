@@ -10,7 +10,7 @@ from tools import tools
 
 
 class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
-    def __init__(self, k1, k2):
+    def __init__(self, key):
         super().__init__()
         self.setupUi(self)
 
@@ -39,7 +39,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.lineEdit_25.textChanged.connect(self.autoSyn4)
 
         # 初始化流程变量
-        self.initVar(k1, k2)
+        self.initVar(key)
 
         # 初始化页面展示情况
         self.initView()
@@ -136,37 +136,19 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
     def autoSyn4(self):
         self.lineEdit_num.setText(self.lineEdit_25.text())
 
-    # 将发文字号和收文字号映射为流程表中的序号,并且初始化发文种类变量,是否批示变量
-    def initVar(self, k1, k2):
+    # 用流程表中的序号初始化各变量
+    def initVar(self, key):
+        self.xh = key
+        sql = "select 发文序号,收文序号 from bwprocess where 序号 = %s" % self.xh
+        data = tools.executeSql(sql)
         # 表明发文字号不为空,对各状态变量初始化
-        if k1 != "/":
-            sql = "select bwprocess.序号,bwprocess.发文序号,bwprocess.收文序号 from bwprocess,sendfile where " \
-                  "bwprocess.发文序号=sendfile.序号 and sendfile.发文字号='%s'" % k1
-            data = tools.executeSql(sql)
-            # print(data)
-
-            # 流程序号和发文序号必定存在,初始化
-            self.xh = data[0][0]
-            self.xh_send = data[0][1]
+        if data[0][0] is not None:
+            self.xh_send = data[0][0]
 
             # 初始化发文类型
-            sql = "select projectType from sendfile where 序号=%s" % self.xh_send
+            sql = "select projectType from sendfile where 序号 = %s" % self.xh_send
             result = tools.executeSql(sql)
             self.send_type = result[0][0]
-
-            # 判断收文序号是否存在
-            if data[0][2] is not None:
-                # 初始化收文序号
-                self.xh_rev = data[0][2]
-
-                # 初始化批文序号列表
-                sql = 'select bw_cast_cor.批文序号 from bw_cast_cor where bw_cast_cor.流程序号 = %s' % self.xh
-                result = tools.executeSql(sql)
-                # 如果有批文序号,那么初始化批文序号列表
-                if len(result) != 0:
-                    for i in result:
-                        for j in i:
-                            self.xh_cor_list.append(j)
 
             # 初始化问题表状态
             sql = "select * from problem where 发文序号 = %s" % self.xh_send
@@ -174,32 +156,19 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             if len(result) != 0:
                 self.pro_tag = 1
 
-        # 表明发文字号为空,对各状态变量初始化
-        elif k1 == "/" and k2 != "/":
-            sql = "select bwprocess.序号,bwprocess.发文序号,bwprocess.收文序号 from bwprocess,revfile where " \
-                  "bwprocess.收文序号=revfile.序号 and revfile.收文字号='%s'" % k2
-            data = tools.executeSql(sql)
-            # print(data)
+        # 判断收文序号是否存在
+        if data[0][1] is not None:
+            # 初始化收文序号
+            self.xh_rev = data[0][1]
 
-            # 流程序号和收文序号必定存在,初始化
-            self.xh = data[0][0]
-            self.xh_rev = data[0][2]
-
-            # 实际上并不会执行,因为发文编号为空,发文序号也应该为空
-            if data[0][1] is not None:
-                self.xh_send = data[0][1]
-                # 初始化发文类型
-                sql = "select projectType from sendfile where 序号=%s" % self.xh_send
-                result = tools.executeSql(sql)
-                self.send_type = result[0][0]
-
-            # 初始化批文序号列表
-            sql = 'select bw_cast_cor.批文序号 from bw_cast_cor where bw_cast_cor.流程序号 = %s' % self.xh
-            result = tools.executeSql(sql)
-            if len(result) != 0:
-                for i in result:
-                    for j in i:
-                        self.xh_cor_list.append(j)
+        # 初始化批文序号列表
+        sql = 'select bw_cast_cor.批文序号 from bw_cast_cor where bw_cast_cor.流程序号 = %s' % self.xh
+        result = tools.executeSql(sql)
+        # 如果有批文序号,那么初始化批文序号列表
+        if len(result) != 0:
+            for i in result:
+                for j in i:
+                    self.xh_cor_list.append(j)
 
     # 从初始化的变量情况判断要展示的页面
     def initView(self):
@@ -230,8 +199,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         # 选出该项目对应的所有问题
         sql = 'select problem.问题顺序号,problem.被审计领导干部,problem.所在地方和单位,sendfile.发文字号,problem.审计报告文号,problem.出具审计报告时间,' \
               'problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类,problem.问题四级分类,' \
-              'problem.备注,problem.问题金额,problem.移送及处理情况 from problem,sendfile where 发文序号 =  %s and sendfile.序号 = ' \
-              'problem.发文序号' % self.xh_send
+              'problem.备注,problem.问题金额,problem.移送及处理情况 from problem,sendfile where problem.发文序号 = %s and sendfile.序号 ' \
+              '= problem.发文序号' % self.xh_send
         data = tools.executeSql(sql)
         # 打印结果
         # print(data)
@@ -381,37 +350,37 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.pushButton_3.hide()
             self.pushButton_6.show()
 
-            self.dateEdit.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
-            self.lineEdit_6.setText(data[0][1])  # 密级
+            self.dateEdit_5.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
+            self.lineEdit_14.setText(data[0][1])  # 密级
             self.comboBox_6.setCurrentText(data[0][2])  # 是否公开
             self.comboBox_7.setCurrentText(data[0][3])  # 紧急程度
-            self.lineEdit_38.setText(data[0][4])  # 收文来文单位
-            self.lineEdit_37.setText(data[0][5])  # 收文来文字号
-            self.lineEdit_35.setText(data[0][6])  # 文件标题
-            self.textEdit.setText(data[0][7])  # 内容摘要和拟办意见
-            self.textEdit_5.setText(data[0][8])  # 领导批示
-            self.lineEdit_33.setText(data[0][9])  # 处理结果
-            self.lineEdit_30.setText(data[0][10])  # 审核
-            self.lineEdit_31.setText(data[0][11])  # 办文编号
-            self.lineEdit_34.setText(data[0][12])  # 承办处室
-            self.lineEdit_32.setText(data[0][13])  # 承办人
-            self.lineEdit_39.setText(data[0][14])  # 联系电话
+            self.lineEdit_66.setText(data[0][4])  # 收文来文单位
+            self.lineEdit_67.setText(data[0][5])  # 收文来文字号
+            self.lineEdit_68.setText(data[0][6])  # 文件标题
+            self.textEdit_10.setText(data[0][7])  # 内容摘要和拟办意见
+            self.textEdit_11.setText(data[0][8])  # 领导批示
+            self.lineEdit_64.setText(data[0][9])  # 处理结果
+            self.lineEdit_65.setText(data[0][10])  # 审核
+            self.lineEdit_60.setText(data[0][11])  # 办文编号
+            self.lineEdit_61.setText(data[0][12])  # 承办处室
+            self.lineEdit_62.setText(data[0][13])  # 承办人
+            self.lineEdit_63.setText(data[0][14])  # 联系电话
 
-            self.dateEdit.setReadOnly(True)
-            self.lineEdit_6.setReadOnly(True)
+            self.dateEdit_5.setReadOnly(True)
+            self.lineEdit_14.setReadOnly(True)
             self.comboBox_6.setDisabled(True)
             self.comboBox_7.setDisabled(True)
-            self.lineEdit_38.setReadOnly(True)
-            self.lineEdit_37.setReadOnly(True)
-            self.lineEdit_35.setReadOnly(True)
-            self.lineEdit_33.setReadOnly(True)
-            self.lineEdit_30.setReadOnly(True)
-            self.lineEdit_31.setReadOnly(True)
-            self.lineEdit_34.setReadOnly(True)
-            self.lineEdit_32.setReadOnly(True)
-            self.lineEdit_39.setReadOnly(True)
-            self.textEdit.setReadOnly(True)
-            self.textEdit_5.setReadOnly(True)
+            self.lineEdit_66.setReadOnly(True)
+            self.lineEdit_67.setReadOnly(True)
+            self.lineEdit_68.setReadOnly(True)
+            self.lineEdit_64.setReadOnly(True)
+            self.lineEdit_65.setReadOnly(True)
+            self.lineEdit_60.setReadOnly(True)
+            self.lineEdit_61.setReadOnly(True)
+            self.lineEdit_62.setReadOnly(True)
+            self.lineEdit_63.setReadOnly(True)
+            self.textEdit_10.setReadOnly(True)
+            self.textEdit_11.setReadOnly(True)
 
         # 收文表本来不存在,但是发文表存在,此时应该继承发文表中已有内容,隐藏修改收文按钮,展示新增收文按钮
         elif self.xh_rev == -1 and self.xh_send != -1:
@@ -421,40 +390,40 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.pushButton_3.show()
             self.pushButton_6.hide()
 
-            self.lineEdit_6.setText(data[0][3])  # 密级
+            self.lineEdit_14.setText(data[0][3])  # 密级
             self.comboBox_6.setCurrentText(data[0][4])  # 是否公开
-            self.lineEdit_35.setText(data[0][0])  # 文件标题
+            self.lineEdit_68.setText(data[0][0])  # 文件标题
             self.comboBox_7.setCurrentText(data[0][2])  # 紧急程度
-            self.lineEdit_37.setText(data[0][1])  # 来文字号
-            self.dateEdit.setDate(datetime.datetime.now())  # 初始化时间时间默认值为当前时间
+            self.lineEdit_67.setText(data[0][1])  # 来文字号
+            self.dateEdit_5.setDate(datetime.datetime.now())  # 初始化时间时间默认值为当前时间
 
             # 继承而来的字段不可改变
-            self.lineEdit_6.setReadOnly(True)
+            self.lineEdit_14.setReadOnly(True)
             self.comboBox_6.setDisabled(True)
-            self.lineEdit_35.setReadOnly(True)
+            self.lineEdit_68.setReadOnly(True)
             self.comboBox_7.setDisabled(True)
-            self.lineEdit_37.setReadOnly(True)
+            self.lineEdit_67.setReadOnly(True)
 
     # 展示所有批文页面
     def displayCorFile(self):
         w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
 
         # 设置不可修改
-        self.dateEdit_2.setReadOnly(True)  # 收文时间
-        self.lineEdit_8.setReadOnly(True)  # 密级
+        self.dateEdit_4.setReadOnly(True)  # 收文时间
+        self.lineEdit_13.setReadOnly(True)  # 密级
         self.comboBox_8.setDisabled(True)  # 是否公开
         self.comboBox_9.setDisabled(True)  # 紧急程度
-        self.lineEdit_41.setReadOnly(True)  # 批文来文单位
-        self.lineEdit_42.setReadOnly(True)  # 批文来文字号
-        self.lineEdit_43.setReadOnly(True)  # 文件标题
-        self.lineEdit_48.setReadOnly(True)  # 处理结果
-        self.lineEdit_49.setReadOnly(True)  # 审核
-        self.lineEdit_44.setReadOnly(True)  # 批文编号
-        self.lineEdit_45.setReadOnly(True)  # 承办处室
-        self.lineEdit_46.setReadOnly(True)  # 承办人
-        self.lineEdit_47.setReadOnly(True)  # 联系电话
-        self.textEdit_6.setReadOnly(True)  # 内容摘要和拟办意见
-        self.textEdit_7.setReadOnly(True)  # 领导批示
+        self.lineEdit_57.setReadOnly(True)  # 批文来文单位
+        self.lineEdit_58.setReadOnly(True)  # 批文来文字号
+        self.lineEdit_59.setReadOnly(True)  # 文件标题
+        self.lineEdit_55.setReadOnly(True)  # 处理结果
+        self.lineEdit_56.setReadOnly(True)  # 审核
+        self.lineEdit_51.setReadOnly(True)  # 批文编号
+        self.lineEdit_52.setReadOnly(True)  # 承办处室
+        self.lineEdit_53.setReadOnly(True)  # 承办人
+        self.lineEdit_54.setReadOnly(True)  # 联系电话
+        self.textEdit_8.setReadOnly(True)  # 内容摘要和拟办意见
+        self.textEdit_9.setReadOnly(True)  # 领导批示
 
         # 表示收文还没有录入,此时不允许录入批文,跳转到收文录入页面
         if self.xh_rev == -1:
@@ -507,21 +476,21 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
               "领导批示 from corfile where 序号 = %s" % xh_cur_cor
         data = tools.executeSql(sql)
 
-        self.dateEdit_2.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
-        self.lineEdit_8.setText(data[0][1])  # 密级
+        self.dateEdit_4.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 收文时间
+        self.lineEdit_13.setText(data[0][1])  # 密级
         self.comboBox_8.setCurrentText(data[0][2])  # 是否公开
         self.comboBox_9.setCurrentText(data[0][3])  # 紧急程度
-        self.lineEdit_41.setText(data[0][4])  # 批文来文单位
-        self.lineEdit_42.setText(data[0][5])  # 批文来文字号
-        self.lineEdit_43.setText(data[0][6])  # 文件标题
-        self.lineEdit_48.setText(data[0][7])  # 处理结果
-        self.lineEdit_49.setText(data[0][8])  # 审核
-        self.lineEdit_44.setText(data[0][9])  # 批文编号
-        self.lineEdit_45.setText(data[0][10])  # 承办处室
-        self.lineEdit_46.setText(data[0][11])  # 承办人
-        self.lineEdit_47.setText(data[0][12])  # 联系电话
-        self.textEdit_6.setText(data[0][13])  # 内容摘要和拟办意见
-        self.textEdit_7.setText(data[0][14])  # 领导批示
+        self.lineEdit_57.setText(data[0][4])  # 批文来文单位
+        self.lineEdit_58.setText(data[0][5])  # 批文来文字号
+        self.lineEdit_59.setText(data[0][6])  # 文件标题
+        self.lineEdit_55.setText(data[0][7])  # 处理结果
+        self.lineEdit_56.setText(data[0][8])  # 审核
+        self.lineEdit_51.setText(data[0][9])  # 批文编号
+        self.lineEdit_52.setText(data[0][10])  # 承办处室
+        self.lineEdit_53.setText(data[0][11])  # 承办人
+        self.lineEdit_54.setText(data[0][12])  # 联系电话
+        self.textEdit_8.setText(data[0][13])  # 内容摘要和拟办意见
+        self.textEdit_9.setText(data[0][14])  # 领导批示
 
     # 修改发文按钮
     def reviseSendFile(self, btname):
@@ -684,19 +653,19 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
     def insertRevFile(self):
         w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
 
-        input1 = self.dateEdit.text()  # 收文时间
-        input2 = self.lineEdit_6.text()  # 密级
+        input1 = self.dateEdit_5.text()  # 收文时间
+        input2 = self.lineEdit_14.text()  # 密级
         input3 = self.comboBox_6.currentText()  # 是否公开
         input4 = self.comboBox_7.currentText()  # 紧急程度
-        input5 = self.lineEdit_38.text()  # 收文来文单位
-        input6 = self.lineEdit_37.text()  # 收文来文字号
-        input7 = self.lineEdit_35.text()  # 文件标题
-        input8 = self.lineEdit_33.text()  # 处理结果
-        input9 = self.lineEdit_30.text()  # 审核
-        input10 = self.lineEdit_31.text()  # 办文编号
-        input11 = self.lineEdit_34.text()  # 承办处室
-        input12 = self.lineEdit_32.text()  # 承办人
-        input13 = self.lineEdit_39.text()  # 联系电话
+        input5 = self.lineEdit_66.text()  # 收文来文单位
+        input6 = self.lineEdit_67.text()  # 收文来文字号
+        input7 = self.lineEdit_68.text()  # 文件标题
+        input8 = self.lineEdit_64.text()  # 处理结果
+        input9 = self.lineEdit_65.text()  # 审核
+        input10 = self.lineEdit_60.text()  # 办文编号
+        input11 = self.lineEdit_61.text()  # 承办处室
+        input12 = self.lineEdit_62.text()  # 承办人
+        input13 = self.lineEdit_63.text()  # 联系电话
 
         if input10 != "":
             sql = "select 收文字号 from revfile where 收文字号 = '%s'" % input10
@@ -740,41 +709,41 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.pushButton_12.show()
 
         # 设置可写
-        self.dateEdit.setReadOnly(False)
-        self.lineEdit_6.setReadOnly(False)
+        self.dateEdit_5.setReadOnly(False)
+        self.lineEdit_14.setReadOnly(False)
         self.comboBox_6.setEnabled(True)
         self.comboBox_7.setEnabled(True)
-        self.lineEdit_38.setReadOnly(False)
-        self.lineEdit_37.setReadOnly(False)
-        self.lineEdit_35.setReadOnly(False)
-        self.lineEdit_33.setReadOnly(False)
-        self.lineEdit_30.setReadOnly(False)
-        self.lineEdit_31.setReadOnly(False)
-        self.lineEdit_34.setReadOnly(False)
-        self.lineEdit_32.setReadOnly(False)
-        self.lineEdit_39.setReadOnly(False)
-        self.textEdit.setReadOnly(False)
-        self.textEdit_5.setReadOnly(False)
+        self.lineEdit_66.setReadOnly(False)
+        self.lineEdit_67.setReadOnly(False)
+        self.lineEdit_68.setReadOnly(False)
+        self.lineEdit_64.setReadOnly(False)
+        self.lineEdit_65.setReadOnly(False)
+        self.lineEdit_60.setReadOnly(False)
+        self.lineEdit_61.setReadOnly(False)
+        self.lineEdit_62.setReadOnly(False)
+        self.lineEdit_63.setReadOnly(False)
+        self.textEdit_10.setReadOnly(False)
+        self.textEdit_11.setReadOnly(False)
 
     # 确认修改收文
     def updateRevFile(self):
         w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
 
-        input1 = self.dateEdit.text()  # 收文时间
-        input2 = self.lineEdit_6.text()  # 密级
+        input1 = self.dateEdit_5.text()  # 收文时间
+        input2 = self.lineEdit_14.text()  # 密级
         input3 = self.comboBox_6.currentText()  # 是否公开
         input4 = self.comboBox_7.currentText()  # 紧急程度
-        input5 = self.lineEdit_38.text()  # 收文来文单位
-        input6 = self.lineEdit_37.text()  # 收文来文字号
-        input7 = self.lineEdit_35.text()  # 文件标题
-        input8 = self.textEdit.toPlainText()  # 内容摘要和拟办意见
-        input9 = self.textEdit_5.toPlainText()  # 领导批示
-        input10 = self.lineEdit_33.text()  # 处理结果
-        input11 = self.lineEdit_30.text()  # 审核
-        input12 = self.lineEdit_31.text()  # 办文编号
-        input13 = self.lineEdit_34.text()  # 承办处室
-        input14 = self.lineEdit_32.text()  # 承办人
-        input15 = self.lineEdit_39.text()  # 联系电话
+        input5 = self.lineEdit_66.text()  # 收文来文单位
+        input6 = self.lineEdit_67.text()  # 收文来文字号
+        input7 = self.lineEdit_68.text()  # 文件标题
+        input8 = self.textEdit_10.toPlainText()  # 内容摘要和拟办意见
+        input9 = self.textEdit_11.toPlainText()  # 领导批示
+        input10 = self.lineEdit_64.text()  # 处理结果
+        input11 = self.lineEdit_65.text()  # 审核
+        input12 = self.lineEdit_60.text()  # 办文编号
+        input13 = self.lineEdit_61.text()  # 承办处室
+        input14 = self.lineEdit_62.text()  # 承办人
+        input15 = self.lineEdit_63.text()  # 联系电话
 
         if input12 != "":
             sql = "select 收文字号 from revfile where 收文字号 = '%s'" % input12
@@ -823,38 +792,38 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         # 设置继承字段,从收文表中继承
         sql = "select 秘密等级,是否公开,紧急程度 from revfile where 序号 = %s" % self.xh_rev
         data = tools.executeSql(sql)
-        self.lineEdit_8.setText(data[0][0])  # 密级
+        self.lineEdit_13.setText(data[0][0])  # 密级
         self.comboBox_8.setCurrentText(data[0][1])  # 是否公开
         self.comboBox_9.setCurrentText(data[0][2])  # 紧急程度
 
-        self.dateEdit_2.setDate(QDate.currentDate())  # 收文时间
-        self.lineEdit_41.clear()  # 批文来文单位
-        self.lineEdit_42.clear()  # 批文来文字号
-        self.lineEdit_43.clear()  # 文件标题
-        self.lineEdit_48.clear()  # 处理结果
-        self.lineEdit_49.clear()  # 审核
-        self.lineEdit_44.clear()  # 批文编号
-        self.lineEdit_45.clear()  # 承办处室
-        self.lineEdit_46.clear()  # 承办人
-        self.lineEdit_47.clear()  # 联系电话
-        self.textEdit_6.clear()  # 内容摘要和拟办意见
-        self.textEdit_7.clear()  # 领导批示
+        self.dateEdit_4.setDate(QDate.currentDate())  # 收文时间
+        self.lineEdit_57.clear()  # 批文来文单位
+        self.lineEdit_58.clear()  # 批文来文字号
+        self.lineEdit_59.clear()  # 文件标题
+        self.lineEdit_55.clear()  # 处理结果
+        self.lineEdit_56.clear()  # 审核
+        self.lineEdit_51.clear()  # 批文编号
+        self.lineEdit_52.clear()  # 承办处室
+        self.lineEdit_53.clear()  # 承办人
+        self.lineEdit_54.clear()  # 联系电话
+        self.textEdit_8.clear()  # 内容摘要和拟办意见
+        self.textEdit_9.clear()  # 领导批示
 
-        # self.lineEdit_8.setReadOnly(False)  # 密级
+        # self.lineEdit_13.setReadOnly(False)  # 密级
         # self.lineEdit_9.setReadOnly(False)  # 是否公开
         # self.lineEdit_40.setReadOnly(False)  # 紧急程度
-        self.dateEdit_2.setReadOnly(False)  # 收文时间
-        self.lineEdit_41.setReadOnly(False)  # 批文来文单位
-        self.lineEdit_42.setReadOnly(False)  # 批文来文字号
-        self.lineEdit_43.setReadOnly(False)  # 文件标题
-        self.lineEdit_48.setReadOnly(False)  # 处理结果
-        self.lineEdit_49.setReadOnly(False)  # 审核
-        self.lineEdit_44.setReadOnly(False)  # 批文编号
-        self.lineEdit_45.setReadOnly(False)  # 承办处室
-        self.lineEdit_46.setReadOnly(False)  # 承办人
-        self.lineEdit_47.setReadOnly(False)  # 联系电话
-        self.textEdit_6.setReadOnly(False)  # 内容摘要和拟办意见
-        self.textEdit_7.setReadOnly(False)  # 领导批示
+        self.dateEdit_4.setReadOnly(False)  # 收文时间
+        self.lineEdit_57.setReadOnly(False)  # 批文来文单位
+        self.lineEdit_58.setReadOnly(False)  # 批文来文字号
+        self.lineEdit_59.setReadOnly(False)  # 文件标题
+        self.lineEdit_55.setReadOnly(False)  # 处理结果
+        self.lineEdit_56.setReadOnly(False)  # 审核
+        self.lineEdit_51.setReadOnly(False)  # 批文编号
+        self.lineEdit_52.setReadOnly(False)  # 承办处室
+        self.lineEdit_53.setReadOnly(False)  # 承办人
+        self.lineEdit_54.setReadOnly(False)  # 联系电话
+        self.textEdit_8.setReadOnly(False)  # 内容摘要和拟办意见
+        self.textEdit_9.setReadOnly(False)  # 领导批示
 
     # 修改批文按钮
     def reviseCorFile(self):
@@ -866,40 +835,40 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
         self.pushButton_13.setText("确认修改")
 
-        self.dateEdit_2.setReadOnly(False)  # 收文时间
-        self.lineEdit_8.setReadOnly(False)  # 密级
+        self.dateEdit_4.setReadOnly(False)  # 收文时间
+        self.lineEdit_13.setReadOnly(False)  # 密级
         self.comboBox_8.setEnabled(True)  # 是否公开
         self.comboBox_9.setEnabled(True)  # 紧急程度
-        self.lineEdit_41.setReadOnly(False)  # 批文来文单位
-        self.lineEdit_42.setReadOnly(False)  # 批文来文字号
-        self.lineEdit_43.setReadOnly(False)  # 文件标题
-        self.lineEdit_48.setReadOnly(False)  # 处理结果
-        self.lineEdit_49.setReadOnly(False)  # 审核
-        self.lineEdit_44.setReadOnly(False)  # 批文编号
-        self.lineEdit_45.setReadOnly(False)  # 承办处室
-        self.lineEdit_46.setReadOnly(False)  # 承办人
-        self.lineEdit_47.setReadOnly(False)  # 联系电话
-        self.textEdit_6.setReadOnly(False)  # 内容摘要和拟办意见
-        self.textEdit_7.setReadOnly(False)  # 领导批示
+        self.lineEdit_57.setReadOnly(False)  # 批文来文单位
+        self.lineEdit_58.setReadOnly(False)  # 批文来文字号
+        self.lineEdit_59.setReadOnly(False)  # 文件标题
+        self.lineEdit_55.setReadOnly(False)  # 处理结果
+        self.lineEdit_56.setReadOnly(False)  # 审核
+        self.lineEdit_51.setReadOnly(False)  # 批文编号
+        self.lineEdit_52.setReadOnly(False)  # 承办处室
+        self.lineEdit_53.setReadOnly(False)  # 承办人
+        self.lineEdit_54.setReadOnly(False)  # 联系电话
+        self.textEdit_8.setReadOnly(False)  # 内容摘要和拟办意见
+        self.textEdit_9.setReadOnly(False)  # 领导批示
 
     # 确认新增/修改批文
     def insertOrUpdateCorFile(self):
         w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
-        input1 = self.dateEdit_2.text()  # 收文时间
-        input2 = self.lineEdit_8.text()  # 密级
+        input1 = self.dateEdit_4.text()  # 收文时间
+        input2 = self.lineEdit_13.text()  # 密级
         input3 = self.comboBox_8.currentText()  # 是否公开
         input4 = self.comboBox_9.currentText()  # 紧急程度
-        input5 = self.lineEdit_41.text()  # 来文单位
-        input6 = self.lineEdit_42.text()  # 来文字号
-        input7 = self.lineEdit_43.text()  # 批文标题
-        input8 = self.lineEdit_44.text()  # 批文编号
-        input9 = self.textEdit_6.toPlainText()  # 内容摘要和拟办意见
-        input10 = self.textEdit_7.toPlainText()  # 领导批示
-        input11 = self.lineEdit_48.text()  # 处理结果
-        input12 = self.lineEdit_49.text()  # 审核
-        input13 = self.lineEdit_45.text()  # 承办处室
-        input14 = self.lineEdit_46.text()  # 承办人
-        input15 = self.lineEdit_47.text()  # 联系电话
+        input5 = self.lineEdit_57.text()  # 来文单位
+        input6 = self.lineEdit_58.text()  # 来文字号
+        input7 = self.lineEdit_59.text()  # 批文标题
+        input8 = self.lineEdit_51.text()  # 批文编号
+        input9 = self.textEdit_8.toPlainText()  # 内容摘要和拟办意见
+        input10 = self.textEdit_9.toPlainText()  # 领导批示
+        input11 = self.lineEdit_55.text()  # 处理结果
+        input12 = self.lineEdit_56.text()  # 审核
+        input13 = self.lineEdit_52.text()  # 承办处室
+        input14 = self.lineEdit_53.text()  # 承办人
+        input15 = self.lineEdit_54.text()  # 联系电话
 
         if self.pushButton_13.text() == "确认新增":
             if input8 != "":
@@ -1006,33 +975,34 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
             sheet_name = sheet.name  # 获得名称
             sheet_cols = sheet.ncols  # 获得列数
-            sheet_nrows = sheet.nrows  # 获得行数
-            print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s' % (sheet_name, sheet_cols, sheet_nrows))
+            sheet_rows = sheet.nrows  # 获得行数
+            print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s' % (sheet_name, sheet_cols, sheet_rows))
 
             # 读取excel数据
-            for i in range(4, sheet_nrows):
-                celli_0 = int(sheet.row(i)[0].value)  # 问题顺序号
-                celli_1 = sheet.row(i)[1].value  # 被审计对象
-                celli_2 = sheet.row(i)[2].value  # 所在地方或单位
-                # celli_3 = sheet.row(i)[3].value  # 报送专报期号
-                celli_3 = self.xh_send  # 报送专报期号,忽略excel表中发文字号这一列,直接读入发文序号
-                celli_4 = sheet.row(i)[4].value  # 审计报告（意见）文号
-                celli_5 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 5).value, 0).strftime(
+            for i in range(4, sheet_rows):
+                cell_i_0 = int(sheet.row(i)[0].value)  # 问题顺序号
+                cell_i_1 = sheet.row(i)[1].value  # 被审计对象
+                cell_i_2 = sheet.row(i)[2].value  # 所在地方或单位
+                # cell_i_3 = sheet.row(i)[3].value  # 报送专报期号
+                cell_i_3 = self.xh_send  # 报送专报期号,忽略excel表中发文字号这一列,直接读入发文序号
+                cell_i_4 = sheet.row(i)[4].value  # 审计报告（意见）文号
+                cell_i_5 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 5).value, 0).strftime(
                     "%Y/%m/%d")  # 出具审计专报时间 XXXX-XX-XX
-                celli_6 = sheet.row(i)[6].value  # 审计组组长
-                celli_7 = sheet.row(i)[7].value  # 审计组主审
-                celli_8 = sheet.row(i)[8].value  # 问题描述
-                celli_9 = sheet.row(i)[9].value  # 问题一级分类
-                celli_10 = sheet.row(i)[10].value  # 问题二级分类
-                celli_11 = sheet.row(i)[11].value  # 问题三级分类
-                celli_12 = sheet.row(i)[12].value  # 问题四级分类
-                celli_13 = sheet.row(i)[13].value  # 备注（不在前列问题类型中的，简单描述）
-                celli_14 = sheet.row(i)[14].value  # 问题金额（万元）
-                celli_15 = sheet.row(i)[15].value  # 移送及处理情况
+                cell_i_6 = sheet.row(i)[6].value  # 审计组组长
+                cell_i_7 = sheet.row(i)[7].value  # 审计组主审
+                cell_i_8 = sheet.row(i)[8].value  # 问题描述
+                cell_i_9 = sheet.row(i)[9].value  # 问题一级分类
+                cell_i_10 = sheet.row(i)[10].value  # 问题二级分类
+                cell_i_11 = sheet.row(i)[11].value  # 问题三级分类
+                cell_i_12 = sheet.row(i)[12].value  # 问题四级分类
+                cell_i_13 = sheet.row(i)[13].value  # 备注（不在前列问题类型中的，简单描述）
+                cell_i_14 = sheet.row(i)[14].value  # 问题金额（万元）
+                cell_i_15 = sheet.row(i)[15].value  # 移送及处理情况
 
-                sql = "insert into problem values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
-                      "'%s','%s','%s')" % (celli_0, celli_1, celli_2, celli_3, celli_4, celli_5, celli_6, celli_7,
-                                           celli_8, celli_9, celli_10, celli_11, celli_12, celli_13, celli_14, celli_15)
+                sql = "insert into problem values(NULL,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
+                      "'%s','%s','%s','%s','%s')" % (
+                          cell_i_0, cell_i_1, cell_i_2, cell_i_3, cell_i_4, cell_i_5, cell_i_6, cell_i_7,
+                          cell_i_8, cell_i_9, cell_i_10, cell_i_11, cell_i_12, cell_i_13, cell_i_14, cell_i_15)
                 print(sql)
                 tools.executeSql(sql)
 

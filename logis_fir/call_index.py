@@ -58,17 +58,22 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         if btname == "zgtz":
             self.stackedWidget.setCurrentIndex(1)
             self.tabWidget.setCurrentIndex(0)
-            self.showProjectTable()  # 点击整改台账显示表内容
+            # 初始化显示
+            self.showProjectTable()
         elif btname == "lczl":
             self.stackedWidget.setCurrentIndex(0)
+            self.tabWidget_lczl.setCurrentIndex(0)
+            # 初始化显示
             self.showBwprocessTable()
         elif btname == "fwbl":
             self.stackedWidget.setCurrentIndex(2)
+            # 初始化显示
             self.stackedWidget_new.setCurrentIndex(self.comboBox_type.currentIndex())  # 初始化发文办理页面
             self.dateEdit_3.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
             self.dateEdit_6.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
         elif btname == "swbl":
             self.stackedWidget.setCurrentIndex(3)
+            # 初始化显示
             self.dateEdit_4.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
         elif btname == "swll":
             self.stackedWidget.setCurrentIndex(4)
@@ -132,12 +137,14 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # 表格不可编辑
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
+        self.tableWidget.hideColumn(0)  # 将流程数据库主键隐藏起来,作为传参,此处主键为整改序号
+
         # sql由台账表的流程序号出发,通过多表查询获得台账所有字段
-        sql = "select bwprocess.流程开始时间,sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号,GROUP_CONCAT(" \
-              "corfile.批文标题,'\n'),GROUP_CONCAT(corfile.批文字号,'\n'),standingbook.整改发函内容 from standingbook join " \
-              "bwprocess on standingbook.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join " \
-              "revfile on bwprocess.收文序号 = revfile.序号 join bw_cast_cor on bwprocess.序号 = bw_cast_cor.流程序号 join " \
-              "corfile on bw_cast_cor.批文序号 = corfile.序号 GROUP BY standingbook.序号 "
+        sql = "select standingbook.序号,bwprocess.流程开始时间,sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号," \
+              "GROUP_CONCAT(corfile.批文标题,'\n'),GROUP_CONCAT(corfile.批文字号,'\n'),standingbook.整改发函内容 from " \
+              "standingbook join bwprocess on standingbook.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = " \
+              "sendfile.序号 join revfile on bwprocess.收文序号 = revfile.序号 join bw_cast_cor on bwprocess.序号 = " \
+              "bw_cast_cor.流程序号 join corfile on bw_cast_cor.批文序号 = corfile.序号 GROUP BY standingbook.序号 "
         data = tools.executeSql(sql)
         # 打印结果
         # print(data)
@@ -165,12 +172,14 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # 表格不可编辑
         self.tableWidget_lczl.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
+        self.tableWidget_lczl.hideColumn(0)  # 将流程数据库主键隐藏起来,作为传参,此处主键为流程序号
+
         # sql查询通过多表左外连接查询获取发文流程结果.并且根据流程序号这一唯一标识分组,将批文标题和字号用逗号连接起来
-        sql = "SELECT bwprocess.流程开始时间,sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号,GROUP_CONCAT(" \
-              "corfile.批文标题,'\n'),GROUP_CONCAT(corfile.批文字号,'\n'),bwprocess.是否加入整改 FROM bwprocess LEFT OUTER JOIN " \
-              "sendfile ON sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN revfile ON revfile.序号 = bwprocess.收文序号 LEFT " \
-              "OUTER JOIN bw_cast_cor ON bw_cast_cor.流程序号 = bwprocess.序号 LEFT OUTER JOIN corfile ON corfile.序号 = " \
-              "bw_cast_cor.批文序号 GROUP BY bwprocess.序号 "
+        sql = "SELECT bwprocess.序号,bwprocess.流程开始时间,sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号," \
+              "GROUP_CONCAT(corfile.批文标题,'\n'),GROUP_CONCAT(corfile.批文字号,'\n'),bwprocess.是否加入整改 FROM bwprocess LEFT " \
+              "OUTER JOIN sendfile ON sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN revfile ON revfile.序号 = " \
+              "bwprocess.收文序号 LEFT OUTER JOIN bw_cast_cor ON bw_cast_cor.流程序号 = bwprocess.序号 LEFT OUTER JOIN corfile " \
+              "ON corfile.序号 = bw_cast_cor.批文序号 GROUP BY bwprocess.序号 "
         data = tools.executeSql(sql)
         # 打印结果
         # print(data)
@@ -247,7 +256,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             elif type2 == "情字":
                 self.label_34.setText("情字[2021]（平级、下级报送的情况类文件）→")
             elif type2 == "综字":
-                self.label_34.setText("综字[2021]（上级下发的各类文件）→")
+                self.收label_34.setText("综字[2021]（上级下发的各类文件）→")
             elif type2 == "会字":
                 self.label_34.setText("会[2021]（各级会议通知）→")
             elif type2 == "电字":
@@ -263,7 +272,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 ['时间', '发文编号', '收文编号', '办文编号', '秘级', '来文单位', '来文字号', '来文标题', '省领导批示内容', '秘书处拟办意见', '委办主任签批意见',
                  '批示任务办理要求时间', '承办处室及承办人', '办理结果', '文件去向'])
 
-            sql = 'select corfile.收文时间,sendfile.发文字号,revfile.收文字号,corfile.批文字号,corfile.秘密等级,corfile.来文单位,' \
+            sql = 'select corfile.收文时间,sendfile.发文字号,revfile.文字号,corfile.批文字号,corfile.秘密等级,corfile.来文单位,' \
                   'corfile.来文字号,corfile.批文标题,corfile.领导批示,corfile.内容摘要和拟办意见,corfile.委办主任签批意见,' \
                   'corfile.批示任务办理要求时间,corfile.承办处室及承办人,corfile.办理结果,corfile.文件去向 from bwprocess join sendfile on ' \
                   'bwprocess.发文序号 = sendfile.序号 join revfile on bwprocess.收文序号 = revfile.序号 join bw_cast_cor on ' \
@@ -506,11 +515,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         if row == -1:
             QtWidgets.QMessageBox.information(self, "提示", "请选择整改项目！")
         else:
-            # 获取发文字号用于查询
-            key = self.tableWidget.item(row, 2).text()
+            # 获取整改序号
+            key = self.tableWidget.item(row, 0).text()
             tab_new = Call_zgdetail(key)
             tab_new.setObjectName('tab_new')
-            tab_num = self.tabWidget.addTab(tab_new, key)
+            tab_num = self.tabWidget.addTab(tab_new, self.tableWidget.item(row, 3).text())
             self.tabWidget.setCurrentIndex(tab_num)
 
     # 办文流程详情下的查看详情按钮
@@ -520,11 +529,14 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         if row == -1:
             QtWidgets.QMessageBox.information(self, "提示", "请选择流程！")
         else:
-            key1 = self.tableWidget_lczl.item(row, 2).text()  # 发文号
-            key2 = self.tableWidget_lczl.item(row, 4).text()  # 收文号
-            tab_new1 = Call_lcdetail(key1, key2)
+            key = self.tableWidget_lczl.item(row, 0).text()  # 流程序号
+            tab_new1 = Call_lcdetail(key)
             tab_new1.setObjectName('tab_new')
-            tab_num1 = self.tabWidget_lczl.addTab(tab_new1, "流程详情")
+            # 设置tab标题,有发文标题设置为发文编号,没有发文设置为收文编号
+            if self.tableWidget_lczl.item(row, 3).text() != '/':
+                tab_num1 = self.tabWidget_lczl.addTab(tab_new1, self.tableWidget_lczl.item(row, 3).text())
+            else:
+                tab_num1 = self.tabWidget_lczl.addTab(tab_new1, self.tableWidget_lczl.item(row, 5).text())
             self.tabWidget_lczl.setCurrentIndex(tab_num1)
 
     # 办文流程下设置整改按钮
@@ -594,6 +606,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    callindex = Call_index()
-    callindex.show()
+    call_index = Call_index()
+    call_index.show()
     sys.exit(app.exec_())

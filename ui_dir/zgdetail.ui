@@ -6,54 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1259</width>
-    <height>935</height>
+    <width>1471</width>
+    <height>1095</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_5">
-   <item row="0" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,10">
-     <item>
-      <widget class="QLabel" name="label_head">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>项目详情：</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_title">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-         <underline>true</underline>
-        </font>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="0">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -78,17 +38,12 @@
        </property>
        <property name="font">
         <font>
-         <family>Adobe Devanagari</family>
+         <family>Segoe UI</family>
          <pointsize>14</pointsize>
-         <weight>50</weight>
+         <weight>75</weight>
          <italic>false</italic>
-         <bold>false</bold>
-         <underline>false</underline>
+         <bold>true</bold>
         </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">font: 14pt &quot;Adobe Devanagari&quot;;
-</string>
        </property>
        <property name="text">
         <string>发文登记</string>
@@ -106,6 +61,12 @@
      </item>
      <item>
       <widget class="QCommandLinkButton" name="commandLinkButton_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>160</width>
@@ -118,8 +79,14 @@
          <height>66</height>
         </size>
        </property>
-       <property name="styleSheet">
-        <string notr="true">font: 14pt &quot;Adobe Devanagari&quot;;</string>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
        </property>
        <property name="text">
         <string>问题表查看</string>
@@ -137,6 +104,12 @@
      </item>
      <item>
       <widget class="QCommandLinkButton" name="commandLinkButton_4">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>160</width>
@@ -151,15 +124,12 @@
        </property>
        <property name="font">
         <font>
-         <family>Adobe Devanagari</family>
+         <family>Segoe UI</family>
          <pointsize>14</pointsize>
-         <weight>50</weight>
+         <weight>75</weight>
          <italic>false</italic>
-         <bold>false</bold>
+         <bold>true</bold>
         </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">font: 14pt &quot;Adobe Devanagari&quot;;</string>
        </property>
        <property name="text">
         <string>收文录入</string>
@@ -177,6 +147,12 @@
      </item>
      <item>
       <widget class="QCommandLinkButton" name="commandLinkButton_5">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>160</width>
@@ -191,15 +167,12 @@
        </property>
        <property name="font">
         <font>
-         <family>Adobe Devanagari</family>
+         <family>Segoe UI</family>
          <pointsize>14</pointsize>
-         <weight>50</weight>
+         <weight>75</weight>
          <italic>false</italic>
-         <bold>false</bold>
+         <bold>true</bold>
         </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">font: 14pt &quot;Adobe Devanagari&quot;;</string>
        </property>
        <property name="text">
         <string>批文录入</string>
@@ -237,17 +210,12 @@
        </property>
        <property name="font">
         <font>
-         <family>Adobe Devanagari</family>
+         <family>Segoe UI</family>
          <pointsize>14</pointsize>
-         <weight>50</weight>
+         <weight>75</weight>
          <italic>false</italic>
-         <bold>false</bold>
-         <underline>false</underline>
+         <bold>true</bold>
         </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">font: 14pt &quot;Adobe Devanagari&quot;;
-</string>
        </property>
        <property name="text">
         <string>整改发函</string>
@@ -259,7 +227,7 @@
         </size>
        </property>
        <property name="description">
-        <string>未完成</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -285,17 +253,12 @@
        </property>
        <property name="font">
         <font>
-         <family>Adobe Devanagari</family>
+         <family>Segoe UI</family>
          <pointsize>14</pointsize>
-         <weight>50</weight>
+         <weight>75</weight>
          <italic>false</italic>
-         <bold>false</bold>
-         <underline>false</underline>
+         <bold>true</bold>
         </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">font: 14pt &quot;Adobe Devanagari&quot;;
-</string>
        </property>
        <property name="text">
         <string>整改录入</string>
@@ -307,11 +270,18 @@
         </size>
        </property>
        <property name="description">
-        <string>可多次录入</string>
+        <string/>
        </property>
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </item>
    <item row="3" column="0">
     <widget class="Line" name="line_2">
@@ -319,6 +289,39 @@
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
+   </item>
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,10">
+     <item>
+      <widget class="QLabel" name="label_head">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>项目详情：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_title">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+         <underline>true</underline>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="4" column="0">
     <widget class="QStackedWidget" name="stackedWidget">
@@ -329,7 +332,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>5</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page_gw">
       <layout class="QGridLayout" name="gridLayout_6">
@@ -984,6 +987,9 @@
              <pointsize>14</pointsize>
             </font>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
            <property name="text">
             <string>选择文件</string>
            </property>
@@ -994,7 +1000,20 @@
       </layout>
      </widget>
      <widget class="QWidget" name="page_relfile">
-      <layout class="QGridLayout" name="gridLayout_7">
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QWidget" name="widget_4" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_14">
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label_68">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt; color:#ff0000;&quot;&gt;                 中共湖北省委审计委员会办公室收文批办单&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item row="1" column="0">
         <widget class="QFrame" name="frame">
          <property name="styleSheet">
@@ -1006,152 +1025,28 @@
          <property name="frameShadow">
           <enum>QFrame::Plain</enum>
          </property>
-         <layout class="QGridLayout" name="gridLayout_3">
+         <layout class="QGridLayout" name="gridLayout_15">
           <property name="sizeConstraint">
            <enum>QLayout::SetMinimumSize</enum>
           </property>
-          <item row="0" column="0">
-           <layout class="QFormLayout" name="formLayout">
+          <item row="3" column="0" colspan="5">
+           <layout class="QFormLayout" name="formLayout_46">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_11">
+             <widget class="QLabel" name="label_64">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;收文时间：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;文件标题：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QDateEdit" name="dateEdit"/>
-            </item>
-           </layout>
-          </item>
-          <item row="0" column="1">
-           <layout class="QFormLayout" name="formLayout_2">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_19">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;密级：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_6"/>
-            </item>
-           </layout>
-          </item>
-          <item row="0" column="2" colspan="2">
-           <layout class="QFormLayout" name="formLayout_3">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_39">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;是否公开：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_7"/>
-            </item>
-           </layout>
-          </item>
-          <item row="0" column="4">
-           <layout class="QFormLayout" name="formLayout_4">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_44">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;紧急程度：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_36"/>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="0" colspan="5">
-           <widget class="Line" name="line_5">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="0" colspan="5">
-           <widget class="Line" name="line_6">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="0">
-           <layout class="QFormLayout" name="formLayout_12">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_37">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;办文编号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_31"/>
-            </item>
-           </layout>
-          </item>
-          <item row="8" column="1">
-           <layout class="QFormLayout" name="formLayout_13">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_42">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;承办处室：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_34"/>
-            </item>
-           </layout>
-          </item>
-          <item row="8" column="2" colspan="2">
-           <layout class="QFormLayout" name="formLayout_14">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_38">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;承办人：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_32"/>
-            </item>
-           </layout>
-          </item>
-          <item row="8" column="4">
-           <layout class="QFormLayout" name="formLayout_15">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_48">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;联系电话：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_39"/>
+             <widget class="QLineEdit" name="lineEdit_35"/>
             </item>
            </layout>
           </item>
           <item row="4" column="0" colspan="5">
-           <layout class="QFormLayout" name="formLayout_8">
+           <layout class="QFormLayout" name="formLayout_62">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_40">
+             <widget class="QLabel" name="label_66">
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;内容摘要和拟办意见：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
@@ -1162,10 +1057,163 @@
             </item>
            </layout>
           </item>
-          <item row="5" column="0" colspan="5">
-           <layout class="QFormLayout" name="formLayout_9">
+          <item row="0" column="1">
+           <layout class="QFormLayout" name="formLayout_63">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_46">
+             <widget class="QLabel" name="label_36">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;密级：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="lineEdit_6"/>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="0">
+           <layout class="QFormLayout" name="formLayout_64">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_19">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;收文时间：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QDateEdit" name="dateEdit"/>
+            </item>
+           </layout>
+          </item>
+          <item row="8" column="1">
+           <layout class="QFormLayout" name="formLayout_65">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_67">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;承办处室：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="lineEdit_34">
+              <property name="maximumSize">
+               <size>
+                <width>210</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="2" colspan="3">
+           <layout class="QFormLayout" name="formLayout_66">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_69">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;来文字号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="lineEdit_37"/>
+            </item>
+           </layout>
+          </item>
+          <item row="8" column="2" colspan="2">
+           <layout class="QFormLayout" name="formLayout_67">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_70">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;承办人：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="lineEdit_32">
+              <property name="maximumSize">
+               <size>
+                <width>171</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="7" column="0" colspan="5">
+           <widget class="Line" name="line_9">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" colspan="2">
+           <layout class="QFormLayout" name="formLayout_68">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_71">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;是否公开：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="lineEdit_7">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="4">
+           <layout class="QFormLayout" name="formLayout_69">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_72">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;紧急程度：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="lineEdit_36">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="6" column="0" colspan="2">
+           <layout class="QFormLayout" name="formLayout_70">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_73">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;处理结果：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="lineEdit_33"/>
+            </item>
+           </layout>
+          </item>
+          <item row="5" column="0" colspan="5">
+           <layout class="QFormLayout" name="formLayout_71">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_74">
               <property name="minimumSize">
                <size>
                 <width>240</width>
@@ -1182,38 +1230,44 @@
             </item>
            </layout>
           </item>
-          <item row="6" column="0" colspan="2">
-           <layout class="QFormLayout" name="formLayout_10">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_41">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;处理结果：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_33"/>
-            </item>
-           </layout>
+          <item row="1" column="0" colspan="5">
+           <widget class="Line" name="line_10">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
           </item>
-          <item row="6" column="2" colspan="3">
-           <layout class="QFormLayout" name="formLayout_11">
+          <item row="8" column="4">
+           <layout class="QFormLayout" name="formLayout_72">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_36">
+             <widget class="QLabel" name="label_75">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;审核：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;联系电话：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_30"/>
+             <widget class="QLineEdit" name="lineEdit_39">
+              <property name="maximumSize">
+               <size>
+                <width>220</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
           <item row="2" column="0" colspan="2">
-           <layout class="QFormLayout" name="formLayout_5">
+           <layout class="QFormLayout" name="formLayout_73">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_47">
+             <widget class="QLabel" name="label_76">
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;来文单位：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
@@ -1224,46 +1278,46 @@
             </item>
            </layout>
           </item>
-          <item row="2" column="2" colspan="3">
-           <layout class="QFormLayout" name="formLayout_6">
+          <item row="6" column="2" colspan="3">
+           <layout class="QFormLayout" name="formLayout_74">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_45">
+             <widget class="QLabel" name="label_77">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;来文字号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;审核：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_37"/>
+             <widget class="QLineEdit" name="lineEdit_30"/>
             </item>
            </layout>
           </item>
-          <item row="3" column="0" colspan="5">
-           <layout class="QFormLayout" name="formLayout_7">
+          <item row="8" column="0">
+           <layout class="QFormLayout" name="formLayout_75">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_43">
+             <widget class="QLabel" name="label_78">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;文件标题：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;办文编号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_35"/>
+             <widget class="QLineEdit" name="lineEdit_31">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>220</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
             </item>
            </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QWidget" name="widget" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt; color:#ff0000;&quot;&gt;                 中共湖北省委审计委员会办公室收文批办单&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
           </item>
          </layout>
         </widget>
@@ -1312,6 +1366,9 @@
                  <height>28</height>
                 </size>
                </property>
+               <property name="focusPolicy">
+                <enum>Qt::ClickFocus</enum>
+               </property>
                <property name="text">
                 <string>查看详情</string>
                </property>
@@ -1325,8 +1382,18 @@
               <enum>QAbstractScrollArea::AdjustToContents</enum>
              </property>
              <property name="columnCount">
-              <number>16</number>
+              <number>17</number>
              </property>
+             <column>
+              <property name="text">
+               <string>主键</string>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+             </column>
              <column>
               <property name="text">
                <string>问题顺序号</string>
@@ -1502,19 +1569,6 @@
        <item row="0" column="0">
         <widget class="QWidget" name="widget_2" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <spacer name="horizontalSpacer_8">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
           <item alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="label_3">
             <property name="text">
@@ -1522,39 +1576,10 @@
             </property>
            </widget>
           </item>
-          <item>
-           <spacer name="horizontalSpacer_7">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QWidget" name="widget_3" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <item>
-           <widget class="QLabel" name="label_63">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;请选择批文：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comboBox"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="2">
+       <item row="2" column="0" colspan="2">
         <widget class="QFrame" name="frame_3">
          <property name="styleSheet">
           <string notr="true">color: rgb(255, 0, 0);</string>
@@ -1569,17 +1594,31 @@
           <property name="sizeConstraint">
            <enum>QLayout::SetMinimumSize</enum>
           </property>
-          <item row="0" column="0">
-           <layout class="QFormLayout" name="formLayout_16">
+          <item row="3" column="0" colspan="5">
+           <layout class="QFormLayout" name="formLayout_37">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_12">
+             <widget class="QLabel" name="label_53">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;收文时间：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;文件标题：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QDateEdit" name="dateEdit_2"/>
+             <widget class="QLineEdit" name="lineEdit_43"/>
+            </item>
+           </layout>
+          </item>
+          <item row="4" column="0" colspan="5">
+           <layout class="QFormLayout" name="formLayout_42">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_58">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;内容摘要和拟办意见：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QTextEdit" name="textEdit_6"/>
             </item>
            </layout>
           </item>
@@ -1597,46 +1636,75 @@
             </item>
            </layout>
           </item>
-          <item row="0" column="2" colspan="2">
-           <layout class="QFormLayout" name="formLayout_23">
+          <item row="0" column="0">
+           <layout class="QFormLayout" name="formLayout_16">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_49">
+             <widget class="QLabel" name="label_12">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;是否公开：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;收文时间：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_9"/>
+             <widget class="QDateEdit" name="dateEdit_2"/>
             </item>
            </layout>
           </item>
-          <item row="0" column="4">
-           <layout class="QFormLayout" name="formLayout_24">
+          <item row="8" column="1">
+           <layout class="QFormLayout" name="formLayout_39">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_50">
+             <widget class="QLabel" name="label_55">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;紧急程度：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;承办处室：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_40"/>
+             <widget class="QLineEdit" name="lineEdit_45">
+              <property name="maximumSize">
+               <size>
+                <width>210</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
-          <item row="1" column="0" colspan="5">
-           <widget class="Line" name="line_7">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
+          <item row="2" column="2" colspan="3">
+           <layout class="QFormLayout" name="formLayout_26">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_52">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;来文字号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="lineEdit_42"/>
+            </item>
+           </layout>
+          </item>
+          <item row="8" column="2" colspan="2">
+           <layout class="QFormLayout" name="formLayout_40">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_56">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;承办人：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="lineEdit_46">
+              <property name="maximumSize">
+               <size>
+                <width>171</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item row="7" column="0" colspan="5">
            <widget class="Line" name="line_8">
@@ -1651,73 +1719,59 @@
             </property>
            </widget>
           </item>
-          <item row="8" column="0">
-           <layout class="QFormLayout" name="formLayout_38">
+          <item row="0" column="2" colspan="2">
+           <layout class="QFormLayout" name="formLayout_23">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_54">
+             <widget class="QLabel" name="label_49">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;办文编号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;是否公开：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_44"/>
+             <widget class="QLineEdit" name="lineEdit_9">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
-          <item row="8" column="1">
-           <layout class="QFormLayout" name="formLayout_39">
+          <item row="0" column="4">
+           <layout class="QFormLayout" name="formLayout_24">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_55">
+             <widget class="QLabel" name="label_50">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;承办处室：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;紧急程度：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_45"/>
+             <widget class="QLineEdit" name="lineEdit_40">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
-          <item row="8" column="2" colspan="2">
-           <layout class="QFormLayout" name="formLayout_40">
+          <item row="6" column="0" colspan="2">
+           <layout class="QFormLayout" name="formLayout_44">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_56">
+             <widget class="QLabel" name="label_60">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;承办人：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;处理结果：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_46"/>
-            </item>
-           </layout>
-          </item>
-          <item row="8" column="4">
-           <layout class="QFormLayout" name="formLayout_41">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_57">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;联系电话：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_47"/>
-            </item>
-           </layout>
-          </item>
-          <item row="4" column="0" colspan="5">
-           <layout class="QFormLayout" name="formLayout_42">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_58">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;内容摘要和拟办意见：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QTextEdit" name="textEdit_6"/>
+             <widget class="QLineEdit" name="lineEdit_48"/>
             </item>
            </layout>
           </item>
@@ -1741,31 +1795,37 @@
             </item>
            </layout>
           </item>
-          <item row="6" column="0" colspan="2">
-           <layout class="QFormLayout" name="formLayout_44">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_60">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;处理结果：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_48"/>
-            </item>
-           </layout>
+          <item row="1" column="0" colspan="5">
+           <widget class="Line" name="line_7">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
           </item>
-          <item row="6" column="2" colspan="3">
-           <layout class="QFormLayout" name="formLayout_45">
+          <item row="8" column="4">
+           <layout class="QFormLayout" name="formLayout_41">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_61">
+             <widget class="QLabel" name="label_57">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;审核：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;联系电话：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_49"/>
+             <widget class="QLineEdit" name="lineEdit_47">
+              <property name="maximumSize">
+               <size>
+                <width>220</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -1783,33 +1843,69 @@
             </item>
            </layout>
           </item>
-          <item row="2" column="2" colspan="3">
-           <layout class="QFormLayout" name="formLayout_26">
+          <item row="6" column="2" colspan="3">
+           <layout class="QFormLayout" name="formLayout_45">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_52">
+             <widget class="QLabel" name="label_61">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;来文字号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;审核：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_42"/>
+             <widget class="QLineEdit" name="lineEdit_49"/>
             </item>
            </layout>
           </item>
-          <item row="3" column="0" colspan="5">
-           <layout class="QFormLayout" name="formLayout_37">
+          <item row="8" column="0">
+           <layout class="QFormLayout" name="formLayout_38">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_53">
+             <widget class="QLabel" name="label_54">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;文件标题：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;办文编号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEdit_43"/>
+             <widget class="QLineEdit" name="lineEdit_44">
+              <property name="maximumSize">
+               <size>
+                <width>220</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
             </item>
            </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QWidget" name="widget_3" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_63">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;请选择批文：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox"/>
           </item>
          </layout>
         </widget>
@@ -1850,6 +1946,9 @@
              <pointsize>14</pointsize>
             </font>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
            <property name="text">
             <string>选择文件</string>
            </property>
@@ -1874,6 +1973,9 @@
              <pointsize>14</pointsize>
             </font>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
            <property name="text">
             <string>添加</string>
            </property>
@@ -1885,6 +1987,9 @@
             <font>
              <pointsize>14</pointsize>
             </font>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
            </property>
            <property name="text">
             <string>打开文件</string>
@@ -1988,6 +2093,9 @@
              <pointsize>14</pointsize>
             </font>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
            <property name="text">
             <string>选择文件</string>
            </property>
@@ -2011,6 +2119,9 @@
             <font>
              <pointsize>14</pointsize>
             </font>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
            </property>
            <property name="text">
             <string>录入</string>
@@ -2248,8 +2359,18 @@
           <enum>QAbstractScrollArea::AdjustToContents</enum>
          </property>
          <property name="columnCount">
-          <number>14</number>
+          <number>15</number>
          </property>
+         <column>
+          <property name="text">
+           <string>主键</string>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </column>
          <column>
           <property name="text">
            <string>整改责任部门</string>
@@ -2414,6 +2535,9 @@
              <pointsize>14</pointsize>
             </font>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
+           </property>
            <property name="text">
             <string>修改整改措施</string>
            </property>
@@ -2517,6 +2641,9 @@
             <font>
              <pointsize>14</pointsize>
             </font>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::ClickFocus</enum>
            </property>
            <property name="text">
             <string>选择文件</string>
