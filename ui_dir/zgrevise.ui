@@ -70,7 +70,7 @@
          <widget class="QLineEdit" name="lineEdit_1">
           <property name="maximumSize">
            <size>
-            <width>300</width>
+            <width>250</width>
             <height>16777215</height>
            </size>
           </property>
@@ -505,7 +505,7 @@
          <widget class="QLineEdit" name="lineEdit_11">
           <property name="maximumSize">
            <size>
-            <width>140</width>
+            <width>130</width>
             <height>16777215</height>
            </size>
           </property>

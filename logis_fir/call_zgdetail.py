@@ -1,8 +1,6 @@
-import sys
-
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QDate
-from PyQt5.QtWidgets import QWidget, QApplication
+from PyQt5.QtWidgets import QWidget
 
 from uipy_dir.zgdetail import Ui_Form
 from logis_fir.call_quedetail import Call_quedetail
@@ -45,6 +43,15 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
         # 绑定按钮或其他控件功能函数
         self.initControlFunction()
+
+        # 同步批文输入框的三个list高亮情况
+        self.listWidget.currentRowChanged.connect(self.autoHighlight1)
+        self.listWidget_2.currentRowChanged.connect(self.autoHighlight2)
+        self.listWidget_3.currentRowChanged.connect(self.autoHighlight3)
+
+        # 同步整改录入两个表的同步显示情况
+        self.tableWidget_2.currentCellChanged.connect(self.autoHighlight4)
+        self.tableWidget_4.currentCellChanged.connect(self.autoHighlight5)
 
         # 初始化流程变量
         self.initVar(key)
@@ -115,6 +122,31 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         # 绑定下拉框切换
         self.comboBox.currentIndexChanged.connect(
             lambda: self.displayCorFileForIndex(xh_cur_cor=self.comboBox_dict[self.comboBox.currentIndex()]))
+
+    # 同步批文页面list高亮
+    def autoHighlight1(self):
+        index = self.listWidget.currentRow()
+        self.listWidget_2.setCurrentRow(index)
+        self.listWidget_3.setCurrentRow(index)
+
+    def autoHighlight2(self):
+        index = self.listWidget_2.currentRow()
+        self.listWidget.setCurrentRow(index)
+        self.listWidget_3.setCurrentRow(index)
+
+    def autoHighlight3(self):
+        index = self.listWidget_3.currentRow()
+        self.listWidget.setCurrentRow(index)
+        self.listWidget_2.setCurrentRow(index)
+
+    # 同步整改页面两个table高亮
+    def autoHighlight4(self):
+        row = self.tableWidget_2.currentRow()
+        self.tableWidget_4.setCurrentCell(row, 0)
+
+    def autoHighlight5(self):
+        row = self.tableWidget_4.currentRow()
+        self.tableWidget_2.setCurrentCell(row, 0)
 
     # 用发文字号初始化变量
     def initVar(self, key):
@@ -235,6 +267,8 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
             self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
             self.tableWidget.resizeRowsToContents()  # 根据行调整框大小
+            self.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)  # 表格只可选中行
+            self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)  # 表格只可选中单行
 
     # 显示公文详情
     def displaySendDetail(self):
@@ -359,6 +393,24 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 展示批文信息
     def displayCorDetail(self):
+        # 设置不可修改,list默认不可修改
+        self.dateEdit_2.setReadOnly(True)  # 收文时间
+        self.lineEdit_8.setReadOnly(True)  # 密级
+        self.lineEdit_9.setReadOnly(True)  # 是否公开
+        self.lineEdit_40.setReadOnly(True)  # 紧急程度
+        self.listWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 批文来文单位
+        self.listWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 批文来文字号
+        self.lineEdit_43.setReadOnly(True)  # 文件标题
+        self.listWidget_3.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 省领导内容摘要和拟办意见
+        self.lineEdit_21.setReadOnly(True)  # 厅领导内容摘要和拟办意见
+        self.textEdit_7.setReadOnly(True)  # 领导批示
+        self.lineEdit_48.setReadOnly(True)  # 处理结果
+        self.lineEdit_49.setReadOnly(True)  # 审核
+        self.lineEdit_44.setReadOnly(True)  # 批文编号
+        self.lineEdit_45.setReadOnly(True)  # 承办处室
+        self.lineEdit_46.setReadOnly(True)  # 承办人
+        self.lineEdit_47.setReadOnly(True)  # 联系电话
+
         # 获取批文数量
         cor_num = len(self.xh_cor_list)
 
@@ -390,7 +442,7 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 展示某一个批文页面
     def displayCorForIndex(self, xh_cur_cor):
-        sql = "select 收文时间,秘密等级,是否公开,紧急程度,来文单位,来文字号,批文标题,处理结果,审核,批文字号,承办处室,承办人,联系电话,内容摘要和拟办意见," \
+        sql = "select 收文时间,秘密等级,是否公开,紧急程度,批文标题,处理结果,审核,批文字号,承办处室,承办人,联系电话,内容摘要和拟办意见," \
               "领导批示 from corfile where 序号 = %s" % xh_cur_cor
         data = tools.executeSql(sql)
 
@@ -398,34 +450,28 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.lineEdit_8.setText(data[0][1])  # 密级
         self.lineEdit_9.setText(data[0][2])  # 是否公开
         self.lineEdit_40.setText(data[0][3])  # 紧急程度
-        self.lineEdit_41.setText(data[0][4])  # 批文来文单位
-        self.lineEdit_42.setText(data[0][5])  # 批文来文字号
-        self.lineEdit_43.setText(data[0][6])  # 文件标题
-        self.lineEdit_48.setText(data[0][7])  # 处理结果
-        self.lineEdit_49.setText(data[0][8])  # 审核
-        self.lineEdit_44.setText(data[0][9])  # 批文编号
-        self.lineEdit_45.setText(data[0][10])  # 承办处室
-        self.lineEdit_46.setText(data[0][11])  # 承办人
-        self.lineEdit_47.setText(data[0][12])  # 联系电话
-        self.textEdit_6.setText(data[0][13])  # 内容摘要和拟办意见
-        self.textEdit_7.setText(data[0][14])  # 领导批示
+        self.lineEdit_43.setText(data[0][4])  # 文件标题
+        self.lineEdit_48.setText(data[0][5])  # 处理结果
+        self.lineEdit_49.setText(data[0][6])  # 审核
+        self.lineEdit_44.setText(data[0][7])  # 批文编号
+        self.lineEdit_45.setText(data[0][8])  # 承办处室
+        self.lineEdit_46.setText(data[0][9])  # 承办人
+        self.lineEdit_47.setText(data[0][10])  # 联系电话
+        self.lineEdit_21.setText(data[0][11])  # 厅领导内容摘要和拟办意见
+        self.textEdit_7.setText(data[0][12])  # 领导批示
 
-        # 设置不可修改
-        self.dateEdit_2.setReadOnly(True)  # 收文时间
-        self.lineEdit_8.setReadOnly(True)  # 密级
-        self.lineEdit_9.setReadOnly(True)  # 是否公开
-        self.lineEdit_40.setReadOnly(True)  # 紧急程度
-        self.lineEdit_41.setReadOnly(True)  # 批文来文单位
-        self.lineEdit_42.setReadOnly(True)  # 批文来文字号
-        self.lineEdit_43.setReadOnly(True)  # 文件标题
-        self.lineEdit_48.setReadOnly(True)  # 处理结果
-        self.lineEdit_49.setReadOnly(True)  # 审核
-        self.lineEdit_44.setReadOnly(True)  # 批文编号
-        self.lineEdit_45.setReadOnly(True)  # 承办处室
-        self.lineEdit_46.setReadOnly(True)  # 承办人
-        self.lineEdit_47.setReadOnly(True)  # 联系电话
-        self.textEdit_6.setReadOnly(True)  # 内容摘要和拟办意见
-        self.textEdit_7.setReadOnly(True)  # 领导批示
+        sql = "select 领导来文单位,领导来文字号,领导内容摘要和领导批示 from instruction where 批文序号 = %s" % xh_cur_cor
+        data = tools.executeSql(sql)
+
+        # 先清空list
+        self.listWidget.clear()
+        self.listWidget_2.clear()
+        self.listWidget_3.clear()
+        if len(data) != 0:
+            for i in data:
+                self.listWidget.addItem(i[0])  # 领导来文单位
+                self.listWidget_2.addItem(i[1])  # 领导来文字号
+                self.listWidget_3.addItem(i[2])  # 省领导内容摘要和拟办意见
 
     # 展示整改发函页面
     def displayZgfh(self):
@@ -489,24 +535,14 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 表格不可修改
             self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
             self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
+            self.tableWidget_2.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)  # 表格只可选中行
+            self.tableWidget_2.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)  # 表格只可选中单行
 
             self.tableWidget_4.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 表格不可修改
             self.tableWidget_4.resizeColumnsToContents()  # 根据列调整框大小
             self.tableWidget_4.resizeRowsToContents()  # 根据行调整框大小
-
-    '''
-    # 展示补全信息
-    def displayinfo(self):
-        if self.info_tag != -1:
-            self.pushButton_2.hide()
-            sql = "select 委办主任签批意见,批示任务办理要求时间,承办处室及承办人,办理结果,文件去向 from standingbook where 序号 = %s" % self.xh
-            data = tools.executeSql(sql)
-            self.lineEdit_21.setText(data[0][0])  # 委办主任签批意见
-            self.dateEdit_4.setDate(QDate.fromString(data[0][1], 'yyyy/M/d'))  # 批示任务办理要求时间
-            self.lineEdit_51.setText(data[0][2])  # 审计厅承办处室及承办人
-            self.lineEdit_52.setText(data[0][3])  # 办理结果
-            self.lineEdit_53.setText(data[0][4])  # 文件去向
-    '''
+            self.tableWidget_4.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)  # 表格只可选中行
+            self.tableWidget_4.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)  # 表格只可选中单行
 
     # 选择整改发函文件
     def chooseFileZgfh(self):
@@ -602,25 +638,3 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             self.displayQuestionOverview()
         else:
             QtWidgets.QMessageBox.information(w, "提示", "请选择文件!")
-
-    '''
-    def updateInfo(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
-
-        input1 = self.lineEdit_21.text()  # 委办主任签批意见
-        input2 = self.dateEdit_4.text()  # 批示任务办理要求时间
-        input3 = self.lineEdit_51.text()  # 审计厅承办处室及承办人
-        input4 = self.lineEdit_52.text()  # 办理结果
-        input5 = self.lineEdit_53.text()  # 文件去向
-        sql = "update standingbook set 委办主任签批意见 = '%s',批示任务办理要求时间 = '%s',承办处室及承办人 = '%s',办理结果 = '%s',文件去向 = '%s'," \
-              "tag = 1 where 序号 = %s" % (input1, input2, input3, input4, input5, self.xh)
-        tools.executeSql(sql)
-
-        self.info_tag = 1
-        self.commandLinkButton_3.setDescription("已完成")
-
-        QtWidgets.QMessageBox.information(w, "提示", "操作成功!")
-
-        # 重新展示补全信息详情页面
-        self.displayinfo()
-    '''

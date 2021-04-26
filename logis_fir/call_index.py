@@ -1,6 +1,8 @@
 import datetime
 
 from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QAbstractItemView
 
 from call_lcdetail import Call_lcdetail
 from uipy_dir.index import Ui_indexWindow
@@ -108,7 +110,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         elif type1 == "收文登记表":
             self.comboBox.addItems(["请字", "情字", "综字", "会字", "电字"])
         elif type1 == "批文登记表":
-            self.comboBox.addItem("批字")
+            self.comboBox.addItems(["批字", "批示"])
 
     # 控件绑定功能函数
     def initControlFunction(self):
@@ -136,6 +138,12 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     def showProjectTable(self):
         # 表格不可编辑
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
+        # 表格只可选中行
+        self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
+
+        # 表格只可选中单行
+        self.tableWidget_lczl.setSelectionMode(QAbstractItemView.SingleSelection)
 
         self.tableWidget.hideColumn(0)  # 将流程数据库主键隐藏起来,作为传参,此处主键为整改序号
 
@@ -171,6 +179,12 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     def showBwprocessTable(self):
         # 表格不可编辑
         self.tableWidget_lczl.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
+        # 表格只可选中行
+        self.tableWidget_lczl.setSelectionBehavior(QAbstractItemView.SelectRows)
+
+        # 表格只可选中单行
+        self.tableWidget_lczl.setSelectionMode(QAbstractItemView.SingleSelection)
 
         self.tableWidget_lczl.hideColumn(0)  # 将流程数据库主键隐藏起来,作为传参,此处主键为流程序号
 
@@ -210,8 +224,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # 清空表格
         self.tableWidget_2.clear()
 
-        # 表格不可编辑
-        self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tableWidget_2.horizontalHeader().setFont(QFont('Times', 14, QFont.Black))
 
         type1 = self.comboBox_2.currentText()  # 种类一
         type2 = self.comboBox.currentText()  # 种类二
@@ -223,46 +236,63 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.tableWidget_2.setColumnCount(11)
             self.tableWidget_2.setHorizontalHeaderLabels(
                 ['登记时间', '发文字号', '密级', '标识', '标题', '签发人', '份数', '公文运转情况', '批示情况', '批示办理情况', '起草处室'])
+            rear = ""
             if type2 == "委文":
                 self.label_35.setText("鄂审计委文")
+                rear = " where 发文字号 like '鄂审计委文%'"
             elif type2 == "委发":
                 self.label_35.setText("鄂审计委发")
+                rear = " where 发文字号 like '鄂审计委发%'"
             elif type2 == "委办文":
                 self.label_35.setText("鄂审计委办文")
+                rear = " where 发文字号 like '鄂审计委办文%'"
             elif type2 == "委办发":
-                self.label_35.setText("鄂审计委办发")
+                rear = " where 发文字号 like '鄂审计委办发%'"
             elif type2 == "委函":
                 self.label_35.setText("鄂审计委函")
+                rear = " where 发文字号 like '鄂审计委函%'"
             elif type2 == "委办函":
                 self.label_35.setText("鄂审计委办函")
+                rear = " where 发文字号 like '鄂审计委办函%'"
             elif type2 == "委便签":
                 self.label_35.setText("鄂审计委便签")
+                rear = " where 发文字号 like '鄂审计委便签%'"
             elif type2 == "委办便签":
                 self.label_35.setText("鄂审计委办便签:（无编号）")
+                rear = " where 发文字号 like '鄂审计委办便签%'"
             elif type2 == "会议纪要":
                 self.label_35.setText("会议纪要")
+                rear = " where 发文字号 like '会议纪要%'"
             elif type2 == "审计专报":
                 self.label_35.setText("审计专报")
+                rear = " where 发文字号 like '审计专报%'"
 
-            sql = ""
+            # 暂未开发,等待批文修改
+            sql = ''
 
         elif type1 == "收文登记表":
             self.label_35.setText("1、红色：件未办结。2、绿色：件已办结，事项在办。3、黑色：件与事项完全办结并共同归档。4、蓝色：临时交办审计任务。")
             self.tableWidget_2.setColumnCount(12)
             self.tableWidget_2.setHorizontalHeaderLabels(
                 ['时间', '编号', '秘级', '来文单位', '来文字号', '来文标题', '拟办意见', '要求时间', '厅领导签批意见', '承办处室', '办理结果', '文件去向'])
+            rear = ""
             if type2 == "请字":
                 self.label_34.setText("请字[2021]（平级、下级报送的请示类文件）→")
+                rear = " where 收文字号 like '请字%'"
             elif type2 == "情字":
                 self.label_34.setText("情字[2021]（平级、下级报送的情况类文件）→")
+                rear = " where 收文字号 like '情字%'"
             elif type2 == "综字":
-                self.收label_34.setText("综字[2021]（上级下发的各类文件）→")
+                self.label_34.setText("综字[2021]（上级下发的各类文件）→")
+                rear = " where 收文字号 like '综字%'"
             elif type2 == "会字":
                 self.label_34.setText("会[2021]（各级会议通知）→")
+                rear = " where 收文字号 like '会字%'"
             elif type2 == "电字":
                 self.label_34.setText("电[2021]（电报文件）→")
+                rear = " where 收文字号 like '电字%'"
 
-            sql = 'select 收文时间,收文字号,秘密等级,来文单位,来文字号,收文标题,内容摘要和拟办意见,要求时间,领导批示,承办处室,处理结果,文件去向 from revfile'
+            sql = "select 收文时间,收文字号,秘密等级,来文单位,来文字号,收文标题,内容摘要和拟办意见,要求时间,领导批示,承办处室,处理结果,文件去向 from revfile" + rear
 
         elif type1 == "批文登记表":
             self.label_35.setText("1、红色：件未办结。2、绿色：件已办结，事项在办。3、黑色：件与事项完全办结并共同归档。")
@@ -272,7 +302,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 ['时间', '发文编号', '收文编号', '办文编号', '秘级', '来文单位', '来文字号', '来文标题', '省领导批示内容', '秘书处拟办意见', '委办主任签批意见',
                  '批示任务办理要求时间', '承办处室及承办人', '办理结果', '文件去向'])
 
-            sql = 'select corfile.收文时间,sendfile.发文字号,revfile.文字号,corfile.批文字号,corfile.秘密等级,corfile.来文单位,' \
+            sql = 'select corfile.收文时间,sendfile.发文字号,revfile.收文字号,corfile.批文字号,corfile.秘密等级,corfile.来文单位,' \
                   'corfile.来文字号,corfile.批文标题,corfile.领导批示,corfile.内容摘要和拟办意见,corfile.委办主任签批意见,' \
                   'corfile.批示任务办理要求时间,corfile.承办处室及承办人,corfile.办理结果,corfile.文件去向 from bwprocess join sendfile on ' \
                   'bwprocess.发文序号 = sendfile.序号 join revfile on bwprocess.收文序号 = revfile.序号 join bw_cast_cor on ' \
@@ -297,6 +327,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 y = y + 1
             x = x + 1
 
+        self.tableWidget_2.setFont(QFont('Times', 14, QFont.Black))
         self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
 
@@ -546,10 +577,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         if row == -1:
             QtWidgets.QMessageBox.information(self, "提示", "请选择流程！")
         else:
-            key1 = self.tableWidget_lczl.item(row, 2).text()  # 发文号
-            key2 = self.tableWidget_lczl.item(row, 4).text()  # 收文号
-            key3 = self.tableWidget_lczl.item(row, 6).text()  # 批文号
-            key4 = self.tableWidget_lczl.item(row, 7).text()  # 是否整改
+            key1 = self.tableWidget_lczl.item(row, 3).text()  # 发文号
+            key2 = self.tableWidget_lczl.item(row, 5).text()  # 收文号
+            key3 = self.tableWidget_lczl.item(row, 7).text()  # 批文号
+            key4 = self.tableWidget_lczl.item(row, 8).text()  # 是否整改
 
             # key1,key2,key3都不为空表示办文流程已经完成,可以设置整改了
             if key1 != "/" and key2 != "/" and key3 != "/" and key4 != "1":
