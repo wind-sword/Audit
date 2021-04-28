@@ -34,8 +34,7 @@ class Ui_indexWindow(object):
 "        border-right:1px solid darkGray;\n"
 "        border-top-right-radius:10px;\n"
 "        border-bottom-right-radius:10px;\n"
-"    }\n"
-"")
+"}")
         self.widget_view.setObjectName("widget_view")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.widget_view)
         self.gridLayout_3.setObjectName("gridLayout_3")
@@ -46,25 +45,53 @@ class Ui_indexWindow(object):
         self.stackedWidget.setFocusPolicy(QtCore.Qt.NoFocus)
         self.stackedWidget.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.stackedWidget.setStyleSheet("QStackedWidget#stackedWidget{\n"
-"        color:#232C51;\n"
-"        background:white;\n"
-"    }\n"
-"QWidget#page_view,#page_add{\n"
-"        color:#232C51;\n"
-"        background:white;\n"
-"    }\n"
-"QLineEdit{\n"
-"        border:1px solid gray;\n"
-"        width:300px;\n"
-"        border-radius:10px;\n"
-"        padding:2px 4px;\n"
+"    color:#232C51;\n"
+"    background:white;\n"
 "}\n"
-"QComboBox{background:white;\n"
-"        border:1px solid gray;\n"
-"        width:300px;\n"
-"        border-radius:10px;\n"
-"        padding:2px 4px;\n"
-"}a")
+"QWidget#page_view,#page_add{\n"
+"    color:#232C51;\n"
+"    background:white;\n"
+"}\n"
+"QLineEdit{\n"
+"    border:1px solid gray;\n"
+"    width:300px;\n"
+"    border-radius:10px;\n"
+"    padding:2px 4px;\n"
+"}\n"
+"QComboBox{\n"
+"    background:white;\n"
+"    border:1px solid gray;\n"
+"    width:300px;\n"
+"    border-radius:10px;\n"
+"    padding:2px 4px;\n"
+"}\n"
+"QPushButton{  \n"
+"    border: 1px solid #C0C0C0;  \n"
+"    background-color:#FFFFFF;  \n"
+"    border-style: solid;  \n"
+"    border-radius:0px;  \n"
+"    width: 100px;  \n"
+"    height:20px;  \n"
+"    padding:0 0px;  \n"
+"} \n"
+"\n"
+"QPushButton:hover{     \n"
+"    border: 1px solid #E3C46F;  \n"
+"    background-color:#FEF4BF;  \n"
+"    border-style: solid;  \n"
+"    border-radius:2px;  \n"
+"    width: 40px;  \n"
+"    height:20px;  \n"
+"    padding:0 0px;  \n"
+"}\n"
+"QPushButton:pressed{  \n"
+"    background-color:#EAF0FF;  \n"
+"    border: 1px solid #AAB4C4;  \n"
+"    width: 40px;  \n"
+"    height:20px;  \n"
+"    padding:0 0px;  \n"
+"    border-radius:1px;  \n"
+"} ")
         self.stackedWidget.setObjectName("stackedWidget")
         self.page_lczl = QtWidgets.QWidget()
         self.page_lczl.setObjectName("page_lczl")
@@ -177,11 +204,6 @@ class Ui_indexWindow(object):
         self.btszzg.setMaximumSize(QtCore.QSize(300, 16777215))
         self.btszzg.setObjectName("btszzg")
         self.horizontalLayout_6.addWidget(self.btszzg)
-        self.btjrzg = QtWidgets.QPushButton(self.tab_lczl)
-        self.btjrzg.setMinimumSize(QtCore.QSize(0, 28))
-        self.btjrzg.setMaximumSize(QtCore.QSize(300, 16777215))
-        self.btjrzg.setObjectName("btjrzg")
-        self.horizontalLayout_6.addWidget(self.btjrzg)
         self.verticalLayout_7.addLayout(self.horizontalLayout_6)
         self.tabWidget_lczl.addTab(self.tab_lczl, "")
         self.verticalLayout_8.addWidget(self.tabWidget_lczl)
@@ -312,7 +334,7 @@ class Ui_indexWindow(object):
         self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.tableWidget.setShowGrid(True)
         self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(9)
+        self.tableWidget.setColumnCount(8)
         self.tableWidget.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         font = QtGui.QFont()
@@ -370,13 +392,6 @@ class Ui_indexWindow(object):
         font.setWeight(75)
         item.setFont(font)
         self.tableWidget.setHorizontalHeaderItem(7, item)
-        item = QtWidgets.QTableWidgetItem()
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        item.setFont(font)
-        self.tableWidget.setHorizontalHeaderItem(8, item)
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(True)
         self.verticalLayout_4.addWidget(self.tableWidget)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
@@ -1430,44 +1445,22 @@ class Ui_indexWindow(object):
         self.page_bwll.setObjectName("page_bwll")
         self.gridLayout_10 = QtWidgets.QGridLayout(self.page_bwll)
         self.gridLayout_10.setObjectName("gridLayout_10")
-        self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_8.setObjectName("horizontalLayout_8")
+        self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_8.addItem(spacerItem3)
-        self.pushButton_2 = QtWidgets.QPushButton(self.page_bwll)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
-        self.pushButton_2.setSizePolicy(sizePolicy)
-        self.pushButton_2.setMaximumSize(QtCore.QSize(160, 16777215))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.pushButton_2.setFont(font)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.horizontalLayout_8.addWidget(self.pushButton_2)
-        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_8.addItem(spacerItem4)
-        self.gridLayout_10.addLayout(self.horizontalLayout_8, 6, 0, 1, 1)
-        self.line_11 = QtWidgets.QFrame(self.page_bwll)
-        self.line_11.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line_11.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_11.setObjectName("line_11")
-        self.gridLayout_10.addWidget(self.line_11, 1, 0, 1, 2)
+        self.horizontalLayout_10.addItem(spacerItem3)
         self.label_34 = QtWidgets.QLabel(self.page_bwll)
         font = QtGui.QFont()
         font.setPointSize(14)
-        self.label_34.setFont(font)
-        self.label_34.setObjectName("label_34")
-        self.gridLayout_10.addWidget(self.label_34, 3, 0, 1, 1)
-        self.label_27 = QtWidgets.QLabel(self.page_bwll)
-        font = QtGui.QFont()
-        font.setPointSize(24)
         font.setBold(True)
         font.setWeight(75)
-        self.label_27.setFont(font)
-        self.label_27.setObjectName("label_27")
-        self.gridLayout_10.addWidget(self.label_27, 0, 0, 1, 1)
+        self.label_34.setFont(font)
+        self.label_34.setText("")
+        self.label_34.setObjectName("label_34")
+        self.horizontalLayout_10.addWidget(self.label_34)
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_10.addItem(spacerItem4)
+        self.gridLayout_10.addLayout(self.horizontalLayout_10, 3, 0, 1, 1)
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.label_32 = QtWidgets.QLabel(self.page_bwll)
@@ -1520,6 +1513,54 @@ class Ui_indexWindow(object):
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_7.addItem(spacerItem5)
         self.gridLayout_10.addLayout(self.horizontalLayout_7, 2, 0, 1, 1)
+        self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_8.setObjectName("horizontalLayout_8")
+        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_8.addItem(spacerItem6)
+        self.pushButton_2 = QtWidgets.QPushButton(self.page_bwll)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
+        self.pushButton_2.setSizePolicy(sizePolicy)
+        self.pushButton_2.setMaximumSize(QtCore.QSize(160, 16777215))
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        self.pushButton_2.setFont(font)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.horizontalLayout_8.addWidget(self.pushButton_2)
+        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_8.addItem(spacerItem7)
+        self.gridLayout_10.addLayout(self.horizontalLayout_8, 10, 0, 1, 1)
+        self.label_27 = QtWidgets.QLabel(self.page_bwll)
+        font = QtGui.QFont()
+        font.setPointSize(24)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_27.setFont(font)
+        self.label_27.setObjectName("label_27")
+        self.gridLayout_10.addWidget(self.label_27, 0, 0, 1, 1)
+        self.line_11 = QtWidgets.QFrame(self.page_bwll)
+        self.line_11.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_11.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_11.setObjectName("line_11")
+        self.gridLayout_10.addWidget(self.line_11, 1, 0, 1, 2)
+        self.horizontalLayout_11 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_11.setObjectName("horizontalLayout_11")
+        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_11.addItem(spacerItem8)
+        self.label_35 = QtWidgets.QLabel(self.page_bwll)
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        font.setItalic(False)
+        font.setUnderline(False)
+        self.label_35.setFont(font)
+        self.label_35.setText("")
+        self.label_35.setObjectName("label_35")
+        self.horizontalLayout_11.addWidget(self.label_35)
+        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_11.addItem(spacerItem9)
+        self.gridLayout_10.addLayout(self.horizontalLayout_11, 7, 0, 1, 1)
         self.tableWidget_2 = QtWidgets.QTableWidget(self.page_bwll)
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -1527,13 +1568,7 @@ class Ui_indexWindow(object):
         self.tableWidget_2.setObjectName("tableWidget_2")
         self.tableWidget_2.setColumnCount(0)
         self.tableWidget_2.setRowCount(0)
-        self.gridLayout_10.addWidget(self.tableWidget_2, 5, 0, 1, 1)
-        self.label_35 = QtWidgets.QLabel(self.page_bwll)
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.label_35.setFont(font)
-        self.label_35.setObjectName("label_35")
-        self.gridLayout_10.addWidget(self.label_35, 4, 0, 1, 1)
+        self.gridLayout_10.addWidget(self.tableWidget_2, 9, 0, 1, 1)
         self.stackedWidget.addWidget(self.page_bwll)
         self.page_tjfx = QtWidgets.QWidget()
         self.page_tjfx.setObjectName("page_tjfx")
@@ -1557,8 +1592,8 @@ class Ui_indexWindow(object):
         self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_3.setObjectName("line_3")
         self.verticalLayout_5.addWidget(self.line_3)
-        spacerItem6 = QtWidgets.QSpacerItem(20, 671, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_5.addItem(spacerItem6)
+        spacerItem10 = QtWidgets.QSpacerItem(20, 671, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_5.addItem(spacerItem10)
         self.stackedWidget.addWidget(self.page_tjfx)
         self.gridLayout_3.addWidget(self.stackedWidget, 0, 0, 1, 1)
         self.gridLayout.addWidget(self.widget_view, 0, 1, 1, 1)
@@ -1569,26 +1604,35 @@ class Ui_indexWindow(object):
         self.widget_menu.setFont(font)
         self.widget_menu.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.widget_menu.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.widget_menu.setAutoFillBackground(False)
         self.widget_menu.setStyleSheet("QPushButton{color:white;}\n"
 "QPushButton#btprog,#btanaly,#btbwlc{\n"
-"        border:none;\n"
-"        border-bottom:1px solid white;\n"
-"        font-size:26px;\n"
-"        font-weight:700;\n"
-"        font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n"
-"    }\n"
+"    border:none;\n"
+"    border-bottom:1px solid white;\n"
+"    font-size:26px;\n"
+"    font-weight:700;\n"
+"    font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n"
+"}\n"
 "QPushButton#btzgtz,#btcx,#bttj,#btlczl,#btfwbl,#btswbl,#btswll{\n"
-"        border:none;\n"
-"        border-left:4px solid red;\n"
-"        font-weight:700;\n"
-"        font-size:20px;}\n"
+"    border: 1px solid #C0C0C0; \n"
+"    border-left:4px solid red;\n"
+"    font-weight:700;\n"
+"    font-size:20px;\n"
+"}\n"
+"QPushButton#btzgtz:pressed,#btcx:pressed,#bttj:pressed,#btlczl:pressed,#btfwbl:pressed,#btswbl:pressed,#btswll:pressed{\n"
+"    color:white;\n"
+"    background-color:rgb(14 , 135 , 228);\n"
+"    padding-left:3px;\n"
+"    padding-top:3px;\n"
+"}\n"
 "QWidget#widget_menu{\n"
-"    background:gray;\n"
+"    background:#393939;\n"
 "    border-top:1px solid white;\n"
 "    border-bottom:1px solid white;\n"
 "    border-left:1px solid white;\n"
 "    border-top-left-radius:10px;\n"
-"    border-bottom-left-radius:10px;rR}")
+"    border-bottom-left-radius:10px;rR\n"
+"}")
         self.widget_menu.setObjectName("widget_menu")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.widget_menu)
         self.verticalLayout.setSpacing(20)
@@ -1602,34 +1646,44 @@ class Ui_indexWindow(object):
         self.verticalLayout_2.addWidget(self.headwidget)
         self.verticalLayout.addLayout(self.verticalLayout_2)
         self.btbwlc = QtWidgets.QPushButton(self.widget_menu)
+        self.btbwlc.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.btbwlc.setObjectName("btbwlc")
         self.verticalLayout.addWidget(self.btbwlc)
         self.btlczl = QtWidgets.QPushButton(self.widget_menu)
+        self.btlczl.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.btlczl.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.btlczl.setObjectName("btlczl")
         self.verticalLayout.addWidget(self.btlczl)
         self.btfwbl = QtWidgets.QPushButton(self.widget_menu)
+        self.btfwbl.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.btfwbl.setObjectName("btfwbl")
         self.verticalLayout.addWidget(self.btfwbl)
         self.btswbl = QtWidgets.QPushButton(self.widget_menu)
+        self.btswbl.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.btswbl.setObjectName("btswbl")
         self.verticalLayout.addWidget(self.btswbl)
         self.btswll = QtWidgets.QPushButton(self.widget_menu)
+        self.btswll.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.btswll.setObjectName("btswll")
         self.verticalLayout.addWidget(self.btswll)
         self.btprog = QtWidgets.QPushButton(self.widget_menu)
+        self.btprog.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.btprog.setObjectName("btprog")
         self.verticalLayout.addWidget(self.btprog)
         self.btzgtz = QtWidgets.QPushButton(self.widget_menu)
+        self.btzgtz.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.btzgtz.setObjectName("btzgtz")
         self.verticalLayout.addWidget(self.btzgtz)
         self.btanaly = QtWidgets.QPushButton(self.widget_menu)
+        self.btanaly.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.btanaly.setObjectName("btanaly")
         self.verticalLayout.addWidget(self.btanaly)
         self.btcx = QtWidgets.QPushButton(self.widget_menu)
+        self.btcx.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.btcx.setObjectName("btcx")
         self.verticalLayout.addWidget(self.btcx)
         self.bttj = QtWidgets.QPushButton(self.widget_menu)
+        self.bttj.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.bttj.setObjectName("bttj")
         self.verticalLayout.addWidget(self.bttj)
         self.verticalLayout_space = QtWidgets.QVBoxLayout()
@@ -1649,9 +1703,9 @@ class Ui_indexWindow(object):
         indexWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(indexWindow)
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(1)
         self.tabWidget.setCurrentIndex(0)
-        self.stackedWidget_new.setCurrentIndex(2)
+        self.stackedWidget_new.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(indexWindow)
 
     def retranslateUi(self, indexWindow):
@@ -1678,7 +1732,6 @@ class Ui_indexWindow(object):
         item.setText(_translate("indexWindow", "是否整改"))
         self.btckxq.setText(_translate("indexWindow", "查看详情"))
         self.btszzg.setText(_translate("indexWindow", "设置整改"))
-        self.btjrzg.setText(_translate("indexWindow", "进入整改"))
         self.tabWidget_lczl.setTabText(self.tabWidget_lczl.indexOf(self.tab_lczl), _translate("indexWindow", "Tab 1"))
         self.label_vhead.setText(_translate("indexWindow", "整改台账"))
         self.label_key.setText(_translate("indexWindow", "关键字："))
@@ -1702,8 +1755,6 @@ class Ui_indexWindow(object):
         item.setText(_translate("indexWindow", "批文标题"))
         item = self.tableWidget.horizontalHeaderItem(7)
         item.setText(_translate("indexWindow", "批文编号"))
-        item = self.tableWidget.horizontalHeaderItem(8)
-        item.setText(_translate("indexWindow", "整改发函标题"))
         self.pushButton_more.setText(_translate("indexWindow", "查看详情"))
         self.pushButton_del.setText(_translate("indexWindow", "撤销整改"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("indexWindow", "Tab 1"))
@@ -1780,9 +1831,6 @@ class Ui_indexWindow(object):
         self.label_40.setText(_translate("indexWindow", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600; color:#ff0000;\">内容摘要和拟办意见：</span></p></body></html>"))
         self.label_38.setText(_translate("indexWindow", "<html><head/><body><p><span style=\" font-size:12pt; color:#ff0000;\">承办人：</span></p></body></html>"))
         self.pushButton_3.setText(_translate("indexWindow", "录入"))
-        self.pushButton_2.setText(_translate("indexWindow", "登记表补充"))
-        self.label_34.setText(_translate("indexWindow", "标题："))
-        self.label_27.setText(_translate("indexWindow", "办文登记表浏览"))
         self.label_32.setText(_translate("indexWindow", "请选择登记表类型："))
         self.comboBox_2.setItemText(0, _translate("indexWindow", "发文登记表"))
         self.comboBox_2.setItemText(1, _translate("indexWindow", "收文登记表"))
@@ -1799,7 +1847,8 @@ class Ui_indexWindow(object):
         self.comboBox.setItemText(8, _translate("indexWindow", "会议纪要"))
         self.comboBox.setItemText(9, _translate("indexWindow", "审计专报"))
         self.pushButton.setText(_translate("indexWindow", "浏览"))
-        self.label_35.setText(_translate("indexWindow", "备注："))
+        self.pushButton_2.setText(_translate("indexWindow", "登记表补充"))
+        self.label_27.setText(_translate("indexWindow", "办文登记表浏览"))
         self.label_ahead.setText(_translate("indexWindow", "统计分析"))
         self.btbwlc.setText(_translate("indexWindow", "办文流程"))
         self.btlczl.setText(_translate("indexWindow", "流程总览"))

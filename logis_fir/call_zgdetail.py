@@ -23,7 +23,6 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.xh_cor_list = []  # 批文序号列表
         self.comboBox_dict = dict()  # 用下拉框下标映射到批文序号列表
         self.pro_tag = -1  # 表示问题表是否录入
-        self.zgfh_tag = -1  # 表示整改发函是否录入
 
         self.window = None  # 整改子窗口
 
@@ -100,15 +99,14 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.pushButton_file_2.clicked.connect(
             lambda: tools.openFile(file_folder="project_word", file=self.lineEdit_file.text()))
 
-        # 打开整改发函文件
-        self.pushButton_4.clicked.connect(lambda: tools.openFile(file_folder="zgfh_word", file=self.lineEdit.text()))
-
         # 问题详情查看
         self.pushButton.clicked.connect(self.jumpQuestionDetail)
 
         # 打开整改详情修改框
         self.pushButton_10.clicked.connect(self.reviseZgdetail)
 
+        # 打开整改发函文件
+        self.pushButton_4.clicked.connect(self.openZgfh)
         # 选择发函文件
         self.pushButton_5.clicked.connect(self.chooseFileZgfh)
         # 保存发函文件
@@ -180,20 +178,12 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         if len(result) != 0:
             self.pro_tag = 1
 
-        # 初始化整改发函录入状态
-        sql = "select 整改发函内容 from standingbook where 序号 = %s" % self.xh
-        result = tools.executeSql(sql)
-        if result[0][0] is not None:
-            self.zgfh_tag = 1
-
         # 初始化流程状态
         self.commandLinkButton.setDescription("已完成")
         self.commandLinkButton_4.setDescription("已完成")
         self.commandLinkButton_5.setDescription("已完成")
         if self.pro_tag == 1:
             self.commandLinkButton_2.setDescription("已完成")
-        if self.zgfh_tag == 1:
-            self.commandLinkButton_6.setDescription("已完成")
 
     # 初始化整改界面显示
     def initView(self):
@@ -242,7 +232,7 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
         if self.pro_tag != -1:
             # 选出该项目对应的所有问题
-            sql = 'select problem.序号,problem.问题顺序号,problem.被审计领导干部,problem.所在地方和单位,sendfile.发文字号,problem.审计报告文号,' \
+            sql = 'select problem.序号,problem.问题顺序号,problem.被审计领导干部,problem.所在地方或单位,sendfile.发文字号,problem.审计报告文号,' \
                   'problem.出具审计报告时间,problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,' \
                   'problem.问题三级分类,problem.问题四级分类,problem.备注,problem.问题金额,problem.移送及处理情况 from problem,sendfile where ' \
                   'problem.发文序号 = %s and sendfile.序号 = problem.发文序号' % self.xh_send
@@ -475,19 +465,17 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 展示整改发函页面
     def displayZgfh(self):
-        # 根据整改发函是否导入展示不同功能按钮
-        if self.zgfh_tag == 1:
-            self.pushButton_5.hide()
-            self.pushButton_6.hide()
-            self.pushButton_4.show()
-            sql = "select 整改发函内容 from standingbook where 序号 = %s" % self.xh
-            data = tools.executeSql(sql)
-            self.lineEdit.setText(data[0][0])
-            self.lineEdit.setReadOnly(True)
-        else:
-            self.pushButton_5.show()
-            self.pushButton_6.show()
-            self.pushButton_4.hide()
+        # 清空list
+        self.listWidget_4.clear()
+
+        # 整改文件输入栏不可编辑
+        self.lineEdit.setReadOnly(True)
+
+        # 将所有整改发函文件名显示在list中
+        sql = "select 整改发函内容 from zgword where 整改序号 = %s" % self.xh
+        data = tools.executeSql(sql)
+        for i in data:
+            self.listWidget_4.addItem(i[0])
 
     # 展示问题总览
     def displayQuestionOverview(self):
@@ -496,7 +484,7 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.tableWidget_4.hideColumn(0)  # 隐藏整改数据库主键
 
         if self.pro_tag != -1:
-            sql = 'select rectification.上报次序,problem.问题顺序号,problem.被审计领导干部,problem.所在地方和单位,sendfile.发文字号,' \
+            sql = 'select rectification.上报次序,problem.问题顺序号,problem.被审计领导干部,problem.所在地方或单位,sendfile.发文字号,' \
                   'problem.审计报告文号,problem.出具审计报告时间,problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,' \
                   'problem.问题二级分类,problem.问题三级分类,problem.问题四级分类,problem.备注,problem.问题金额,problem.移送及处理情况,' \
                   'rectification.序号,rectification.整改责任部门,rectification.应上报整改报告时间,rectification.实际上报整改报告时间,' \
@@ -560,20 +548,29 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         input_file_path = self.lineEdit.text()
         if input_file_path != "":
             filename = tools.getFileName(input_file_path)  # 文件名
-            sql = "update standingbook set 整改发函内容 = '%s' where 序号 = %s" % (filename, self.xh)
+            sql = "insert into zgword values(NULL,%s,'%s')" % (self.xh, filename)
             tools.executeSql(sql)
             # 导入文件
             tools.copyFile(input_file_path, tools.zgfh_word_path)
 
-            # 更新整改发函状态
-            self.zgfh_tag = 1
-            self.commandLinkButton_6.setDescription("已完成")
-
             QtWidgets.QMessageBox.information(w, "提示", "保存成功！")
+
+            # 清空整改文件名输入栏
+            self.lineEdit.clear()
 
             self.displayZgfh()
         else:
             QtWidgets.QMessageBox.information(w, "提示", "请选择文件!")
+
+    # 打开选择的整改发函文件
+    def openZgfh(self):
+        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+        row = self.listWidget_4.currentRow()
+        if row == -1:
+            QtWidgets.QMessageBox.information(w, "提示", "请选择整改发函文件！")
+        else:
+            filename = self.listWidget_4.currentItem().text()
+            tools.openFile(file_folder="zgfh_word", file=filename)
 
     # 根据excel中的右边问题整改信息导入问题表
     def importExcel(self):

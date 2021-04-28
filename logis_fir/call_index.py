@@ -71,6 +71,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.stackedWidget.setCurrentIndex(2)
             # 初始化显示
             self.stackedWidget_new.setCurrentIndex(self.comboBox_type.currentIndex())  # 初始化发文办理页面
+            self.lineEdit_file_3.setReadOnly(True)
+            self.lineEdit_file.setReadOnly(True)
             self.dateEdit_3.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
             self.dateEdit_6.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
         elif btname == "swbl":
@@ -132,7 +134,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         self.btckxq.clicked.connect(self.lc_detail)
         self.btszzg.clicked.connect(self.lc_to_tz)
-        self.btjrzg.clicked.connect(self.to_tz_detail)
 
     # 显示台账内容
     def showProjectTable(self):
@@ -149,10 +150,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         # sql由台账表的流程序号出发,通过多表查询获得台账所有字段
         sql = "select standingbook.序号,bwprocess.流程开始时间,sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号," \
-              "GROUP_CONCAT(corfile.批文标题,'\n'),GROUP_CONCAT(corfile.批文字号,'\n'),standingbook.整改发函内容 from " \
-              "standingbook join bwprocess on standingbook.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = " \
-              "sendfile.序号 join revfile on bwprocess.收文序号 = revfile.序号 join bw_cast_cor on bwprocess.序号 = " \
-              "bw_cast_cor.流程序号 join corfile on bw_cast_cor.批文序号 = corfile.序号 GROUP BY standingbook.序号 "
+              "GROUP_CONCAT(corfile.批文标题,'\n'),GROUP_CONCAT(corfile.批文字号,'\n') from standingbook join bwprocess on " \
+              "standingbook.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join revfile on " \
+              "bwprocess.收文序号 = revfile.序号 join bw_cast_cor on bwprocess.序号 = bw_cast_cor.流程序号 join corfile on " \
+              "bw_cast_cor.批文序号 = corfile.序号 GROUP BY standingbook.序号 "
         data = tools.executeSql(sql)
         # 打印结果
         # print(data)
@@ -216,10 +217,16 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tableWidget_lczl.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget_lczl.resizeRowsToContents()  # 根据行调整框大小
 
-    # 显示发文流程内容(未完成,需要和审计厅的人确认登记表字段来源再进行开发)
+    # 显示各种类型登记表总览
     def showRegisTable(self):
         # 表格不可编辑
         self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
+        # 表格只可选中行
+        self.tableWidget_2.setSelectionBehavior(QAbstractItemView.SelectRows)
+
+        # 表格只可选中单行
+        self.tableWidget_2.setSelectionMode(QAbstractItemView.SingleSelection)
 
         # 清空表格
         self.tableWidget_2.clear()
@@ -230,85 +237,120 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         type2 = self.comboBox.currentText()  # 种类二
 
         sql = ""
-
+        data = []
         if type1 == "发文登记表":
-            self.label_34.setText("湖北省审计厅发文登记簿 注：红色办理中，黑色办结。")
-            self.tableWidget_2.setColumnCount(11)
+            self.label_35.setText("注：红色办理中，黑色办结。")
+            self.tableWidget_2.setColumnCount(12)
             self.tableWidget_2.setHorizontalHeaderLabels(
-                ['登记时间', '发文字号', '密级', '标识', '标题', '签发人', '份数', '公文运转情况', '批示情况', '批示办理情况', '起草处室'])
+                ['序号', '登记时间', '发文字号', '密级', '标识', '标题', '签发人', '份数', '公文运转情况', '批示情况', '批示办理情况', '起草处室'])
             rear = ""
             if type2 == "委文":
-                self.label_35.setText("鄂审计委文")
-                rear = " where 发文字号 like '鄂审计委文%'"
+                self.label_34.setText("鄂审计委文[%s]" % datetime.datetime.now().year)
+                rear = " having sendfile.发文字号 like '鄂审计委文%' order by sendfile.发文字号"
             elif type2 == "委发":
-                self.label_35.setText("鄂审计委发")
-                rear = " where 发文字号 like '鄂审计委发%'"
+                self.label_34.setText("鄂审计委发[%s]" % datetime.datetime.now().year)
+                rear = " having sendfile.发文字号 like '鄂审计委发%' order by sendfile.发文字号"
             elif type2 == "委办文":
-                self.label_35.setText("鄂审计委办文")
-                rear = " where 发文字号 like '鄂审计委办文%'"
+                self.label_34.setText("鄂审计委办文[%s]" % datetime.datetime.now().year)
+                rear = " having sendfile.发文字号 like '鄂审计委办文%' order by sendfile.发文字号"
             elif type2 == "委办发":
-                rear = " where 发文字号 like '鄂审计委办发%'"
+                self.label_34.setText("鄂审计委办文[%s]" % datetime.datetime.now().year)
+                rear = " having sendfile.发文字号 like '鄂审计委办发%' order by sendfile.发文字号"
             elif type2 == "委函":
-                self.label_35.setText("鄂审计委函")
-                rear = " where 发文字号 like '鄂审计委函%'"
+                self.label_34.setText("鄂审计委函[%s]" % datetime.datetime.now().year)
+                rear = " having sendfile.发文字号 like '鄂审计委函%' order by sendfile.发文字号"
             elif type2 == "委办函":
-                self.label_35.setText("鄂审计委办函")
-                rear = " where 发文字号 like '鄂审计委办函%'"
+                self.label_34.setText("鄂审计委办函[%s]" % datetime.datetime.now().year)
+                rear = " having sendfile.发文字号 like '鄂审计委办函%' order by sendfile.发文字号"
             elif type2 == "委便签":
-                self.label_35.setText("鄂审计委便签")
-                rear = " where 发文字号 like '鄂审计委便签%'"
+                self.label_34.setText("鄂审计委便签[%s]" % datetime.datetime.now().year)
+                rear = " having sendfile.发文字号 like '鄂审计委便签%' order by sendfile.发文字号"
             elif type2 == "委办便签":
-                self.label_35.setText("鄂审计委办便签:（无编号）")
-                rear = " where 发文字号 like '鄂审计委办便签%'"
+                self.label_34.setText("鄂审计委办便签:（无编号）[%s]" % datetime.datetime.now().year)
+                rear = " having sendfile.发文字号 like '鄂审计委办便签%' order by sendfile.发文字号"
             elif type2 == "会议纪要":
-                self.label_35.setText("会议纪要")
-                rear = " where 发文字号 like '会议纪要%'"
+                self.label_34.setText("会议纪要[%s]" % datetime.datetime.now().year)
+                rear = " having sendfile.发文字号 like '会议纪要%' order by sendfile.发文字号"
             elif type2 == "审计专报":
-                self.label_35.setText("审计专报")
-                rear = " where 发文字号 like '审计专报%'"
+                self.label_34.setText("审计专报[%s]" % datetime.datetime.now().year)
+                rear = " having sendfile.发文字号 like '审计专报%' order by sendfile.发文字号"
 
-            # 暂未开发,等待批文修改
-            sql = ''
+            sql = "select sendfile.办文日期,sendfile.发文字号,sendfile.秘密等级,sendfile.标识,sendfile.发文标题,sendfile.签发人," \
+                  "sendfile.份数,sendfile.公文运转情况,GROUP_CONCAT(instruction.领导内容摘要和领导批示,'\n'),sendfile.批示办理情况," \
+                  "sendfile.起草处室 from sendfile left outer join bwprocess on sendfile.序号 = bwprocess.发文序号 left outer " \
+                  "join bw_cast_cor on bw_cast_cor.流程序号 = bwprocess.序号 left outer join corfile on corfile.序号 = " \
+                  "bw_cast_cor.批文序号 left outer join instruction on instruction.批文序号 = corfile.序号 group by " \
+                  "sendfile.序号" + rear
+            data = tools.executeSql(sql)
 
         elif type1 == "收文登记表":
             self.label_35.setText("1、红色：件未办结。2、绿色：件已办结，事项在办。3、黑色：件与事项完全办结并共同归档。4、蓝色：临时交办审计任务。")
-            self.tableWidget_2.setColumnCount(12)
+            self.tableWidget_2.setColumnCount(13)
             self.tableWidget_2.setHorizontalHeaderLabels(
-                ['时间', '编号', '秘级', '来文单位', '来文字号', '来文标题', '拟办意见', '要求时间', '厅领导签批意见', '承办处室', '办理结果', '文件去向'])
+                ['序号', '时间', '编号', '秘级', '来文单位', '来文字号', '来文标题', '拟办意见', '要求时间', '厅领导签批意见', '承办处室', '办理结果', '文件去向'])
             rear = ""
             if type2 == "请字":
-                self.label_34.setText("请字[2021]（平级、下级报送的请示类文件）→")
-                rear = " where 收文字号 like '请字%'"
+                self.label_34.setText("请字[%s]（平级、下级报送的请示类文件）→" % datetime.datetime.now().year)
+                rear = " where 收文字号 like '请字%' order by 收文字号"
             elif type2 == "情字":
-                self.label_34.setText("情字[2021]（平级、下级报送的情况类文件）→")
-                rear = " where 收文字号 like '情字%'"
+                self.label_34.setText("情字[%s]（平级、下级报送的情况类文件）→" % datetime.datetime.now().year)
+                rear = " where 收文字号 like '情字%' order by 收文字号"
             elif type2 == "综字":
-                self.label_34.setText("综字[2021]（上级下发的各类文件）→")
-                rear = " where 收文字号 like '综字%'"
+                self.label_34.setText("综字[%s]（上级下发的各类文件）→" % datetime.datetime.now().year)
+                rear = " where 收文字号 like '综字%' order by 收文字号"
             elif type2 == "会字":
-                self.label_34.setText("会[2021]（各级会议通知）→")
-                rear = " where 收文字号 like '会字%'"
+                self.label_34.setText("会[%s]（各级会议通知）→" % datetime.datetime.now().year)
+                rear = " where 收文字号 like '会字%' order by 收文字号"
             elif type2 == "电字":
-                self.label_34.setText("电[2021]（电报文件）→")
-                rear = " where 收文字号 like '电字%'"
+                self.label_34.setText("电[%s]（电报文件）→" % datetime.datetime.now().year)
+                rear = " where 收文字号 like '电字%' order by 收文字号"
 
             sql = "select 收文时间,收文字号,秘密等级,来文单位,来文字号,收文标题,内容摘要和拟办意见,要求时间,领导批示,承办处室,处理结果,文件去向 from revfile" + rear
+            data = tools.executeSql(sql)
 
         elif type1 == "批文登记表":
-            self.label_35.setText("1、红色：件未办结。2、绿色：件已办结，事项在办。3、黑色：件与事项完全办结并共同归档。")
-            self.label_34.setText("批字[2021]（省领导对审计委员会及委员会办公室文件资料的批示）")
-            self.tableWidget_2.setColumnCount(15)
-            self.tableWidget_2.setHorizontalHeaderLabels(
-                ['时间', '发文编号', '收文编号', '办文编号', '秘级', '来文单位', '来文字号', '来文标题', '省领导批示内容', '秘书处拟办意见', '委办主任签批意见',
-                 '批示任务办理要求时间', '承办处室及承办人', '办理结果', '文件去向'])
+            # 按照一条批文为单位生成登记表
+            if type2 == "批字":
+                self.label_34.setText("批字[%s]（省领导对审计委员会及委员会办公室文件资料的批示）" % datetime.datetime.now().year)
+                self.label_35.setText("1、红色：件未办结。2、绿色：件已办结，事项在办。3、黑色：件与事项完全办结并共同归档。")
+                self.tableWidget_2.setColumnCount(16)
+                self.tableWidget_2.setHorizontalHeaderLabels(
+                    ['序号', '时间', '发文编号', '收文编号', '办文编号', '秘级', '来文单位', '来文字号', '来文标题', '省领导批示内容', '秘书处拟办意见', '委办主任签批意见',
+                     '批示任务办理要求时间', '审计厅承办处室及承办人', '办理结果', '文件去向'])
 
-            sql = 'select corfile.收文时间,sendfile.发文字号,revfile.收文字号,corfile.批文字号,corfile.秘密等级,corfile.来文单位,' \
-                  'corfile.来文字号,corfile.批文标题,corfile.领导批示,corfile.内容摘要和拟办意见,corfile.委办主任签批意见,' \
-                  'corfile.批示任务办理要求时间,corfile.承办处室及承办人,corfile.办理结果,corfile.文件去向 from bwprocess join sendfile on ' \
-                  'bwprocess.发文序号 = sendfile.序号 join revfile on bwprocess.收文序号 = revfile.序号 join bw_cast_cor on ' \
-                  'bwprocess.序号 = bw_cast_cor.流程序号 join corfile on bw_cast_cor.批文序号 = corfile.序号 '
+                sql = "select corfile.收文时间,sendfile.发文字号,revfile.收文字号,corfile.批文字号,corfile.秘密等级," \
+                      "GROUP_CONCAT(instruction.领导来文单位,'\n'),GROUP_CONCAT(instruction.领导来文字号,'\n'),corfile.批文标题," \
+                      "GROUP_CONCAT(instruction.领导内容摘要和领导批示,'\n'),corfile.领导批示,corfile.委办主任签批意见,corfile.批示任务办理要求时间," \
+                      "corfile.审计厅承办处室及承办人,corfile.办理结果,corfile.文件去向 from corfile left outer join instruction on " \
+                      "corfile.序号 = instruction.批文序号 left outer join bw_cast_cor on bw_cast_cor.批文序号 = corfile.序号 " \
+                      "left outer join bwprocess on bwprocess.序号 = bw_cast_cor.流程序号 left outer join sendfile on " \
+                      "bwprocess.发文序号 = sendfile.序号 left outer join revfile on bwprocess.收文序号 = sendfile.序号 group by " \
+                      "corfile.序号 order by corfile.批文字号"
+                data = tools.executeSql(sql)
 
-        data = tools.executeSql(sql)
+            # 按照一条批示为单位生成登记表
+            elif type2 == "批示":
+                self.label_34.setText("批字[%s]（省领导对审计委员会及委员会办公室文件资料的批示详情）" % datetime.datetime.now().year)
+                self.label_35.setText("一位省领导的一条批示作为一条记录。")
+                self.tableWidget_2.setColumnCount(14)
+                self.tableWidget_2.setHorizontalHeaderLabels(
+                    ['序号', '办文编号', '密级', '起草处室', '报送载体', '报送标题', '来文字号', '来文标题', '来文单位', '批示载体', '批示人',
+                     '批示人职务', '批示时间', '批示内容'])
+
+                sql = "select corfile.批文字号,corfile.秘密等级,corfile.起草处室,sendfile.发文字号,sendfile.发文标题,instruction.领导来文字号," \
+                      "corfile.批文标题,instruction.领导来文单位,revfile.收文字号,instruction.领导姓名,instruction.领导职务," \
+                      "instruction.批示时间,instruction.领导内容摘要和领导批示 from instruction left outer join corfile on " \
+                      "instruction.批文序号 = corfile.序号 left outer join bw_cast_cor on corfile.序号 = bw_cast_cor.批文序号 " \
+                      "left outer join bwprocess on bw_cast_cor.流程序号 = bwprocess.序号 left outer join sendfile on " \
+                      "bwprocess.发文序号 = sendfile.序号 left outer join revfile on bwprocess.收文序号 = revfile.序号 order by " \
+                      "corfile.批文字号"
+                data = tools.executeSql(sql)
+
+        # 加上序号
+        for index in range(len(data)):
+            sup = (str(index+1),)
+            data[index] = sup + data[index]
+
         # 打印结果
         # print(data)
 
@@ -610,10 +652,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     QtWidgets.QMessageBox.warning(self, "警告", "无法设置整改！")
                 elif key4 == "1":
                     QtWidgets.QMessageBox.warning(self, "警告", "已设置整改！")
-
-    # 办文流程下进入整改按钮,调用整改台账下的查看详情(待完成)
-    def to_tz_detail(self):
-        print("ok")
 
     # 整改台账下的项目搜索按钮(未开发)
     def search(self):

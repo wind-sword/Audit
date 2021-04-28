@@ -33,11 +33,12 @@ class tools:
     # 将一个文件替换掉目录下另一个文件,source代表源文件,target代表目标替换文件名
     @classmethod
     def replaceFile(cls, source, target):
+        print(source)
+        print(target)
         try:
-            target = cls.project_word_path + '/' + target
-            # print(source)
-            # print(target)
-            os.remove(target)  # 删除目标文件
+            if target != "":
+                target = cls.project_word_path + '/' + target
+                os.remove(target)  # 删除目标文件
             shutil.copy(source, cls.project_word_path)  # 将新文件复制到路径下
         except Exception as e:
             print("Unable to replace file. %s\n" % e)
@@ -48,7 +49,6 @@ class tools:
         if file != "":
             # 获取文件路径
             path = os.path.dirname(os.getcwd()) + '\\' + file_folder + '\\' + file
-            # print(path)
             try:
                 os.startfile(path)
             except Exception as e:

@@ -225,7 +225,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.lineEdit_3.hide()
             self.label_23.hide()
         # 选出该项目对应的所有问题
-        sql = 'select problem.问题顺序号,problem.被审计领导干部,problem.所在地方和单位,sendfile.发文字号,problem.审计报告文号,problem.出具审计报告时间,' \
+        sql = 'select problem.问题顺序号,problem.被审计领导干部,problem.所在地方或单位,sendfile.发文字号,problem.审计报告文号,problem.出具审计报告时间,' \
               'problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类,problem.问题四级分类,' \
               'problem.备注,problem.问题金额,problem.移送及处理情况 from problem,sendfile where problem.发文序号 = %s and sendfile.序号 ' \
               '= problem.发文序号' % self.xh_send
