@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BranchesTreeState">
-    <expand>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </expand>
+    <expand />
     <select />
   </component>
   <component name="ChangeListManager">
@@ -24,18 +10,19 @@
       <change beforePath="$PROJECT_DIR$/db/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/database.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logis_fir/call_index.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_index.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logis_fir/call_lcdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_lcdetail.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logis_fir/call_quedetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_quedetail.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logis_fir/call_zgdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_zgdetail.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logis_fir/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/tools.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_word/专报1.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_word/公文1.docx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ui_dir/index.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/index.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui_dir/lcdetail.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/lcdetail.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui_dir/quedetail.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/quedetail.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui_dir/zgdetail.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/zgdetail.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui_dir/zgrevise.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/zgrevise.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uipy_dir/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/index.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uipy_dir/lcdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/lcdetail.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uipy_dir/quedetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/quedetail.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uipy_dir/zgdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/zgdetail.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zgfh_word/整改发函1.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/zgfh_word/整改发函2.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uipy_dir/zgrevise.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/zgrevise.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,9 +128,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="tools" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Audit" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/logis_fir" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/logis_fir/tools.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.call_index" />
+        <item itemvalue="Python.tools" />
         <item itemvalue="Python.lcdetail" />
       </list>
     </recent_temporary>
@@ -170,7 +179,24 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="false" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="dev_team_2" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -193,53 +219,53 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="531" y="245" key="#com.intellij.tools.ToolEditorDialog/0.0.1536.864@0.0.1536.864" timestamp="1617210106461" />
-    <state x="552" y="169" key="FileChooserDialogImpl" timestamp="1616489088808">
+    <state x="552" y="169" key="FileChooserDialogImpl" timestamp="1620213667404">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="552" y="169" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1616489088808" />
-    <state width="1515" height="63" key="GridCell.Tab.0.bottom" timestamp="1619622260541">
+    <state x="552" y="169" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1620213667404" />
+    <state width="1515" height="82" key="GridCell.Tab.0.bottom" timestamp="1620298023412">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1345" height="2" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1617202008165" />
-    <state width="1515" height="63" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1619622260541" />
+    <state width="1515" height="82" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1620298023412" />
     <state width="1515" height="189" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1617213788844" />
-    <state width="1515" height="63" key="GridCell.Tab.0.center" timestamp="1619622260541">
+    <state width="1515" height="82" key="GridCell.Tab.0.center" timestamp="1620298023412">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1345" height="2" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1617202008165" />
-    <state width="1515" height="63" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1619622260541" />
+    <state width="1515" height="82" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1620298023412" />
     <state width="1515" height="189" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1617213788844" />
-    <state width="1515" height="63" key="GridCell.Tab.0.left" timestamp="1619622260541">
+    <state width="1515" height="82" key="GridCell.Tab.0.left" timestamp="1620298023412">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1345" height="2" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1617202008165" />
-    <state width="1515" height="63" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1619622260541" />
+    <state width="1515" height="82" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1620298023412" />
     <state width="1515" height="189" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1617213788844" />
-    <state width="1515" height="63" key="GridCell.Tab.0.right" timestamp="1619622260541">
+    <state width="1515" height="82" key="GridCell.Tab.0.right" timestamp="1620298023412">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1345" height="2" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1617202008165" />
-    <state width="1515" height="63" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1619622260541" />
+    <state width="1515" height="82" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1620298023412" />
     <state width="1515" height="189" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1617213788844" />
-    <state width="1515" height="2" key="GridCell.Tab.1.bottom" timestamp="1619622260530">
+    <state width="1515" height="82" key="GridCell.Tab.1.bottom" timestamp="1620298023413">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="2" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1619622260530" />
+    <state width="1515" height="82" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1620298023413" />
     <state width="1515" height="261" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1617208372395" />
-    <state width="1515" height="2" key="GridCell.Tab.1.center" timestamp="1619622260530">
+    <state width="1515" height="82" key="GridCell.Tab.1.center" timestamp="1620298023412">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="2" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1619622260530" />
+    <state width="1515" height="82" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1620298023412" />
     <state width="1515" height="261" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1617208372395" />
-    <state width="1515" height="2" key="GridCell.Tab.1.left" timestamp="1619622260530">
+    <state width="1515" height="82" key="GridCell.Tab.1.left" timestamp="1620298023412">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="2" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1619622260530" />
+    <state width="1515" height="82" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1620298023412" />
     <state width="1515" height="261" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1617208372395" />
-    <state width="1515" height="2" key="GridCell.Tab.1.right" timestamp="1619622260530">
+    <state width="1515" height="82" key="GridCell.Tab.1.right" timestamp="1620298023412">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="2" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1619622260530" />
+    <state width="1515" height="82" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1620298023412" />
     <state width="1515" height="261" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1617208372395" />
     <state x="270" y="60" key="SettingsEditor" timestamp="1617210107760">
       <screen x="0" y="0" width="1536" height="864" />

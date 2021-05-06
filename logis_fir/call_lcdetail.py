@@ -25,7 +25,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.pro_tag = -1  # 问题表是否导入
 
         # 页面上方流程按钮跳转
-        self.commandLinkButton.clicked.connect(lambda: self.btjump(btname="0"))
+        self.commandLinkButton_1.clicked.connect(lambda: self.btjump(btname="1"))
         self.commandLinkButton_2.clicked.connect(lambda: self.btjump(btname="2"))
         self.commandLinkButton_3.clicked.connect(lambda: self.btjump(btname="3"))
         self.commandLinkButton_4.clicked.connect(lambda: self.btjump(btname="4"))
@@ -36,8 +36,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         # 同步公文页面输入框:日期和办文编号
         self.dateEdit_6.dateChanged.connect(self.autoSyn1)
         self.dateEdit_7.dateChanged.connect(self.autoSyn2)
-        self.lineEdit_num.textChanged.connect(self.autoSyn3)
-        self.lineEdit_25.textChanged.connect(self.autoSyn4)
+        self.spinBox_2.valueChanged.connect(self.autoSyn3)
+        self.spinBox_3.valueChanged.connect(self.autoSyn3)
 
         # 同步批文输入框的三个list高亮情况
         self.listWidget.currentRowChanged.connect(self.autoHighlight1)
@@ -65,21 +65,21 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 页面上方流程按钮跳转,同时刷新页面
     def btjump(self, btname):
-        if btname == "0":
-            if self.send_type == 2:
+        if btname == "1":
+            if self.send_type == 1:
                 self.stackedWidget.setCurrentIndex(0)
-            elif self.send_type == 1:
+            elif self.send_type == 2:
                 self.stackedWidget.setCurrentIndex(1)
             self.displaySendFile()
         elif btname == "2":
             self.stackedWidget.setCurrentIndex(2)
-            self.displayRevFile()
+            self.displayQuestionDetail()
         elif btname == "3":
             self.stackedWidget.setCurrentIndex(3)
-            self.displayCorFile()
+            self.displayRevFile()
         elif btname == "4":
             self.stackedWidget.setCurrentIndex(4)
-            self.displayQuestionDetail()
+            self.displayCorFile()
 
     # 控件绑定功能函数
     def initControlFunction(self):
@@ -141,10 +141,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.dateEdit_6.setDate(self.dateEdit_7.date())
 
     def autoSyn3(self):
-        self.lineEdit_25.setText(self.lineEdit_num.text())
-
-    def autoSyn4(self):
-        self.lineEdit_num.setText(self.lineEdit_25.text())
+        cur = self.comboBox_10.currentText() + '[' + self.spinBox_2.text() + ']' + self.spinBox_3.text() + \
+              self.label_51.text()
+        self.lineEdit_25.setText(cur)
 
     # 同步批文页面list高亮
     def autoHighlight1(self):
@@ -200,17 +199,17 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
     def initView(self):
         # 没有发文流程
         if self.xh_send == -1:
-            self.commandLinkButton.hide()
-            self.commandLinkButton_4.hide()
-            self.stackedWidget.setCurrentIndex(2)
+            self.commandLinkButton_1.hide()
+            self.commandLinkButton_2.hide()
+            self.stackedWidget.setCurrentIndex(3)
         # 有发文流程
         else:
             # 专报类型
             if self.send_type == 1:
-                self.stackedWidget.setCurrentIndex(1)
+                self.stackedWidget.setCurrentIndex(0)
             # 公文类型
             elif self.send_type == 2:
-                self.stackedWidget.setCurrentIndex(0)
+                self.stackedWidget.setCurrentIndex(1)
 
     # 展示问题表格
     def displayQuestionDetail(self):
@@ -278,7 +277,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
                 self.lineEdit.setText(data[0][0])  # 发文标题
                 self.lineEdit_2.setText(data[0][1])  # 报送范围
-                self.lineEdit_4.setText(data[0][2])  # 发文字号
+                self.spinBox.setValue(int(tools.getIntegerFromString(data[0][2])[0]))  # 发文字号
                 self.comboBox_2.setCurrentText(data[0][3])  # 紧急程度
                 self.lineEdit_5.setText(data[0][4])  # 秘密等级
                 self.comboBox_3.setCurrentText(data[0][5])  # 是否公开
@@ -296,7 +295,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 # 设置只读
                 self.lineEdit.setReadOnly(True)
                 self.lineEdit_2.setReadOnly(True)
-                self.lineEdit_4.setReadOnly(True)
+                self.spinBox.setReadOnly(True)
                 self.comboBox_2.setDisabled(True)
                 self.lineEdit_5.setReadOnly(True)
                 self.comboBox_3.setDisabled(True)
@@ -328,25 +327,29 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 else:
                     self.pushButton_opfile.setEnabled(True)
 
-                self.lineEdit_num.setText(data[0][2])  # 发文字号
                 self.lineEdit_num_3.setText(data[0][0])  # 发文标题
+                self.comboBox_10.setCurrentText(tools.getTypeFromString(data[0][2]))  # 发文字号[类型]
+                self.spinBox_2.setValue(int(tools.getIntegerFromString(data[0][2])[0]))  # 发文字号[年]
+                self.spinBox_3.setValue(int(tools.getIntegerFromString(data[0][2])[1]))  # 发文字号[编号]
+                self.lineEdit_25.setText(data[0][2])  # 办文编号
+                self.comboBox_4.setCurrentText(data[0][3])  # 紧急程度
+                self.lineEdit_22.setText(data[0][4])  # 保密等级
+                self.comboBox_5.setCurrentText(data[0][5])  # 是否公开
                 self.textEdit_2.setText(data[0][14])  # 领导审核意见
                 self.textEdit_4.setText(data[0][15])  # 审计办领导审核意见
                 self.textEdit_3.setText(data[0][16])  # 办文情况说明和拟办意见
                 self.lineEdit_file_3.setText(data[0][18])  # 公文内容
-                self.lineEdit_22.setText(data[0][4])  # 保密等级
-                self.comboBox_5.setCurrentText(data[0][5])  # 是否公开
-                self.comboBox_4.setCurrentText(data[0][3])  # 紧急程度
                 self.lineEdit_24.setText(data[0][19])  # 审核
                 self.lineEdit_26.setText(data[0][20])  # 承办处室
                 self.lineEdit_27.setText(data[0][21])  # 承办人
                 self.lineEdit_28.setText(data[0][22])  # 联系电话
                 self.dateEdit_7.setDate(QDate.fromString(data[0][23], 'yyyy/M/d'))  # 办文日期
                 self.dateEdit_6.setDate(QDate.fromString(data[0][23], 'yyyy/M/d'))  # 日期
-                self.lineEdit_25.setText(data[0][2])  # 办文编号
 
                 # 设置只读
-                self.lineEdit_num.setReadOnly(True)
+                self.comboBox_10.setDisabled(True)
+                self.spinBox_2.setReadOnly(True)
+                self.spinBox_3.setReadOnly(True)
                 self.lineEdit_num_3.setReadOnly(True)
                 self.textEdit_2.setReadOnly(True)
                 self.textEdit_4.setReadOnly(True)
@@ -389,7 +392,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.textEdit_11.setText(data[0][8])  # 领导批示
             self.lineEdit_64.setText(data[0][9])  # 处理结果
             self.lineEdit_65.setText(data[0][10])  # 审核
-            self.lineEdit_60.setText(data[0][11])  # 办文编号
+            self.comboBox_11.setCurrentText(tools.getTypeFromString(data[0][11]))  # 收文编号:类型
+            self.spinBox_4.setValue(int(tools.getIntegerFromString(data[0][11])[0]))  # 收文编号:[年]
+            self.spinBox_5.setValue(int(tools.getIntegerFromString(data[0][11])[1]))  # 收文编号:编号
             self.lineEdit_61.setText(data[0][12])  # 承办处室
             self.lineEdit_62.setText(data[0][13])  # 承办人
             self.lineEdit_63.setText(data[0][14])  # 联系电话
@@ -403,7 +408,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.lineEdit_68.setReadOnly(True)
             self.lineEdit_64.setReadOnly(True)
             self.lineEdit_65.setReadOnly(True)
-            self.lineEdit_60.setReadOnly(True)
+            self.comboBox_11.setDisabled(True)
+            self.spinBox_4.setReadOnly(True)
+            self.spinBox_5.setReadOnly(True)
             self.lineEdit_61.setReadOnly(True)
             self.lineEdit_62.setReadOnly(True)
             self.lineEdit_63.setReadOnly(True)
@@ -424,6 +431,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.comboBox_7.setCurrentText(data[0][2])  # 紧急程度
             self.lineEdit_67.setText(data[0][1])  # 来文字号
             self.dateEdit_5.setDate(datetime.datetime.now())  # 初始化时间时间默认值为当前时间
+            self.comboBox_11.setCurrentIndex(0)  # 初始化收文类型
+            self.spinBox_4.setValue(datetime.datetime.now().year)  # 初始化时间为当前系统时间
+            self.spinBox_5.setValue(1)  # 初始化编号为1
 
             # 继承而来的字段不可改变
             self.lineEdit_14.setReadOnly(True)
@@ -438,8 +448,11 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
         # 设置不可修改,list默认不能修改
         self.dateEdit_4.setReadOnly(True)  # 收文时间
+        self.lineEdit_13.setText("")
         self.lineEdit_13.setReadOnly(True)  # 密级
+        self.comboBox_8.setCurrentText("是")
         self.comboBox_8.setDisabled(True)  # 是否公开
+        self.comboBox_9.setCurrentText("无")
         self.comboBox_9.setDisabled(True)  # 紧急程度
         self.listWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 批文来文单位
         self.listWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 批文来文字号
@@ -449,7 +462,10 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.lineEdit_6.setReadOnly(True)  # 厅领导内容摘要和拟办意见
         self.lineEdit_55.setReadOnly(True)  # 处理结果
         self.lineEdit_56.setReadOnly(True)  # 审核
-        self.lineEdit_51.setReadOnly(True)  # 批文编号
+        self.spinBox_6.setValue(0)
+        self.spinBox_7.setValue(0)
+        self.spinBox_6.setReadOnly(True)  # 批文编号:[年]
+        self.spinBox_7.setReadOnly(True)  # 批文编号:[编号]
         self.lineEdit_52.setReadOnly(True)  # 承办处室
         self.lineEdit_53.setReadOnly(True)  # 承办人
         self.lineEdit_54.setReadOnly(True)  # 联系电话
@@ -457,16 +473,19 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         # 表示收文还没有录入,此时不允许录入批文,跳转到收文录入页面
         if self.xh_rev == -1:
             QtWidgets.QMessageBox.critical(w, "错误", "收文未录入！")
-            self.stackedWidget.setCurrentIndex(2)
+            self.stackedWidget.setCurrentIndex(3)
             self.displayRevFile()
             return
 
         # 获取批文数量
         cor_num = len(self.xh_cor_list)
 
-        # 隐藏确认和修改按钮,展示下拉框和标签,隐藏+和-号
+        # 隐藏确认和修改按钮,展示下拉框和标签,隐藏+和-号,当批文数量不为0的时候显示修改按钮
         self.pushButton_4.show()
-        self.pushButton_7.show()
+        if cor_num != 0:
+            self.pushButton_7.show()
+        else:
+            self.pushButton_7.hide()
         self.pushButton_13.hide()
         self.pushButton_14.hide()
         self.label_25.show()
@@ -516,7 +535,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.lineEdit_59.setText(data[0][4])  # 文件标题
         self.lineEdit_55.setText(data[0][5])  # 处理结果
         self.lineEdit_56.setText(data[0][6])  # 审核
-        self.lineEdit_51.setText(data[0][7])  # 批文编号
+        self.spinBox_6.setValue(int(tools.getIntegerFromString(data[0][7])[0]))  # 批文编号:[年]
+        self.spinBox_7.setValue(int(tools.getIntegerFromString(data[0][7])[1]))  # 批文编号:编号
         self.lineEdit_52.setText(data[0][8])  # 承办处室
         self.lineEdit_53.setText(data[0][9])  # 承办人
         self.lineEdit_54.setText(data[0][10])  # 联系电话
@@ -548,7 +568,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
             self.lineEdit.setReadOnly(False)
             self.lineEdit_2.setReadOnly(False)
-            self.lineEdit_4.setReadOnly(False)
+            self.spinBox.setReadOnly(False)
             self.comboBox_2.setEnabled(True)
             self.lineEdit_5.setReadOnly(False)
             self.comboBox_3.setEnabled(True)
@@ -570,7 +590,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.pushButton_file.show()
             self.pushButton_opfile.hide()
 
-            self.lineEdit_num.setReadOnly(False)
+            self.comboBox_10.setEnabled(True)
+            self.spinBox_2.setReadOnly(False)
+            self.spinBox_3.setReadOnly(False)
             self.lineEdit_num_3.setReadOnly(False)
             self.textEdit_2.setReadOnly(False)
             self.textEdit_4.setReadOnly(False)
@@ -585,7 +607,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.lineEdit_28.setReadOnly(False)
             self.dateEdit_7.setReadOnly(False)
             self.dateEdit_6.setReadOnly(False)
-            self.lineEdit_25.setReadOnly(False)
+            # self.lineEdit_25.setReadOnly(False)
 
     # 提交修改发文
     def updateSendFile(self, btname):
@@ -593,7 +615,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         if btname == "zb":
             input1 = self.lineEdit.text()  # 发文标题
             input2 = self.lineEdit_2.text()  # 报送范围
-            input3 = self.lineEdit_4.text()  # 发文字号
+            input3 = self.label_11.text() + self.spinBox.text() + self.label_12.text()  # 发文字号
             input4 = self.comboBox_2.currentText()  # 紧急程度
             input5 = self.lineEdit_5.text()  # 秘密等级
             input6 = self.comboBox_3.currentText()  # 是否公开
@@ -624,7 +646,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                     if old_file_name != input15:
                         input_file_path = input15  # 存储文件路径
                         input15 = tools.getFileName(input15)  # 获取新的文件名,作为数据库更新字段
-                        tools.replaceFile(input_file_path, old_file_name)
+                        tools.replaceFile(input_file_path, old_file_name, tools.project_word_path)
 
                     sql = "update sendfile set 发文标题 = '%s',报送范围 = '%s',发文字号 = '%s',紧急程度 = '%s',秘密等级 = '%s',是否公开 = '%s'," \
                           "拟稿人 = '%s',拟稿处室分管厅领导 = '%s',拟稿处室审核 = '%s',综合处编辑 = '%s',综合处审核 = '%s',秘书处审核 = '%s',综合处分管厅领导= " \
@@ -640,7 +662,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 QtWidgets.QMessageBox.critical(w, "修改失败", "发文字号不能为空!")
 
         elif btname == "gw":
-            input1 = self.lineEdit_num.text()  # 发文字号
+            input1 = self.comboBox_10.currentText() + '[' + self.spinBox_2.text() + ']' + self.spinBox_3.text() \
+                     + self.label_51.text()  # 发文字号
             input2 = self.lineEdit_num_3.text()  # 发文标题
             input3 = self.textEdit_2.toPlainText()  # 领导审核意见
             input4 = self.textEdit_4.toPlainText()  # 审计办领导审核意见
@@ -673,7 +696,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                     if old_file_name != input6:
                         input_file_path = input6  # 存储文件路径
                         input6 = tools.getFileName(input6)  # 获取新的文件名,作为数据库更新字段
-                        tools.replaceFile(input_file_path, old_file_name)
+                        tools.replaceFile(input_file_path, old_file_name, tools.project_word_path)
 
                     sql = "update sendfile set 发文字号 = '%s',发文标题 = '%s',领导审核意见 = '%s',审计办领导审核意见 = '%s',办文情况说明和拟办意见 = " \
                           "'%s',报文内容 = '%s',秘密等级 = '%s',是否公开 = '%s',紧急程度 = '%s',审核 = '%s',承办处室 = '%s',承办人 = '%s'," \
@@ -706,7 +729,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         input7 = self.lineEdit_68.text()  # 文件标题
         input8 = self.lineEdit_64.text()  # 处理结果
         input9 = self.lineEdit_65.text()  # 审核
-        input10 = self.lineEdit_60.text()  # 办文编号
+        input10 = self.comboBox_11.currentText() + '[' + self.spinBox_4.text() + ']' + self.spinBox_5.text() + self.label_52.text()  # 收文编号
         input11 = self.lineEdit_61.text()  # 承办处室
         input12 = self.lineEdit_62.text()  # 承办人
         input13 = self.lineEdit_63.text()  # 联系电话
@@ -762,7 +785,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.lineEdit_68.setReadOnly(False)
         self.lineEdit_64.setReadOnly(False)
         self.lineEdit_65.setReadOnly(False)
-        self.lineEdit_60.setReadOnly(False)
+        self.comboBox_11.setEnabled(True)
+        self.spinBox_4.setReadOnly(False)
+        self.spinBox_5.setReadOnly(False)
         self.lineEdit_61.setReadOnly(False)
         self.lineEdit_62.setReadOnly(False)
         self.lineEdit_63.setReadOnly(False)
@@ -784,7 +809,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         input9 = self.textEdit_11.toPlainText()  # 领导批示
         input10 = self.lineEdit_64.text()  # 处理结果
         input11 = self.lineEdit_65.text()  # 审核
-        input12 = self.lineEdit_60.text()  # 办文编号
+        input12 = self.comboBox_11.currentText() + '[' + self.spinBox_4.text() + ']' + self.spinBox_5.text() + self.label_52.text()  # 办文编号
         input13 = self.lineEdit_61.text()  # 承办处室
         input14 = self.lineEdit_62.text()  # 承办人
         input15 = self.lineEdit_63.text()  # 联系电话
@@ -850,7 +875,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.lineEdit_59.clear()  # 文件标题
         self.lineEdit_55.clear()  # 处理结果
         self.lineEdit_56.clear()  # 审核
-        self.lineEdit_51.clear()  # 批文编号
+        self.spinBox_6.setValue(datetime.datetime.now().year)  # 批文编号:[年]
+        self.spinBox_7.setValue(1)  # 批文编号:编号
         self.lineEdit_52.clear()  # 承办处室
         self.lineEdit_53.clear()  # 承办人
         self.lineEdit_54.clear()  # 联系电话
@@ -870,7 +896,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.textEdit_9.setReadOnly(False)  # 领导批示
         self.lineEdit_55.setReadOnly(False)  # 处理结果
         self.lineEdit_56.setReadOnly(False)  # 审核
-        self.lineEdit_51.setReadOnly(False)  # 批文编号
+        self.spinBox_6.setReadOnly(False)   # 批文编号:[年]
+        self.spinBox_7.setReadOnly(False)   # 批文编号:编号
         self.lineEdit_52.setReadOnly(False)  # 承办处室
         self.lineEdit_53.setReadOnly(False)  # 承办人
         self.lineEdit_54.setReadOnly(False)  # 联系电话
@@ -908,7 +935,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.textEdit_9.setReadOnly(False)  # 领导批示
         self.lineEdit_55.setReadOnly(False)  # 处理结果
         self.lineEdit_56.setReadOnly(False)  # 审核
-        self.lineEdit_51.setReadOnly(False)  # 批文编号
+        self.spinBox_6.setReadOnly(False)  # 批文编号:[年]
+        self.spinBox_7.setReadOnly(False)  # 批文编号:编号
         self.lineEdit_52.setReadOnly(False)  # 承办处室
         self.lineEdit_53.setReadOnly(False)  # 承办人
         self.lineEdit_54.setReadOnly(False)  # 联系电话
@@ -921,7 +949,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         input3 = self.comboBox_8.currentText()  # 是否公开
         input4 = self.comboBox_9.currentText()  # 紧急程度
         input5 = self.lineEdit_59.text()  # 批文标题
-        input6 = self.lineEdit_51.text()  # 批文编号
+        input6 = self.comboBox_12.currentText() + '[' + self.spinBox_6.text() + ']' + self.spinBox_7.text() + self.label_53.text()  # 批文编号
         input7 = self.lineEdit_6.text()  # 厅领导内容摘要和拟办意见
         input8 = self.textEdit_9.toPlainText()  # 领导批示
         input9 = self.lineEdit_55.text()  # 处理结果

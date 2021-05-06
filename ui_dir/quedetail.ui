@@ -47,18 +47,27 @@
       <widget class="QCommandLinkButton" name="commandLinkButton_4">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>200</width>
          <height>60</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>161</width>
+         <width>200</width>
          <height>60</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="styleSheet">
-        <string notr="true">font: 12pt &quot;Adobe Devanagari&quot;;</string>
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>问题基本信息</string>
@@ -72,18 +81,24 @@
       <widget class="QCommandLinkButton" name="commandLinkButton_2">
        <property name="minimumSize">
         <size>
-         <width>180</width>
+         <width>200</width>
          <height>60</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>161</width>
+         <width>200</width>
          <height>60</height>
         </size>
        </property>
-       <property name="styleSheet">
-        <string notr="true">font: 12pt &quot;Adobe Devanagari&quot;;</string>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
        </property>
        <property name="text">
         <string>整改措施及进度</string>
@@ -111,9 +126,9 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
-     <widget class="QWidget" name="page_info">
+     <widget class="QWidget" name="page_detail">
       <layout class="QGridLayout" name="gridLayout_2" rowstretch="1,1,18,1" rowminimumheight="0,0,0,0">
        <item row="0" column="0">
         <widget class="QLabel" name="label">
@@ -141,6 +156,11 @@
                <height>0</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;被审计领导干部：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
@@ -153,6 +173,11 @@
                <width>0</width>
                <height>28</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
              </property>
             </widget>
            </item>
@@ -188,6 +213,11 @@
                <height>28</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
             </widget>
            </item>
           </layout>
@@ -202,6 +232,11 @@
                <height>0</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;所在地方或单位：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
@@ -214,6 +249,11 @@
                <width>0</width>
                <height>28</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
              </property>
             </widget>
            </item>
@@ -249,6 +289,11 @@
                <height>28</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
             </widget>
            </item>
           </layout>
@@ -282,6 +327,11 @@
                <width>0</width>
                <height>28</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
              </property>
             </widget>
            </item>
@@ -317,6 +367,11 @@
                <height>28</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
             </widget>
            </item>
           </layout>
@@ -330,6 +385,11 @@
                <width>200</width>
                <height>0</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
              </property>
              <property name="text">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;出具审计报告时间：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -380,6 +440,11 @@
                <height>28</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
             </widget>
            </item>
           </layout>
@@ -413,6 +478,11 @@
                <width>0</width>
                <height>28</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
              </property>
             </widget>
            </item>
@@ -448,6 +518,11 @@
                <height>28</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
             </widget>
            </item>
           </layout>
@@ -481,6 +556,11 @@
                <width>0</width>
                <height>28</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
              </property>
             </widget>
            </item>
@@ -516,6 +596,11 @@
                <height>28</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
             </widget>
            </item>
           </layout>
@@ -550,6 +635,11 @@
                <height>28</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
             </widget>
            </item>
           </layout>
@@ -563,6 +653,11 @@
                <width>0</width>
                <height>28</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
              </property>
             </widget>
            </item>
@@ -606,6 +701,11 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>修改</string>
            </property>
@@ -624,6 +724,11 @@
              <width>150</width>
              <height>16777215</height>
             </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
            </property>
            <property name="text">
             <string>确认</string>
@@ -644,6 +749,11 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>取消</string>
            </property>
@@ -653,7 +763,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_2">
+     <widget class="QWidget" name="page_zg">
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="label_13">

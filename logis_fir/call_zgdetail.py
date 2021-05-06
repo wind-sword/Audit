@@ -23,16 +23,18 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.xh_cor_list = []  # 批文序号列表
         self.comboBox_dict = dict()  # 用下拉框下标映射到批文序号列表
         self.pro_tag = -1  # 表示问题表是否录入
+        self.zgfh_tag = -1  # 表示整改发函是否录入(只要有一个发函录入则状态为录入)
+        self.zglr_tag = -1  # 表示整改措施是否录入(只要录入一次整改措施则状态为录入)
 
         self.window = None  # 整改子窗口
 
         # 页面上方流程跳转按钮
-        self.commandLinkButton.clicked.connect(lambda: self.btjump(btname="0"))
+        self.commandLinkButton_1.clicked.connect(lambda: self.btjump(btname="1"))
         self.commandLinkButton_2.clicked.connect(lambda: self.btjump(btname="2"))
-        self.commandLinkButton_4.clicked.connect(lambda: self.btjump(btname="1"))
-        self.commandLinkButton_5.clicked.connect(lambda: self.btjump(btname="3"))
-        self.commandLinkButton_6.clicked.connect(lambda: self.btjump(btname="4"))
-        self.commandLinkButton_7.clicked.connect(lambda: self.btjump(btname="5"))
+        self.commandLinkButton_3.clicked.connect(lambda: self.btjump(btname="3"))
+        self.commandLinkButton_4.clicked.connect(lambda: self.btjump(btname="4"))
+        self.commandLinkButton_5.clicked.connect(lambda: self.btjump(btname="5"))
+        self.commandLinkButton_6.clicked.connect(lambda: self.btjump(btname="6"))
 
         # tab设置
         self.tabWidget.setTabText(0, "问题浏览")
@@ -63,26 +65,26 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 流程跳转
     def btjump(self, btname):
-        if btname == "0":
-            if self.send_type == 2:
+        if btname == "1":
+            if self.send_type == 1:
                 self.stackedWidget.setCurrentIndex(0)
-            elif self.send_type == 1:
-                self.stackedWidget.setCurrentIndex(6)
+            elif self.send_type == 2:
+                self.stackedWidget.setCurrentIndex(1)
             self.displaySendDetail()
         elif btname == "2":
             self.stackedWidget.setCurrentIndex(2)
             self.displayQuestionTable()
-        elif btname == "1":
-            self.stackedWidget.setCurrentIndex(1)
-            self.displayRevDetail()
         elif btname == "3":
             self.stackedWidget.setCurrentIndex(3)
-            self.displayCorDetail()
+            self.displayRevDetail()
         elif btname == "4":
             self.stackedWidget.setCurrentIndex(4)
-            self.displayZgfh()
+            self.displayCorDetail()
         elif btname == "5":
             self.stackedWidget.setCurrentIndex(5)
+            self.displayZgfh()
+        elif btname == "6":
+            self.stackedWidget.setCurrentIndex(6)
             self.displayQuestionOverview()
 
     # 关闭tab
@@ -111,6 +113,8 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.pushButton_5.clicked.connect(self.chooseFileZgfh)
         # 保存发函文件
         self.pushButton_6.clicked.connect(self.saveZgfh)
+        # 删除发函文件
+        self.pushButton_2.clicked.connect(self.deleteZgfh)
 
         # 选择问题Excel表
         self.pushButton_7.clicked.connect(self.chooseQuestionExcel)
@@ -178,19 +182,35 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         if len(result) != 0:
             self.pro_tag = 1
 
+        # 初始化整改发函状态
+        sql = "select * from zgword where 整改序号 = %s" % self.xh
+        result = tools.executeSql(sql)
+        if len(result) != 0:
+            self.zgfh_tag = 1
+
+        # 初始化整改措施是否录入
+        sql = "select * from problem,rectification where problem.发文序号 = %s and problem.序号 = rectification.问题序号" % self.xh_send
+        result = tools.executeSql(sql)
+        if len(result) != 0:
+            self.zglr_tag = 1
+
         # 初始化流程状态
-        self.commandLinkButton.setDescription("已完成")
+        self.commandLinkButton_1.setDescription("已完成")
+        self.commandLinkButton_3.setDescription("已完成")
         self.commandLinkButton_4.setDescription("已完成")
-        self.commandLinkButton_5.setDescription("已完成")
         if self.pro_tag == 1:
             self.commandLinkButton_2.setDescription("已完成")
+        if self.zgfh_tag == 1:
+            self.commandLinkButton_5.setDescription("已完成")
+        if self.zglr_tag == 1:
+            self.commandLinkButton_6.setDescription("已完成")
 
     # 初始化整改界面显示
     def initView(self):
         if self.send_type == 1:
-            self.stackedWidget.setCurrentIndex(6)
-        elif self.send_type == 2:
             self.stackedWidget.setCurrentIndex(0)
+        elif self.send_type == 2:
+            self.stackedWidget.setCurrentIndex(1)
 
         # 设置整改流程标题为发文标题
         sql = "select 发文标题 from sendfile where 序号 = %s" % self.xh_send
@@ -474,6 +494,14 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         # 将所有整改发函文件名显示在list中
         sql = "select 整改发函内容 from zgword where 整改序号 = %s" % self.xh
         data = tools.executeSql(sql)
+
+        if len(data) == 0:
+            self.zgfh_tag = -1
+            self.commandLinkButton_5.setDescription("未完成")
+        else:
+            self.zgfh_tag = 1
+            self.commandLinkButton_5.setDescription("已完成")
+
         for i in data:
             self.listWidget_4.addItem(i[0])
 
@@ -482,6 +510,16 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.lineEdit_2.setReadOnly(True)
 
         self.tableWidget_4.hideColumn(0)  # 隐藏整改数据库主键
+
+        # 初始化整改措施是否录入
+        sql = "select * from problem,rectification where problem.发文序号 = %s and problem.序号 = rectification.问题序号" % self.xh_send
+        result = tools.executeSql(sql)
+        if len(result) != 0:
+            self.zglr_tag = 1
+            self.commandLinkButton_6.setDescription("已完成")
+        else:
+            self.zglr_tag = -1
+            self.commandLinkButton_6.setDescription("未完成")
 
         if self.pro_tag != -1:
             sql = 'select rectification.上报次序,problem.问题顺序号,problem.被审计领导干部,problem.所在地方或单位,sendfile.发文字号,' \
@@ -571,6 +609,21 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         else:
             filename = self.listWidget_4.currentItem().text()
             tools.openFile(file_folder="zgfh_word", file=filename)
+
+    # 删除选择的整改发函文件
+    def deleteZgfh(self):
+        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+        row = self.listWidget_4.currentRow()
+        if row == -1:
+            QtWidgets.QMessageBox.information(w, "提示", "请选择整改发函文件！")
+        else:
+            filename = self.listWidget_4.currentItem().text()
+            tools.deleteFile(tools.zgfh_word_path, filename)
+            sql = "delete from zgword where 整改发函内容 = '%s'" % filename
+            tools.executeSql(sql)
+            QtWidgets.QMessageBox.information(w, "提示", "删除成功！")
+
+            self.displayZgfh()
 
     # 根据excel中的右边问题整改信息导入问题表
     def importExcel(self):

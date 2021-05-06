@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1967</width>
-    <height>1063</height>
+    <width>1838</width>
+    <height>953</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -102,7 +102,7 @@ QPushButton:pressed{
 } </string>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>5</number>
          </property>
          <widget class="QWidget" name="page_lczl">
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -263,15 +263,20 @@ QPushButton:pressed{
                   <widget class="QPushButton" name="btckxq">
                    <property name="minimumSize">
                     <size>
-                     <width>0</width>
+                     <width>150</width>
                      <height>28</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>300</width>
+                     <width>150</width>
                      <height>16777215</height>
                     </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
                    </property>
                    <property name="text">
                     <string>查看详情</string>
@@ -282,15 +287,20 @@ QPushButton:pressed{
                   <widget class="QPushButton" name="btszzg">
                    <property name="minimumSize">
                     <size>
-                     <width>0</width>
+                     <width>150</width>
                      <height>28</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>300</width>
+                     <width>150</width>
                      <height>16777215</height>
                     </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
                    </property>
                    <property name="text">
                     <string>设置整改</string>
@@ -632,15 +642,21 @@ QPushButton:pressed{
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
-                     <width>180</width>
+                     <width>150</width>
                      <height>28</height>
                     </size>
                    </property>
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>10</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -656,15 +672,21 @@ QPushButton:pressed{
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
-                     <width>180</width>
+                     <width>150</width>
                      <height>28</height>
                     </size>
                    </property>
                    <property name="font">
                     <font>
-                     <pointsize>14</pointsize>
+                     <pointsize>10</pointsize>
                     </font>
                    </property>
                    <property name="contextMenuPolicy">
@@ -746,60 +768,10 @@ QPushButton:pressed{
               <enum>QFrame::Plain</enum>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="page_zb">
               <layout class="QGridLayout" name="gridLayout_5" rowstretch="1,0,0,0">
-               <item row="3" column="0" colspan="2">
-                <layout class="QHBoxLayout" name="horizontalLayout_13">
-                 <item>
-                  <widget class="QPushButton" name="pushButton_addac">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>160</width>
-                     <height>28</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>10</pointsize>
-                    </font>
-                   </property>
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="text">
-                    <string>确认新增</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="1" column="0" colspan="2">
-                <widget class="QWidget" name="widget_zbhead" native="true">
-                 <property name="minimumSize">
-                  <size>
-                   <width>250</width>
-                   <height>100</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">image: url(:/resource_dir/zbhead.png);</string>
-                 </property>
-                </widget>
-               </item>
                <item row="2" column="0" colspan="2">
                 <widget class="QFrame" name="frame">
                  <property name="styleSheet">
@@ -818,10 +790,16 @@ QPushButton:pressed{
                   <number>1</number>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_4">
-                  <item row="2" column="1">
-                   <layout class="QFormLayout" name="formLayout_12">
+                  <item row="8" column="0">
+                   <layout class="QFormLayout" name="formLayout_9">
                     <item row="0" column="0">
-                     <widget class="QLabel" name="label_4">
+                     <widget class="QLabel" name="label_12">
+                      <property name="minimumSize">
+                       <size>
+                        <width>125</width>
+                        <height>0</height>
+                       </size>
+                      </property>
                       <property name="font">
                        <font>
                         <pointsize>14</pointsize>
@@ -830,33 +808,23 @@ QPushButton:pressed{
                        </font>
                       </property>
                       <property name="text">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;紧急程度：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;秘书处审核：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="1">
-                     <widget class="QComboBox" name="comboBox_4">
-                      <property name="maximumSize">
+                    <item row="1" column="0" colspan="2">
+                     <widget class="QLineEdit" name="lineEdit_11">
+                      <property name="minimumSize">
                        <size>
-                        <width>100</width>
-                        <height>16777215</height>
+                        <width>0</width>
+                        <height>28</height>
                        </size>
                       </property>
-                      <item>
-                       <property name="text">
-                        <string>无</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>加急</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>特急</string>
-                       </property>
-                      </item>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
                      </widget>
                     </item>
                    </layout>
@@ -891,79 +859,10 @@ QPushButton:pressed{
                         <height>28</height>
                        </size>
                       </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="0" column="0" colspan="2">
-                   <layout class="QFormLayout" name="formLayout_10">
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label">
-                      <property name="minimumSize">
-                       <size>
-                        <width>125</width>
-                        <height>0</height>
-                       </size>
-                      </property>
                       <property name="font">
                        <font>
-                        <pointsize>14</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
+                        <pointsize>12</pointsize>
                        </font>
-                      </property>
-                      <property name="text">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;专报标题：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="1">
-                     <widget class="QLineEdit" name="lineEdit">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>28</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>28</height>
-                       </size>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="8" column="0">
-                   <layout class="QFormLayout" name="formLayout_9">
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_12">
-                      <property name="minimumSize">
-                       <size>
-                        <width>125</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>14</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;秘书处审核：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="0" colspan="2">
-                     <widget class="QLineEdit" name="lineEdit_11">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>28</height>
-                       </size>
                       </property>
                      </widget>
                     </item>
@@ -993,205 +892,11 @@ QPushButton:pressed{
                         <height>28</height>
                        </size>
                       </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="4" column="1">
-                   <layout class="QFormLayout" name="formLayout_14">
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_8">
                       <property name="font">
                        <font>
-                        <pointsize>14</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
+                        <pointsize>12</pointsize>
                        </font>
                       </property>
-                      <property name="text">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;拟稿处室分管厅领导审签：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="0" colspan="2">
-                     <widget class="QLineEdit" name="lineEdit_12">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>28</height>
-                       </size>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="3" column="0">
-                   <layout class="QFormLayout" name="formLayout_5">
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_5">
-                      <property name="minimumSize">
-                       <size>
-                        <width>125</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>14</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;秘密等级：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="1">
-                     <widget class="QLineEdit" name="lineEdit_5">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>28</height>
-                       </size>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="4" column="0">
-                   <layout class="QFormLayout" name="formLayout_2">
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_7">
-                      <property name="minimumSize">
-                       <size>
-                        <width>125</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>14</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;拟稿人签字：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="0" colspan="2">
-                     <widget class="QLineEdit" name="lineEdit_7">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>28</height>
-                       </size>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">color: rgb(170, 0, 0);</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="6" column="1">
-                   <layout class="QFormLayout" name="formLayout_15">
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_13">
-                      <property name="font">
-                       <font>
-                        <pointsize>14</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;综合处分管厅领导审签：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="0" colspan="2">
-                     <widget class="QLineEdit" name="lineEdit_13">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>28</height>
-                       </size>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="1" column="0" colspan="2">
-                   <layout class="QFormLayout" name="formLayout_3">
-                    <item row="0" column="1">
-                     <widget class="QLineEdit" name="lineEdit_2">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>28</height>
-                       </size>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_2">
-                      <property name="minimumSize">
-                       <size>
-                        <width>125</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>14</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;报送范围：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="3" column="1">
-                   <layout class="QFormLayout" name="formLayout_13">
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label_6">
-                      <property name="font">
-                       <font>
-                        <pointsize>14</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;是否公开：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="1">
-                     <widget class="QComboBox" name="comboBox_3">
-                      <property name="maximumSize">
-                       <size>
-                        <width>100</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <item>
-                       <property name="text">
-                        <string>是</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>否</string>
-                       </property>
-                      </item>
                      </widget>
                     </item>
                    </layout>
@@ -1238,6 +943,11 @@ QPushButton:pressed{
                         <height>28</height>
                        </size>
                       </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
                      </widget>
                     </item>
                    </layout>
@@ -1278,14 +988,19 @@ QPushButton:pressed{
                         <height>28</height>
                        </size>
                       </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
                      </widget>
                     </item>
                    </layout>
                   </item>
-                  <item row="2" column="0">
-                   <layout class="QFormLayout" name="formLayout_4">
+                  <item row="4" column="0">
+                   <layout class="QFormLayout" name="formLayout_2">
                     <item row="0" column="0">
-                     <widget class="QLabel" name="label_3">
+                     <widget class="QLabel" name="label_7">
                       <property name="minimumSize">
                        <size>
                         <width>125</width>
@@ -1300,17 +1015,389 @@ QPushButton:pressed{
                        </font>
                       </property>
                       <property name="text">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;发文字号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;拟稿人签字：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="1">
-                     <widget class="QLineEdit" name="lineEdit_3">
+                    <item row="1" column="0" colspan="2">
+                     <widget class="QLineEdit" name="lineEdit_7">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
                         <height>28</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">color: rgb(170, 0, 0);</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="2" column="0">
+                   <layout class="QHBoxLayout" name="horizontalLayout_12">
+                    <item>
+                     <widget class="QLabel" name="label_3">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>160</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>14</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;发文字号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_49">
+                      <property name="maximumSize">
+                       <size>
+                        <width>130</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>14</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>审计专报第</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QSpinBox" name="spinBox">
+                      <property name="maximumSize">
+                       <size>
+                        <width>100</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>14</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="maximum">
+                       <number>10000</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_50">
+                      <property name="font">
+                       <font>
+                        <pointsize>14</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>期</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="3" column="1">
+                   <layout class="QFormLayout" name="formLayout_13">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_6">
+                      <property name="font">
+                       <font>
+                        <pointsize>14</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;是否公开：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QComboBox" name="comboBox_3">
+                      <property name="maximumSize">
+                       <size>
+                        <width>100</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>是</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>否</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="2" column="1">
+                   <layout class="QFormLayout" name="formLayout_12">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_4">
+                      <property name="font">
+                       <font>
+                        <pointsize>14</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;紧急程度：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QComboBox" name="comboBox_4">
+                      <property name="maximumSize">
+                       <size>
+                        <width>100</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>无</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>加急</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>特急</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="0" column="0" colspan="2">
+                   <layout class="QFormLayout" name="formLayout_10">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label">
+                      <property name="minimumSize">
+                       <size>
+                        <width>125</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>14</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;专报标题：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QLineEdit" name="lineEdit">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="4" column="1">
+                   <layout class="QFormLayout" name="formLayout_14">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_8">
+                      <property name="font">
+                       <font>
+                        <pointsize>14</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;拟稿处室分管厅领导审签：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0" colspan="2">
+                     <widget class="QLineEdit" name="lineEdit_12">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="3" column="0">
+                   <layout class="QFormLayout" name="formLayout_5">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_5">
+                      <property name="minimumSize">
+                       <size>
+                        <width>125</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>14</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;秘密等级：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QLineEdit" name="lineEdit_5">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="6" column="1">
+                   <layout class="QFormLayout" name="formLayout_15">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_13">
+                      <property name="font">
+                       <font>
+                        <pointsize>14</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;综合处分管厅领导审签：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0" colspan="2">
+                     <widget class="QLineEdit" name="lineEdit_13">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="1" column="0" colspan="2">
+                   <layout class="QFormLayout" name="formLayout_3">
+                    <item row="0" column="1">
+                     <widget class="QLineEdit" name="lineEdit_2">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_2">
+                      <property name="minimumSize">
+                       <size>
+                        <width>125</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>14</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; color:#aa0000;&quot;&gt;报送范围：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
                      </widget>
                     </item>
@@ -1318,6 +1405,118 @@ QPushButton:pressed{
                   </item>
                  </layout>
                 </widget>
+               </item>
+               <item row="0" column="0">
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <item>
+                  <widget class="QLabel" name="label_file">
+                   <property name="maximumSize">
+                    <size>
+                     <width>125</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#000000;&quot;&gt;报文内容：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_file">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>310</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>12</pointsize>
+                    </font>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_file">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>14</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>选择文件</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="3" column="0" colspan="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_13">
+                 <item>
+                  <widget class="QPushButton" name="pushButton_addac">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                   <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                   </property>
+                   <property name="text">
+                    <string>确认新增</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item row="0" column="1">
                 <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -1368,80 +1567,23 @@ QPushButton:pressed{
                  </item>
                 </layout>
                </item>
-               <item row="0" column="0">
-                <layout class="QHBoxLayout" name="horizontalLayout_3">
-                 <item>
-                  <widget class="QLabel" name="label_file">
-                   <property name="maximumSize">
-                    <size>
-                     <width>125</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>14</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#000000;&quot;&gt;报文内容：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLineEdit" name="lineEdit_file">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>28</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>310</width>
-                     <height>28</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="pushButton_file">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>150</width>
-                     <height>28</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>14</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>选择文件</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+               <item row="1" column="0" colspan="2">
+                <widget class="QWidget" name="widget_zbhead" native="true">
+                 <property name="minimumSize">
+                  <size>
+                   <width>250</width>
+                   <height>100</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">image: url(:/resource_dir/zbhead.png);</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
              <widget class="QWidget" name="page_gw">
-              <layout class="QGridLayout" name="gridLayout_8" rowstretch="1,0,0,0,0">
+              <layout class="QGridLayout" name="gridLayout_8">
                <item row="1" column="0">
                 <widget class="QWidget" name="widget_gwhead" native="true">
                  <property name="styleSheet">
@@ -1459,13 +1601,13 @@ QPushButton:pressed{
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>160</width>
-                   <height>0</height>
+                   <width>150</width>
+                   <height>28</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>250</width>
+                   <width>150</width>
                    <height>16777215</height>
                   </size>
                  </property>
@@ -1495,6 +1637,18 @@ QPushButton:pressed{
                    <layout class="QFormLayout" name="formLayout_28">
                     <item row="0" column="0">
                      <widget class="QLabel" name="label_23">
+                      <property name="minimumSize">
+                       <size>
+                        <width>120</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
                       <property name="font">
                        <font>
                         <pointsize>12</pointsize>
@@ -1509,7 +1663,7 @@ QPushButton:pressed{
                      <widget class="QDateEdit" name="dateEdit_6">
                       <property name="font">
                        <font>
-                        <pointsize>14</pointsize>
+                        <pointsize>12</pointsize>
                        </font>
                       </property>
                       <property name="calendarPopup">
@@ -1559,6 +1713,11 @@ QPushButton:pressed{
                         <height>16777215</height>
                        </size>
                       </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
                      </widget>
                     </item>
                    </layout>
@@ -1579,6 +1738,11 @@ QPushButton:pressed{
                         <height>16777215</height>
                        </size>
                       </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
                      </widget>
                     </item>
                     <item row="0" column="0">
@@ -1596,9 +1760,15 @@ QPushButton:pressed{
                    </layout>
                   </item>
                   <item row="2" column="0" colspan="4">
-                   <layout class="QFormLayout" name="formLayout_17">
-                    <item row="0" column="0">
+                   <layout class="QHBoxLayout" name="horizontalLayout_14">
+                    <item>
                      <widget class="QLabel" name="label_num">
+                      <property name="maximumSize">
+                       <size>
+                        <width>120</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
                       <property name="font">
                        <font>
                         <pointsize>14</pointsize>
@@ -1611,18 +1781,115 @@ QPushButton:pressed{
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="1">
-                     <widget class="QLineEdit" name="lineEdit_num">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
+                    <item>
+                     <widget class="QComboBox" name="comboBox_9">
+                      <property name="maximumSize">
+                       <size>
+                        <width>200</width>
+                        <height>16777215</height>
+                       </size>
                       </property>
                       <property name="font">
                        <font>
-                        <pointsize>14</pointsize>
+                        <pointsize>12</pointsize>
+                        <weight>50</weight>
+                        <bold>false</bold>
                        </font>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>鄂审计委文</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>鄂审计委发</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>鄂审计委办文</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>鄂审计委办发</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>鄂审计委函</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>鄂审计委办函</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>鄂审计委便签</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>鄂审计委办便签</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>会议纪要</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QSpinBox" name="spinBox_2">
+                      <property name="maximumSize">
+                       <size>
+                        <width>100</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <property name="maximum">
+                       <number>10000</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QSpinBox" name="spinBox_3">
+                      <property name="maximumSize">
+                       <size>
+                        <width>100</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <property name="maximum">
+                       <number>10000</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_51">
+                      <property name="font">
+                       <font>
+                        <pointsize>14</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>号</string>
                       </property>
                      </widget>
                     </item>
@@ -1661,12 +1928,12 @@ QPushButton:pressed{
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>
-                        <height>60</height>
+                        <height>100</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
-                        <pointsize>14</pointsize>
+                        <pointsize>12</pointsize>
                        </font>
                       </property>
                      </widget>
@@ -1702,12 +1969,12 @@ QPushButton:pressed{
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>
-                        <height>60</height>
+                        <height>100</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
-                        <pointsize>14</pointsize>
+                        <pointsize>12</pointsize>
                        </font>
                       </property>
                      </widget>
@@ -1737,12 +2004,12 @@ QPushButton:pressed{
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>
-                        <height>60</height>
+                        <height>100</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
-                        <pointsize>14</pointsize>
+                        <pointsize>12</pointsize>
                        </font>
                       </property>
                      </widget>
@@ -1770,6 +2037,11 @@ QPushButton:pressed{
                         <width>100</width>
                         <height>16777215</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
                       </property>
                       <item>
                        <property name="text">
@@ -1816,7 +2088,7 @@ QPushButton:pressed{
                       </property>
                       <property name="font">
                        <font>
-                        <pointsize>14</pointsize>
+                        <pointsize>12</pointsize>
                        </font>
                       </property>
                      </widget>
@@ -1850,6 +2122,11 @@ QPushButton:pressed{
                         <width>150</width>
                         <height>16777215</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
                       </property>
                      </widget>
                     </item>
@@ -1891,9 +2168,14 @@ QPushButton:pressed{
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>175</width>
+                        <width>230</width>
                         <height>16777215</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
                       </property>
                      </widget>
                     </item>
@@ -1926,6 +2208,11 @@ QPushButton:pressed{
                         <width>150</width>
                         <height>16777215</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
                       </property>
                      </widget>
                     </item>
@@ -1977,9 +2264,14 @@ QPushButton:pressed{
                      <widget class="QComboBox" name="comboBox_6">
                       <property name="maximumSize">
                        <size>
-                        <width>125</width>
+                        <width>120</width>
                         <height>16777215</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
                       </property>
                       <item>
                        <property name="text">
@@ -2031,9 +2323,14 @@ QPushButton:pressed{
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>175</width>
+                        <width>230</width>
                         <height>0</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
                       </property>
                      </widget>
                     </item>
@@ -2075,15 +2372,20 @@ QPushButton:pressed{
                       </property>
                       <property name="minimumSize">
                        <size>
-                        <width>100</width>
+                        <width>150</width>
                         <height>28</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>100</width>
+                        <width>150</width>
                         <height>28</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
                       </property>
                       <property name="calendarPopup">
                        <bool>true</bool>
@@ -2152,6 +2454,11 @@ QPushButton:pressed{
                      <width>0</width>
                      <height>28</height>
                     </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>12</pointsize>
+                    </font>
                    </property>
                   </widget>
                  </item>
@@ -2284,11 +2591,11 @@ QPushButton:pressed{
                <enum>QLayout::SetMinimumSize</enum>
               </property>
               <item row="8" column="0">
-               <layout class="QFormLayout" name="formLayout_32">
+               <layout class="QHBoxLayout" name="horizontalLayout_15">
                 <property name="sizeConstraint">
                  <enum>QLayout::SetDefaultConstraint</enum>
                 </property>
-                <item row="0" column="0">
+                <item>
                  <widget class="QLabel" name="label_37">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -2307,21 +2614,106 @@ QPushButton:pressed{
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="lineEdit_31">
-                  <property name="minimumSize">
-                   <size>
-                    <width>210</width>
-                    <height>0</height>
-                   </size>
-                  </property>
+                <item alignment="Qt::AlignLeft">
+                 <widget class="QComboBox" name="comboBox_10">
                   <property name="maximumSize">
                    <size>
-                    <width>210</width>
+                    <width>100</width>
                     <height>16777215</height>
                    </size>
                   </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>请字</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>情字</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>综字</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>会字</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>电字</string>
+                   </property>
+                  </item>
                  </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spinBox_4">
+                  <property name="minimumSize">
+                   <size>
+                    <width>70</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="maximum">
+                   <number>10000</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spinBox_5">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="maximum">
+                   <number>1000</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_52">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>号</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_11">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                </layout>
               </item>
@@ -2360,6 +2752,11 @@ QPushButton:pressed{
                     <height>16777215</height>
                    </size>
                   </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
                  </widget>
                 </item>
                </layout>
@@ -2387,6 +2784,11 @@ QPushButton:pressed{
                     <height>16777215</height>
                    </size>
                   </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
                  </widget>
                 </item>
                </layout>
@@ -2408,6 +2810,11 @@ QPushButton:pressed{
                     <height>16777215</height>
                    </size>
                   </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
                  </widget>
                 </item>
                </layout>
@@ -2428,6 +2835,11 @@ QPushButton:pressed{
                     <width>16777215</width>
                     <height>16777215</height>
                    </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
                   </property>
                  </widget>
                 </item>
@@ -2476,6 +2888,11 @@ QPushButton:pressed{
                     <width>210</width>
                     <height>16777215</height>
                    </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
                   </property>
                  </widget>
                 </item>
@@ -2530,6 +2947,11 @@ QPushButton:pressed{
                     <height>16777215</height>
                    </size>
                   </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
                  </widget>
                 </item>
                </layout>
@@ -2544,7 +2966,13 @@ QPushButton:pressed{
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLineEdit" name="lineEdit_23"/>
+                 <widget class="QLineEdit" name="lineEdit_23">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -2558,7 +2986,13 @@ QPushButton:pressed{
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLineEdit" name="lineEdit_33"/>
+                 <widget class="QLineEdit" name="lineEdit_33">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -2575,9 +3009,14 @@ QPushButton:pressed{
                  <widget class="QComboBox" name="comboBox_8">
                   <property name="maximumSize">
                    <size>
-                    <width>250</width>
+                    <width>150</width>
                     <height>16777215</height>
                    </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
                   </property>
                   <item>
                    <property name="text">
@@ -2604,6 +3043,11 @@ QPushButton:pressed{
                 </item>
                 <item row="0" column="1">
                  <widget class="QDateEdit" name="dateEdit_4">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
                   <property name="calendarPopup">
                    <bool>true</bool>
                   </property>
@@ -2630,9 +3074,14 @@ QPushButton:pressed{
                  <widget class="QComboBox" name="comboBox_7">
                   <property name="maximumSize">
                    <size>
-                    <width>250</width>
+                    <width>150</width>
                     <height>16777215</height>
                    </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
                   </property>
                   <item>
                    <property name="text">
@@ -2663,7 +3112,13 @@ QPushButton:pressed{
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLineEdit" name="lineEdit_38"/>
+                 <widget class="QLineEdit" name="lineEdit_38">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -2683,6 +3138,11 @@ QPushButton:pressed{
                     <width>16777215</width>
                     <height>16777215</height>
                    </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
                   </property>
                  </widget>
                 </item>
@@ -2723,6 +3183,11 @@ QPushButton:pressed{
                     <height>16777215</height>
                    </size>
                   </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
                  </widget>
                 </item>
                </layout>
@@ -2740,15 +3205,20 @@ QPushButton:pressed{
              </property>
              <property name="minimumSize">
               <size>
-               <width>160</width>
+               <width>150</width>
                <height>28</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>160</width>
+               <width>150</width>
                <height>16777215</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
              </property>
              <property name="text">
               <string>录入</string>
@@ -2986,15 +3456,21 @@ QPushButton:pressed{
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>28</height>
+                </size>
+               </property>
                <property name="maximumSize">
                 <size>
-                 <width>160</width>
+                 <width>150</width>
                  <height>16777215</height>
                 </size>
                </property>
                <property name="font">
                 <font>
-                 <pointsize>14</pointsize>
+                 <pointsize>10</pointsize>
                 </font>
                </property>
                <property name="text">

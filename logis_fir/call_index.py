@@ -44,8 +44,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # 公文页面日期和办文编号同步;登记表页面下拉框内容同步
         self.dateEdit_5.dateChanged.connect(self.autoSyn1)
         self.dateEdit_6.dateChanged.connect(self.autoSyn2)
-        self.lineEdit_num.textChanged.connect(self.autoSyn3)
-        self.lineEdit_18.textChanged.connect(self.autoSyn4)
+        self.spinBox_2.valueChanged.connect(self.autoSyn3)
+        self.spinBox_3.valueChanged.connect(self.autoSyn3)
+        self.comboBox_9.currentIndexChanged.connect(self.autoSyn4)
         self.comboBox_2.currentIndexChanged.connect(self.autoSyn5)
 
         # 绑定按钮或其他控件功能函数
@@ -69,15 +70,25 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.showBwprocessTable()
         elif btname == "fwbl":
             self.stackedWidget.setCurrentIndex(2)
-            # 初始化显示
             self.stackedWidget_new.setCurrentIndex(self.comboBox_type.currentIndex())  # 初始化发文办理页面
+            # 公文页面初始化显示
             self.lineEdit_file_3.setReadOnly(True)
-            self.lineEdit_file.setReadOnly(True)
-            self.dateEdit_3.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
+            self.lineEdit_18.setReadOnly(True)
+            self.spinBox_2.setValue(datetime.datetime.now().year)
+            self.spinBox_3.setValue(1)
+            self.comboBox_9.setCurrentIndex(0)
             self.dateEdit_6.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
+
+            # 专报页面初始化显示
+            self.lineEdit_file.setReadOnly(True)
+            self.spinBox.setValue(1)
+            self.dateEdit_3.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
         elif btname == "swbl":
             self.stackedWidget.setCurrentIndex(3)
             # 初始化显示
+            self.comboBox_10.setCurrentIndex(0)  # 收文编号:[收文类型]
+            self.spinBox_4.setValue(datetime.datetime.now().year)  # 收文编号:[年]
+            self.spinBox_5.setValue(1)  # 收文编号:[编号]
             self.dateEdit_4.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
         elif btname == "swll":
             self.stackedWidget.setCurrentIndex(4)
@@ -91,7 +102,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     def closeTab2(self, index):
         self.tabWidget_lczl.removeTab(index)
 
-    # 同步输入框内容,autoSyn1、2为公文时间同步,3、4为公文编号同步,5为办文登记表两个下拉框内容同步
+    # 同步输入框内容,autoSyn1、2为公文时间同步,3、4、5为公文编号同步,6为办文登记表两个下拉框内容同步
     def autoSyn1(self):
         self.dateEdit_6.setDate(self.dateEdit_5.date())
 
@@ -99,10 +110,14 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.dateEdit_5.setDate(self.dateEdit_6.date())
 
     def autoSyn3(self):
-        self.lineEdit_18.setText(self.lineEdit_num.text())
+        cur = self.comboBox_9.currentText() + '[' + self.spinBox_2.text() + ']' + self.spinBox_3.text() + \
+              self.label_51.text()
+        self.lineEdit_18.setText(cur)
 
     def autoSyn4(self):
-        self.lineEdit_num.setText(self.lineEdit_18.text())
+        cur = self.comboBox_9.currentText() + '[' + self.spinBox_2.text() + ']' + self.spinBox_3.text() + \
+              self.label_51.text()
+        self.lineEdit_18.setText(cur)
 
     def autoSyn5(self):
         type1 = self.comboBox_2.currentText()
@@ -144,7 +159,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
 
         # 表格只可选中单行
-        self.tableWidget_lczl.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
 
         self.tableWidget.hideColumn(0)  # 将流程数据库主键隐藏起来,作为传参,此处主键为整改序号
 
@@ -236,7 +251,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         type1 = self.comboBox_2.currentText()  # 种类一
         type2 = self.comboBox.currentText()  # 种类二
 
-        sql = ""
         data = []
         if type1 == "发文登记表":
             self.label_35.setText("注：红色办理中，黑色办结。")
@@ -348,7 +362,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         # 加上序号
         for index in range(len(data)):
-            sup = (str(index+1),)
+            sup = (str(index + 1),)
             data[index] = sup + data[index]
 
         # 打印结果
@@ -377,7 +391,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     def add_zb(self):
         input1 = self.lineEdit.text()  # 发文标题
         input2 = self.lineEdit_2.text()  # 报送范围
-        input3 = self.lineEdit_3.text()  # 发文字号
+        input3 = self.label_49.text() + self.spinBox.text() + self.label_50.text()  # 发文字号
         input4 = self.comboBox_4.currentText()  # 紧急程度
         input5 = self.lineEdit_5.text()  # 秘密等级
         input6 = self.comboBox_3.currentText()  # 是否公开
@@ -418,15 +432,15 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 # 执行插入流程表
                 curr_time = datetime.datetime.now()
                 time_str = curr_time.strftime("%Y/%m/%d")
-                sql = "insert into bwprocess(发文序号,是否加入整改,流程开始时间) VALUES(%s,0,'%s')" % (data[0][0], time_str)
+                sql = "insert into bwprocess(发文序号,是否加入整改,流程开始时间) VALUES(%s,'否','%s')" % (data[0][0], time_str)
                 tools.executeSql(sql)
 
                 QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
 
-                # 插入完成后清空所有输入,时间重置
+                # 插入完成后清空所有输入,时间重置,发文字号重置
                 self.lineEdit.clear()  # 发文标题
                 self.lineEdit_2.clear()  # 报送范围
-                self.lineEdit_3.clear()  # 发文字号
+                self.spinBox.setValue(1)  # 发文字号
                 self.comboBox_4.setCurrentIndex(0)  # 紧急程度
                 self.lineEdit_5.clear()  # 秘密等级
                 self.comboBox_3.setCurrentIndex(0)  # 是否公开
@@ -449,7 +463,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     # 发文办理下的确认按钮(公文)
     def add_gw(self):
-        input1 = self.lineEdit_num.text()  # 发文字号
+        input1 = self.comboBox_9.currentText() + '[' + self.spinBox_2.text() + ']' + self.spinBox_3.text() \
+                 + self.label_51.text()  # 发文字号
         input2 = self.lineEdit_num_3.text()  # 发文标题
         input3 = self.textEdit.toPlainText()  # 领导审核意见
         input4 = self.textEdit_2.toPlainText()  # 审计办领导审核意见
@@ -491,13 +506,15 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 # 执行插入流程表
                 curr_time = datetime.datetime.now()
                 time_str = curr_time.strftime("%Y/%m/%d")
-                sql = "insert into bwprocess(发文序号,是否加入整改,流程开始时间) VALUES(%s,0,'%s')" % (data[0][0], time_str)
+                sql = "insert into bwprocess(发文序号,是否加入整改,流程开始时间) VALUES(%s,'否','%s')" % (data[0][0], time_str)
                 tools.executeSql(sql)
 
                 QtWidgets.QMessageBox.information(self, "提示", "新建成功！")
 
-                # 插入完成后清空显示页面
-                self.lineEdit_num.clear()  # 发文字号
+                # 插入完成后清空显示页面,发文字号重置
+                self.comboBox_9.setCurrentIndex(0)  # 发文字号:编号
+                self.spinBox_2.setValue(datetime.datetime.now().year)  # 发文字号:[年]
+                self.spinBox_3.setValue(1)  # 发文字号:编号
                 self.lineEdit_num_3.clear()  # 发文标题
                 self.textEdit.clear()  # 领导审核意见
                 self.textEdit_2.clear()  # 审计办领导审核意见
@@ -529,10 +546,12 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input7 = self.lineEdit_35.text()  # 文件标题
         input8 = self.lineEdit_33.text()  # 处理结果
         input9 = self.lineEdit_30.text()  # 审核
-        input10 = self.lineEdit_31.text()  # 办文编号
+        input10 = self.comboBox_10.currentText() + '[' + self.spinBox_4.text() + ']' + self.spinBox_5.text() + self.label_52.text()  # 办文编号
         input11 = self.lineEdit_34.text()  # 承办处室
         input12 = self.lineEdit_32.text()  # 承办人
         input13 = self.lineEdit_39.text()  # 联系电话
+        input14 = self.textEdit_4.toPlainText()  # 内容摘要和拟办意见
+        input15 = self.textEdit_5.toPlainText()  # 领导批示
         if input10 != "":
             sql = "select 收文字号 from revfile where 收文字号 = '%s'" % input10
             data = tools.executeSql(sql)
@@ -541,11 +560,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 QtWidgets.QMessageBox.critical(self, "新建失败", "收文字号已经存在!")
             else:
                 # 执行插入收文表
-                sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,来文单位,来文字号,收文标题,处理结果,审核,收文字号,承办处室,承办人,联系电话) values('%s'," \
-                      "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
+                sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,来文单位,来文字号,收文标题,处理结果,审核,收文字号,承办处室,承办人,联系电话,内容摘要和拟办意见," \
+                      "领导批示) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
                           input1, input2, input3, input4, input5, input6,
                           input7, input8, input9, input10, input11,
-                          input12, input13)
+                          input12, input13, input14, input15)
                 tools.executeSql(sql)
 
                 # 找到当前收文的序号
@@ -555,7 +574,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 # 执行插入流程表
                 curr_time = datetime.datetime.now()
                 time_str = curr_time.strftime("%Y/%m/%d")
-                sql = "insert into bwprocess(收文序号,是否加入整改,流程开始时间) VALUES(%s,0,'%s')" % (data[0][0], time_str)
+                sql = "insert into bwprocess(收文序号,是否加入整改,流程开始时间) VALUES(%s,'否','%s')" % (data[0][0], time_str)
                 tools.executeSql(sql)
 
                 QtWidgets.QMessageBox.information(self, "提示", "录入成功！")
@@ -574,10 +593,15 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 self.lineEdit_35.clear()  # 文件标题
                 self.lineEdit_33.clear()  # 处理结果
                 self.lineEdit_30.clear()  # 审核
-                self.lineEdit_31.clear()  # 办文编号
+                self.comboBox_10.setCurrentIndex(0)  # 收文编号:[收文类型]
+                self.spinBox_4.setValue(datetime.datetime.now().year)  # 收文编号:[年]
+                self.spinBox_5.setValue(1)  # 收文编号:[编号]
                 self.lineEdit_34.clear()  # 承办处室
                 self.lineEdit_32.clear()  # 承办人
                 self.lineEdit_39.clear()  # 联系电话
+                self.textEdit_4.clear()  # 内容摘要和拟办意见
+                self.textEdit_5.clear()  # 领导批示
+
         else:
             QtWidgets.QMessageBox.critical(self, "录入失败", "办文编号不能为空!")
 
@@ -625,7 +649,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             key4 = self.tableWidget_lczl.item(row, 8).text()  # 是否整改
 
             # key1,key2,key3都不为空表示办文流程已经完成,可以设置整改了
-            if key1 != "/" and key2 != "/" and key3 != "/" and key4 != "1":
+            if key1 != "/" and key2 != "/" and key3 != "/" and key4 != "是":
                 sql = "select bwprocess.序号 from bwprocess,sendfile where sendfile.序号 = bwprocess.发文序号 and " \
                       "sendfile.发文字号 = '%s'" % key1
                 data = tools.executeSql(sql)
@@ -636,7 +660,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 tools.executeSql(sql)
 
                 # 修改流程整改状态为1
-                sql = "update bwprocess set 是否加入整改 = 1 where 序号 = %s" % xh
+                sql = "update bwprocess set 是否加入整改 = '是' where 序号 = %s" % xh
                 tools.executeSql(sql)
 
                 QtWidgets.QMessageBox.information(self, "提示", "添加成功！")
@@ -650,7 +674,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     QtWidgets.QMessageBox.warning(self, "警告", "无法设置整改！")
                 elif key1 != "/" and (key2 == "/" or key3 == "/"):
                     QtWidgets.QMessageBox.warning(self, "警告", "无法设置整改！")
-                elif key4 == "1":
+                elif key4 == "是":
                     QtWidgets.QMessageBox.warning(self, "警告", "已设置整改！")
 
     # 整改台账下的项目搜索按钮(未开发)

@@ -13,6 +13,56 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QStackedWidget#stackedWidget{
+    color:#232C51;
+    background:white;
+}
+QWidget#page_view,#page_add{
+    color:#232C51;
+    background:white;
+}
+QLineEdit{
+    border:1px solid gray;
+    width:300px;
+    border-radius:10px;
+    padding:2px 4px;
+}
+QComboBox{
+	background:white;
+	border:1px solid gray;
+    width:300px;
+    border-radius:10px;
+    padding:2px 4px;
+}
+QPushButton{  
+    border: 1px solid #C0C0C0;  
+    background-color:#FFFFFF;  
+    border-style: solid;  
+    border-radius:0px;  
+    width: 100px;  
+    height:20px;  
+    padding:0 0px;  
+} 
+
+QPushButton:hover{     
+    border: 1px solid #E3C46F;  
+    background-color:#FEF4BF;  
+    border-style: solid;  
+    border-radius:2px;  
+    width: 40px;  
+    height:20px;  
+    padding:0 0px;  
+}
+QPushButton:pressed{  
+    background-color:#EAF0FF;  
+    border: 1px solid #AAB4C4;  
+    width: 40px;  
+    height:20px;  
+    padding:0 0px;  
+    border-radius:1px;  
+} </string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <widget class="QLabel" name="label_147">
@@ -560,9 +610,15 @@
        <layout class="QHBoxLayout" name="horizontalLayout_15">
         <item>
          <widget class="QPushButton" name="pushButton_revise">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>28</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>200</width>
+            <width>150</width>
             <height>16777215</height>
            </size>
           </property>
@@ -581,9 +637,15 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_quit">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>28</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>200</width>
+            <width>150</width>
             <height>16777215</height>
            </size>
           </property>

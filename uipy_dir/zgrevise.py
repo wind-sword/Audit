@@ -15,6 +15,54 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(1192, 773)
+        Dialog.setStyleSheet("QStackedWidget#stackedWidget{\n"
+"    color:#232C51;\n"
+"    background:white;\n"
+"}\n"
+"QWidget#page_view,#page_add{\n"
+"    color:#232C51;\n"
+"    background:white;\n"
+"}\n"
+"QLineEdit{\n"
+"    border:1px solid gray;\n"
+"    width:300px;\n"
+"    border-radius:10px;\n"
+"    padding:2px 4px;\n"
+"}\n"
+"QComboBox{\n"
+"    background:white;\n"
+"    border:1px solid gray;\n"
+"    width:300px;\n"
+"    border-radius:10px;\n"
+"    padding:2px 4px;\n"
+"}\n"
+"QPushButton{  \n"
+"    border: 1px solid #C0C0C0;  \n"
+"    background-color:#FFFFFF;  \n"
+"    border-style: solid;  \n"
+"    border-radius:0px;  \n"
+"    width: 100px;  \n"
+"    height:20px;  \n"
+"    padding:0 0px;  \n"
+"} \n"
+"\n"
+"QPushButton:hover{     \n"
+"    border: 1px solid #E3C46F;  \n"
+"    background-color:#FEF4BF;  \n"
+"    border-style: solid;  \n"
+"    border-radius:2px;  \n"
+"    width: 40px;  \n"
+"    height:20px;  \n"
+"    padding:0 0px;  \n"
+"}\n"
+"QPushButton:pressed{  \n"
+"    background-color:#EAF0FF;  \n"
+"    border: 1px solid #AAB4C4;  \n"
+"    width: 40px;  \n"
+"    height:20px;  \n"
+"    padding:0 0px;  \n"
+"    border-radius:1px;  \n"
+"} ")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.label_147 = QtWidgets.QLabel(Dialog)
@@ -303,7 +351,8 @@ class Ui_Dialog(object):
         self.horizontalLayout_15 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_15.setObjectName("horizontalLayout_15")
         self.pushButton_revise = QtWidgets.QPushButton(self.widget_2)
-        self.pushButton_revise.setMaximumSize(QtCore.QSize(200, 16777215))
+        self.pushButton_revise.setMinimumSize(QtCore.QSize(0, 28))
+        self.pushButton_revise.setMaximumSize(QtCore.QSize(150, 16777215))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.pushButton_revise.setFont(font)
@@ -311,7 +360,8 @@ class Ui_Dialog(object):
         self.pushButton_revise.setObjectName("pushButton_revise")
         self.horizontalLayout_15.addWidget(self.pushButton_revise)
         self.pushButton_quit = QtWidgets.QPushButton(self.widget_2)
-        self.pushButton_quit.setMaximumSize(QtCore.QSize(200, 16777215))
+        self.pushButton_quit.setMinimumSize(QtCore.QSize(0, 28))
+        self.pushButton_quit.setMaximumSize(QtCore.QSize(150, 16777215))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.pushButton_quit.setFont(font)
