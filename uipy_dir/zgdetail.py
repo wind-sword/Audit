@@ -528,7 +528,7 @@ class Ui_Form(object):
         self.gridLayout_13.addWidget(self.frame_4, 2, 0, 1, 3)
         self.widget_zbhead = QtWidgets.QWidget(self.page_zb)
         self.widget_zbhead.setMinimumSize(QtCore.QSize(250, 100))
-        self.widget_zbhead.setStyleSheet("image: url(../resource_dir/zbhead.png);")
+        self.widget_zbhead.setStyleSheet("image: url(:/resource_dir/zbhead.png);")
         self.widget_zbhead.setObjectName("widget_zbhead")
         self.gridLayout_13.addWidget(self.widget_zbhead, 1, 0, 1, 3)
         self.gridLayout_13.setRowStretch(0, 1)
@@ -853,7 +853,7 @@ class Ui_Form(object):
         self.gridLayout_6.addItem(spacerItem1, 1, 1, 1, 1)
         self.widget_gwhead = QtWidgets.QWidget(self.page_gw)
         self.widget_gwhead.setMinimumSize(QtCore.QSize(0, 60))
-        self.widget_gwhead.setStyleSheet("image:url(../resource_dir/gwdarkhead.png)")
+        self.widget_gwhead.setStyleSheet("image:url(:/resource_dir/gwdarkhead.png)")
         self.widget_gwhead.setObjectName("widget_gwhead")
         self.gridLayout_6.addWidget(self.widget_gwhead, 2, 0, 1, 2)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
@@ -2096,3 +2096,4 @@ class Ui_Form(object):
         item = self.tableWidget_4.horizontalHeaderItem(14)
         item.setText(_translate("Form", "整改率"))
         self.pushButton_10.setText(_translate("Form", "修改整改措施"))
+import resource_rc

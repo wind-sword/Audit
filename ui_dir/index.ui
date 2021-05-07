@@ -102,7 +102,7 @@ QPushButton:pressed{
 } </string>
          </property>
          <property name="currentIndex">
-          <number>5</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="page_lczl">
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -355,7 +355,7 @@ QPushButton:pressed{
                 </widget>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2,5,2,2,1,2,1,0">
+                <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2,5,2,2,1,2,0,1,0">
                  <item>
                   <widget class="QLabel" name="label_key">
                    <property name="font">
@@ -423,6 +423,12 @@ QPushButton:pressed{
                  </item>
                  <item>
                   <widget class="QLabel" name="label_tip1">
+                   <property name="maximumSize">
+                    <size>
+                     <width>130</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -440,10 +446,19 @@ QPushButton:pressed{
                      <pointsize>14</pointsize>
                     </font>
                    </property>
+                   <property name="calendarPopup">
+                    <bool>true</bool>
+                   </property>
                   </widget>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_tip2">
+                   <property name="maximumSize">
+                    <size>
+                     <width>30</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <pointsize>14</pointsize>
@@ -461,7 +476,23 @@ QPushButton:pressed{
                      <pointsize>14</pointsize>
                     </font>
                    </property>
+                   <property name="calendarPopup">
+                    <bool>true</bool>
+                   </property>
                   </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_12">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                  <item>
                   <widget class="QCheckBox" name="checkBox">
@@ -3657,7 +3688,7 @@ QPushButton#btzgtz:pressed,#btcx:pressed,#bttj:pressed,#btlczl:pressed,#btfwbl:p
     padding-top:3px;
 }
 QWidget#widget_menu{
-    background:#393939;
+    background:#1f1f1f;
     border-top:1px solid white;
     border-bottom:1px solid white;
     border-left:1px solid white;
@@ -3677,7 +3708,7 @@ QWidget#widget_menu{
          <item>
           <widget class="QWidget" name="headwidget" native="true">
            <property name="styleSheet">
-            <string notr="true">image: url(:/resource_dir/logo.png);</string>
+            <string notr="true">image: url(:resource_dir/logo.png);</string>
            </property>
           </widget>
          </item>

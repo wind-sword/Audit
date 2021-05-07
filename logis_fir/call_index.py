@@ -407,7 +407,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input_file_path = self.lineEdit_file.text()  # 文件路径
         input16 = tools.getFileName(input_file_path)  # 文件名
 
-        if input3 != "":
+        if input1 != "":
             sql = "select 发文字号 from sendfile where 发文字号 = '%s'" % input3
             data = tools.executeSql(sql)
             # 数据库中发文字号是否存在,不允许重复的发文字号输入
@@ -459,7 +459,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 self.stackedWidget.setCurrentIndex(0)
                 self.showBwprocessTable()
         else:
-            QtWidgets.QMessageBox.critical(self, "新建失败", "发文字号不能为空!")
+            QtWidgets.QMessageBox.critical(self, "新建失败", "发文标题不能为空!")
 
     # 发文办理下的确认按钮(公文)
     def add_gw(self):
@@ -480,7 +480,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input13 = self.lineEdit_20.text()  # 承办人
         input14 = self.lineEdit_21.text()  # 联系电话
 
-        if input1 != "":
+        if input2 != "":
             sql = "select 发文字号 from sendfile where 发文字号 = '%s'" % input1
             data = tools.executeSql(sql)
             # 数据库中发文字号是否存在,不允许重复的发文字号输入
@@ -533,7 +533,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 self.stackedWidget.setCurrentIndex(0)
                 self.showBwprocessTable()
         else:
-            QtWidgets.QMessageBox.critical(self, "新建失败", "发文字号不能为空!")
+            QtWidgets.QMessageBox.critical(self, "新建失败", "发文标题不能为空!")
 
     # 收文办理下的录入按钮
     def add_rev(self):
@@ -552,7 +552,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input13 = self.lineEdit_39.text()  # 联系电话
         input14 = self.textEdit_4.toPlainText()  # 内容摘要和拟办意见
         input15 = self.textEdit_5.toPlainText()  # 领导批示
-        if input10 != "":
+
+        if input7 != "":
             sql = "select 收文字号 from revfile where 收文字号 = '%s'" % input10
             data = tools.executeSql(sql)
             # 数据库中收文字号是否存在,不允许重复的收文字号输入
@@ -603,7 +604,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 self.textEdit_5.clear()  # 领导批示
 
         else:
-            QtWidgets.QMessageBox.critical(self, "录入失败", "办文编号不能为空!")
+            QtWidgets.QMessageBox.critical(self, "录入失败", "收文标题不能为空!")
 
     # 整改台账下的查看详情按钮
     def tz_detail(self):

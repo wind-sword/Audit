@@ -269,12 +269,6 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 self.pushButton_5.show()
                 self.pushButton_opfile_2.show()
 
-                # 如果报文内容为空,打开文件按钮不可点击
-                if self.lineEdit_file == "":
-                    self.pushButton_opfile_2.setDisabled()
-                else:
-                    self.pushButton_opfile_2.setEnabled(True)
-
                 self.lineEdit.setText(data[0][0])  # 发文标题
                 self.lineEdit_2.setText(data[0][1])  # 报送范围
                 self.spinBox.setValue(int(tools.getIntegerFromString(data[0][2])[0]))  # 发文字号
@@ -291,6 +285,12 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 self.lineEdit_19.setText(data[0][13])  # 审计办主任
                 self.lineEdit_file.setText(data[0][18])  # 报文内容
                 self.dateEdit_3.setDate(QDate.fromString(data[0][23], 'yyyy/M/d'))  # 办文日期
+
+                # 如果报文内容为空,打开文件按钮不可点击
+                if self.lineEdit_file.text() == "":
+                    self.pushButton_opfile_2.setDisabled(True)
+                else:
+                    self.pushButton_opfile_2.setEnabled(True)
 
                 # 设置只读
                 self.lineEdit.setReadOnly(True)
@@ -321,12 +321,6 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 self.pushButton_2.show()
                 self.pushButton_opfile.show()
 
-                # 如果报文内容为空,打开文件按钮不可点击
-                if self.lineEdit_file_3 == "":
-                    self.pushButton_opfile.setDisabled()
-                else:
-                    self.pushButton_opfile.setEnabled(True)
-
                 self.lineEdit_num_3.setText(data[0][0])  # 发文标题
                 self.comboBox_10.setCurrentText(tools.getTypeFromString(data[0][2]))  # 发文字号[类型]
                 self.spinBox_2.setValue(int(tools.getIntegerFromString(data[0][2])[0]))  # 发文字号[年]
@@ -345,6 +339,12 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 self.lineEdit_28.setText(data[0][22])  # 联系电话
                 self.dateEdit_7.setDate(QDate.fromString(data[0][23], 'yyyy/M/d'))  # 办文日期
                 self.dateEdit_6.setDate(QDate.fromString(data[0][23], 'yyyy/M/d'))  # 日期
+
+                # 如果报文内容为空,打开文件按钮不可点击
+                if self.lineEdit_file_3.text() == "":
+                    self.pushButton_opfile.setDisabled(True)
+                else:
+                    self.pushButton_opfile.setEnabled(True)
 
                 # 设置只读
                 self.comboBox_10.setDisabled(True)
@@ -630,7 +630,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             input15 = self.lineEdit_file.text()  # 报文内容
             input16 = self.dateEdit_3.text()  # 办文日期
 
-            if input3 != "":
+            if input1 != "":
                 sql = "select 发文字号 from sendfile where 发文字号 = '%s'" % input3
                 data = tools.executeSql(sql)
                 sql = "select 发文字号 from sendfile where 序号 = %s" % self.xh_send
@@ -659,7 +659,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
                     self.displaySendFile()
             else:
-                QtWidgets.QMessageBox.critical(w, "修改失败", "发文字号不能为空!")
+                QtWidgets.QMessageBox.critical(w, "修改失败", "发文标题不能为空!")
 
         elif btname == "gw":
             input1 = self.comboBox_10.currentText() + '[' + self.spinBox_2.text() + ']' + self.spinBox_3.text() \
@@ -680,7 +680,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             # input15 = self.dateEdit_6.text()  # 日期
             # input16 = self.lineEdit_25.text()  # 办文编号
 
-            if input1 != "":
+            if input2 != "":
                 sql = "select 发文字号 from sendfile where 发文字号 = '%s'" % input1
                 data = tools.executeSql(sql)
                 sql = "select 发文字号 from sendfile where 序号 = %s" % self.xh_send
@@ -709,7 +709,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
                     self.displaySendFile()
             else:
-                QtWidgets.QMessageBox.critical(w, "修改失败", "发文字号不能为空!")
+                QtWidgets.QMessageBox.critical(w, "修改失败", "发文标题不能为空!")
 
     # 取消修改发文
     def cancelSendFile(self, btname):
@@ -814,7 +814,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         input14 = self.lineEdit_62.text()  # 承办人
         input15 = self.lineEdit_63.text()  # 联系电话
 
-        if input12 != "":
+        if input7 != "":
             sql = "select 收文字号 from revfile where 收文字号 = '%s'" % input12
             data = tools.executeSql(sql)
             sql = "select 收文字号 from revfile where 序号 = %s" % self.xh_rev
@@ -838,7 +838,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 self.displayRevFile()
 
         else:
-            QtWidgets.QMessageBox.critical(w, "修改错误", "收文字号不能为空!")
+            QtWidgets.QMessageBox.critical(w, "修改错误", "收文标题不能为空!")
 
     # 取消修改收文
     def cancelRevFile(self):
@@ -959,7 +959,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         input13 = self.lineEdit_54.text()  # 联系电话
 
         if self.pushButton_13.text() == "确认新增":
-            if input6 != "":
+            if input5 != "":
                 sql = "select 批文字号 from corfile where 批文字号 = '%s'" % input6
                 data = tools.executeSql(sql)
                 # 数据库中批文字号是否存在,不允许重复的批文字号输入
@@ -1007,10 +1007,10 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                     self.displayCorFile()
 
             else:
-                QtWidgets.QMessageBox.critical(w, "录入失败", "批文编号不能为空!")
+                QtWidgets.QMessageBox.critical(w, "录入失败", "批文标题不能为空!")
 
         elif self.pushButton_13.text() == "确认修改":
-            if input6 != "":
+            if input5 != "":
                 sql = "select 批文字号 from corfile where 批文字号 = '%s'" % input6
                 data = tools.executeSql(sql)
                 sql = "select 批文字号 from corfile where 序号 = %s" % self.comboBox_dict[self.comboBox.currentIndex()]
@@ -1046,7 +1046,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                     self.displayCorFile()
 
             else:
-                QtWidgets.QMessageBox.critical(w, "修改失败", "批文编号不能为空!")
+                QtWidgets.QMessageBox.critical(w, "修改失败", "批文标题不能为空!")
 
     # 取消新增/修改批文
     def cancelCorFile(self):

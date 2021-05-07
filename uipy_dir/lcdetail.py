@@ -157,7 +157,7 @@ class Ui_Form(object):
         self.gridLayout_4.addLayout(self.horizontalLayout_11, 0, 1, 1, 1)
         self.widget_zbhead = QtWidgets.QWidget(self.page_zb)
         self.widget_zbhead.setMinimumSize(QtCore.QSize(250, 100))
-        self.widget_zbhead.setStyleSheet("image: url(../resource_dir/zbhead.png);")
+        self.widget_zbhead.setStyleSheet("image: url(:/resource_dir/zbhead.png);")
         self.widget_zbhead.setObjectName("widget_zbhead")
         self.gridLayout_4.addWidget(self.widget_zbhead, 1, 0, 1, 2)
         self.horizontalLayout_12 = QtWidgets.QHBoxLayout()
@@ -860,7 +860,7 @@ class Ui_Form(object):
         self.gridLayout_3.addWidget(self.frame_2, 2, 0, 1, 1)
         self.widget_gwhead = QtWidgets.QWidget(self.page_gw)
         self.widget_gwhead.setMinimumSize(QtCore.QSize(0, 60))
-        self.widget_gwhead.setStyleSheet("image: url(../resource_dir/gwdarkhead.png);")
+        self.widget_gwhead.setStyleSheet("image: url(:/resource_dir/gwdarkhead.png);")
         self.widget_gwhead.setObjectName("widget_gwhead")
         self.gridLayout_3.addWidget(self.widget_gwhead, 1, 0, 1, 1)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
@@ -1940,3 +1940,4 @@ class Ui_Form(object):
         self.pushButton_7.setText(_translate("Form", "修改"))
         self.pushButton_13.setText(_translate("Form", "确认"))
         self.pushButton_14.setText(_translate("Form", "取消"))
+import resource_rc

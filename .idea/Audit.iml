@@ -3,7 +3,6 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/logis_fir" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/ui_dir" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.8 (Audit problem rectification)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
