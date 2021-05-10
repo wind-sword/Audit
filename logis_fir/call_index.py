@@ -151,12 +151,14 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.comboBox_type.currentIndexChanged.connect(
             lambda: self.chooseSendfileType(index=self.comboBox_type.currentIndex()))
 
-        self.pushButton.clicked.connect(lambda :self.showRegisTable(type1=self.comboBox_2.currentText(),type2=self.comboBox.currentText()))
+        self.pushButton.clicked.connect(
+            lambda: self.showRegisTable(type1=self.comboBox_2.currentText(), type2=self.comboBox.currentText()))
 
         self.pushButton_more.clicked.connect(self.tz_detail)
 
         self.btckxq.clicked.connect(self.lc_detail)
         self.btszzg.clicked.connect(self.lc_to_tz)
+        self.pushButton_4.clicked.connect(self.refreshBwprocessTable)
 
         self.pushButton_2.clicked.connect(self.supplyRegisTable)
 
@@ -201,7 +203,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget.resizeRowsToContents()  # 根据行调整框大小
 
-        self.tableWidget.sortItems(1, Qt.AscendingOrder)  # 按照流程建立时间排序
+        self.tableWidget.sortItems(1, Qt.DescendingOrder)  # 按照流程建立时间排序
 
     # 显示发文流程内容
     def showBwprocessTable(self):
@@ -244,7 +246,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tableWidget_lczl.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget_lczl.resizeRowsToContents()  # 根据行调整框大小
 
-        self.tableWidget_lczl.sortItems(1, Qt.AscendingOrder)  # 按照流程建立时间排序
+        self.tableWidget_lczl.sortItems(1, Qt.DescendingOrder)  # 按照流程建立时间排序
 
     # 显示各种类型登记表总览
     def showRegisTable(self, type1, type2):
@@ -706,6 +708,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 elif key4 == "是":
                     QtWidgets.QMessageBox.warning(self, "警告", "已设置整改！")
 
+    # 刷新发文流程页面
+    def refreshBwprocessTable(self):
+        self.showBwprocessTable()
+
     # 补充发文登记表
     def supplyRegisTable(self):
         row = self.tableWidget_2.currentRow()
@@ -738,7 +744,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.window.exec()
 
             # 重新展示
-            self.showRegisTable(type1=self.resType1,type2=self.resType2)
+            self.showRegisTable(type1=self.resType1, type2=self.resType2)
 
     # 整改台账下的项目搜索按钮(未开发)
     def search(self):

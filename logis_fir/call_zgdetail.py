@@ -103,6 +103,8 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
         # 问题详情查看
         self.pushButton.clicked.connect(self.jumpQuestionDetail)
+        # 问题表刷新
+        self.pushButton_3.clicked.connect(self.refreshQuestionTable)
 
         # 打开整改详情修改框
         self.pushButton_10.clicked.connect(self.reviseZgdetail)
@@ -570,6 +572,10 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             self.tableWidget_4.resizeRowsToContents()  # 根据行调整框大小
             self.tableWidget_4.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)  # 表格只可选中行
             self.tableWidget_4.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)  # 表格只可选中单行
+
+    # 问题表下的刷新按钮
+    def refreshQuestionTable(self):
+        self.displayQuestionTable()
 
     # 选择整改发函文件
     def chooseFileZgfh(self):
