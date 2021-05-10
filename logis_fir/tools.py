@@ -5,9 +5,9 @@ import re
 
 
 class tools:
-    db_path = "../db/database.db"
-    project_word_path = "../project_word"
-    zgfh_word_path = "../zgfh_word"
+    db_path = "./db/database.db"
+    project_word_path = "./project_word"
+    zgfh_word_path = "./zgfh_word"
 
     # 执行sql
     @classmethod
@@ -47,7 +47,7 @@ class tools:
     def openFile(cls, file_folder, file):
         if file != "":
             # 获取文件路径
-            path = os.path.dirname(os.getcwd()) + '\\' + file_folder + '\\' + file
+            path = os.getcwd() + '\\' + file_folder + '\\' + file
             try:
                 os.startfile(path)
             except Exception as e:
@@ -81,3 +81,9 @@ class tools:
         index = string.find("[")
         if index != -1:
             return string[:index]
+
+    # 根据办文字号对数据库查询结果进行排序,data为sql查询结果,结构为元组列表[(),(),...,()],index1表示以元组第几个元素作为key,index2表示解析字符串得到第几个数字
+    @classmethod
+    def sortByKey(cls, data, index1, index2):
+        data.sort(key=lambda x: (int(cls.getIntegerFromString(x[index1])[index2])))
+        return data

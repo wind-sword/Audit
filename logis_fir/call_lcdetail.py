@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QWidget, QListWidgetItem
 from qtpy import QtCore
 
 from uipy_dir.lcdetail import Ui_Form
-from tools import tools
+from logis_fir.tools import tools
 
 
 class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
@@ -19,9 +19,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.xh = -1  # 流程序号
         self.xh_send = -1  # 发文序号
         self.xh_rev = -1  # 收文序号
-        self.xh_cor_list = []  # 批文序号列表
+        self.xh_cor_list = []  # 批文序号列表,元素为(批文序号,批文字号)
         self.send_type = -1  # 发文类型
-        self.comboBox_dict = dict()  # 用下拉框下标映射到批文序号列表
         self.pro_tag = -1  # 问题表是否导入
 
         # 页面上方流程按钮跳转
@@ -66,19 +65,22 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
     # 页面上方流程按钮跳转,同时刷新页面
     def btjump(self, btname):
         if btname == "1":
+            '''
+            # 将选择stackedWidget的逻辑写在display中,可以解决一些初始化显示的问题
             if self.send_type == 1:
                 self.stackedWidget.setCurrentIndex(0)
             elif self.send_type == 2:
                 self.stackedWidget.setCurrentIndex(1)
+            '''
             self.displaySendFile()
         elif btname == "2":
-            self.stackedWidget.setCurrentIndex(2)
+            # self.stackedWidget.setCurrentIndex(2)
             self.displayQuestionDetail()
         elif btname == "3":
-            self.stackedWidget.setCurrentIndex(3)
+            # self.stackedWidget.setCurrentIndex(3)
             self.displayRevFile()
         elif btname == "4":
-            self.stackedWidget.setCurrentIndex(4)
+            # self.stackedWidget.setCurrentIndex(4)
             self.displayCorFile()
 
     # 控件绑定功能函数
@@ -111,7 +113,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
         # 绑定下拉框切换
         self.comboBox.currentIndexChanged.connect(
-            lambda: self.displayCorFileForIndex(xh_cur_cor=self.comboBox_dict[self.comboBox.currentIndex()]))
+            lambda: self.displayCorFileForIndex(xh_cur_cor=self.xh_cor_list[self.comboBox.currentIndex()][0]))
 
         # 选择问题Excel表
         self.pushButton_quechoose.clicked.connect(self.chooseProblemTable)
@@ -187,13 +189,12 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.xh_rev = data[0][1]
 
         # 初始化批文序号列表
-        sql = 'select bw_cast_cor.批文序号 from bw_cast_cor where bw_cast_cor.流程序号 = %s' % self.xh
+        sql = 'select bw_cast_cor.批文序号,corfile.批文字号 from bw_cast_cor,corfile where bw_cast_cor.流程序号 = %s and ' \
+              'bw_cast_cor.批文序号 = corfile.序号' % self.xh
         result = tools.executeSql(sql)
         # 如果有批文序号,那么初始化批文序号列表
         if len(result) != 0:
-            for i in result:
-                for j in i:
-                    self.xh_cor_list.append(j)
+            self.xh_cor_list = result
 
     # 从初始化的变量情况判断要展示的页面
     def initView(self):
@@ -249,6 +250,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
         self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget.resizeRowsToContents()  # 根据内容调整框大小
+
+        self.stackedWidget.setCurrentIndex(2)
 
     # 展示发文页面
     def displaySendFile(self):
@@ -365,6 +368,10 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 self.dateEdit_7.setReadOnly(True)
                 self.dateEdit_6.setReadOnly(True)
                 self.lineEdit_25.setReadOnly(True)
+        if self.send_type == 1:
+            self.stackedWidget.setCurrentIndex(0)
+        elif self.send_type == 2:
+            self.stackedWidget.setCurrentIndex(1)
 
     # 展示收文页面
     def displayRevFile(self):
@@ -442,6 +449,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.comboBox_7.setDisabled(True)
             self.lineEdit_67.setReadOnly(True)
 
+        self.stackedWidget.setCurrentIndex(3)
+
     # 展示所有批文页面
     def displayCorFile(self):
         w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
@@ -480,7 +489,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         # 获取批文数量
         cor_num = len(self.xh_cor_list)
 
-        # 隐藏确认和修改按钮,展示下拉框和标签,隐藏+和-号,当批文数量不为0的时候显示修改按钮
+        # 隐藏确认和取消按钮,当批文数量不为0的时候显示修改按钮
         self.pushButton_4.show()
         if cor_num != 0:
             self.pushButton_7.show()
@@ -488,37 +497,50 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.pushButton_7.hide()
         self.pushButton_13.hide()
         self.pushButton_14.hide()
+
+        # 展示下拉框和标签
         self.label_25.show()
         self.comboBox.show()
+        self.comboBox.setEnabled(True)
+
+        # 隐藏+和-号
         self.pushButton_add.hide()
         self.pushButton_sub.hide()
 
-        # 表示收文已经完成批改,此时读取数据库,显示新增和修改按钮
+        # 表示收文已经完成批改,此时读取批文列表,显示新增和修改按钮
         if cor_num != 0:
-
-            self.comboBox_dict.clear()  # 清空当前字典
             self.comboBox.disconnect()  # 先断开comboBox,防止绑定函数出错
             self.comboBox.clear()  # 清空复选框
 
-            sql = "select corfile.序号,corfile.批文字号 from corfile,bw_cast_cor where bw_cast_cor.流程序号 = %s and corfile.序号 " \
-                  "= bw_cast_cor.批文序号" % self.xh
-            result = tools.executeSql(sql)
-            index = 0
-            if len(result) != 0:
-                for i in result:
-                    self.comboBox_dict[index] = i[0]
+            if len(self.xh_cor_list) != 0:
+                for i in self.xh_cor_list:
                     self.comboBox.addItem(i[1])
-                    index = index + 1
-
-            # print("当前下拉框字典:" + str(self.comboBox_dict))
 
             # 有了数据后再重新绑定
             self.comboBox.currentIndexChanged.connect(
-                lambda: self.displayCorFileForIndex(xh_cur_cor=self.comboBox_dict[self.comboBox.currentIndex()]))
+                lambda: self.displayCorFileForIndex(xh_cur_cor=self.xh_cor_list[self.comboBox.currentIndex()][0]))
 
-            xh_cur_cor = self.comboBox_dict[self.comboBox.currentIndex()]
+            xh_cur_cor = self.xh_cor_list[self.comboBox.currentIndex()][0]
 
             self.displayCorFileForIndex(xh_cur_cor)
+
+        else:
+            self.dateEdit_4.setDate(QDate.currentDate())  # 收文时间
+            self.listWidget.clear()  # 批文来文单位
+            self.listWidget_2.clear()  # 批文来文字号
+            self.lineEdit_59.clear()  # 文件标题
+            self.lineEdit_55.clear()  # 处理结果
+            self.lineEdit_56.clear()  # 审核
+            self.spinBox_6.setValue(datetime.datetime.now().year)  # 批文编号:[年]
+            self.spinBox_7.setValue(1)  # 批文编号:编号
+            self.lineEdit_52.clear()  # 承办处室
+            self.lineEdit_53.clear()  # 承办人
+            self.lineEdit_54.clear()  # 联系电话
+            self.listWidget_3.clear()  # 省领导内容摘要和拟办意见
+            self.lineEdit_6.clear()  # 厅领导内容摘要和拟办意见
+            self.textEdit_9.clear()  # 领导批示
+
+        self.stackedWidget.setCurrentIndex(4)
 
     # 展示某一个批文页面
     def displayCorFileForIndex(self, xh_cur_cor):
@@ -727,30 +749,32 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         input5 = self.lineEdit_66.text()  # 收文来文单位
         input6 = self.lineEdit_67.text()  # 收文来文字号
         input7 = self.lineEdit_68.text()  # 文件标题
-        input8 = self.lineEdit_64.text()  # 处理结果
-        input9 = self.lineEdit_65.text()  # 审核
-        input10 = self.comboBox_11.currentText() + '[' + self.spinBox_4.text() + ']' + self.spinBox_5.text() + self.label_52.text()  # 收文编号
-        input11 = self.lineEdit_61.text()  # 承办处室
-        input12 = self.lineEdit_62.text()  # 承办人
-        input13 = self.lineEdit_63.text()  # 联系电话
+        input8 = self.textEdit_10.toPlainText()  # 内容摘要和拟办意见
+        input9 = self.textEdit_11.toPlainText()  # 领导批示
+        input10 = self.lineEdit_64.text()  # 处理结果
+        input11 = self.lineEdit_65.text()  # 审核
+        input12 = self.comboBox_11.currentText() + '[' + self.spinBox_4.text() + ']' + self.spinBox_5.text() + self.label_52.text()  # 收文编号
+        input13 = self.lineEdit_61.text()  # 承办处室
+        input14 = self.lineEdit_62.text()  # 承办人
+        input15 = self.lineEdit_63.text()  # 联系电话
 
-        if input10 != "":
-            sql = "select 收文字号 from revfile where 收文字号 = '%s'" % input10
+        if input7 != "":
+            sql = "select 收文字号 from revfile where 收文字号 = '%s'" % input12
             data = tools.executeSql(sql)
             # 数据库中收文字号是否存在,不允许重复的收文字号输入
             if len(data) != 0:
                 QtWidgets.QMessageBox.critical(w, "录入失败", "收文字号已经存在!")
             else:
                 # 执行插入收文表
-                sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,来文单位,来文字号,收文标题,处理结果,审核,收文字号,承办处室,承办人,联系电话) values('%s'," \
-                      "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
+                sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,来文单位,来文字号,收文标题,内容摘要和拟办意见,领导批示,处理结果,审核,收文字号,承办处室,承办人," \
+                      "联系电话) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
                           input1, input2, input3, input4, input5, input6,
                           input7, input8, input9, input10, input11,
-                          input12, input13)
+                          input12, input13, input14, input15)
                 tools.executeSql(sql)
 
                 # 找到当前收文的序号
-                sql = "select 序号 from revfile where 收文字号 = '%s'" % input10
+                sql = "select 序号 from revfile where 收文字号 = '%s'" % input12
                 data = tools.executeSql(sql)
 
                 # 更新流程表,根据流程序号更新收文序号
@@ -766,7 +790,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.displayRevFile()
 
         else:
-            QtWidgets.QMessageBox.critical(w, "录入失败", "办文编号不能为空!")
+            QtWidgets.QMessageBox.critical(w, "录入失败", "收文标题不能为空!")
 
     # 修改收文按钮
     def reviseRevFile(self):
@@ -896,8 +920,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.textEdit_9.setReadOnly(False)  # 领导批示
         self.lineEdit_55.setReadOnly(False)  # 处理结果
         self.lineEdit_56.setReadOnly(False)  # 审核
-        self.spinBox_6.setReadOnly(False)   # 批文编号:[年]
-        self.spinBox_7.setReadOnly(False)   # 批文编号:编号
+        self.spinBox_6.setReadOnly(False)  # 批文编号:[年]
+        self.spinBox_7.setReadOnly(False)  # 批文编号:编号
         self.lineEdit_52.setReadOnly(False)  # 承办处室
         self.lineEdit_53.setReadOnly(False)  # 承办人
         self.lineEdit_54.setReadOnly(False)  # 联系电话
@@ -914,6 +938,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.pushButton_sub.show()
 
         self.pushButton_13.setText("确认修改")
+
+        # 下拉框不可切换
+        self.comboBox.setDisabled(True)
 
         # 设置item可编辑
         for index in range(self.listWidget.count()):
@@ -990,22 +1017,10 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                     sql = "insert into bw_cast_cor(流程序号,批文序号) VALUES(%s,%s)" % (self.xh, data[0][0])
                     tools.executeSql(sql)
 
-                    # 断开连接
-                    self.comboBox.disconnect()
-                    # 插入字典中,更新映射
-                    self.comboBox.addItem(input8)
-                    # 重新连接
-                    self.comboBox.currentIndexChanged.connect(
-                        lambda: self.displayCorFileForIndex(
-                            xh_cur_cor=self.comboBox_dict[self.comboBox.currentIndex()]))
-
-                    self.comboBox_dict[self.comboBox.count() - 1] = data[0][0]
+                    # 向xh_cor_list中插入新的元组
+                    self.xh_cor_list.append((data[0][0], input6))
 
                     QtWidgets.QMessageBox.information(w, "提示", "录入成功！")
-
-                    # 重新展示批文界面
-                    self.displayCorFile()
-
             else:
                 QtWidgets.QMessageBox.critical(w, "录入失败", "批文标题不能为空!")
 
@@ -1013,7 +1028,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             if input5 != "":
                 sql = "select 批文字号 from corfile where 批文字号 = '%s'" % input6
                 data = tools.executeSql(sql)
-                sql = "select 批文字号 from corfile where 序号 = %s" % self.comboBox_dict[self.comboBox.currentIndex()]
+                sql = "select 批文字号 from corfile where 序号 = %s" % self.xh_cor_list[self.comboBox.currentIndex()][0]
                 result = tools.executeSql(sql)[0][0]
                 # 数据库中批文字号是否存在,不允许重复的批文字号输入
                 if len(data) != 0 and result != input6:
@@ -1024,11 +1039,11 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                           "批文字号 = '%s',内容摘要和拟办意见 = '%s',领导批示 = '%s',处理结果 = '%s',审核 = '%s',承办处室 = '%s'," \
                           "承办人 = '%s',联系电话 = '%s' where 序号 = %s" % (
                               input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11,
-                              input12, input13, self.comboBox_dict[self.comboBox.currentIndex()])
+                              input12, input13, self.xh_cor_list[self.comboBox.currentIndex()][0])
                     tools.executeSql(sql)
 
-                    # 删除instruction表中所有序号为self.comboBox_dict[self.comboBox.currentIndex()]的条目
-                    sql = "delete from instruction where 批文序号 = %s" % self.comboBox_dict[self.comboBox.currentIndex()]
+                    # 删除instruction表中所有序号为self.xh_cor_list[self.comboBox.currentIndex()][0]的条目
+                    sql = "delete from instruction where 批文序号 = %s" % self.xh_cor_list[self.comboBox.currentIndex()][0]
                     tools.executeSql(sql)
 
                     # 重新插入instruction表
@@ -1037,16 +1052,21 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                         input15 = self.listWidget_2.item(index).text()  # 领导来文字号
                         input16 = self.listWidget_3.item(index).text()  # 领导内容摘要和领导批示
                         sql = "insert into instruction(批文序号,领导来文单位,领导来文字号,领导内容摘要和领导批示) VALUES(%s,'%s','%s','%s')" % (
-                            self.comboBox_dict[self.comboBox.currentIndex()], input14, input15, input16)
+                            self.xh_cor_list[self.comboBox.currentIndex()][0], input14, input15, input16)
                         tools.executeSql(sql)
+
+                    # xh_cor_list修改元组的批文字号,元组不能直接修改,先删除,再增加
+                    xh_cor_temp = self.xh_cor_list[self.comboBox.currentIndex()][0]
+                    del self.xh_cor_list[self.comboBox.currentIndex()]
+                    self.xh_cor_list.insert(self.comboBox.currentIndex(), (xh_cor_temp, input6))
 
                     QtWidgets.QMessageBox.information(w, "提示", "修改成功！")
 
-                    # 重新展示批文界面
-                    self.displayCorFile()
-
             else:
                 QtWidgets.QMessageBox.critical(w, "修改失败", "批文标题不能为空!")
+
+        # 重新展示批文界面
+        self.displayCorFile()
 
     # 取消新增/修改批文
     def cancelCorFile(self):

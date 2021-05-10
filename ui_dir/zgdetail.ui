@@ -1456,6 +1456,12 @@
           </item>
           <item row="8" column="1">
            <layout class="QFormLayout" name="formLayout_28">
+            <property name="labelAlignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="formAlignment">
+             <set>Qt::AlignHCenter|Qt::AlignTop</set>
+            </property>
             <item row="0" column="0">
              <widget class="QLabel" name="label_27">
               <property name="minimumSize">
@@ -1515,7 +1521,7 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>80</width>
+                <width>16777215</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -1564,7 +1570,7 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>100</width>
+                <width>16777215</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -1658,6 +1664,12 @@
           </item>
           <item row="9" column="1">
            <layout class="QFormLayout" name="formLayout_32">
+            <property name="labelAlignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="formAlignment">
+             <set>Qt::AlignHCenter|Qt::AlignTop</set>
+            </property>
             <item row="0" column="1">
              <widget class="QLineEdit" name="lineEdit_26">
               <property name="minimumSize">
@@ -1697,6 +1709,12 @@
            <layout class="QFormLayout" name="formLayout_33">
             <item row="0" column="0">
              <widget class="QLabel" name="label_32">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <pointsize>12</pointsize>
@@ -1734,6 +1752,12 @@
            <layout class="QFormLayout" name="formLayout_34">
             <item row="0" column="0">
              <widget class="QLabel" name="label_33">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <pointsize>12</pointsize>
@@ -2186,6 +2210,12 @@
            <layout class="QFormLayout" name="formLayout_62">
             <item row="0" column="0">
              <widget class="QLabel" name="label_66">
+              <property name="minimumSize">
+               <size>
+                <width>240</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;内容摘要和拟办意见：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
@@ -2655,6 +2685,12 @@
            <layout class="QFormLayout" name="formLayout_42">
             <item row="0" column="0">
              <widget class="QLabel" name="label_58">
+              <property name="minimumSize">
+               <size>
+                <width>240</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;内容摘要和拟办意见：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>

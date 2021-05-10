@@ -14,23 +14,15 @@
    <string>Dialog</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QStackedWidget#stackedWidget{
-    color:#232C51;
-    background:white;
-}
-QWidget#page_view,#page_add{
-    color:#232C51;
-    background:white;
-}
-QLineEdit{
-    border:1px solid gray;
+   <string notr="true">QComboBox{
+	background:white;
+	border:1px solid gray;
     width:300px;
     border-radius:10px;
     padding:2px 4px;
 }
-QComboBox{
-	background:white;
-	border:1px solid gray;
+QLineEdit{
+    border:1px solid gray;
     width:300px;
     border-radius:10px;
     padding:2px 4px;
@@ -44,7 +36,6 @@ QPushButton{
     height:20px;  
     padding:0 0px;  
 } 
-
 QPushButton:hover{     
     border: 1px solid #E3C46F;  
     background-color:#FEF4BF;  

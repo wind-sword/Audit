@@ -1,20 +1,28 @@
 import datetime
 
 from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QAbstractItemView
 
-from call_lcdetail import Call_lcdetail
 from uipy_dir.index import Ui_indexWindow
-import sys
-from call_zgdetail import Call_zgdetail
-from tools import tools
+from logis_fir.call_lcdetail import Call_lcdetail
+from logis_fir.call_zgdetail import Call_zgdetail
+from logis_fir.call_sendfilebq import Call_sendfilebq
+from logis_fir.call_revfilebq import Call_revfilebq
+from logis_fir.call_corfilebq import Call_corfilebq
+from logis_fir.call_instbq import Call_instbq
+from logis_fir.tools import tools
 
 
 class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        self.window = None  # 补全子窗口
+        self.resType1 = ""  # 办文登记表当前type1
+        self.resType2 = ""  # 办文登记表当前type2
 
         self.setWindowOpacity(1)  # 设置窗口透明度
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
@@ -143,12 +151,14 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.comboBox_type.currentIndexChanged.connect(
             lambda: self.chooseSendfileType(index=self.comboBox_type.currentIndex()))
 
-        self.pushButton.clicked.connect(self.showRegisTable)
+        self.pushButton.clicked.connect(lambda :self.showRegisTable(type1=self.comboBox_2.currentText(),type2=self.comboBox.currentText()))
 
         self.pushButton_more.clicked.connect(self.tz_detail)
 
         self.btckxq.clicked.connect(self.lc_detail)
         self.btszzg.clicked.connect(self.lc_to_tz)
+
+        self.pushButton_2.clicked.connect(self.supplyRegisTable)
 
     # 显示台账内容
     def showProjectTable(self):
@@ -191,6 +201,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget.resizeRowsToContents()  # 根据行调整框大小
 
+        self.tableWidget.sortItems(1, Qt.AscendingOrder)  # 按照流程建立时间排序
+
     # 显示发文流程内容
     def showBwprocessTable(self):
         # 表格不可编辑
@@ -232,8 +244,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tableWidget_lczl.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget_lczl.resizeRowsToContents()  # 根据行调整框大小
 
+        self.tableWidget_lczl.sortItems(1, Qt.AscendingOrder)  # 按照流程建立时间排序
+
     # 显示各种类型登记表总览
-    def showRegisTable(self):
+    def showRegisTable(self, type1, type2):
         # 表格不可编辑
         self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
@@ -246,81 +260,94 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # 清空表格
         self.tableWidget_2.clear()
 
+        # 设置字体
         self.tableWidget_2.horizontalHeader().setFont(QFont('Times', 14, QFont.Black))
 
-        type1 = self.comboBox_2.currentText()  # 种类一
-        type2 = self.comboBox.currentText()  # 种类二
+        self.resType1 = type1  # 标识当前访问的登记表类型1
+        self.resType2 = type2  # 标识当前访问的登记表类型2
 
         data = []
+
         if type1 == "发文登记表":
             self.label_35.setText("注：红色办理中，黑色办结。")
             self.tableWidget_2.setColumnCount(12)
             self.tableWidget_2.setHorizontalHeaderLabels(
-                ['序号', '登记时间', '发文字号', '密级', '标识', '标题', '签发人', '份数', '公文运转情况', '批示情况', '批示办理情况', '起草处室'])
+                ['主键', '登记时间', '发文字号', '密级', '标识', '标题', '签发人', '份数', '公文运转情况', '批示情况', '批示办理情况', '起草处室'])
             rear = ""
             if type2 == "委文":
                 self.label_34.setText("鄂审计委文[%s]" % datetime.datetime.now().year)
-                rear = " having sendfile.发文字号 like '鄂审计委文%' order by sendfile.发文字号"
+                rear = " having sendfile.发文字号 like '鄂审计委文%' "
             elif type2 == "委发":
                 self.label_34.setText("鄂审计委发[%s]" % datetime.datetime.now().year)
-                rear = " having sendfile.发文字号 like '鄂审计委发%' order by sendfile.发文字号"
+                rear = " having sendfile.发文字号 like '鄂审计委发%' "
             elif type2 == "委办文":
                 self.label_34.setText("鄂审计委办文[%s]" % datetime.datetime.now().year)
-                rear = " having sendfile.发文字号 like '鄂审计委办文%' order by sendfile.发文字号"
+                rear = " having sendfile.发文字号 like '鄂审计委办文%' "
             elif type2 == "委办发":
                 self.label_34.setText("鄂审计委办文[%s]" % datetime.datetime.now().year)
-                rear = " having sendfile.发文字号 like '鄂审计委办发%' order by sendfile.发文字号"
+                rear = " having sendfile.发文字号 like '鄂审计委办发%' "
             elif type2 == "委函":
                 self.label_34.setText("鄂审计委函[%s]" % datetime.datetime.now().year)
-                rear = " having sendfile.发文字号 like '鄂审计委函%' order by sendfile.发文字号"
+                rear = " having sendfile.发文字号 like '鄂审计委函%' "
             elif type2 == "委办函":
                 self.label_34.setText("鄂审计委办函[%s]" % datetime.datetime.now().year)
-                rear = " having sendfile.发文字号 like '鄂审计委办函%' order by sendfile.发文字号"
+                rear = " having sendfile.发文字号 like '鄂审计委办函%' "
             elif type2 == "委便签":
                 self.label_34.setText("鄂审计委便签[%s]" % datetime.datetime.now().year)
-                rear = " having sendfile.发文字号 like '鄂审计委便签%' order by sendfile.发文字号"
+                rear = " having sendfile.发文字号 like '鄂审计委便签%' "
             elif type2 == "委办便签":
                 self.label_34.setText("鄂审计委办便签:（无编号）[%s]" % datetime.datetime.now().year)
-                rear = " having sendfile.发文字号 like '鄂审计委办便签%' order by sendfile.发文字号"
+                rear = " having sendfile.发文字号 like '鄂审计委办便签%' "
             elif type2 == "会议纪要":
                 self.label_34.setText("会议纪要[%s]" % datetime.datetime.now().year)
-                rear = " having sendfile.发文字号 like '会议纪要%' order by sendfile.发文字号"
+                rear = " having sendfile.发文字号 like '会议纪要%' "
             elif type2 == "审计专报":
                 self.label_34.setText("审计专报[%s]" % datetime.datetime.now().year)
-                rear = " having sendfile.发文字号 like '审计专报%' order by sendfile.发文字号"
+                rear = " having sendfile.发文字号 like '审计专报%' "
 
-            sql = "select sendfile.办文日期,sendfile.发文字号,sendfile.秘密等级,sendfile.标识,sendfile.发文标题,sendfile.签发人," \
-                  "sendfile.份数,sendfile.公文运转情况,GROUP_CONCAT(instruction.领导内容摘要和领导批示,'\n'),sendfile.批示办理情况," \
-                  "sendfile.起草处室 from sendfile left outer join bwprocess on sendfile.序号 = bwprocess.发文序号 left outer " \
-                  "join bw_cast_cor on bw_cast_cor.流程序号 = bwprocess.序号 left outer join corfile on corfile.序号 = " \
-                  "bw_cast_cor.批文序号 left outer join instruction on instruction.批文序号 = corfile.序号 group by " \
-                  "sendfile.序号" + rear
+            sql = "select sendfile.序号,sendfile.办文日期,sendfile.发文字号,sendfile.秘密等级,sendfile.标识,sendfile.发文标题," \
+                  "sendfile.签发人,sendfile.份数,sendfile.公文运转情况,GROUP_CONCAT(instruction.领导内容摘要和领导批示,'\n')," \
+                  "sendfile.批示办理情况,sendfile.起草处室 from sendfile left outer join bwprocess on sendfile.序号 = " \
+                  "bwprocess.发文序号 left outer join bw_cast_cor on bw_cast_cor.流程序号 = bwprocess.序号 left outer join " \
+                  "corfile on corfile.序号 = bw_cast_cor.批文序号 left outer join instruction on instruction.批文序号 = " \
+                  "corfile.序号 group by sendfile.序号" + rear
             data = tools.executeSql(sql)
+
+            if type2 == "审计专报":
+                # 按照发文字号排序,审计专报字号
+                data = tools.sortByKey(data, 2, 0)
+            else:
+                # 按照发文字号排序,其他发文字号
+                data = tools.sortByKey(data, 2, 1)
 
         elif type1 == "收文登记表":
             self.label_35.setText("1、红色：件未办结。2、绿色：件已办结，事项在办。3、黑色：件与事项完全办结并共同归档。4、蓝色：临时交办审计任务。")
             self.tableWidget_2.setColumnCount(13)
             self.tableWidget_2.setHorizontalHeaderLabels(
-                ['序号', '时间', '编号', '秘级', '来文单位', '来文字号', '来文标题', '拟办意见', '要求时间', '厅领导签批意见', '承办处室', '办理结果', '文件去向'])
+                ['主键', '时间', '编号', '秘级', '来文单位', '来文字号', '来文标题', '拟办意见', '要求时间', '厅领导签批意见', '承办处室', '办理结果',
+                 '文件去向'])
             rear = ""
             if type2 == "请字":
                 self.label_34.setText("请字[%s]（平级、下级报送的请示类文件）→" % datetime.datetime.now().year)
-                rear = " where 收文字号 like '请字%' order by 收文字号"
+                rear = " where 收文字号 like '请字%' "
             elif type2 == "情字":
                 self.label_34.setText("情字[%s]（平级、下级报送的情况类文件）→" % datetime.datetime.now().year)
-                rear = " where 收文字号 like '情字%' order by 收文字号"
+                rear = " where 收文字号 like '情字%' "
             elif type2 == "综字":
                 self.label_34.setText("综字[%s]（上级下发的各类文件）→" % datetime.datetime.now().year)
-                rear = " where 收文字号 like '综字%' order by 收文字号"
+                rear = " where 收文字号 like '综字%' "
             elif type2 == "会字":
                 self.label_34.setText("会[%s]（各级会议通知）→" % datetime.datetime.now().year)
-                rear = " where 收文字号 like '会字%' order by 收文字号"
+                rear = " where 收文字号 like '会字%' "
             elif type2 == "电字":
                 self.label_34.setText("电[%s]（电报文件）→" % datetime.datetime.now().year)
-                rear = " where 收文字号 like '电字%' order by 收文字号"
+                rear = " where 收文字号 like '电字%' "
 
-            sql = "select 收文时间,收文字号,秘密等级,来文单位,来文字号,收文标题,内容摘要和拟办意见,要求时间,领导批示,承办处室,处理结果,文件去向 from revfile" + rear
+            sql = "select 序号,收文时间,收文字号,秘密等级,来文单位,来文字号,收文标题,内容摘要和拟办意见,要求时间,领导批示,承办处室,处理结果,文件去向 from revfile" + rear
             data = tools.executeSql(sql)
+
+            # 按照收文字号排序
+            data = tools.sortByKey(data, 2, 1)
 
         elif type1 == "批文登记表":
             # 按照一条批文为单位生成登记表
@@ -329,18 +356,21 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 self.label_35.setText("1、红色：件未办结。2、绿色：件已办结，事项在办。3、黑色：件与事项完全办结并共同归档。")
                 self.tableWidget_2.setColumnCount(16)
                 self.tableWidget_2.setHorizontalHeaderLabels(
-                    ['序号', '时间', '发文编号', '收文编号', '办文编号', '秘级', '来文单位', '来文字号', '来文标题', '省领导批示内容', '秘书处拟办意见', '委办主任签批意见',
+                    ['主键', '时间', '发文编号', '收文编号', '办文编号', '秘级', '来文单位', '来文字号', '来文标题', '省领导批示内容', '秘书处拟办意见', '委办主任签批意见',
                      '批示任务办理要求时间', '审计厅承办处室及承办人', '办理结果', '文件去向'])
 
-                sql = "select corfile.收文时间,sendfile.发文字号,revfile.收文字号,corfile.批文字号,corfile.秘密等级," \
+                sql = "select corfile.序号,corfile.收文时间,sendfile.发文字号,revfile.收文字号,corfile.批文字号,corfile.秘密等级," \
                       "GROUP_CONCAT(instruction.领导来文单位,'\n'),GROUP_CONCAT(instruction.领导来文字号,'\n'),corfile.批文标题," \
                       "GROUP_CONCAT(instruction.领导内容摘要和领导批示,'\n'),corfile.领导批示,corfile.委办主任签批意见,corfile.批示任务办理要求时间," \
                       "corfile.审计厅承办处室及承办人,corfile.办理结果,corfile.文件去向 from corfile left outer join instruction on " \
                       "corfile.序号 = instruction.批文序号 left outer join bw_cast_cor on bw_cast_cor.批文序号 = corfile.序号 " \
                       "left outer join bwprocess on bwprocess.序号 = bw_cast_cor.流程序号 left outer join sendfile on " \
-                      "bwprocess.发文序号 = sendfile.序号 left outer join revfile on bwprocess.收文序号 = sendfile.序号 group by " \
-                      "corfile.序号 order by corfile.批文字号"
+                      "bwprocess.发文序号 = sendfile.序号 left outer join revfile on bwprocess.收文序号 = revfile.序号 group by " \
+                      "corfile.序号 "
                 data = tools.executeSql(sql)
+
+                # 按照批文字号排序
+                data = tools.sortByKey(data, 4, 1)
 
             # 按照一条批示为单位生成登记表
             elif type2 == "批示":
@@ -348,22 +378,19 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 self.label_35.setText("一位省领导的一条批示作为一条记录。")
                 self.tableWidget_2.setColumnCount(14)
                 self.tableWidget_2.setHorizontalHeaderLabels(
-                    ['序号', '办文编号', '密级', '起草处室', '报送载体', '报送标题', '来文字号', '来文标题', '来文单位', '批示载体', '批示人',
+                    ['主键', '办文编号', '密级', '起草处室', '报送载体', '报送标题', '来文字号', '来文标题', '来文单位', '批示载体', '批示人',
                      '批示人职务', '批示时间', '批示内容'])
 
-                sql = "select corfile.批文字号,corfile.秘密等级,corfile.起草处室,sendfile.发文字号,sendfile.发文标题,instruction.领导来文字号," \
-                      "corfile.批文标题,instruction.领导来文单位,revfile.收文字号,instruction.领导姓名,instruction.领导职务," \
-                      "instruction.批示时间,instruction.领导内容摘要和领导批示 from instruction left outer join corfile on " \
-                      "instruction.批文序号 = corfile.序号 left outer join bw_cast_cor on corfile.序号 = bw_cast_cor.批文序号 " \
-                      "left outer join bwprocess on bw_cast_cor.流程序号 = bwprocess.序号 left outer join sendfile on " \
-                      "bwprocess.发文序号 = sendfile.序号 left outer join revfile on bwprocess.收文序号 = revfile.序号 order by " \
-                      "corfile.批文字号"
+                sql = "select instruction.序号,corfile.批文字号,corfile.秘密等级,corfile.起草处室,sendfile.发文字号,sendfile.发文标题," \
+                      "instruction.领导来文字号,corfile.批文标题,instruction.领导来文单位,revfile.收文字号,instruction.领导姓名," \
+                      "instruction.领导职务,instruction.批示时间,instruction.领导内容摘要和领导批示 from instruction left outer join " \
+                      "corfile on instruction.批文序号 = corfile.序号 left outer join bw_cast_cor on corfile.序号 = " \
+                      "bw_cast_cor.批文序号 left outer join bwprocess on bw_cast_cor.流程序号 = bwprocess.序号 left outer join " \
+                      "sendfile on bwprocess.发文序号 = sendfile.序号 left outer join revfile on bwprocess.收文序号 = revfile.序号 "
                 data = tools.executeSql(sql)
 
-        # 加上序号
-        for index in range(len(data)):
-            sup = (str(index + 1),)
-            data[index] = sup + data[index]
+                # 按照批文字号排序
+                data = tools.sortByKey(data, 1, 1)
 
         # 打印结果
         # print(data)
@@ -383,6 +410,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 y = y + 1
             x = x + 1
 
+        self.tableWidget_2.hideColumn(0)  # 将发文、收文、批文、批示数据库主键隐藏起来,作为传参
         self.tableWidget_2.setFont(QFont('Times', 14, QFont.Black))
         self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
@@ -678,6 +706,40 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 elif key4 == "是":
                     QtWidgets.QMessageBox.warning(self, "警告", "已设置整改！")
 
+    # 补充发文登记表
+    def supplyRegisTable(self):
+        row = self.tableWidget_2.currentRow()
+        # row为-1表示没有选中某一行,弹出提示信息
+        if row == -1:
+            QtWidgets.QMessageBox.information(self, "提示", "请选择表格中的一行！")
+        else:
+            if self.resType1 == "发文登记表":
+                key = self.tableWidget_2.item(row, 0).text()
+                self.window = Call_sendfilebq(key)
+                self.window.setWindowTitle("发文补充")
+                self.window.exec()
+
+            elif self.resType1 == "收文登记表":
+                key = self.tableWidget_2.item(row, 0).text()
+                self.window = Call_revfilebq(key)
+                self.window.setWindowTitle("收文补充")
+                self.window.exec()
+
+            elif self.resType1 == "批文登记表":
+                if self.resType2 == "批字":
+                    key = self.tableWidget_2.item(row, 0).text()
+                    self.window = Call_corfilebq(key)
+                    self.window.setWindowTitle("批文补充")
+                    self.window.exec()
+                elif self.resType2 == "批示":
+                    key = self.tableWidget_2.item(row, 0).text()
+                    self.window = Call_instbq(key)
+                    self.window.setWindowTitle("批示补充")
+                    self.window.exec()
+
+            # 重新展示
+            self.showRegisTable(type1=self.resType1,type2=self.resType2)
+
     # 整改台账下的项目搜索按钮(未开发)
     def search(self):
         # 需完成真实搜索逻辑
@@ -696,10 +758,3 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     def choose_file_gw(self):
         p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
         self.lineEdit_file_3.setText(p[0])
-
-
-if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    call_index = Call_index()
-    call_index.show()
-    sys.exit(app.exec_())

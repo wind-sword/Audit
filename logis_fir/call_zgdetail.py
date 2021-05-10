@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QWidget
 from uipy_dir.zgdetail import Ui_Form
 from logis_fir.call_quedetail import Call_quedetail
 from logis_fir.call_zgrevise import Call_zgrevise
-from tools import tools
+from logis_fir.tools import tools
 import xlrd
 
 
@@ -243,6 +243,7 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             self.window = Call_zgrevise(key)
             self.window.setWindowTitle("整改详情")
             self.window.exec()
+            self.displayQuestionOverview()
 
     # 展示问题表格
     def displayQuestionTable(self):

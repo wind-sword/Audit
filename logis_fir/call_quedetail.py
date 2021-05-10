@@ -3,7 +3,7 @@ from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QWidget
 
 from uipy_dir.quedetail import Ui_Form
-from tools import tools
+from logis_fir.tools import tools
 
 
 class Call_quedetail(QtWidgets.QWidget, Ui_Form):

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1838</width>
+    <width>1831</width>
     <height>953</height>
    </rect>
   </property>
@@ -102,7 +102,7 @@ QPushButton:pressed{
 } </string>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>4</number>
          </property>
          <widget class="QWidget" name="page_lczl">
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -802,7 +802,7 @@ QPushButton:pressed{
               <number>1</number>
              </property>
              <widget class="QWidget" name="page_zb">
-              <layout class="QGridLayout" name="gridLayout_5" rowstretch="1,0,0,0">
+              <layout class="QGridLayout" name="gridLayout_5" rowstretch="1,1,18,1">
                <item row="2" column="0" colspan="2">
                 <widget class="QFrame" name="frame">
                  <property name="styleSheet">
@@ -1076,13 +1076,13 @@ QPushButton:pressed{
                      <widget class="QLabel" name="label_3">
                       <property name="minimumSize">
                        <size>
-                        <width>0</width>
+                        <width>125</width>
                         <height>0</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>160</width>
+                        <width>16777215</width>
                         <height>16777215</height>
                        </size>
                       </property>
@@ -1120,6 +1120,12 @@ QPushButton:pressed{
                     </item>
                     <item>
                      <widget class="QSpinBox" name="spinBox">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
                       <property name="maximumSize">
                        <size>
                         <width>100</width>
@@ -1151,6 +1157,19 @@ QPushButton:pressed{
                        <string>期</string>
                       </property>
                      </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_13">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
                     </item>
                    </layout>
                   </item>
@@ -1710,13 +1729,13 @@ QPushButton:pressed{
                      <widget class="QLabel" name="label_17">
                       <property name="minimumSize">
                        <size>
-                        <width>80</width>
+                        <width>100</width>
                         <height>0</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>80</width>
+                        <width>16777215</width>
                         <height>16777215</height>
                        </size>
                       </property>
@@ -1755,6 +1774,12 @@ QPushButton:pressed{
                   </item>
                   <item row="7" column="1">
                    <layout class="QFormLayout" name="formLayout_24">
+                    <property name="labelAlignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="formAlignment">
+                     <set>Qt::AlignHCenter|Qt::AlignTop</set>
+                    </property>
                     <item row="0" column="1">
                      <widget class="QLineEdit" name="lineEdit_19">
                       <property name="minimumSize">
@@ -1778,6 +1803,12 @@ QPushButton:pressed{
                     </item>
                     <item row="0" column="0">
                      <widget class="QLabel" name="label_20">
+                      <property name="minimumSize">
+                       <size>
+                        <width>100</width>
+                        <height>0</height>
+                       </size>
+                      </property>
                       <property name="font">
                        <font>
                         <pointsize>12</pointsize>
@@ -1794,9 +1825,21 @@ QPushButton:pressed{
                    <layout class="QHBoxLayout" name="horizontalLayout_14">
                     <item>
                      <widget class="QLabel" name="label_num">
-                      <property name="maximumSize">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
                        <size>
                         <width>120</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
                         <height>16777215</height>
                        </size>
                       </property>
@@ -1876,6 +1919,12 @@ QPushButton:pressed{
                     </item>
                     <item>
                      <widget class="QSpinBox" name="spinBox_2">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>28</height>
+                       </size>
+                      </property>
                       <property name="maximumSize">
                        <size>
                         <width>100</width>
@@ -1894,6 +1943,12 @@ QPushButton:pressed{
                     </item>
                     <item>
                      <widget class="QSpinBox" name="spinBox_3">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>28</height>
+                       </size>
+                      </property>
                       <property name="maximumSize">
                        <size>
                         <width>100</width>
@@ -2097,6 +2152,18 @@ QPushButton:pressed{
                    <layout class="QFormLayout" name="formLayout_18">
                     <item row="0" column="0">
                      <widget class="QLabel" name="label_num_3">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>120</width>
+                        <height>0</height>
+                       </size>
+                      </property>
                       <property name="font">
                        <font>
                         <pointsize>14</pointsize>
@@ -2130,6 +2197,12 @@ QPushButton:pressed{
                    <layout class="QFormLayout" name="formLayout_25">
                     <item row="0" column="0">
                      <widget class="QLabel" name="label_21">
+                      <property name="minimumSize">
+                       <size>
+                        <width>100</width>
+                        <height>0</height>
+                       </size>
+                      </property>
                       <property name="font">
                        <font>
                         <pointsize>12</pointsize>
@@ -2169,13 +2242,13 @@ QPushButton:pressed{
                      <widget class="QLabel" name="label_19">
                       <property name="minimumSize">
                        <size>
-                        <width>150</width>
+                        <width>160</width>
                         <height>0</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>150</width>
+                        <width>16777215</width>
                         <height>16777215</height>
                        </size>
                       </property>
@@ -2216,6 +2289,12 @@ QPushButton:pressed{
                    <layout class="QFormLayout" name="formLayout_26">
                     <item row="0" column="0">
                      <widget class="QLabel" name="label_22">
+                      <property name="minimumSize">
+                       <size>
+                        <width>100</width>
+                        <height>0</height>
+                       </size>
+                      </property>
                       <property name="font">
                        <font>
                         <pointsize>12</pointsize>
@@ -2267,11 +2346,17 @@ QPushButton:pressed{
                   </item>
                   <item row="6" column="1">
                    <layout class="QFormLayout" name="formLayout_20">
+                    <property name="labelAlignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="formAlignment">
+                     <set>Qt::AlignHCenter|Qt::AlignTop</set>
+                    </property>
                     <item row="0" column="0">
                      <widget class="QLabel" name="label_16">
                       <property name="minimumSize">
                        <size>
-                        <width>0</width>
+                        <width>100</width>
                         <height>0</height>
                        </size>
                       </property>
@@ -2324,13 +2409,13 @@ QPushButton:pressed{
                      <widget class="QLabel" name="label_15">
                       <property name="minimumSize">
                        <size>
-                        <width>150</width>
+                        <width>160</width>
                         <height>0</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>100</width>
+                        <width>16777215</width>
                         <height>16777215</height>
                        </size>
                       </property>
@@ -2379,7 +2464,7 @@ QPushButton:pressed{
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>100</width>
+                        <width>16777215</width>
                         <height>16777215</height>
                        </size>
                       </property>
@@ -3040,7 +3125,7 @@ QPushButton:pressed{
                  <widget class="QComboBox" name="comboBox_8">
                   <property name="maximumSize">
                    <size>
-                    <width>150</width>
+                    <width>240</width>
                     <height>16777215</height>
                    </size>
                   </property>
@@ -3105,7 +3190,7 @@ QPushButton:pressed{
                  <widget class="QComboBox" name="comboBox_7">
                   <property name="maximumSize">
                    <size>
-                    <width>150</width>
+                    <width>240</width>
                     <height>16777215</height>
                    </size>
                   </property>
@@ -3157,6 +3242,12 @@ QPushButton:pressed{
                <layout class="QFormLayout" name="formLayout_36">
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_40">
+                  <property name="minimumSize">
+                   <size>
+                    <width>240</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;内容摘要和拟办意见：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>

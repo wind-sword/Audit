@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import QDate
 
 from uipy_dir.zgrevise import Ui_Dialog
-from tools import tools
+from logis_fir.tools import tools
 
 
 class Call_zgrevise(QtWidgets.QDialog, Ui_Dialog):
