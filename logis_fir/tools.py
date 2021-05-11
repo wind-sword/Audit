@@ -2,6 +2,8 @@ import os
 import shutil
 import sqlite3
 import re
+import subprocess
+import sys
 
 
 class tools:
@@ -47,9 +49,15 @@ class tools:
     def openFile(cls, file_folder, file):
         if file != "":
             # 获取文件路径
-            path = os.getcwd() + '\\' + file_folder + '\\' + file
+            path = os.getcwd() + '/' + file_folder + '/' + file
             try:
-                os.startfile(path)
+                # WIN32下打开文件
+                if sys.platform == "win32":
+                    os.startfile(path)
+                else:
+                    # LINUX下打开文件
+                    opener = "open" if sys.platform == "darwin" else "xdg-open"
+                    subprocess.call([opener, path])
             except Exception as e:
                 print("Unable to open file. %s\n" % e)
 

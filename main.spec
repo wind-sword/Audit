@@ -23,12 +23,14 @@ exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
-          name='main',
+          name='审计整改管理系统1.0',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
-          console=True )
+          console=False,
+          icon='icon.ico')
+
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
@@ -36,4 +38,4 @@ coll = COLLECT(exe,
                strip=False,
                upx=True,
                upx_exclude=[],
-               name='main')
+               name='审计整改管理系统1.0')
