@@ -22,6 +22,16 @@ class Ui_indexWindow(object):
         indexWindow.setSizePolicy(sizePolicy)
         indexWindow.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(indexWindow)
+        self.centralwidget.setAutoFillBackground(False)
+        self.centralwidget.setStyleSheet("QWidget#centralwidget{\n"
+"        color:#232C51;\n"
+"        background:white;\n"
+"        border-top:1px solid darkGray;\n"
+"        border-bottom:1px solid darkGray;\n"
+"        border-right:1px solid darkGray;\n"
+"        border-top-right-radius:10px;\n"
+"        border-bottom-right-radius:10px;\n"
+"}")
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
@@ -45,10 +55,6 @@ class Ui_indexWindow(object):
         self.stackedWidget.setFocusPolicy(QtCore.Qt.NoFocus)
         self.stackedWidget.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.stackedWidget.setStyleSheet("QStackedWidget#stackedWidget{\n"
-"    color:#232C51;\n"
-"    background:white;\n"
-"}\n"
-"QWidget#page_view,#page_add{\n"
 "    color:#232C51;\n"
 "    background:white;\n"
 "}\n"

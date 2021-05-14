@@ -23,6 +23,20 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget#centralwidget{
+        color:#232C51;
+        background:white;
+        border-top:1px solid darkGray;
+        border-bottom:1px solid darkGray;
+        border-right:1px solid darkGray;
+        border-top-right-radius:10px;
+        border-bottom-right-radius:10px;
+}</string>
+   </property>
    <layout class="QGridLayout" name="gridLayout" columnstretch="0,0">
     <item row="0" column="1">
      <widget class="QWidget" name="widget_view" native="true">
@@ -53,10 +67,6 @@
          </property>
          <property name="styleSheet">
           <string notr="true">QStackedWidget#stackedWidget{
-    color:#232C51;
-    background:white;
-}
-QWidget#page_view,#page_add{
     color:#232C51;
     background:white;
 }
