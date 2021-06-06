@@ -1,0 +1,11 @@
+
+
+2021-06-06 16:37:09,594 - E:\GitHub repository\Audit\logis_fir\tools.py[line:42] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 39, in copyFile
+    shutil.copy(source, target)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: ''
+

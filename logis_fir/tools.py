@@ -4,6 +4,9 @@ import sqlite3
 import re
 import subprocess
 import sys
+import traceback
+
+from logis_fir.logger import Logger
 
 
 class tools:
@@ -14,24 +17,29 @@ class tools:
     # 执行sql
     @classmethod
     def executeSql(cls, sql):
-        print("当前需要执行sql:" + sql)
-        con = sqlite3.connect(cls.db_path)
-        print('Opened database successfully')
-        cur = con.cursor()
-        cur.execute(sql)
-        print('Execute sql successfully' + '\n')
-        data = cur.fetchall()
-        con.commit()
-        con.close()
-        return data
+        try:
+            print("当前需要执行sql:" + sql)
+            con = sqlite3.connect(cls.db_path)
+            print('Opened database successfully')
+            cur = con.cursor()
+            cur.execute(sql)
+            print('Execute sql successfully' + '\n')
+            data = cur.fetchall()
+            con.commit()
+            con.close()
+            return data
+        except:
+            log = Logger('./log/logfile.log', level='error')
+            log.logger.error("错误:%s", traceback.format_exc())
 
     # 将一个文件复制到某个文件夹目录下,source代表源文件路径,target代表目标文件夹目录
     @classmethod
     def copyFile(cls, source, target):
         try:
             shutil.copy(source, target)
-        except Exception as e:
-            print("Unable to copy file. %s\n" % e)
+        except:
+            log = Logger('./log/logfile.log', level='error')
+            log.logger.error("错误:%s", traceback.format_exc())
 
     # 将一个文件替换掉目录下另一个文件,source代表源文件路径,target代表目标替换文件名,file_folder表示目标文件夹目录
     @classmethod
@@ -41,8 +49,9 @@ class tools:
                 target = file_folder_path + '/' + target
                 os.remove(target)  # 删除目标文件
             shutil.copy(source, file_folder_path)  # 将新文件复制到文件目录下
-        except Exception as e:
-            print("Unable to replace file. %s\n" % e)
+        except:
+            log = Logger('./log/logfile.log', level='error')
+            log.logger.error("错误:%s", traceback.format_exc())
 
     # 根据文件名和文件夹路径打开相应文件
     @classmethod
@@ -58,8 +67,9 @@ class tools:
                     # LINUX下打开文件
                     opener = "open" if sys.platform == "darwin" else "xdg-open"
                     subprocess.call([opener, path])
-            except Exception as e:
-                print("Unable to open file. %s\n" % e)
+            except:
+                log = Logger('./log/logfile.log', level='error')
+                log.logger.error("错误:%s", traceback.format_exc())
 
     # 根据文件名和文件夹路径删除相应文件
     @classmethod
@@ -68,8 +78,9 @@ class tools:
             try:
                 path = file_folder_path + '/' + file
                 os.remove(path)
-            except Exception as e:
-                print("Unable to delete file. %s\n" % e)
+            except:
+                log = Logger('./log/logfile.log', level='error')
+                log.logger.error("错误:%s", traceback.format_exc())
 
     # 根据文件路径获取文件名
     @classmethod

@@ -1,3 +1,5 @@
+import traceback
+
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QWidget
@@ -6,6 +8,7 @@ from uipy_dir.zgdetail import Ui_Form
 from logis_fir.call_quedetail import Call_quedetail
 from logis_fir.call_zgrevise import Call_zgrevise
 from logis_fir.tools import tools
+from logis_fir.logger import Logger
 import xlrd
 
 
@@ -639,59 +642,64 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         path.replace('/', '\\\\')
         # 判断用户是否选择文件
         if path != "":
-            # 获取excel文件
-            data = xlrd.open_workbook(path)
-            print('All sheets: %s' % data.sheet_names())
+            try:
+                # 获取excel文件
+                data = xlrd.open_workbook(path)
+                print('All sheets: %s' % data.sheet_names())
 
-            # 获取excel第一个sheet,也就是问题表所在sheet
-            sheet = data.sheets()[0]
+                # 获取excel第一个sheet,也就是问题表所在sheet
+                sheet = data.sheets()[0]
 
-            sheet_name = sheet.name  # 获得名称
-            sheet_cols = sheet.ncols  # 获得列数
-            sheet_rows = sheet.nrows  # 获得行数
-            print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s' % (sheet_name, sheet_cols, sheet_rows))
+                sheet_name = sheet.name  # 获得名称
+                sheet_cols = sheet.ncols  # 获得列数
+                sheet_rows = sheet.nrows  # 获得行数
+                print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s' % (sheet_name, sheet_cols, sheet_rows))
 
-            # 读取excel数据
-            for i in range(4, sheet_rows):
-                cell_i_0 = sheet.row(i)[0].value  # 问题顺序号
-                # cell_i_3 = sheet.row(i)[3].value  # 报送专报期号
-                cell_i_3 = self.xh_send  # 报送专报期号,忽略excel表中发文字号这一列,直接读入发文序号
-                cell_i_16 = sheet.row(i)[16].value  # 整改责任部门
-                cell_i_17 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 17).value, 0).strftime("%Y/%m/%d")  # 应上报整改报告时间
-                cell_i_18 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 18).value, 0).strftime("%Y/%m/%d")  #
-                # 实际上报整改报告时间
-                cell_i_19 = sheet.row(i)[19].value  # 整改情况
-                cell_i_20 = sheet.row(i)[20].value  # 已整改金额
-                cell_i_21 = int(sheet.row(i)[21].value)  # 追责问责人数
-                cell_i_22 = int(sheet.row(i)[22].value)  # 推动制度建设数目
-                cell_i_23 = sheet.row(i)[23].value  # 推动制度建设文件
-                cell_i_24 = sheet.row(i)[24].value  # 部分整改情况具体描述
-                cell_i_25 = sheet.row(i)[25].value  # 未整改原因说明
-                cell_i_26 = sheet.row(i)[26].value  # 下一步整改措施及时限
-                cell_i_27 = sheet.row(i)[27].value  # 认定整改情况
-                cell_i_28 = sheet.row(i)[28].value  # 认定整改金额
-                cell_i_29 = sheet.row(i)[29].value  # 整改率
+                # 读取excel数据
+                for i in range(4, sheet_rows):
+                    cell_i_0 = sheet.row(i)[0].value  # 问题顺序号
+                    # cell_i_3 = sheet.row(i)[3].value  # 报送专报期号
+                    cell_i_3 = self.xh_send  # 报送专报期号,忽略excel表中发文字号这一列,直接读入发文序号
+                    cell_i_16 = sheet.row(i)[16].value  # 整改责任部门
+                    cell_i_17 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 17).value, 0).strftime("%Y/%m/%d")  # 应上报整改报告时间
+                    cell_i_18 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 18).value, 0).strftime("%Y/%m/%d")  #
+                    # 实际上报整改报告时间
+                    cell_i_19 = sheet.row(i)[19].value  # 整改情况
+                    cell_i_20 = sheet.row(i)[20].value  # 已整改金额
+                    cell_i_21 = int(sheet.row(i)[21].value)  # 追责问责人数
+                    cell_i_22 = int(sheet.row(i)[22].value)  # 推动制度建设数目
+                    cell_i_23 = sheet.row(i)[23].value  # 推动制度建设文件
+                    cell_i_24 = sheet.row(i)[24].value  # 部分整改情况具体描述
+                    cell_i_25 = sheet.row(i)[25].value  # 未整改原因说明
+                    cell_i_26 = sheet.row(i)[26].value  # 下一步整改措施及时限
+                    cell_i_27 = sheet.row(i)[27].value  # 认定整改情况
+                    cell_i_28 = sheet.row(i)[28].value  # 认定整改金额
+                    cell_i_29 = sheet.row(i)[29].value  # 整改率
 
-                # 先找到问题序号,再确定整改措施对应的是哪个问题.这里的逻辑有待商榷,原因是要用用户在excel中输入的问题顺序号去寻找问题表主键
-                sql = "select 序号 from problem where 问题顺序号 = %s and 发文序号 = %s" % (int(cell_i_0), cell_i_3)
-                xh_pro = tools.executeSql(sql)[0][0]
+                    # 先找到问题序号,再确定整改措施对应的是哪个问题.这里的逻辑有待商榷,原因是要用用户在excel中输入的问题顺序号去寻找问题表主键
+                    sql = "select 序号 from problem where 问题顺序号 = %s and 发文序号 = %s" % (int(cell_i_0), cell_i_3)
+                    xh_pro = tools.executeSql(sql)[0][0]
 
-                sql = "select max(上报次序) from rectification where 问题序号 = %s " % xh_pro
-                data = tools.executeSql(sql)
+                    sql = "select max(上报次序) from rectification where 问题序号 = %s " % xh_pro
+                    data = tools.executeSql(sql)
 
-                if data[0][0] is None:
-                    num = 1
-                else:
-                    num = data[0][0] + 1
+                    if data[0][0] is None:
+                        num = 1
+                    else:
+                        num = data[0][0] + 1
 
-                sql = "insert into rectification values(NULL,%s,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
-                      "'%s','%s','%s','%s','%s')" % (
-                          xh_pro, num, cell_i_16, cell_i_17, cell_i_18, cell_i_19, cell_i_20, cell_i_21, cell_i_22,
-                          cell_i_23, cell_i_24, cell_i_25, cell_i_26, cell_i_27, cell_i_28, cell_i_29)
-                tools.executeSql(sql)
+                    sql = "insert into rectification values(NULL,%s,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
+                          "'%s','%s','%s','%s','%s')" % (
+                              xh_pro, num, cell_i_16, cell_i_17, cell_i_18, cell_i_19, cell_i_20, cell_i_21, cell_i_22,
+                              cell_i_23, cell_i_24, cell_i_25, cell_i_26, cell_i_27, cell_i_28, cell_i_29)
+                    tools.executeSql(sql)
 
-            QtWidgets.QMessageBox.information(w, "提示", "录入成功!")
+                QtWidgets.QMessageBox.information(w, "提示", "录入成功!")
 
-            self.displayQuestionOverview()
+                self.displayQuestionOverview()
+
+            except:
+                log = Logger('./log/logfile.log', level='error')
+                log.logger.error("错误:%s", traceback.format_exc())
         else:
             QtWidgets.QMessageBox.information(w, "提示", "请选择文件!")
