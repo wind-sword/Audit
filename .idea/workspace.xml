@@ -6,33 +6,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="127f078b-1751-4dc6-8762-4209feaeac78" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/logfile.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logis_fir/call_index.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_index.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logis_fir/call_lcdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_lcdetail.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logis_fir/call_zgdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_zgdetail.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logis_fir/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/logger.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logis_fir/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/tools.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_word/专报2.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_word/公文2.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_word/公文3.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_word/公文4.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_word/导师双选表.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_word/替换专报1.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_word/替换专报4.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_word/替换公文1.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_word/计算机学院第68期党校培训计划.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/corfilebq.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/corfilebq.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/instbq.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/instbq.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui_dir/index.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/index.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui_dir/lcdetail.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/lcdetail.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/revfilebq.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/revfilebq.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/sendfilebq.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/sendfilebq.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/corfilebq.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/corfilebq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/instbq.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/instbq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/revfilebq.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/revfilebq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/sendfilebq.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/sendfilebq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zgfh_word/FashionMnist图像分类实验-mindspore.ipynb.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/zgfh_word/整改发函1.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/zgfh_word/整改发函3.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uipy_dir/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/index.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uipy_dir/lcdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/lcdetail.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,19 +69,19 @@
     </option>
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\GitHub repository\Audit\uipy_dir" />
-      <recent name="E:\GitHub repository\Audit\log" />
-      <recent name="E:\GitHub repository\Audit\logis_fir" />
-      <recent name="E:\GitHub repository\Audit" />
-      <recent name="E:\GitHub repository\Audit\ui_dir" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\GitHub repository\Audit" />
       <recent name="E:\GitHub repository\Audit\resource_dir" />
       <recent name="E:\GitHub repository\Audit\resource_dir\TEST" />
       <recent name="E:\GitHub repository\Audit\db" />
       <recent name="D:\Audit\logis_fir" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\GitHub repository\Audit\uipy_dir" />
+      <recent name="E:\GitHub repository\Audit\log" />
+      <recent name="E:\GitHub repository\Audit\logis_fir" />
+      <recent name="E:\GitHub repository\Audit" />
+      <recent name="E:\GitHub repository\Audit\ui_dir" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
@@ -270,10 +255,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1620413034356" />
-    <state x="498" y="213" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1622961834025">
+    <state x="498" y="213" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1623239509005">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="498" y="213" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1622961834025" />
+    <state x="498" y="213" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1623239509005" />
     <state x="547" y="110" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1620402766265">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -291,49 +276,49 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="503" y="341" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1620405917898" />
-    <state width="1515" height="2" key="GridCell.Tab.0.bottom" timestamp="1622968832233">
+    <state width="1515" height="2" key="GridCell.Tab.0.bottom" timestamp="1623837078199">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1345" height="2" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1617202008165" />
-    <state width="1515" height="2" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1622968832233" />
+    <state width="1515" height="2" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1623837078199" />
     <state width="1515" height="189" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1617213788844" />
-    <state width="1515" height="2" key="GridCell.Tab.0.center" timestamp="1622968832233">
+    <state width="1515" height="2" key="GridCell.Tab.0.center" timestamp="1623837078199">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1345" height="2" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1617202008165" />
-    <state width="1515" height="2" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1622968832233" />
+    <state width="1515" height="2" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1623837078199" />
     <state width="1515" height="189" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1617213788844" />
-    <state width="1515" height="2" key="GridCell.Tab.0.left" timestamp="1622968832233">
+    <state width="1515" height="2" key="GridCell.Tab.0.left" timestamp="1623837078199">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1345" height="2" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1617202008165" />
-    <state width="1515" height="2" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1622968832233" />
+    <state width="1515" height="2" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1623837078199" />
     <state width="1515" height="189" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1617213788844" />
-    <state width="1515" height="2" key="GridCell.Tab.0.right" timestamp="1622968832233">
+    <state width="1515" height="2" key="GridCell.Tab.0.right" timestamp="1623837078199">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1345" height="2" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1617202008165" />
-    <state width="1515" height="2" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1622968832233" />
+    <state width="1515" height="2" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1623837078199" />
     <state width="1515" height="189" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1617213788844" />
-    <state width="1515" height="46" key="GridCell.Tab.1.bottom" timestamp="1620715817130">
+    <state width="1515" height="2" key="GridCell.Tab.1.bottom" timestamp="1623837078199">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="46" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1620715817130" />
+    <state width="1515" height="2" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1623837078199" />
     <state width="1515" height="261" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1617208372395" />
-    <state width="1515" height="46" key="GridCell.Tab.1.center" timestamp="1620715817130">
+    <state width="1515" height="2" key="GridCell.Tab.1.center" timestamp="1623837078199">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="46" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1620715817130" />
+    <state width="1515" height="2" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1623837078199" />
     <state width="1515" height="261" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1617208372395" />
-    <state width="1515" height="46" key="GridCell.Tab.1.left" timestamp="1620715817130">
+    <state width="1515" height="2" key="GridCell.Tab.1.left" timestamp="1623837078199">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="46" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1620715817130" />
+    <state width="1515" height="2" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1623837078199" />
     <state width="1515" height="261" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1617208372395" />
-    <state width="1515" height="46" key="GridCell.Tab.1.right" timestamp="1620715817130">
+    <state width="1515" height="2" key="GridCell.Tab.1.right" timestamp="1623837078199">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="46" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1620715817130" />
+    <state width="1515" height="2" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1623837078199" />
     <state width="1515" height="261" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1617208372395" />
     <state x="270" y="57" key="SettingsEditor" timestamp="1620752566808">
       <screen x="0" y="0" width="1536" height="824" />
@@ -344,14 +329,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1536.824@0.0.1536.824" timestamp="1617114040475" />
-    <state x="468" y="115" width="600" height="594" key="find.popup" timestamp="1620396343905">
+    <state x="468" y="115" width="600" height="594" key="find.popup" timestamp="1623767062239">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="468" y="115" width="600" height="594" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1620396343905" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1619348102869">
+    <state x="468" y="115" width="600" height="594" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1623767062239" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1623056849801">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1619348102869" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1623056849801" />
     <state x="431" y="152" width="672" height="711" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1617212169807" />
   </component>
   <component name="XDebuggerManager">
@@ -366,11 +351,8 @@
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
-        <watch expression="os.getcwd()" language="Python" />
-        <watch expression="os.path.dirname(os.getcwd()) + '\\' + file_folder + '\\' + file" language="Python" />
-        <watch expression="self.comboBox.count()" language="Python" />
-        <watch expression="self.comboBox_dict" language="Python" />
-        <watch expression="data[0][0]" language="Python" />
+        <watch expression="sheet.row(i)[0].value" language="Python" />
+        <watch expression="sheet.row(i)[5].value" language="Python" />
       </configuration>
     </watches-manager>
   </component>

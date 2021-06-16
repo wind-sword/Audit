@@ -13,6 +13,9 @@ class tools:
     db_path = "./db/database.db"
     project_word_path = "./project_word"
     zgfh_word_path = "./zgfh_word"
+    sjyj_word_path = "./sjyj_word"
+    sjbg_word_path = "./sjbg_word"
+    sjjg_word_path = "./sjjg_word"
 
     # 执行sql
     @classmethod
@@ -106,3 +109,14 @@ class tools:
     def sortByKey(cls, data, index1, index2):
         data.sort(key=lambda x: (int(cls.getIntegerFromString(x[index1])[index2])))
         return data
+
+    # 判断excel单元格是否为整数
+    @classmethod
+    def judgeInteger(cls, cell):
+        if isinstance(cell, str):
+            return False
+        if isinstance(cell, float):
+            if cell.is_integer():
+                return True
+            else:
+                return False

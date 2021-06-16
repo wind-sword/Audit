@@ -121,7 +121,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.pushButton_quechoose.clicked.connect(self.chooseProblemTable)
 
         # 导入问题表
-        self.pushButton_queimport.clicked.connect(self.importExcel)
+        self.pushButton_queimport.clicked.connect(self.importExcelProblem)
 
         # 打开公文文件
         self.pushButton_opfile.clicked.connect(
@@ -1098,7 +1098,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 选择问题表
     def chooseProblemTable(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "All Files(*);;Excel(*.xls);;Excel(*.xlsx)")
         self.lineEdit_3.setText(p[0])
 
     # 发文办理下的选择文件夹按钮(专报)
@@ -1114,7 +1114,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.lineEdit_file_3.setText(p[0])
 
     # 根据excel中的左边问题基本信息导入问题表
-    def importExcel(self):
+    def importExcelProblem(self):
         w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
         # 文件路径
         path = self.lineEdit_3.text()
@@ -1133,44 +1133,80 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 sheet_name = sheet.name  # 获得名称
                 sheet_cols = sheet.ncols  # 获得列数
                 sheet_rows = sheet.nrows  # 获得行数
-                print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s' % (sheet_name, sheet_cols, sheet_rows))
+                print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s\n' % (sheet_name, sheet_cols, sheet_rows))
+            except:
 
-                # 读取excel数据
+                log = Logger('./log/logfile.log', level='error')
+                log.logger.error("错误:%s", traceback.format_exc())
+
+            check_tag = 1  # excel输入合法检测标识,如果为1表示excel中所有数据合法,可以写入数据库
+
+            # 检测excel某些输入是否合法
+            try:
+                # 读取excel数据进行检测
                 for i in range(4, sheet_rows):
-                    cell_i_0 = int(sheet.row(i)[0].value)  # 问题顺序号
-                    cell_i_1 = sheet.row(i)[1].value  # 被审计对象
-                    cell_i_2 = sheet.row(i)[2].value  # 所在地方或单位
-                    # cell_i_3 = sheet.row(i)[3].value  # 报送专报期号
-                    cell_i_3 = self.xh_send  # 报送专报期号,忽略excel表中发文字号这一列,直接读入发文序号
-                    cell_i_4 = sheet.row(i)[4].value  # 审计报告（意见）文号
-                    cell_i_5 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 5).value, 0).strftime(
-                        "%Y/%m/%d")  # 出具审计专报时间 XXXX-XX-XX
-                    cell_i_6 = sheet.row(i)[6].value  # 审计组组长
-                    cell_i_7 = sheet.row(i)[7].value  # 审计组主审
-                    cell_i_8 = sheet.row(i)[8].value  # 问题描述
-                    cell_i_9 = sheet.row(i)[9].value  # 问题一级分类
-                    cell_i_10 = sheet.row(i)[10].value  # 问题二级分类
-                    cell_i_11 = sheet.row(i)[11].value  # 问题三级分类
-                    cell_i_12 = sheet.row(i)[12].value  # 问题四级分类
-                    cell_i_13 = sheet.row(i)[13].value  # 备注（不在前列问题类型中的，简单描述）
-                    cell_i_14 = sheet.row(i)[14].value  # 问题金额（万元）
-                    cell_i_15 = sheet.row(i)[15].value  # 移送及处理情况
-
-                    sql = "insert into problem values(NULL,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
-                          "'%s','%s','%s','%s','%s')" % (
-                              cell_i_0, cell_i_1, cell_i_2, cell_i_3, cell_i_4, cell_i_5, cell_i_6, cell_i_7,
-                              cell_i_8, cell_i_9, cell_i_10, cell_i_11, cell_i_12, cell_i_13, cell_i_14, cell_i_15)
-                    tools.executeSql(sql)
-
-                QtWidgets.QMessageBox.information(w, "提示", "导入完成")
-
-                # 更新问题表状态
-                self.pro_tag = 1
-
-                # 导入完成后更新表格
-                self.displayQuestionDetail()
+                    # 问题顺序号,判断是否为整数
+                    if not tools.judgeInteger(sheet.row(i)[0].value):
+                        check_tag = 0
+                        QtWidgets.QMessageBox.information(w, "提示", "excel表格第%s行: 问题顺序号应为整数" % str(i + 1))
+                        break
+                    # 出具审计专报时间,判断是否为合法时间
+                    if isinstance(sheet.row(i)[5].value, str):
+                        check_tag = 0
+                        QtWidgets.QMessageBox.information(w, "提示", "excel表格第%s行: 出具审计专报时间格式错误" % str(i + 1))
+                        break
+                    # 认定整改金额,判断是否为浮点数
+                    if not isinstance(sheet.row(i)[14].value, float):
+                        check_tag = 0
+                        QtWidgets.QMessageBox.information(w, "提示", "excel表格第%s行: 问题金额应为数字" % str(i + 1))
+                        break
+                if sheet_rows == 4:
+                    check_tag = 0
+                    QtWidgets.QMessageBox.information(w, "提示", "表格数据为空")
             except:
                 log = Logger('./log/logfile.log', level='error')
                 log.logger.error("错误:%s", traceback.format_exc())
+
+            if check_tag == 1:
+                # 写入数据库
+                try:
+                    for i in range(4, sheet_rows):
+                        cell_i_0 = int(sheet.row(i)[0].value)  # 问题顺序号
+                        cell_i_1 = sheet.row(i)[1].value  # 被审计对象
+                        cell_i_2 = sheet.row(i)[2].value  # 所在地方或单位
+                        # cell_i_3 = sheet.row(i)[3].value  # 报送专报期号
+                        cell_i_3 = self.xh_send  # 报送专报期号,忽略excel表中发文字号这一列,直接读入发文序号
+                        cell_i_4 = sheet.row(i)[4].value  # 审计报告（意见）文号
+                        cell_i_5 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 5).value, 0).strftime(
+                            "%Y/%m/%d")  # 出具审计专报时间 Year/Month/Day
+                        cell_i_6 = sheet.row(i)[6].value  # 审计组组长
+                        cell_i_7 = sheet.row(i)[7].value  # 审计组主审
+                        cell_i_8 = sheet.row(i)[8].value  # 问题描述
+                        cell_i_9 = sheet.row(i)[9].value  # 问题一级分类
+                        cell_i_10 = sheet.row(i)[10].value  # 问题二级分类
+                        cell_i_11 = sheet.row(i)[11].value  # 问题三级分类
+                        cell_i_12 = sheet.row(i)[12].value  # 问题四级分类
+                        cell_i_13 = sheet.row(i)[13].value  # 备注（不在前列问题类型中的，简单描述）
+                        cell_i_14 = sheet.row(i)[14].value  # 问题金额（万元）
+                        cell_i_15 = sheet.row(i)[15].value  # 移送及处理情况
+
+                        sql = "insert into problem values(NULL,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
+                              "'%s','%s','%s','%s','%s')" % (
+                                  cell_i_0, cell_i_1, cell_i_2, cell_i_3, cell_i_4, cell_i_5, cell_i_6, cell_i_7,
+                                  cell_i_8, cell_i_9, cell_i_10, cell_i_11, cell_i_12, cell_i_13, cell_i_14, cell_i_15)
+                        tools.executeSql(sql)
+
+                    QtWidgets.QMessageBox.information(w, "提示", "导入完成")
+
+                    # 更新问题表状态
+                    self.pro_tag = 1
+
+                    # 导入完成后更新表格
+                    self.displayQuestionDetail()
+                except:
+                    log = Logger('./log/logfile.log', level='error')
+                    log.logger.error("错误:%s", traceback.format_exc())
+            else:
+                QtWidgets.QMessageBox.critical(w, "错误", "导入失败")
         else:
             QtWidgets.QMessageBox.information(w, "提示", "请选择文件!")
