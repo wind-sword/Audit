@@ -582,12 +582,12 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 选择整改发函文件
     def chooseFileZgfh(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Word(*.docx);;Word(*.doc)")
         self.lineEdit.setText(p[0])
 
     # 选择问题表
     def chooseQuestionExcel(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "All Files(*);;Excel(*.xls);;Excel(*.xlsx)")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Excel(*.xlsx);;Excel(*.xls)")
         self.lineEdit_2.setText(p[0])
 
     # 保存整改发函文件
@@ -596,17 +596,20 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         input_file_path = self.lineEdit.text()
         if input_file_path != "":
             filename = tools.getFileName(input_file_path)  # 文件名
-            sql = "insert into zgword values(NULL,%s,'%s')" % (self.xh, filename)
-            tools.executeSql(sql)
-            # 导入文件
-            tools.copyFile(input_file_path, tools.zgfh_word_path)
+            if tools.judgeExistSameNameFile(tools.zgfh_word_path, filename):
+                QtWidgets.QMessageBox.critical(w, "导入失败", "存在相同的文件名!")
+            else:
+                sql = "insert into zgword values(NULL,%s,'%s')" % (self.xh, filename)
+                tools.executeSql(sql)
+                # 导入文件
+                tools.copyFile(input_file_path, tools.zgfh_word_path)
 
-            QtWidgets.QMessageBox.information(w, "提示", "保存成功!")
+                QtWidgets.QMessageBox.information(w, "提示", "保存成功!")
 
-            # 清空整改文件名输入栏
-            self.lineEdit.clear()
+                # 清空整改文件名输入栏
+                self.lineEdit.clear()
 
-            self.displayZgfh()
+                self.displayZgfh()
         else:
             QtWidgets.QMessageBox.information(w, "提示", "请选择文件!")
 

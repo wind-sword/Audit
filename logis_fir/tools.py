@@ -10,12 +10,14 @@ from logis_fir.logger import Logger
 
 
 class tools:
+    # 注意这些路径都是相对于根目录下的,由于main函数运行在跟目录下,所以在logis_fir的py文件中使用./而不是../
     db_path = "./db/database.db"
     project_word_path = "./project_word"
     zgfh_word_path = "./zgfh_word"
     sjyj_word_path = "./sjyj_word"
     sjbg_word_path = "./sjbg_word"
     sjjg_word_path = "./sjjg_word"
+    jz_excel_path = "./jz_excel"
 
     # 执行sql
     @classmethod
@@ -100,7 +102,7 @@ class tools:
     # 获取字符串中发文类型
     @classmethod
     def getTypeFromString(cls, string):
-        index = string.find("[")
+        index = string.find("〔")
         if index != -1:
             return string[:index]
 
@@ -120,3 +122,12 @@ class tools:
                 return True
             else:
                 return False
+
+    # 判断文件夹中是否有同名文件出现
+    @classmethod
+    def judgeExistSameNameFile(cls, file_folder_path, filename):
+        fileList = os.listdir(file_folder_path)
+        if fileList.count(filename) != 0:
+            return True
+        else:
+            return False

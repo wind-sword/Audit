@@ -145,7 +145,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.dateEdit_6.setDate(self.dateEdit_7.date())
 
     def autoSyn3(self):
-        cur = self.comboBox_10.currentText() + '[' + self.spinBox_2.text() + ']' + self.spinBox_3.text() + \
+        cur = self.comboBox_10.currentText() + '〔' + self.spinBox_2.text() + '〕' + self.spinBox_3.text() + \
               self.label_51.text()
         self.lineEdit_25.setText(cur)
 
@@ -686,8 +686,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 QtWidgets.QMessageBox.critical(w, "修改失败", "发文标题不能为空!")
 
         elif btname == "gw":
-            input1 = self.comboBox_10.currentText() + '[' + self.spinBox_2.text() + ']' + self.spinBox_3.text() \
-                     + self.label_51.text()  # 发文字号
+            input1 = self.comboBox_10.currentText() + '〔' + self.spinBox_2.text() + '〕' + self.spinBox_3.text() \
+                     + '号'  # 发文字号
             input2 = self.lineEdit_num_3.text()  # 发文标题
             input3 = self.textEdit_2.toPlainText()  # 领导审核意见
             input4 = self.textEdit_4.toPlainText()  # 审计办领导审核意见
@@ -755,7 +755,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         input9 = self.textEdit_11.toPlainText()  # 领导批示
         input10 = self.lineEdit_64.text()  # 处理结果
         input11 = self.lineEdit_65.text()  # 审核
-        input12 = self.comboBox_11.currentText() + '[' + self.spinBox_4.text() + ']' + self.spinBox_5.text() + self.label_52.text()  # 收文编号
+        input12 = self.comboBox_11.currentText() + '〔' + self.spinBox_4.text() + '〕' + self.spinBox_5.text() \
+                  + '号'  # 收文编号
         input13 = self.lineEdit_61.text()  # 承办处室
         input14 = self.lineEdit_62.text()  # 承办人
         input15 = self.lineEdit_63.text()  # 联系电话
@@ -835,7 +836,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         input9 = self.textEdit_11.toPlainText()  # 领导批示
         input10 = self.lineEdit_64.text()  # 处理结果
         input11 = self.lineEdit_65.text()  # 审核
-        input12 = self.comboBox_11.currentText() + '[' + self.spinBox_4.text() + ']' + self.spinBox_5.text() + self.label_52.text()  # 办文编号
+        input12 = self.comboBox_11.currentText() + '〔' + self.spinBox_4.text() + '〕' + self.spinBox_5.text() \
+                  + '号'  # 办文编号
         input13 = self.lineEdit_61.text()  # 承办处室
         input14 = self.lineEdit_62.text()  # 承办人
         input15 = self.lineEdit_63.text()  # 联系电话
@@ -978,7 +980,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         input3 = self.comboBox_8.currentText()  # 是否公开
         input4 = self.comboBox_9.currentText()  # 紧急程度
         input5 = self.lineEdit_59.text()  # 批文标题
-        input6 = self.comboBox_12.currentText() + '[' + self.spinBox_6.text() + ']' + self.spinBox_7.text() + self.label_53.text()  # 批文编号
+        input6 = self.comboBox_12.currentText() + '〔' + self.spinBox_6.text() + '〕' + self.spinBox_7.text() \
+                 + '号'  # 批文编号
         input7 = self.lineEdit_6.text()  # 厅领导内容摘要和拟办意见
         input8 = self.textEdit_9.toPlainText()  # 领导批示
         input9 = self.lineEdit_55.text()  # 处理结果
@@ -1098,18 +1101,18 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 选择问题表
     def chooseProblemTable(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "All Files(*);;Excel(*.xls);;Excel(*.xlsx)")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Excel(*.xlsx);;Excel(*.xls)")
         self.lineEdit_3.setText(p[0])
 
     # 发文办理下的选择文件夹按钮(专报)
     def choose_file_zb(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Word(*.docx);;Word(*.doc)")
         if p[0] != "":
             self.lineEdit_file.setText(p[0])
 
     # 发文办理下的选择文件夹按钮(公文)
     def choose_file_gw(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Word(*.docx);;Word(*.doc)")
         if p[0] != "":
             self.lineEdit_file_3.setText(p[0])
 

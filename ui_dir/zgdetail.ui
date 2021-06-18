@@ -332,7 +332,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="page_zb">
       <layout class="QGridLayout" name="gridLayout_13" rowstretch="1,2,18">
@@ -2670,13 +2670,13 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>210</width>
+                <width>200</width>
                 <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>210</width>
+                <width>200</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -3154,13 +3154,13 @@
              <widget class="QLineEdit" name="lineEdit_44">
               <property name="minimumSize">
                <size>
-                <width>210</width>
+                <width>200</width>
                 <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>210</width>
+                <width>200</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -3314,9 +3314,11 @@
         <widget class="QListWidget" name="listWidget_4">
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
+           <pointsize>12</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+           <underline>true</underline>
           </font>
          </property>
         </widget>

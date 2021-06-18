@@ -37,6 +37,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.btswbl.clicked.connect(lambda: self.btjump(btname="swbl"))
         self.btjzwtlr.clicked.connect(lambda: self.btjump(btname="jzwtlr"))
         self.btjzwjlr.clicked.connect(lambda: self.btjump(btname="jzwjlr"))
+        self.btjzzl.clicked.connect(lambda: self.btjump(btname="jzzl"))
         self.btswll.clicked.connect(lambda: self.btjump(btname="swll"))
         self.btzgzl.clicked.connect(lambda: self.btjump(btname="zgtz"))
         self.btcx.clicked.connect(lambda: self.btjump(btname="tjfx"))
@@ -61,8 +62,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.spinBox_3.valueChanged.connect(self.autoSyn3)
         self.comboBox_9.currentIndexChanged.connect(self.autoSyn4)
         self.comboBox_2.currentIndexChanged.connect(self.autoSyn5)
-        self.listWidget_sjbg.currentRowChanged.connect(self.autoSyn6)
-        self.listWidget_sjjg.currentRowChanged.connect(self.autoSyn7)
+        self.listWidget_sjwh.currentRowChanged.connect(self.autoSyn6)
+        self.listWidget_sjyj.currentRowChanged.connect(self.autoSyn7)
+        self.listWidget_sjbg.currentRowChanged.connect(self.autoSyn8)
+        self.listWidget_sjjg.currentRowChanged.connect(self.autoSyn9)
+        self.listWidget_excel.currentRowChanged.connect(self.autoSyn10)
         self.comboBox_type_fw.currentIndexChanged.connect(
             lambda: self.autoSynSendfileType(index=self.comboBox_type_fw.currentIndex()))
 
@@ -111,14 +115,18 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         elif btname == "jzwjlr":
             self.stackedWidget.setCurrentIndex(5)
             # 初始化显示
+            self.initJzFileInsertPage()
+        elif btname == "jzzl":
+            self.stackedWidget.setCurrentIndex(6)
+            # 初始化显示
             self.displayFileJzPage()
         elif btname == "zgtz":
-            self.stackedWidget.setCurrentIndex(6)
+            self.stackedWidget.setCurrentIndex(7)
             self.tabWidget_zgzl.setCurrentIndex(0)
             # 初始化显示
             self.showProjectTable()
         elif btname == "tjfx":
-            self.stackedWidget.setCurrentIndex(7)
+            self.stackedWidget.setCurrentIndex(8)
 
     # 关闭tab
     def closeTab1(self, index):
@@ -135,13 +143,13 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.dateEdit_5.setDate(self.dateEdit_6.date())
 
     def autoSyn3(self):
-        cur = self.comboBox_9.currentText() + '[' + self.spinBox_2.text() + ']' + self.spinBox_3.text() + \
-              self.label_51.text()
+        cur = self.comboBox_9.currentText() + '〔' + self.spinBox_2.text() + '〕' + self.spinBox_3.text() \
+              + '号'
         self.lineEdit_18.setText(cur)
 
     def autoSyn4(self):
-        cur = self.comboBox_9.currentText() + '[' + self.spinBox_2.text() + ']' + self.spinBox_3.text() + \
-              self.label_51.text()
+        cur = self.comboBox_9.currentText() + '〔' + self.spinBox_2.text() + '〕' + self.spinBox_3.text() \
+              + '号'
         self.lineEdit_18.setText(cur)
 
     def autoSyn5(self):
@@ -154,12 +162,36 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         elif type1 == "批文登记表":
             self.comboBox.addItems(["批字", "批示"])
 
-    # 同步listWidget高亮内容同步
+    # listWidget高亮内容同步
     def autoSyn6(self):
-        self.listWidget_sjjg.setCurrentRow(self.listWidget_sjbg.currentRow())
+        self.listWidget_sjyj.setCurrentRow(self.listWidget_sjwh.currentRow())
+        self.listWidget_sjbg.setCurrentRow(self.listWidget_sjwh.currentRow())
+        self.listWidget_sjjg.setCurrentRow(self.listWidget_sjwh.currentRow())
+        self.listWidget_excel.setCurrentRow(self.listWidget_sjwh.currentRow())
 
     def autoSyn7(self):
+        self.listWidget_sjwh.setCurrentRow(self.listWidget_sjyj.currentRow())
+        self.listWidget_sjbg.setCurrentRow(self.listWidget_sjyj.currentRow())
+        self.listWidget_sjjg.setCurrentRow(self.listWidget_sjyj.currentRow())
+        self.listWidget_excel.setCurrentRow(self.listWidget_sjyj.currentRow())
+
+    def autoSyn8(self):
+        self.listWidget_sjwh.setCurrentRow(self.listWidget_sjbg.currentRow())
+        self.listWidget_sjyj.setCurrentRow(self.listWidget_sjbg.currentRow())
+        self.listWidget_sjjg.setCurrentRow(self.listWidget_sjbg.currentRow())
+        self.listWidget_excel.setCurrentRow(self.listWidget_sjbg.currentRow())
+
+    def autoSyn9(self):
+        self.listWidget_sjwh.setCurrentRow(self.listWidget_sjjg.currentRow())
+        self.listWidget_sjyj.setCurrentRow(self.listWidget_sjjg.currentRow())
         self.listWidget_sjbg.setCurrentRow(self.listWidget_sjjg.currentRow())
+        self.listWidget_excel.setCurrentRow(self.listWidget_sjjg.currentRow())
+
+    def autoSyn10(self):
+        self.listWidget_sjwh.setCurrentRow(self.listWidget_excel.currentRow())
+        self.listWidget_sjyj.setCurrentRow(self.listWidget_excel.currentRow())
+        self.listWidget_sjbg.setCurrentRow(self.listWidget_excel.currentRow())
+        self.listWidget_sjjg.setCurrentRow(self.listWidget_excel.currentRow())
 
     # 发文办理下的公文类型同步
     def autoSynSendfileType(self, index):
@@ -186,22 +218,30 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             lambda: self.showRegisTable(type1=self.comboBox_2.currentText(), type2=self.comboBox.currentText()))
         self.pushButton_supply_bw.clicked.connect(self.supplyRegisTable)
 
-        # 经责问题表录入页面按钮功能
-        self.bt_search_jz.clicked.connect(self.searchJzPrpject)
+        # 经责问题总表录入页面按钮功能
+        self.bt_search_jz.clicked.connect(self.searchJzProject)
         self.pushButton_que_choose.clicked.connect(self.chooseProblemJzTable)
         self.pushButton_que_import.clicked.connect(self.importExcelProblemJz)
 
         # 经责文件录入页面按钮功能
+        self.pushButton_choose_excel.clicked.connect(self.choose_file_jz_excel)
         self.pushButton_choose_sjyj.clicked.connect(self.choose_file_sjyj)
         self.pushButton_choose_sjbg.clicked.connect(self.choose_file_sjbg)
         self.pushButton_choose_sjjg.clicked.connect(self.choose_file_sjjg)
+
+        self.pushButton_add_excel.clicked.connect(self.add_jz_excel)
+        self.pushButton_add_sjyj.clicked.connect(self.add_sjyj)
+        self.pushButton_add_sjbg.clicked.connect(self.add_sjbg)
+
+        # 经责文件总览页面按钮功能
         self.pushButton_open_sjyj.clicked.connect(lambda: self.openSjFile(listType="sjyj"))
         self.pushButton_open_sjbg.clicked.connect(lambda: self.openSjFile(listType="sjbg"))
         self.pushButton_open_sjjg.clicked.connect(lambda: self.openSjFile(listType="sjjg"))
-        self.pushButton_del_sjyj.clicked.connect(lambda: self.deleteSjFile(listType="sjyj"))
-        self.pushButton_del_sjbg.clicked.connect(lambda: self.deleteSjFile(listType="sjbg"))
-        self.pushButton_add_sjyj.clicked.connect(self.add_sjyj)
-        self.pushButton_add_sjbg.clicked.connect(self.add_sjbg)
+        self.pushButton_open_excel.clicked.connect(lambda: self.openSjFile(listType="jzexcel"))
+        self.pushButton_del_sjyj.clicked.connect(lambda: self.delSjFile(listType="sjyj"))
+        self.pushButton_del_sjbg.clicked.connect(lambda: self.delSjFile(listType="sjbg"))
+        self.pushButton_del_sjjg.clicked.connect(lambda: self.delSjFile(listType="sjjg"))
+        self.pushButton_del_excel.clicked.connect(lambda: self.delSjFile(listType="jzexcel"))
 
         # 整改总览下的按钮功能
         self.pushButton_zg_detail.clicked.connect(self.zg_detail)
@@ -462,7 +502,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
 
-    # 初始化经责问题表录入页面
+    # 初始化经责问题总表录入页面
     def initProblemJzPage(self):
         # 隐藏设置整改按钮
         self.btszjzzg.hide()
@@ -479,7 +519,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         if size != 0:
             # 隐藏录入控件栏
             self.label_58.hide()
-            self.lineEdit_3.hide()
+            self.lineEdit_que_jz.hide()
             self.pushButton_que_import.hide()
             self.pushButton_que_choose.hide()
 
@@ -505,11 +545,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             # 下拉栏自动收集文号作为查询条件
             keywords = set()
             for i in data:
-                # 审计意见文号不为空
+                # 审计意见(报告)文号必定不为空
                 if i[5] != "":
                     keywords.add(i[5])
-                else:
-                    keywords.add(i[6])
             self.comboBox_11.clear()
             for i in keywords:
                 self.comboBox_11.addItem(i)
@@ -517,7 +555,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         else:
             # 显示录入控件栏
             self.label_58.show()
-            self.lineEdit_3.show()
+            self.lineEdit_que_jz.show()
+            self.lineEdit_que_jz.setReadOnly(True)
             self.pushButton_que_import.show()
             self.pushButton_que_choose.show()
 
@@ -525,7 +564,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.tableWidget_3.setRowCount(0)
 
             # 清空文件路径输入栏
-            self.lineEdit_3.clear()
+            self.lineEdit_que_jz.clear()
 
             # 隐藏查询控件栏
             self.label_55.hide()
@@ -537,29 +576,97 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tableWidget_3.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget_3.resizeRowsToContents()  # 根据行调整框大小
 
-    # 展示经责文件录入界面
+    # 初始化经责文件导入界面
+    def initJzFileInsertPage(self):
+        # 初始化文号控件
+        self.spinBox_sjyj_year.setValue(datetime.datetime.now().year)
+        self.spinBox_sjbg_year.setValue(datetime.datetime.now().year)
+        self.spinBox_excel_year.setValue(datetime.datetime.now().year)
+        self.spinBox_sjyj_num.setValue(1)
+        self.spinBox_sjbg_num.setValue(1)
+        self.spinBox_excel_num.setValue(1)
+
+        # 文件输入栏不可编辑
+        self.lineEdit_file_sjyj.setReadOnly(True)
+        self.lineEdit_file_sjbg.setReadOnly(True)
+        self.lineEdit_file_sjjg.setReadOnly(True)
+        self.lineEdit_file_excel.setReadOnly(True)
+
+        # 清空文件输入栏
+        self.lineEdit_file_sjyj.clear()
+        self.lineEdit_file_sjbg.clear()
+        self.lineEdit_file_sjjg.clear()
+
+    # 展示经责文件总览界面
     def displayFileJzPage(self):
         # 清空list
         self.listWidget_sjyj.clear()
         self.listWidget_sjbg.clear()
         self.listWidget_sjjg.clear()
+        self.listWidget_sjwh.clear()
+        self.listWidget_excel.clear()
 
-        # 文件输入栏不可编辑
-        self.lineEdit_file_4.setReadOnly(True)
-        self.lineEdit_file_6.setReadOnly(True)
-        self.lineEdit_file_16.setReadOnly(True)
+        # 将所有文件信息和文号显示在list中,此处展示了如何运用sql嵌套查询的例子,等待后人优化此处sql查询
+        # 连接查询:找出满足既在sjyjword中存在又在jzexcel中存在的文号对应记录
+        sql = "select sjyjword.审计意见文号,sjyjword.审计意见内容,jzexcel.经责分问题表名 from sjyjword,jzexcel where sjyjword.审计意见文号 = " \
+              "jzexcel.审计意见或报告文号 "
+        data = tools.executeSql(sql)
+        result = []
+        for i in data:
+            tempTuple = (i[0], i[1], '/', '/', i[2])
+            result.append(tempTuple)
+        print(result)
 
-        # 将所有文件名显示在list中
-        sql = "select 审计意见内容 from sjyjword"
+        # 不相关字查询:找出满足在sjyjword中存在但不在jzexcel中存在的文号对应记录
+        sql = "select 审计意见文号,审计意见内容 from sjyjword where 审计意见文号 not in (select " \
+              "审计意见或报告文号 from jzexcel) "
         data = tools.executeSql(sql)
         for i in data:
-            self.listWidget_sjyj.addItem(i[0])
+            tempTuple = (i[0], i[1], '/', '/', '/')
+            result.append(tempTuple)
+        print(result)
 
-        sql = "select 审计报告内容,审计结果内容 from sjbgword"
+        # 不相关字查询:找出满足在jzexcel中存在但不在sjyjword中存在的文号对应记录,且文号必须是鄂审资环意
+        sql = "select 审计意见或报告文号,经责分问题表名 from jzexcel where 审计意见或报告文号 not in (select " \
+              "审计意见文号 from sjyjword) and 审计意见或报告文号 like '鄂审资环意%'"
         data = tools.executeSql(sql)
         for i in data:
-            self.listWidget_sjbg.addItem(i[0])
-            self.listWidget_sjjg.addItem(i[1])
+            tempTuple = (i[0], '/', '/', '/', i[1])
+            result.append(tempTuple)
+        print(result)
+
+        # 连接查询:找出满足既在sjbgword中存在又在jzexcel中存在的文号对应记录
+        sql = "select sjbgword.审计报告文号,sjbgword.审计报告内容,sjbgword.审计结果内容,jzexcel.经责分问题表名 from sjbgword,jzexcel where " \
+              "sjbgword.审计报告文号 = jzexcel.审计意见或报告文号 "
+        data = tools.executeSql(sql)
+        for i in data:
+            tempTuple = (i[0], '/', i[1], i[2], i[3])
+            result.append(tempTuple)
+        print(result)
+
+        # 不相关字查询:找出满足在sjbgword中存在但不在jzexcel中存在的文号对应记录
+        sql = "select 审计报告文号,审计报告内容,审计结果内容 from sjbgword where 审计报告文号 not in (select 审计意见或报告文号 from jzexcel) "
+        data = tools.executeSql(sql)
+        for i in data:
+            tempTuple = (i[0], '/', i[1], i[2], '/')
+            result.append(tempTuple)
+        print(result)
+
+        # 不相关字查询:找出满足在jzexcel中存在但不在sjbgword中存在的文号对应记录,且文号必须是鄂审经责报
+        sql = "select 审计意见或报告文号,经责分问题表名 from jzexcel where 审计意见或报告文号 not in (select " \
+              "审计报告文号 from sjbgword) and 审计意见或报告文号 like '鄂审经责报%'"
+        data = tools.executeSql(sql)
+        for i in data:
+            tempTuple = (i[0], '/', '/', '/', i[1])
+            result.append(tempTuple)
+        print(result)
+
+        for i in result:
+            self.listWidget_sjwh.addItem(i[0])
+            self.listWidget_sjyj.addItem(i[1])
+            self.listWidget_sjbg.addItem(i[2])
+            self.listWidget_sjjg.addItem(i[3])
+            self.listWidget_excel.addItem(i[4])
 
     # 发文办理下的确认按钮(专报)
     def add_zb(self):
@@ -587,6 +694,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             # 数据库中发文字号是否存在,不允许重复的发文字号输入
             if len(data) != 0:
                 QtWidgets.QMessageBox.critical(self, "新建失败", "发文字号已经存在!")
+            elif tools.judgeExistSameNameFile(tools.project_word_path, input16):
+                QtWidgets.QMessageBox.critical(self, "新建失败", "存在相同的文件名!")
             else:
                 # 导入文件
                 tools.copyFile(input_file_path, tools.project_word_path)
@@ -637,8 +746,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     # 发文办理下的确认按钮(公文)
     def add_gw(self):
-        input1 = self.comboBox_9.currentText() + '[' + self.spinBox_2.text() + ']' + self.spinBox_3.text() \
-                 + self.label_51.text()  # 发文字号
+        input1 = self.comboBox_9.currentText() + '〔' + self.spinBox_2.text() + '〕' + self.spinBox_3.text() \
+                 + '号'  # 发文字号
         input2 = self.lineEdit_num_3.text()  # 发文标题
         input3 = self.textEdit.toPlainText()  # 领导审核意见
         input4 = self.textEdit_2.toPlainText()  # 审计办领导审核意见
@@ -660,6 +769,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             # 数据库中发文字号是否存在,不允许重复的发文字号输入
             if len(data) != 0:
                 QtWidgets.QMessageBox.critical(self, "新建失败", "发文字号已经存在!")
+            elif tools.judgeExistSameNameFile(tools.project_word_path, input7):
+                QtWidgets.QMessageBox.critical(self, "新建失败", "存在相同的文件名!")
             else:
                 # 导入文件
                 tools.copyFile(input_file_path, tools.project_word_path)
@@ -720,7 +831,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         input7 = self.lineEdit_35.text()  # 文件标题
         input8 = self.lineEdit_33.text()  # 处理结果
         input9 = self.lineEdit_30.text()  # 审核
-        input10 = self.comboBox_10.currentText() + '[' + self.spinBox_4.text() + ']' + self.spinBox_5.text() + self.label_52.text()  # 办文编号
+        input10 = self.comboBox_10.currentText() + '〔' + self.spinBox_4.text() + '〕' + self.spinBox_5.text() \
+                  + '号'  # 办文编号
         input11 = self.lineEdit_34.text()  # 承办处室
         input12 = self.lineEdit_32.text()  # 承办人
         input13 = self.lineEdit_39.text()  # 联系电话
@@ -891,7 +1003,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.showRegisTable(type1=self.resType1, type2=self.resType2)
 
     # 经责问题表中的搜索按钮
-    def searchJzPrpject(self):
+    def searchJzProject(self):
         keyword = self.comboBox_11.currentText()
         sql = "select * from problem_jz where 审计报告文号 = '%s' or 经责结果报告文号 = '%s'" % (keyword, keyword)
         data = tools.executeSql(sql)
@@ -920,134 +1032,203 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     # 发文办理下的选择文件夹按钮(专报)
     def choose_file_zb(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Word(*.docx);;Word(*.doc)")
         self.lineEdit_file_zb.setText(p[0])
 
     # 发文办理下的选择文件夹按钮(公文)
     def choose_file_gw(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Word(*.docx);;Word(*.doc)")
         self.lineEdit_file_3.setText(p[0])
 
     # 选择审计意见
     def choose_file_sjyj(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
-        self.lineEdit_file_4.setText(p[0])
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Word(*.docx);;Word(*.doc)")
+        self.lineEdit_file_sjyj.setText(p[0])
 
     # 选择审计报告
     def choose_file_sjbg(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
-        self.lineEdit_file_6.setText(p[0])
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Word(*.docx);;Word(*.doc)")
+        self.lineEdit_file_sjbg.setText(p[0])
 
     # 选择审计结果报告
     def choose_file_sjjg(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/")
-        self.lineEdit_file_16.setText(p[0])
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Word(*.docx);;Word(*.doc)")
+        self.lineEdit_file_sjjg.setText(p[0])
 
     # 选择经责问题表
     def chooseProblemJzTable(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "All Files(*);;Excel(*.xls);;Excel(*.xlsx)")
-        self.lineEdit_3.setText(p[0])
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Excel(*.xlsx);;Excel(*.xls)")
+        self.lineEdit_que_jz.setText(p[0])
+
+    # 选择经责问题分表
+    def choose_file_jz_excel(self):
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Excel(*.xlsx);;Excel(*.xls)")
+        self.lineEdit_file_excel.setText(p[0])
 
     # 导入审计意见
     def add_sjyj(self):
-        input_file_path = self.lineEdit_file_4.text()
+        input_file_path = self.lineEdit_file_sjyj.text()
         if input_file_path != "":
             filename = tools.getFileName(input_file_path)  # 审计意见文件名
-            sql = "insert into sjyjword values(NULL,'%s')" % filename
-            tools.executeSql(sql)
+            keyword = self.comboBox_sjyj.currentText() + '〔' + self.spinBox_sjyj_year.text() + '〕' + self.spinBox_sjyj_num.text() \
+                      + '号'  # 审计意见文号
+            if tools.judgeExistSameNameFile(tools.sjyj_word_path, filename):
+                QtWidgets.QMessageBox.critical(self, "导入失败", "存在相同的文件名!")
+            else:
+                sql = "select * from sjyjword where 审计意见文号 = '%s'" % keyword
+                data = tools.executeSql(sql)
+                if len(data) != 0:
+                    QtWidgets.QMessageBox.critical(self, "导入失败", "存在相同的文号!")
+                else:
+                    sql = "insert into sjyjword values(NULL,'%s','%s')" % (keyword, filename)
+                    tools.executeSql(sql)
 
-            # 导入文件
-            tools.copyFile(input_file_path, tools.sjyj_word_path)
+                    # 导入文件
+                    tools.copyFile(input_file_path, tools.sjyj_word_path)
 
-            QtWidgets.QMessageBox.information(self, "提示", "添加成功!")
+                    QtWidgets.QMessageBox.information(self, "提示", "添加成功!")
 
-            # 清空文件名输入栏
-            self.lineEdit_file_4.clear()
+                    # 清空文件名输入栏
+                    self.lineEdit_file_sjyj.clear()
 
-            self.displayFileJzPage()
+                    # 跳转到总览页面
+                    self.stackedWidget.setCurrentIndex(6)
+                    self.displayFileJzPage()
         else:
             QtWidgets.QMessageBox.information(self, "提示", "请选择文件!")
 
     # 导入审计报告和审计结果
     def add_sjbg(self):
-        input_file_path1 = self.lineEdit_file_6.text()
-        input_file_path2 = self.lineEdit_file_16.text()
+        input_file_path1 = self.lineEdit_file_sjbg.text()
+        input_file_path2 = self.lineEdit_file_sjjg.text()
         if input_file_path1 != "" and input_file_path2 != "":
+            keyword = self.comboBox_sjbg.currentText() + '〔' + self.spinBox_sjbg_year.text() + '〕' + self.spinBox_sjbg_num.text() \
+                      + '号'  # 审计报告文号
             filename1 = tools.getFileName(input_file_path1)  # 审计报告文件名
             filename2 = tools.getFileName(input_file_path2)  # 经责审计结果报告文件名
-            sql = "insert into sjbgword values(NULL,'%s','%s')" % (filename1, filename2)
-            tools.executeSql(sql)
+            if tools.judgeExistSameNameFile(tools.sjbg_word_path, filename1) or tools.judgeExistSameNameFile(tools.sjjg_word_path, filename2):
+                QtWidgets.QMessageBox.critical(self, "导入失败", "存在相同的文件名!")
+            else:
+                sql = "select * from sjbgword where 审计报告文号 = '%s'" % keyword
+                data = tools.executeSql(sql)
+                if len(data) != 0:
+                    QtWidgets.QMessageBox.critical(self, "导入失败", "存在相同的文号!")
+                else:
+                    sql = "insert into sjbgword values(NULL,'%s','%s','%s')" % (keyword, filename1, filename2)
+                    tools.executeSql(sql)
 
-            # 导入文件
-            tools.copyFile(input_file_path1, tools.sjbg_word_path)
-            tools.copyFile(input_file_path2, tools.sjjg_word_path)
+                    # 导入文件
+                    tools.copyFile(input_file_path1, tools.sjbg_word_path)
+                    tools.copyFile(input_file_path2, tools.sjjg_word_path)
 
-            QtWidgets.QMessageBox.information(self, "提示", "添加成功!")
+                    QtWidgets.QMessageBox.information(self, "提示", "添加成功!")
 
-            # 清空文件名输入栏
-            self.lineEdit_file_6.clear()
-            self.lineEdit_file_16.clear()
+                    # 清空文件名输入栏
+                    self.lineEdit_file_sjbg.clear()
+                    self.lineEdit_file_sjjg.clear()
 
-            self.displayFileJzPage()
+                    # 跳转到总览页面
+                    self.stackedWidget.setCurrentIndex(6)
+                    self.displayFileJzPage()
         else:
             QtWidgets.QMessageBox.information(self, "提示", "两个文件必须都选择!")
 
-    # 打开选择的经责文件
+    # 导入经责分问题表excel
+    def add_jz_excel(self):
+        input_file_path = self.lineEdit_file_excel.text()
+        if input_file_path != "":
+            filename = tools.getFileName(input_file_path)  # 分问题表文件名
+            keyword = self.comboBox_excel.currentText() + '〔' + self.spinBox_excel_year.text() + '〕' + self.spinBox_excel_num.text() \
+                      + '号'  # 审计意见(报告)文号
+            if tools.judgeExistSameNameFile(tools.jz_excel_path, filename):
+                QtWidgets.QMessageBox.critical(self, "导入失败", "存在相同的文件名!")
+            else:
+                sql = "select * from jzexcel where 审计意见或报告文号 = '%s'" % keyword
+                data = tools.executeSql(sql)
+                if len(data) != 0:
+                    QtWidgets.QMessageBox.critical(self, "导入失败", "存在相同的文号!")
+                else:
+                    sql = "insert into jzexcel values(NULL,'%s','%s')" % (keyword, filename)
+                    tools.executeSql(sql)
+
+                    # 导入文件
+                    tools.copyFile(input_file_path, tools.jz_excel_path)
+
+                    QtWidgets.QMessageBox.information(self, "提示", "添加成功!")
+
+                    # 清空文件名输入栏
+                    self.lineEdit_file_excel.clear()
+
+                    # 跳转到总览页面
+                    self.stackedWidget.setCurrentIndex(6)
+                    self.displayFileJzPage()
+        else:
+            QtWidgets.QMessageBox.information(self, "提示", "请选择文件!")
+
+    # 打开选择的经责文件或者excel文件
     def openSjFile(self, listType):
-        if listType == "sjyj":
-            row = self.listWidget_sjyj.currentRow()
-            if row == -1:
-                QtWidgets.QMessageBox.information(self, "提示", "请选择审计意见文件!")
-            else:
+        row = self.listWidget_sjwh.currentRow()
+        if row == -1:
+            QtWidgets.QMessageBox.information(self, "提示", "请选择对应文件!")
+        else:
+            filename = ""
+            file_folder = ""
+            if listType == "sjyj":
                 filename = self.listWidget_sjyj.currentItem().text()
-                tools.openFile(file_folder="sjyj_word", file=filename)
-        elif listType == "sjbg":
-            row = self.listWidget_sjbg.currentRow()
-            if row == -1:
-                QtWidgets.QMessageBox.information(self, "提示", "请选择审计报告文件!")
-            else:
+                file_folder = "sjyj_word"
+            elif listType == "sjbg":
                 filename = self.listWidget_sjbg.currentItem().text()
-                tools.openFile(file_folder="sjbg_word", file=filename)
-        elif listType == "sjjg":
-            row = self.listWidget_sjjg.currentRow()
-            if row == -1:
-                QtWidgets.QMessageBox.information(self, "提示", "请选择审计结果报告文件!")
-            else:
+                file_folder = "sjbg_word"
+            elif listType == "sjjg":
                 filename = self.listWidget_sjjg.currentItem().text()
-                tools.openFile(file_folder="sjjg_word", file=filename)
-
-    # 删除选择的经责文件
-    def deleteSjFile(self, listType):
-        if listType == "sjyj":
-            row = self.listWidget_sjyj.currentRow()
-            if row == -1:
-                QtWidgets.QMessageBox.information(self, "提示", "请选择审计意见文件!")
+                file_folder = "sjjg_word"
+            elif listType == "jzexcel":
+                filename = self.listWidget_excel.currentItem().text()
+                file_folder = "jz_excel"
+            if filename == '/':
+                QtWidgets.QMessageBox.information(self, "提示", "不存在对应文件!")
             else:
+                tools.openFile(file_folder=file_folder, file=filename)
+
+    # 删除相关文件
+    def delSjFile(self, listType):
+        row = self.listWidget_sjwh.currentRow()
+        if row == -1:
+            QtWidgets.QMessageBox.information(self, "提示", "请选择对应文件!")
+        else:
+            filename = ""
+            filename_sjjg = ""
+            file_folder = ""
+            sql = ""
+            keyword = self.listWidget_sjwh.currentItem().text()
+            if listType == "sjyj":
                 filename = self.listWidget_sjyj.currentItem().text()
-                tools.deleteFile(tools.sjyj_word_path, filename)
-                sql = "delete from sjyjword where 审计意见内容 = '%s'" % filename
-                tools.executeSql(sql)
-                QtWidgets.QMessageBox.information(self, "提示", "删除成功!")
-
-        elif listType == "sjbg":
-            row = self.listWidget_sjbg.currentRow()
-            if row == -1:
-                QtWidgets.QMessageBox.information(self, "提示", "请选择审计报告文件和审计结果文件!")
-            else:
-                filename_sjbg = self.listWidget_sjbg.currentItem().text()
+                file_folder = tools.sjyj_word_path
+                sql = "delete from sjyjword where 审计意见文号 = '%s'" % keyword
+            elif listType == "sjbg" or listType == "sjjg":
+                filename = self.listWidget_sjbg.currentItem().text()
+                file_folder = tools.sjbg_word_path
                 filename_sjjg = self.listWidget_sjjg.currentItem().text()
-                tools.deleteFile(tools.sjbg_word_path, filename_sjbg)
-                tools.deleteFile(tools.sjjg_word_path, filename_sjjg)
-                sql = "delete from sjbgword where 审计报告内容 = '%s' and 审计结果内容 = '%s'" % (filename_sjbg, filename_sjjg)
+                file_folder_sjjg = tools.sjjg_word_path
+                sql = "delete from sjbgword where 审计报告文号 = '%s'" % keyword
+            elif listType == "jzexcel":
+                filename = self.listWidget_excel.currentItem().text()
+                file_folder = tools.jz_excel_path
+                sql = "delete from jzexcel where 审计意见或报告文号 = '%s'" % keyword
+            if filename == '/':
+                QtWidgets.QMessageBox.information(self, "提示", "不存在对应文件!")
+            else:
                 tools.executeSql(sql)
+                tools.deleteFile(file_folder, filename)
+                if filename_sjjg != "":
+                    tools.deleteFile(file_folder_sjjg, filename_sjjg)
                 QtWidgets.QMessageBox.information(self, "提示", "删除成功!")
-
-        self.displayFileJzPage()
+                self.displayFileJzPage()
 
     # 根据excel中的左边问题基本信息导入经责问题表
     def importExcelProblemJz(self):
         # 文件路径
-        path = self.lineEdit_3.text()
+        path = self.lineEdit_que_jz.text()
         path.replace('/', '\\\\')
 
         # 判断用户是否选择文件
@@ -1079,6 +1260,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     if not tools.judgeInteger(sheet.row(i)[0].value):
                         check_tag = 0
                         QtWidgets.QMessageBox.information(self, "提示", "excel表格第%s行: 问题顺序号应为整数" % str(i + 1))
+                        break
+                    # 审计意见(报告)文号,判断是否为空(后续还需要判断是否符合格式要求)
+                    if sheet.row(i)[4].value == "":
+                        check_tag = 0
+                        QtWidgets.QMessageBox.information(self, "提示", "excel表格第%s行: 审计意见(报告)文号错误!!" % str(i + 1))
                         break
                     # 出具审计专报时间,判断是否为合法时间
                     if isinstance(sheet.row(i)[6].value, str):

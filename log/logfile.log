@@ -1,69 +1,4 @@
-2021-06-15 15:58:23,712 - E:\GitHub repository\Audit\logis_fir\call_index.py[line:932] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\call_index.py", line 903, in importExcelProblemJz
-    cell_i_6 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 5).value, 0).strftime(
-  File "E:\Anaconda\envs\Audit problem rectification\lib\site-packages\xlrd\xldate.py", line 144, in xldate_as_datetime
-    if xldate < 60:
-TypeError: '<' not supported between instances of 'str' and 'int'
-
-2021-06-15 15:58:24,578 - E:\GitHub repository\Audit\logis_fir\call_index.py[line:932] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\call_index.py", line 903, in importExcelProblemJz
-    cell_i_6 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 5).value, 0).strftime(
-  File "E:\Anaconda\envs\Audit problem rectification\lib\site-packages\xlrd\xldate.py", line 144, in xldate_as_datetime
-    if xldate < 60:
-TypeError: '<' not supported between instances of 'str' and 'int'
-
-2021-06-15 15:58:24,578 - E:\GitHub repository\Audit\logis_fir\call_index.py[line:932] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\call_index.py", line 903, in importExcelProblemJz
-    cell_i_6 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 5).value, 0).strftime(
-  File "E:\Anaconda\envs\Audit problem rectification\lib\site-packages\xlrd\xldate.py", line 144, in xldate_as_datetime
-    if xldate < 60:
-TypeError: '<' not supported between instances of 'str' and 'int'
-
-2021-06-15 17:11:29,980 - E:\GitHub repository\Audit\logis_fir\tools.py[line:42] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 39, in copyFile
-    shutil.copy(source, target)
-  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
-    copyfile(src, dst, follow_symlinks=follow_symlinks)
-  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
-    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
-FileNotFoundError: [Errno 2] No such file or directory: ''
-
-2021-06-16 15:02:32,390 - E:\GitHub repository\Audit\logis_fir\tools.py[line:75] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 68, in openFile
-    os.startfile(path)
-FileNotFoundError: [WinError 2] 系统找不到指定的文件。: 'E:\\GitHub repository\\Audit/sjyj_word/2.docx'
-
-2021-06-16 15:02:35,769 - E:\GitHub repository\Audit\logis_fir\tools.py[line:75] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 68, in openFile
-    os.startfile(path)
-FileNotFoundError: [WinError 2] 系统找不到指定的文件。: 'E:\\GitHub repository\\Audit/sjyj_word/2.docx'
-
-2021-06-16 15:02:35,769 - E:\GitHub repository\Audit\logis_fir\tools.py[line:75] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 68, in openFile
-    os.startfile(path)
-FileNotFoundError: [WinError 2] 系统找不到指定的文件。: 'E:\\GitHub repository\\Audit/sjyj_word/2.docx'
-
-2021-06-16 15:02:40,524 - E:\GitHub repository\Audit\logis_fir\tools.py[line:75] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 68, in openFile
-    os.startfile(path)
-FileNotFoundError: [WinError 2] 系统找不到指定的文件。: 'E:\\GitHub repository\\Audit/sjyj_word/2.docx'
-
-2021-06-16 15:02:40,524 - E:\GitHub repository\Audit\logis_fir\tools.py[line:75] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 68, in openFile
-    os.startfile(path)
-FileNotFoundError: [WinError 2] 系统找不到指定的文件。: 'E:\\GitHub repository\\Audit/sjyj_word/2.docx'
-
-2021-06-16 15:02:40,524 - E:\GitHub repository\Audit\logis_fir\tools.py[line:75] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 68, in openFile
-    os.startfile(path)
-FileNotFoundError: [WinError 2] 系统找不到指定的文件。: 'E:\\GitHub repository\\Audit/sjyj_word/2.docx'
-
-2021-06-16 15:03:00,084 - E:\GitHub repository\Audit\logis_fir\tools.py[line:75] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 68, in openFile
-    os.startfile(path)
-FileNotFoundError: [WinError 2] 系统找不到指定的文件。: 'E:\\GitHub repository\\Audit/sjyj_word/2.docx'
-
-2021-06-16 16:48:29,910 - E:\GitHub repository\Audit\logis_fir\tools.py[line:45] - ERROR: 错误:Traceback (most recent call last):
+2021-06-17 09:48:34,975 - E:\GitHub repository\Audit\logis_fir\tools.py[line:45] - ERROR: 错误:Traceback (most recent call last):
   File "E:\GitHub repository\Audit\logis_fir\tools.py", line 42, in copyFile
     shutil.copy(source, target)
   File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
@@ -72,7 +7,7 @@ FileNotFoundError: [WinError 2] 系统找不到指定的文件。: 'E:\\GitHub r
     with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
 FileNotFoundError: [Errno 2] No such file or directory: ''
 
-2021-06-16 16:50:33,667 - E:\GitHub repository\Audit\logis_fir\tools.py[line:45] - ERROR: 错误:Traceback (most recent call last):
+2021-06-17 11:18:04,719 - E:\GitHub repository\Audit\logis_fir\tools.py[line:45] - ERROR: 错误:Traceback (most recent call last):
   File "E:\GitHub repository\Audit\logis_fir\tools.py", line 42, in copyFile
     shutil.copy(source, target)
   File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
@@ -80,4 +15,70 @@ FileNotFoundError: [Errno 2] No such file or directory: ''
   File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
     with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
 FileNotFoundError: [Errno 2] No such file or directory: ''
+
+2021-06-17 11:38:40,926 - E:\GitHub repository\Audit\logis_fir\tools.py[line:45] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 42, in copyFile
+    shutil.copy(source, target)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: ''
+
+2021-06-17 15:24:42,575 - E:\GitHub repository\Audit\logis_fir\tools.py[line:45] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 42, in copyFile
+    shutil.copy(source, target)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: ''
+
+2021-06-17 20:33:59,837 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: sjyjword.审计意见文号
+
+2021-06-17 20:34:08,702 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: sjyjword.审计意见文号
+
+2021-06-17 21:57:09,964 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 审计意见文号
+
+2021-06-17 21:57:15,542 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 审计意见文号
+
+2021-06-18 15:46:32,353 - E:\GitHub repository\Audit\logis_fir\tools.py[line:46] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 43, in copyFile
+    shutil.copy(source, target)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+PermissionError: [Errno 13] Permission denied: './jz_excel\\11.xlsx'
+
+2021-06-18 17:05:43,618 - E:\GitHub repository\Audit\logis_fir\tools.py[line:77] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 70, in openFile
+    os.startfile(path)
+FileNotFoundError: [WinError 2] 系统找不到指定的文件。: './project_word/2021年收文登记表2.xls'
+
+2021-06-18 17:37:36,775 - E:\GitHub repository\Audit\logis_fir\tools.py[line:47] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 44, in copyFile
+    shutil.copy(source, target)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: ''
+
+2021-06-18 18:06:04,234 - E:\GitHub repository\Audit\logis_fir\tools.py[line:88] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 85, in deleteFile
+    os.remove(path)
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: './jz_excel/经责汇总表示范说明.xls'
 
