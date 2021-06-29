@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QWidget, QSizePolicy
 
 from uipy_dir.sendfilebq import Ui_Dialog
 from logis_fir.tools import tools
@@ -43,7 +44,7 @@ class Call_sendfilebq(QtWidgets.QDialog, Ui_Dialog):
             input1, input2, input3, input4, input5, input6, self.xh)
         tools.executeSql(sql)
 
-        QtWidgets.QMessageBox.information(self, "提示", "修改成功！")
+        QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
 
         self.close()
 

@@ -160,8 +160,8 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         # 整改序号
         self.xh = key
         # 初始化流程序号,发文序号,收文序号
-        sql = "select bwprocess.序号,bwprocess.发文序号,bwprocess.收文序号 from bwprocess,standingbook where " \
-              "bwprocess.序号 = standingbook.流程序号 and standingbook.序号 = %s" % key
+        sql = "select bwprocess.序号,bwprocess.发文序号,bwprocess.收文序号 from bwprocess,zgprocess where " \
+              "bwprocess.序号 = zgprocess.流程序号 and zgprocess.序号 = %s" % key
         data = tools.executeSql(sql)
         # print(data)
         self.xh_lc = data[0][0]
@@ -224,10 +224,10 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 跳转问题详情
     def jumpQuestionDetail(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
         row = self.tableWidget.currentRow()
         if row == -1:
-            QtWidgets.QMessageBox.information(w, "提示", "请选择问题！")
+            QtWidgets.QMessageBox.information(None, "提示", "请选择问题！")
         else:
             # 问题表主键,问题序号
             key = self.tableWidget.item(row, 0).text()
@@ -238,10 +238,10 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 打开整改详情修改框
     def reviseZgdetail(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
         row = self.tableWidget_4.currentRow()
         if row == -1:
-            QtWidgets.QMessageBox.information(w, "提示", "请选择整改措施！")
+            QtWidgets.QMessageBox.information(None, "提示", "请选择整改措施！")
         else:
             # 整改表主键
             key = self.tableWidget_4.item(row, 0).text()
@@ -331,6 +331,12 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             self.lineEdit_file.setText(data[0][18])  # 报文内容
             self.dateEdit_3.setDate(QDate.fromString(data[0][23], 'yyyy/M/d'))  # 办文日期
 
+            # 如果报文内容为空,打开文件按钮不可点击
+            if self.lineEdit_file.text() == "":
+                self.pushButton_file_2.setDisabled(True)
+            else:
+                self.pushButton_file_2.setEnabled(True)
+
         # 公文类型
         elif self.send_type == 2:
             self.lineEdit_num.setText(data[0][2])  # 发文字号
@@ -367,6 +373,12 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             self.dateEdit_7.setReadOnly(True)  # 办文日期
             self.dateEdit_6.setReadOnly(True)  # 日期
             self.lineEdit_25.setReadOnly(True)  # 办文编号
+
+            # 如果报文内容为空,打开文件按钮不可点击
+            if self.lineEdit_file_3.text() == "":
+                self.pushButton_file.setDisabled(True)
+            else:
+                self.pushButton_file.setEnabled(True)
 
     # 展示收文信息
     def displayRevDetail(self):
@@ -592,55 +604,55 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 保存整改发函文件
     def saveZgfh(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
         input_file_path = self.lineEdit.text()
         if input_file_path != "":
             filename = tools.getFileName(input_file_path)  # 文件名
             if tools.judgeExistSameNameFile(tools.zgfh_word_path, filename):
-                QtWidgets.QMessageBox.critical(w, "导入失败", "存在相同的文件名!")
+                QtWidgets.QMessageBox.critical(None, "导入失败", "存在相同的文件名！")
             else:
                 sql = "insert into zgword values(NULL,%s,'%s')" % (self.xh, filename)
                 tools.executeSql(sql)
                 # 导入文件
                 tools.copyFile(input_file_path, tools.zgfh_word_path)
 
-                QtWidgets.QMessageBox.information(w, "提示", "保存成功!")
+                QtWidgets.QMessageBox.information(None, "提示", "保存成功！")
 
                 # 清空整改文件名输入栏
                 self.lineEdit.clear()
 
                 self.displayZgfh()
         else:
-            QtWidgets.QMessageBox.information(w, "提示", "请选择文件!")
+            QtWidgets.QMessageBox.information(None, "提示", "请选择文件！")
 
     # 打开选择的整改发函文件
     def openZgfh(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
         row = self.listWidget_4.currentRow()
         if row == -1:
-            QtWidgets.QMessageBox.information(w, "提示", "请选择整改发函文件!")
+            QtWidgets.QMessageBox.information(None, "提示", "请选择整改发函文件！")
         else:
             filename = self.listWidget_4.currentItem().text()
             tools.openFile(file_folder="zgfh_word", file=filename)
 
     # 删除选择的整改发函文件
     def deleteZgfh(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
         row = self.listWidget_4.currentRow()
         if row == -1:
-            QtWidgets.QMessageBox.information(w, "提示", "请选择整改发函文件!")
+            QtWidgets.QMessageBox.information(None, "提示", "请选择整改发函文件！")
         else:
             filename = self.listWidget_4.currentItem().text()
             tools.deleteFile(tools.zgfh_word_path, filename)
             sql = "delete from zgword where 整改发函内容 = '%s'" % filename
             tools.executeSql(sql)
-            QtWidgets.QMessageBox.information(w, "提示", "删除成功!")
+            QtWidgets.QMessageBox.information(None, "提示", "删除成功！")
 
             self.displayZgfh()
 
     # 根据excel中的右边问题整改信息导入问题表
     def importExcel(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
         path = self.lineEdit_2.text()
         path.replace('/', '\\\\')
         # 判断用户是否选择文件
@@ -658,60 +670,50 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                 sheet_rows = sheet.nrows  # 获得行数
                 print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s' % (sheet_name, sheet_cols, sheet_rows))
 
-            except:
-                log = Logger('./log/logfile.log', level='error')
-                log.logger.error("错误:%s", traceback.format_exc())
+                check_tag = 1  # excel输入合法检测标识,如果为1表示excel中所有数据合法,可以写入数据库
 
-            check_tag = 1  # excel输入合法检测标识,如果为1表示excel中所有数据合法,可以写入数据库
-
-            # 检测excel某些输入是否合法
-            try:
                 # 读取excel数据进行检测
                 for i in range(4, sheet_rows):
                     # 问题顺序号,判断是否为整数
                     if not tools.judgeInteger(sheet.row(i)[0].value):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(w, "提示", "excel表格第%s行: 问题顺序号应为整数" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 问题顺序号应为整数！" % str(i + 1))
                         break
                     # 出具审计专报时间,判断是否为合法时间
                     if isinstance(sheet.row(i)[17].value, str):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(w, "提示", "excel表格第%s行: 出具审计专报时间格式错误" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 出具审计专报时间格式错误！" % str(i + 1))
                         break
                     # 实际上报整改时间,判断是否为合法时间
                     if isinstance(sheet.row(i)[18].value, str):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(w, "提示", "excel表格第%s行: 实际上报整改时间格式错误" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 实际上报整改时间格式错误！" % str(i + 1))
                         break
                     # 已整改金额,判断是否为浮点数
                     if not isinstance(sheet.row(i)[20].value, float):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(w, "提示", "excel表格第%s行: 已整改金额应为数字" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 已整改金额应为数字！" % str(i + 1))
                         break
                     # 追责问责人数,判断是否为整数
                     if not tools.judgeInteger(sheet.row(i)[21].value):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(w, "提示", "excel表格第%s行: 追责问责人数应为整数" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 追责问责人数应为整数！" % str(i + 1))
                         break
                     # 推动制度建设数目,判断是否为整数
                     if not tools.judgeInteger(sheet.row(i)[22].value):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(w, "提示", "excel表格第%s行: 推动制度建设数目应为整数" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 推动制度建设数目应为整数！" % str(i + 1))
                         break
                     # 认定整改金额,判断是否为浮点数
                     if not isinstance(sheet.row(i)[28].value, float):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(w, "提示", "excel表格第%s行: 认定整改金额应为数字" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 认定整改金额应为数字！" % str(i + 1))
                         break
                 if sheet_rows == 4:
                     check_tag = 0
-                    QtWidgets.QMessageBox.information(w, "提示", "表格数据为空")
-            except:
-                log = Logger('./log/logfile.log', level='error')
-                log.logger.error("错误:%s", traceback.format_exc())
+                    QtWidgets.QMessageBox.information(None, "提示", "表格数据为空！")
 
-            if check_tag == 1:
-                try:
+                if check_tag == 1:
                     # 读取excel数据
                     for i in range(4, sheet_rows):
                         cell_i_0 = int(sheet.row(i)[0].value)  # 问题顺序号
@@ -753,14 +755,13 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                                   cell_i_29)
                         tools.executeSql(sql)
 
-                    QtWidgets.QMessageBox.information(w, "提示", "录入成功!")
+                    QtWidgets.QMessageBox.information(None, "提示", "录入成功！")
 
                     self.displayQuestionOverview()
-
-                except:
-                    log = Logger('./log/logfile.log', level='error')
-                    log.logger.error("错误:%s", traceback.format_exc())
-            else:
-                QtWidgets.QMessageBox.critical(w, "错误", "导入失败!")
+                else:
+                    QtWidgets.QMessageBox.critical(None, "错误", "导入失败！")
+            except:
+                log = Logger('./log/logfile.log', level='error')
+                log.logger.error("错误:%s", traceback.format_exc())
         else:
-            QtWidgets.QMessageBox.information(w, "提示", "请选择文件!")
+            QtWidgets.QMessageBox.information(None, "提示", "请选择文件！")

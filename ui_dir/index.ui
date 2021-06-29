@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1898</width>
-    <height>953</height>
+    <height>956</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -122,7 +122,17 @@ QWidget#widget_menu{
              <enum>Qt::DefaultContextMenu</enum>
             </property>
             <property name="text">
-             <string>流程总览</string>
+             <string>办文流程总览</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btswll">
+            <property name="focusPolicy">
+             <enum>Qt::ClickFocus</enum>
+            </property>
+            <property name="text">
+             <string>办文登记总览</string>
             </property>
            </widget>
           </item>
@@ -147,22 +157,12 @@ QWidget#widget_menu{
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="btswll">
-            <property name="focusPolicy">
-             <enum>Qt::ClickFocus</enum>
-            </property>
-            <property name="text">
-             <string>办文登记表浏览</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="btjz">
             <property name="focusPolicy">
              <enum>Qt::ClickFocus</enum>
             </property>
             <property name="text">
-             <string>经责自然资源录入</string>
+             <string>经责自然资源</string>
             </property>
            </widget>
           </item>
@@ -172,7 +172,7 @@ QWidget#widget_menu{
              <enum>Qt::ClickFocus</enum>
             </property>
             <property name="text">
-             <string>总表录入及浏览</string>
+             <string>问题浏览</string>
             </property>
            </widget>
           </item>
@@ -330,7 +330,7 @@ QPushButton:pressed{
 } </string>
          </property>
          <property name="currentIndex">
-          <number>6</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="page_lczl">
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -468,18 +468,6 @@ QPushButton:pressed{
                  </column>
                  <column>
                   <property name="text">
-                   <string>发文标题</string>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
-                   </font>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
                    <string>发文号</string>
                   </property>
                   <property name="font">
@@ -492,7 +480,19 @@ QPushButton:pressed{
                  </column>
                  <column>
                   <property name="text">
-                   <string>收文标题</string>
+                   <string>发文标题</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>问题个数</string>
                   </property>
                   <property name="font">
                    <font>
@@ -516,7 +516,7 @@ QPushButton:pressed{
                  </column>
                  <column>
                   <property name="text">
-                   <string>批文标题</string>
+                   <string>收文标题</string>
                   </property>
                   <property name="font">
                    <font>
@@ -540,7 +540,19 @@ QPushButton:pressed{
                  </column>
                  <column>
                   <property name="text">
-                   <string>是否整改</string>
+                   <string>批文标题</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>是否需要整改</string>
                   </property>
                   <property name="font">
                    <font>
@@ -3231,11 +3243,16 @@ QPushButton:pressed{
           </layout>
          </widget>
          <widget class="QWidget" name="page_bwll">
+          <property name="styleSheet">
+           <string notr="true">QRadioButton#radioButton_red{color:red;}
+QRadioButton#radioButton_green{color:green;}
+QRadioButton#radioButton_black{color:black;}</string>
+          </property>
           <layout class="QGridLayout" name="gridLayout_10">
-           <item row="3" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item row="11" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
              <item>
-              <spacer name="horizontalSpacer_2">
+              <spacer name="horizontalSpacer_6">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -3248,21 +3265,37 @@ QPushButton:pressed{
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="label_34">
+              <widget class="QPushButton" name="pushButton_supply_bw">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
-                 <pointsize>14</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <pointsize>10</pointsize>
                 </font>
                </property>
                <property name="text">
-                <string>标题</string>
+                <string>登记表补充</string>
                </property>
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer_3">
+              <spacer name="horizontalSpacer_5">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -3436,87 +3469,6 @@ QPushButton:pressed{
              </item>
             </layout>
            </item>
-           <item row="10" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_8">
-             <item>
-              <spacer name="horizontalSpacer_6">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_supply_bw">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>28</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>150</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>登记表补充</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_27">
-             <property name="font">
-              <font>
-               <pointsize>24</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>办文登记表浏览</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" colspan="2">
-            <widget class="Line" name="line_11">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
            <item row="7" column="0">
             <layout class="QHBoxLayout" name="horizontalLayout_11">
              <item>
@@ -3561,21 +3513,8 @@ QPushButton:pressed{
              </item>
             </layout>
            </item>
-           <item row="9" column="0">
-            <widget class="QTableWidget" name="tableWidget_2">
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="page_jzwtlr">
-          <layout class="QGridLayout" name="gridLayout_7">
            <item row="0" column="0">
-            <widget class="QLabel" name="label_29">
+            <widget class="QLabel" name="label_27">
              <property name="font">
               <font>
                <pointsize>24</pointsize>
@@ -3584,21 +3523,14 @@ QPushButton:pressed{
               </font>
              </property>
              <property name="text">
-              <string>经责自然资源问题总表录入及浏览</string>
+              <string>办文登记表浏览</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="Line" name="line_13">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_21">
+           <item row="3" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_10">
              <item>
-              <spacer name="horizontalSpacer_19">
+              <spacer name="horizontalSpacer_2">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -3611,22 +3543,21 @@ QPushButton:pressed{
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="label_54">
+              <widget class="QLabel" name="label_34">
                <property name="font">
                 <font>
-                 <family>Calibri</family>
-                 <pointsize>16</pointsize>
+                 <pointsize>14</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
                <property name="text">
-                <string>经责自然资源问题总表</string>
+                <string>标题</string>
                </property>
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer_20">
+              <spacer name="horizontalSpacer_3">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -3640,29 +3571,26 @@ QPushButton:pressed{
              </item>
             </layout>
            </item>
-           <item row="3" column="0">
-            <widget class="Line" name="line_12">
+           <item row="9" column="0">
+            <widget class="QTableWidget" name="tableWidget_bwzl">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="Line" name="line_11">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_17">
+           <item row="10" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_18">
              <item>
-              <widget class="QLabel" name="label_55">
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>请设置查询条件：</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_16">
+              <spacer name="horizontalSpacer_15">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -3675,54 +3603,123 @@ QPushButton:pressed{
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="label_56">
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>审计报告(意见)文号：</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="comboBox_11">
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="bt_search_jz">
+              <widget class="QLabel" name="label_25">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
                  <height>28</height>
                 </size>
                </property>
-               <property name="maximumSize">
+               <property name="font">
+                <font>
+                 <family>Microsoft YaHei</family>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>请选择公文办理状态：</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButton_red">
+               <property name="minimumSize">
                 <size>
-                 <width>100</width>
-                 <height>16777215</height>
+                 <width>0</width>
+                 <height>28</height>
                 </size>
                </property>
                <property name="font">
                 <font>
-                 <pointsize>14</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>11</pointsize>
                 </font>
                </property>
                <property name="text">
-                <string>查询</string>
+                <string>红色：件未办结。</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QRadioButton" name="radioButton_green">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>绿色：件已办结，事项在办</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButton_black">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Microsoft YaHei</family>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>黑色：件与事项完全办结并共同归档。</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_color">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>修改</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_17">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
             </layout>
            </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_jzwtlr">
+          <layout class="QGridLayout" name="gridLayout_7">
            <item row="5" column="0">
-            <widget class="QTableWidget" name="tableWidget_3">
+            <widget class="QTableWidget" name="tableWidget_jz_pro">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -3930,10 +3927,29 @@ QPushButton:pressed{
              </column>
             </widget>
            </item>
-           <item row="6" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_20">
+           <item row="1" column="0">
+            <widget class="Line" name="line_13">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_17">
              <item>
-              <spacer name="horizontalSpacer_17">
+              <widget class="QLabel" name="label_55">
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>请设置查询条件：</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_16">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -3946,22 +3962,37 @@ QPushButton:pressed{
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="btszjzzg">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+              <widget class="QLabel" name="label_56">
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                </font>
                </property>
+               <property name="text">
+                <string>审计报告(意见)文号：</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboBox_11">
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="bt_search_jz">
                <property name="minimumSize">
                 <size>
-                 <width>150</width>
+                 <width>0</width>
                  <height>28</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>150</width>
+                 <width>100</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -3971,12 +4002,58 @@ QPushButton:pressed{
                 </font>
                </property>
                <property name="text">
-                <string>设置整改</string>
+                <string>查询</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_29">
+             <property name="font">
+              <font>
+               <pointsize>24</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>经责自然资源问题总表浏览</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_21">
+             <item>
+              <spacer name="horizontalSpacer_19">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_54">
+               <property name="font">
+                <font>
+                 <family>Calibri</family>
+                 <pointsize>16</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>经责自然资源问题总表</string>
                </property>
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer_18">
+              <spacer name="horizontalSpacer_20">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -3990,97 +4067,18 @@ QPushButton:pressed{
              </item>
             </layout>
            </item>
-           <item row="7" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_18" stretch="1,5,1,0,0">
-             <item>
-              <widget class="QLabel" name="label_58">
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>问题总表路径：</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_que_jz">
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_15">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_que_choose">
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>28</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>28</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>选择问题总表</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_que_import">
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>28</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>28</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>确认导入</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+           <item row="3" column="0">
+            <widget class="Line" name="line_12">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
          <widget class="QWidget" name="page_jzwjlr">
-          <layout class="QVBoxLayout" name="verticalLayout_11" stretch="0,1,1,1">
-           <item>
+          <layout class="QGridLayout" name="gridLayout_12" rowstretch="0,2,3,1">
+           <item row="0" column="0">
             <widget class="QLabel" name="label_69">
              <property name="font">
               <font>
@@ -4090,13 +4088,13 @@ QPushButton:pressed{
               </font>
              </property>
              <property name="text">
-              <string>经责自然资源问题分表Excel导入及浏览</string>
+              <string>经责自然资源文件录入</string>
              </property>
             </widget>
            </item>
-           <item>
+           <item row="1" column="0">
             <widget class="QWidget" name="widget_6" native="true">
-             <layout class="QGridLayout" name="gridLayout_14">
+             <layout class="QGridLayout" name="gridLayout_14" rowstretch="0,0,0,0,0,0,0">
               <item row="2" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_37">
                 <item>
@@ -4115,7 +4113,7 @@ QPushButton:pressed{
                 <item>
                  <widget class="QLabel" name="label_70">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;请输入文号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;请输入审计意见文号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -4217,7 +4215,7 @@ QPushButton:pressed{
                 </item>
                </layout>
               </item>
-              <item row="4" column="0">
+              <item row="6" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_19">
                 <item>
                  <spacer name="horizontalSpacer_21">
@@ -4261,6 +4259,80 @@ QPushButton:pressed{
                 </item>
                 <item>
                  <spacer name="horizontalSpacer_22">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item row="0" column="0">
+               <widget class="Line" name="line_14">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_34">
+                <item>
+                 <spacer name="horizontalSpacer_49">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_87">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;问题表Excel：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEdit_file_excel">
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_choose_excel">
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>28</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::ClickFocus</enum>
+                  </property>
+                  <property name="text">
+                   <string>选择文件</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_50">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -4343,7 +4415,7 @@ QPushButton:pressed{
                  <widget class="QLabel" name="label_62">
                   <property name="minimumSize">
                    <size>
-                    <width>144</width>
+                    <width>161</width>
                     <height>0</height>
                    </size>
                   </property>
@@ -4397,23 +4469,19 @@ QPushButton:pressed{
                 </item>
                </layout>
               </item>
-              <item row="0" column="0">
-               <widget class="Line" name="line_14">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
+              <item row="4" column="0">
+               <widget class="QWidget" name="widget_12" native="true"/>
               </item>
              </layout>
             </widget>
            </item>
-           <item>
+           <item row="2" column="0">
             <widget class="QWidget" name="widget_7" native="true">
              <layout class="QGridLayout" name="gridLayout_16">
-              <item row="4" column="0">
-               <layout class="QHBoxLayout" name="horizontalLayout_41">
+              <item row="3" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_40">
                 <item>
-                 <spacer name="horizontalSpacer_46">
+                 <spacer name="horizontalSpacer_45">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -4426,20 +4494,20 @@ QPushButton:pressed{
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QLabel" name="label_83">
+                 <widget class="QLabel" name="label_82">
                   <property name="minimumSize">
                    <size>
-                    <width>144</width>
+                    <width>161</width>
                     <height>0</height>
                    </size>
                   </property>
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;结果报告：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;审计报告：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="lineEdit_file_sjjg">
+                 <widget class="QLineEdit" name="lineEdit_file_sjbg">
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
@@ -4448,7 +4516,7 @@ QPushButton:pressed{
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_choose_sjjg">
+                 <widget class="QPushButton" name="pushButton_choose_sjbg">
                   <property name="maximumSize">
                    <size>
                     <width>16777215</width>
@@ -4469,7 +4537,7 @@ QPushButton:pressed{
                  </widget>
                 </item>
                 <item>
-                 <spacer name="horizontalSpacer_40">
+                 <spacer name="horizontalSpacer_39">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -4483,66 +4551,72 @@ QPushButton:pressed{
                 </item>
                </layout>
               </item>
-              <item row="5" column="0">
-               <layout class="QHBoxLayout" name="horizontalLayout_42">
+              <item row="11" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_22">
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_23">
-                  <item>
-                   <spacer name="horizontalSpacer_23">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="pushButton_add_sjbg">
-                    <property name="minimumSize">
-                     <size>
-                      <width>102</width>
-                      <height>28</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>28</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="focusPolicy">
-                     <enum>Qt::ClickFocus</enum>
-                    </property>
-                    <property name="text">
-                     <string>添加</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_24">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
+                 <spacer name="horizontalSpacer_23">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_add_sjbg">
+                  <property name="minimumSize">
+                   <size>
+                    <width>102</width>
+                    <height>28</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>28</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::ClickFocus</enum>
+                  </property>
+                  <property name="text">
+                   <string>添加</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_24">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                </layout>
+              </item>
+              <item row="0" column="0">
+               <widget class="Line" name="line_15">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QWidget" name="widget_5" native="true"/>
               </item>
               <item row="2" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_39">
@@ -4562,7 +4636,7 @@ QPushButton:pressed{
                 <item>
                  <widget class="QLabel" name="label_80">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;请输入文号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;请输入审计报告文号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -4664,6 +4738,266 @@ QPushButton:pressed{
                 </item>
                </layout>
               </item>
+              <item row="7" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_41">
+                <item>
+                 <spacer name="horizontalSpacer_46">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_83">
+                  <property name="minimumSize">
+                   <size>
+                    <width>161</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;结果报告：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEdit_file_sjjg">
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_choose_sjjg">
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>28</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::ClickFocus</enum>
+                  </property>
+                  <property name="text">
+                   <string>选择文件</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_40">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item row="9" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_32">
+                <item>
+                 <spacer name="horizontalSpacer_48">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_72">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;问题表Excel：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEdit_file_excel_2">
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_choose_excel_2">
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>28</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::ClickFocus</enum>
+                  </property>
+                  <property name="text">
+                   <string>选择文件</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_41">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item row="6" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_42">
+                <item>
+                 <spacer name="horizontalSpacer_47">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_88">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;请输入审计结报文号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBox_sjjg">
+                  <property name="maximumSize">
+                   <size>
+                    <width>200</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                    <weight>50</weight>
+                    <bold>false</bold>
+                   </font>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>鄂审经责结报</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spinBox_sjjg_year">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>28</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>100</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>100000</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spinBox_sjjg_num">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>28</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>100</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>100000</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_89">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;号&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_51">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
               <item row="1" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_36">
                 <item>
@@ -4708,96 +5042,19 @@ QPushButton:pressed{
                 </item>
                </layout>
               </item>
-              <item row="3" column="0">
-               <layout class="QHBoxLayout" name="horizontalLayout_40">
-                <item>
-                 <spacer name="horizontalSpacer_45">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_82">
-                  <property name="minimumSize">
-                   <size>
-                    <width>144</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;审计报告：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="lineEdit_file_sjbg">
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="pushButton_choose_sjbg">
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>28</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                  <property name="focusPolicy">
-                   <enum>Qt::ClickFocus</enum>
-                  </property>
-                  <property name="text">
-                   <string>选择文件</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_39">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item row="0" column="0">
-               <widget class="Line" name="line_15">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
+              <item row="8" column="0">
+               <widget class="QWidget" name="widget_11" native="true"/>
               </item>
              </layout>
             </widget>
            </item>
-           <item>
-            <widget class="QWidget" name="widget_5" native="true">
-             <layout class="QGridLayout" name="gridLayout_15">
-              <item row="4" column="0">
-               <layout class="QHBoxLayout" name="horizontalLayout_32">
+           <item row="3" column="0">
+            <widget class="QWidget" name="widget_14" native="true">
+             <layout class="QGridLayout" name="gridLayout_17">
+              <item row="2" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_44">
                 <item>
-                 <spacer name="horizontalSpacer_48">
+                 <spacer name="horizontalSpacer_54">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -4810,14 +5067,20 @@ QPushButton:pressed{
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QLabel" name="label_72">
+                 <widget class="QLabel" name="label_91">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;问题表Excel：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;问题总表录入：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="lineEdit_file_excel">
+                 <widget class="QLineEdit" name="lineEdit_que_jz">
+                  <property name="minimumSize">
+                   <size>
+                    <width>600</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="font">
                    <font>
                     <pointsize>14</pointsize>
@@ -4826,7 +5089,13 @@ QPushButton:pressed{
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_choose_excel">
+                 <widget class="QPushButton" name="pushButton_que_choose">
+                  <property name="minimumSize">
+                   <size>
+                    <width>150</width>
+                    <height>28</height>
+                   </size>
+                  </property>
                   <property name="maximumSize">
                    <size>
                     <width>16777215</width>
@@ -4838,55 +5107,22 @@ QPushButton:pressed{
                     <pointsize>14</pointsize>
                    </font>
                   </property>
-                  <property name="focusPolicy">
-                   <enum>Qt::ClickFocus</enum>
-                  </property>
                   <property name="text">
-                   <string>选择文件</string>
+                   <string>选择问题总表</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <spacer name="horizontalSpacer_41">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item row="5" column="0">
-               <layout class="QHBoxLayout" name="horizontalLayout_33">
-                <item>
-                 <spacer name="horizontalSpacer_27">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="pushButton_add_excel">
+                 <widget class="QPushButton" name="pushButton_que_import">
                   <property name="minimumSize">
                    <size>
-                    <width>102</width>
+                    <width>150</width>
                     <height>28</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>102</width>
+                    <width>16777215</width>
                     <height>28</height>
                    </size>
                   </property>
@@ -4895,16 +5131,13 @@ QPushButton:pressed{
                     <pointsize>14</pointsize>
                    </font>
                   </property>
-                  <property name="focusPolicy">
-                   <enum>Qt::ClickFocus</enum>
-                  </property>
                   <property name="text">
-                   <string>导入</string>
+                   <string>确认导入</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <spacer name="horizontalSpacer_28">
+                 <spacer name="horizontalSpacer_55">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -4919,9 +5152,9 @@ QPushButton:pressed{
                </layout>
               </item>
               <item row="1" column="0">
-               <layout class="QHBoxLayout" name="horizontalLayout_22">
+               <layout class="QHBoxLayout" name="horizontalLayout_47">
                 <item>
-                 <spacer name="horizontalSpacer_25">
+                 <spacer name="horizontalSpacer_34">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -4934,7 +5167,7 @@ QPushButton:pressed{
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QLabel" name="label_73">
+                 <widget class="QLabel" name="label_96">
                   <property name="font">
                    <font>
                     <pointsize>16</pointsize>
@@ -4943,143 +5176,12 @@ QPushButton:pressed{
                    </font>
                   </property>
                   <property name="text">
-                   <string>经责自然资源问题分表Excel录入</string>
+                   <string>往年经责自然资源问题总表导入</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <spacer name="horizontalSpacer_26">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item row="2" column="0">
-               <layout class="QHBoxLayout" name="horizontalLayout_35">
-                <item>
-                 <spacer name="horizontalSpacer_47">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_77">
-                  <property name="minimumSize">
-                   <size>
-                    <width>161</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;请输入文号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QComboBox" name="comboBox_excel">
-                  <property name="maximumSize">
-                   <size>
-                    <width>200</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                    <weight>50</weight>
-                    <bold>false</bold>
-                   </font>
-                  </property>
-                  <item>
-                   <property name="text">
-                    <string>鄂审经责报</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>鄂审资环意</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QSpinBox" name="spinBox_excel_year">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>28</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                  <property name="minimum">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <number>100000</number>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QSpinBox" name="spinBox_excel_num">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>28</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                  <property name="minimum">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <number>100000</number>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_78">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;号&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_34">
+                 <spacer name="horizontalSpacer_35">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -5141,7 +5243,7 @@ QPushButton:pressed{
                <widget class="QListWidget" name="listWidget_sjyj">
                 <property name="font">
                  <font>
-                  <pointsize>11</pointsize>
+                  <pointsize>12</pointsize>
                  </font>
                 </property>
                </widget>
@@ -5204,7 +5306,7 @@ QPushButton:pressed{
                    </font>
                   </property>
                   <property name="text">
-                   <string>删除</string>
+                   <string>删除审计意见</string>
                   </property>
                  </widget>
                 </item>
@@ -5261,7 +5363,7 @@ QPushButton:pressed{
                <widget class="QListWidget" name="listWidget_sjbg">
                 <property name="font">
                  <font>
-                  <pointsize>11</pointsize>
+                  <pointsize>12</pointsize>
                  </font>
                 </property>
                </widget>
@@ -5318,7 +5420,7 @@ QPushButton:pressed{
                    </font>
                   </property>
                   <property name="text">
-                   <string>删除</string>
+                   <string>删除审计报告</string>
                   </property>
                  </widget>
                 </item>
@@ -5354,7 +5456,7 @@ QPushButton:pressed{
                <widget class="QListWidget" name="listWidget_sjwh">
                 <property name="font">
                  <font>
-                  <pointsize>11</pointsize>
+                  <pointsize>12</pointsize>
                  </font>
                 </property>
                </widget>
@@ -5398,7 +5500,7 @@ QPushButton:pressed{
                  </font>
                 </property>
                 <property name="text">
-                 <string>问题清单表:</string>
+                 <string>相关问题个数:</string>
                 </property>
                </widget>
               </item>
@@ -5406,68 +5508,20 @@ QPushButton:pressed{
                <widget class="QListWidget" name="listWidget_excel">
                 <property name="font">
                  <font>
-                  <pointsize>11</pointsize>
+                  <pointsize>12</pointsize>
                  </font>
                 </property>
                </widget>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_27">
-                <item>
-                 <widget class="QPushButton" name="pushButton_open_excel">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>120</width>
-                    <height>28</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>120</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>打开问题清单</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="pushButton_del_excel">
-                  <property name="minimumSize">
-                   <size>
-                    <width>120</width>
-                    <height>28</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>120</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>删除</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
+               <widget class="QWidget" name="widget_13" native="true">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>28</height>
+                 </size>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -5506,7 +5560,7 @@ QPushButton:pressed{
                <widget class="QListWidget" name="listWidget_sjjg">
                 <property name="font">
                  <font>
-                  <pointsize>11</pointsize>
+                  <pointsize>12</pointsize>
                  </font>
                 </property>
                </widget>
@@ -5563,7 +5617,7 @@ QPushButton:pressed{
                    </font>
                   </property>
                   <property name="text">
-                   <string>删除</string>
+                   <string>删除结果报告</string>
                   </property>
                  </widget>
                 </item>
@@ -5811,7 +5865,7 @@ QPushButton:pressed{
                 </layout>
                </item>
                <item>
-                <widget class="QTableWidget" name="tableWidget">
+                <widget class="QTableWidget" name="tableWidget_zgzl">
                  <property name="font">
                   <font>
                    <pointsize>14</pointsize>
@@ -5918,6 +5972,18 @@ QPushButton:pressed{
                  <column>
                   <property name="text">
                    <string>批文编号</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>是否整改完成</string>
                   </property>
                   <property name="font">
                    <font>
@@ -6121,21 +6187,17 @@ QPushButton:pressed{
   <tabstop>comboBox</tabstop>
   <tabstop>pushButton_browse_bw</tabstop>
   <tabstop>pushButton_supply_bw</tabstop>
-  <tabstop>tableWidget_2</tabstop>
+  <tabstop>tableWidget_bwzl</tabstop>
   <tabstop>comboBox_11</tabstop>
   <tabstop>bt_search_jz</tabstop>
-  <tabstop>tableWidget_3</tabstop>
-  <tabstop>btszjzzg</tabstop>
-  <tabstop>lineEdit_que_jz</tabstop>
-  <tabstop>pushButton_que_choose</tabstop>
-  <tabstop>pushButton_que_import</tabstop>
+  <tabstop>tableWidget_jz_pro</tabstop>
   <tabstop>tabWidget_zgzl</tabstop>
   <tabstop>lineEdit4search</tabstop>
   <tabstop>dateEdit</tabstop>
   <tabstop>dateEdit_2</tabstop>
   <tabstop>checkBox</tabstop>
   <tabstop>bt_search_zgzl</tabstop>
-  <tabstop>tableWidget</tabstop>
+  <tabstop>tableWidget_zgzl</tabstop>
   <tabstop>pushButton_zg_detail</tabstop>
   <tabstop>pushButton_cancel_zg</tabstop>
  </tabstops>

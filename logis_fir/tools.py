@@ -17,7 +17,6 @@ class tools:
     sjyj_word_path = "./sjyj_word"
     sjbg_word_path = "./sjbg_word"
     sjjg_word_path = "./sjjg_word"
-    jz_excel_path = "./jz_excel"
 
     # 执行sql
     @classmethod

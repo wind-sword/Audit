@@ -131,8 +131,6 @@ class Call_quedetail(QtWidgets.QWidget, Ui_Form):
 
     # 确认按钮
     def updateQuestionDetail(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
-
         input1 = self.lineEdit.text()  # 被审计领导干部
         input2 = self.lineEdit_2.text()  # 所在地方或单位
         input3 = self.lineEdit_3.text()  # 审计报告（意见）文号
@@ -155,7 +153,7 @@ class Call_quedetail(QtWidgets.QWidget, Ui_Form):
                   input13, input14, self.xh)
         tools.executeSql(sql)
 
-        QtWidgets.QMessageBox.information(w, "提示", "修改成功！")
+        QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
 
         self.displayQuestionDetail()
 

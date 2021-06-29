@@ -455,7 +455,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 展示所有批文页面
     def displayCorFile(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
 
         # 设置不可修改,list默认不能修改
         self.dateEdit_4.setReadOnly(True)  # 收文时间
@@ -483,7 +483,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
         # 表示收文还没有录入,此时不允许录入批文,跳转到收文录入页面
         if self.xh_rev == -1:
-            QtWidgets.QMessageBox.critical(w, "错误", "收文未录入！")
+            QtWidgets.QMessageBox.critical(None, "错误", "收文未录入！")
             self.stackedWidget.setCurrentIndex(3)
             self.displayRevFile()
             return
@@ -635,7 +635,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 提交修改发文
     def updateSendFile(self, btname):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
         if btname == "zb":
             input1 = self.lineEdit.text()  # 发文标题
             input2 = self.lineEdit_2.text()  # 报送范围
@@ -661,7 +661,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 result = tools.executeSql(sql)[0][0]
                 # 数据库中发文字号是否存在,不允许重复的发文字号输入
                 if len(data) != 0 and result != input3:
-                    QtWidgets.QMessageBox.critical(w, "修改失败", "发文字号已经存在!")
+                    QtWidgets.QMessageBox.critical(None, "修改失败", "发文字号已经存在！")
                 else:
                     # 替换文件
                     sql = "select 报文内容 from sendfile where 序号 = %s" % self.xh_send
@@ -679,11 +679,11 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                               input10, input11, input12, input13, input14, input15, input16, self.xh_send)
                     tools.executeSql(sql)
 
-                    QtWidgets.QMessageBox.information(w, "提示", "修改成功！")
+                    QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
 
                     self.displaySendFile()
             else:
-                QtWidgets.QMessageBox.critical(w, "修改失败", "发文标题不能为空!")
+                QtWidgets.QMessageBox.critical(None, "修改失败", "发文标题不能为空！")
 
         elif btname == "gw":
             input1 = self.comboBox_10.currentText() + '〔' + self.spinBox_2.text() + '〕' + self.spinBox_3.text() \
@@ -711,7 +711,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 result = tools.executeSql(sql)[0][0]
                 # 数据库中发文字号是否存在,不允许重复的发文字号输入
                 if len(data) != 0 and input1 != result:
-                    QtWidgets.QMessageBox.critical(w, "修改失败", "发文字号已经存在!")
+                    QtWidgets.QMessageBox.critical(None, "修改失败", "发文字号已经存在！")
                 else:
                     # 替换文件
                     sql = "select 报文内容 from sendfile where 序号 = %s" % self.xh_send
@@ -729,11 +729,11 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                               input12, input13, input14, self.xh_send)
                     tools.executeSql(sql)
 
-                    QtWidgets.QMessageBox.information(w, "提示", "修改成功！")
+                    QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
 
                     self.displaySendFile()
             else:
-                QtWidgets.QMessageBox.critical(w, "修改失败", "发文标题不能为空!")
+                QtWidgets.QMessageBox.critical(None, "修改失败", "发文标题不能为空！")
 
     # 取消修改发文
     def cancelSendFile(self, btname):
@@ -742,7 +742,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 录入收文
     def insertRevFile(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
 
         input1 = self.dateEdit_5.text()  # 收文时间
         input2 = self.lineEdit_14.text()  # 密级
@@ -766,14 +766,13 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             data = tools.executeSql(sql)
             # 数据库中收文字号是否存在,不允许重复的收文字号输入
             if len(data) != 0:
-                QtWidgets.QMessageBox.critical(w, "录入失败", "收文字号已经存在!")
+                QtWidgets.QMessageBox.critical(None, "录入失败", "收文字号已经存在！")
             else:
                 # 执行插入收文表
                 sql = "insert into revfile(收文时间,秘密等级,是否公开,紧急程度,来文单位,来文字号,收文标题,内容摘要和拟办意见,领导批示,处理结果,审核,收文字号,承办处室,承办人," \
-                      "联系电话) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
-                          input1, input2, input3, input4, input5, input6,
-                          input7, input8, input9, input10, input11,
-                          input12, input13, input14, input15)
+                      "联系电话,状态) values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
+                      "'red')" % (input1, input2, input3, input4, input5, input6, input7, input8, input9, input10,
+                                  input11, input12, input13, input14, input15)
                 tools.executeSql(sql)
 
                 # 找到当前收文的序号
@@ -787,13 +786,13 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 # 更新状态变量
                 self.xh_rev = data[0][0]
 
-                QtWidgets.QMessageBox.information(w, "提示", "录入成功！")
+                QtWidgets.QMessageBox.information(None, "提示", "录入成功！")
 
             # 重新展示收文界面
             self.displayRevFile()
 
         else:
-            QtWidgets.QMessageBox.critical(w, "录入失败", "收文标题不能为空!")
+            QtWidgets.QMessageBox.critical(None, "录入失败", "收文标题不能为空！")
 
     # 修改收文按钮
     def reviseRevFile(self):
@@ -823,7 +822,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 确认修改收文
     def updateRevFile(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
 
         input1 = self.dateEdit_5.text()  # 收文时间
         input2 = self.lineEdit_14.text()  # 密级
@@ -849,7 +848,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             result = tools.executeSql(sql)[0][0]
             # 数据库中收文字号是否存在,不允许重复的收文字号输入
             if len(data) != 0 and result != input12:
-                QtWidgets.QMessageBox.critical(w, "修改失败", "收文字号已经存在!")
+                QtWidgets.QMessageBox.critical(None, "修改失败", "收文字号已经存在！")
             else:
                 # 执行更新收文表
                 sql = "update revfile set 收文时间 = '%s',秘密等级 = '%s',是否公开 = '%s',紧急程度 = '%s',来文单位 = '%s',来文字号 = '%s'," \
@@ -861,12 +860,12 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
                 tools.executeSql(sql)
 
-                QtWidgets.QMessageBox.information(w, "提示", "修改成功！")
+                QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
 
                 self.displayRevFile()
 
         else:
-            QtWidgets.QMessageBox.critical(w, "修改错误", "收文标题不能为空!")
+            QtWidgets.QMessageBox.critical(None, "修改错误", "收文标题不能为空！")
 
     # 取消修改收文
     def cancelRevFile(self):
@@ -974,7 +973,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 确认新增/修改批文
     def insertOrUpdateCorFile(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
         input1 = self.dateEdit_4.text()  # 收文时间
         input2 = self.lineEdit_13.text()  # 密级
         input3 = self.comboBox_8.currentText()  # 是否公开
@@ -996,11 +995,11 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 data = tools.executeSql(sql)
                 # 数据库中批文字号是否存在,不允许重复的批文字号输入
                 if len(data) != 0:
-                    QtWidgets.QMessageBox.critical(w, "录入失败", "批文字号已经存在!")
+                    QtWidgets.QMessageBox.critical(None, "录入失败", "批文字号已经存在！")
                 else:
                     # 插入corfile表中
                     sql = "insert into corfile(收文时间,秘密等级,是否公开,紧急程度,批文标题,批文字号,内容摘要和拟办意见,领导批示,处理结果,审核,承办处室,承办人," \
-                          "联系电话) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
+                          "联系电话,状态) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','red')" % (
                               input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11,
                               input12, input13)
                     tools.executeSql(sql)
@@ -1025,9 +1024,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                     # 向xh_cor_list中插入新的元组
                     self.xh_cor_list.append((data[0][0], input6))
 
-                    QtWidgets.QMessageBox.information(w, "提示", "录入成功！")
+                    QtWidgets.QMessageBox.information(None, "提示", "录入成功！")
             else:
-                QtWidgets.QMessageBox.critical(w, "录入失败", "批文标题不能为空!")
+                QtWidgets.QMessageBox.critical(None, "录入失败", "批文标题不能为空！")
 
         elif self.pushButton_13.text() == "确认修改":
             if input5 != "":
@@ -1037,7 +1036,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 result = tools.executeSql(sql)[0][0]
                 # 数据库中批文字号是否存在,不允许重复的批文字号输入
                 if len(data) != 0 and result != input6:
-                    QtWidgets.QMessageBox.critical(w, "修改失败", "批文字号已经存在!")
+                    QtWidgets.QMessageBox.critical(None, "修改失败", "批文字号已经存在！")
                 else:
                     # 更新corfile表
                     sql = "update corfile set 收文时间 = '%s',秘密等级 = '%s',是否公开 = '%s',紧急程度 = '%s',批文标题 = '%s'," \
@@ -1065,10 +1064,10 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                     del self.xh_cor_list[self.comboBox.currentIndex()]
                     self.xh_cor_list.insert(self.comboBox.currentIndex(), (xh_cor_temp, input6))
 
-                    QtWidgets.QMessageBox.information(w, "提示", "修改成功！")
+                    QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
 
             else:
-                QtWidgets.QMessageBox.critical(w, "修改失败", "批文标题不能为空!")
+                QtWidgets.QMessageBox.critical(None, "修改失败", "批文标题不能为空！")
 
         # 重新展示批文界面
         self.displayCorFile()
@@ -1090,10 +1089,10 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.listWidget_3.addItem(item3)
 
     def subTerm(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
         row = self.listWidget.currentRow()
         if row == -1:
-            QtWidgets.QMessageBox.information(w, "提示", "请选择要删除的条目")
+            QtWidgets.QMessageBox.information(None, "提示", "请选择要删除的条目！")
         else:
             self.listWidget.takeItem(row)
             self.listWidget_2.takeItem(row)
@@ -1101,24 +1100,24 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 选择问题表
     def chooseProblemTable(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Excel(*.xlsx);;Excel(*.xls)")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "xlsx(*.xlsx);;xls(*.xls)")
         self.lineEdit_3.setText(p[0])
 
     # 发文办理下的选择文件夹按钮(专报)
     def choose_file_zb(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Word(*.docx);;Word(*.doc)")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Docx(*.docx);;Doc(*.doc)")
         if p[0] != "":
             self.lineEdit_file.setText(p[0])
 
     # 发文办理下的选择文件夹按钮(公文)
     def choose_file_gw(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Word(*.docx);;Word(*.doc)")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Docx(*.docx);;Doc(*.doc)")
         if p[0] != "":
             self.lineEdit_file_3.setText(p[0])
 
     # 根据excel中的左边问题基本信息导入问题表
     def importExcelProblem(self):
-        w = QWidget()  # 用作QMessageBox继承,使得弹框大小正常
+
         # 文件路径
         path = self.lineEdit_3.text()
         path.replace('/', '\\\\')
@@ -1137,42 +1136,32 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 sheet_cols = sheet.ncols  # 获得列数
                 sheet_rows = sheet.nrows  # 获得行数
                 print('Sheet Name: %s\nSheet cols: %s\nSheet rows: %s\n' % (sheet_name, sheet_cols, sheet_rows))
-            except:
 
-                log = Logger('./log/logfile.log', level='error')
-                log.logger.error("错误:%s", traceback.format_exc())
+                check_tag = 1  # excel输入合法检测标识,如果为1表示excel中所有数据合法,可以写入数据库
 
-            check_tag = 1  # excel输入合法检测标识,如果为1表示excel中所有数据合法,可以写入数据库
-
-            # 检测excel某些输入是否合法
-            try:
                 # 读取excel数据进行检测
                 for i in range(4, sheet_rows):
                     # 问题顺序号,判断是否为整数
                     if not tools.judgeInteger(sheet.row(i)[0].value):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(w, "提示", "excel表格第%s行: 问题顺序号应为整数" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 问题顺序号应为整数！" % str(i + 1))
                         break
                     # 出具审计专报时间,判断是否为合法时间
                     if isinstance(sheet.row(i)[5].value, str):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(w, "提示", "excel表格第%s行: 出具审计专报时间格式错误" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 出具审计专报时间格式错误！" % str(i + 1))
                         break
                     # 认定整改金额,判断是否为浮点数
                     if not isinstance(sheet.row(i)[14].value, float):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(w, "提示", "excel表格第%s行: 问题金额应为数字" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 问题金额应为数字！" % str(i + 1))
                         break
                 if sheet_rows == 4:
                     check_tag = 0
-                    QtWidgets.QMessageBox.information(w, "提示", "表格数据为空")
-            except:
-                log = Logger('./log/logfile.log', level='error')
-                log.logger.error("错误:%s", traceback.format_exc())
+                    QtWidgets.QMessageBox.information(None, "提示", "表格数据为空！")
 
-            if check_tag == 1:
-                # 写入数据库
-                try:
+                if check_tag == 1:
+                    # 写入数据库
                     for i in range(4, sheet_rows):
                         cell_i_0 = int(sheet.row(i)[0].value)  # 问题顺序号
                         cell_i_1 = sheet.row(i)[1].value  # 被审计对象
@@ -1199,17 +1188,17 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                                   cell_i_8, cell_i_9, cell_i_10, cell_i_11, cell_i_12, cell_i_13, cell_i_14, cell_i_15)
                         tools.executeSql(sql)
 
-                    QtWidgets.QMessageBox.information(w, "提示", "导入完成")
+                    QtWidgets.QMessageBox.information(None, "提示", "导入完成！")
 
                     # 更新问题表状态
                     self.pro_tag = 1
 
                     # 导入完成后更新表格
                     self.displayQuestionDetail()
-                except:
-                    log = Logger('./log/logfile.log', level='error')
-                    log.logger.error("错误:%s", traceback.format_exc())
-            else:
-                QtWidgets.QMessageBox.critical(w, "错误", "导入失败")
+                else:
+                    QtWidgets.QMessageBox.critical(None, "错误", "导入失败！")
+            except:
+                log = Logger('./log/logfile.log', level='error')
+                log.logger.error("错误:%s", traceback.format_exc())
         else:
-            QtWidgets.QMessageBox.information(w, "提示", "请选择文件!")
+            QtWidgets.QMessageBox.information(None, "提示", "请选择文件！")

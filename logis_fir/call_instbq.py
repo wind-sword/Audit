@@ -40,7 +40,7 @@ class Call_instbq(QtWidgets.QDialog, Ui_Dialog):
             input1, input2, input3, self.xh)
         tools.executeSql(sql)
 
-        QtWidgets.QMessageBox.information(self, "提示", "修改成功！")
+        QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
 
         self.close()
 

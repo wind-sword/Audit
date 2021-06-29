@@ -36,7 +36,7 @@ class Call_revfilebq(QtWidgets.QDialog, Ui_Dialog):
         sql = "update revfile set 要求时间 = '%s',文件去向 = '%s' where 序号 = %s" % (input1, input2, self.xh)
         tools.executeSql(sql)
 
-        QtWidgets.QMessageBox.information(self, "提示", "修改成功！")
+        QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
 
         self.close()
 

@@ -8,17 +8,24 @@
     <list default="true" id="127f078b-1751-4dc6-8762-4209feaeac78" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jz_excel/22.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jz_excel/经责汇总表示范说明.xls" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/log/logfile.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/logfile.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logis_fir/call_corfilebq.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_corfilebq.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logis_fir/call_index.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_index.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logis_fir/call_instbq.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_instbq.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logis_fir/call_lcdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_lcdetail.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logis_fir/call_quedetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_quedetail.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logis_fir/call_revfilebq.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_revfilebq.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logis_fir/call_sendfilebq.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_sendfilebq.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logis_fir/call_zgdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_zgdetail.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logis_fir/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/tools.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_word/导师双选表.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project_word/表1 审计整改信息管理系统系统功能模块表.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui_dir/corfilebq.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/corfilebq.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui_dir/index.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/index.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/lcdetail.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/lcdetail.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui_dir/zgdetail.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/zgdetail.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uipy_dir/corfilebq.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/corfilebq.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uipy_dir/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/index.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/lcdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/lcdetail.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uipy_dir/zgdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/zgdetail.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,7 +67,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -73,8 +80,8 @@
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\GitHub repository\Audit\uipy_dir" />
-      <recent name="E:\GitHub repository\Audit\log" />
       <recent name="E:\GitHub repository\Audit\logis_fir" />
+      <recent name="E:\GitHub repository\Audit\log" />
       <recent name="E:\GitHub repository\Audit" />
       <recent name="E:\GitHub repository\Audit\ui_dir" />
     </key>
@@ -257,10 +264,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1620413034356" />
-    <state x="498" y="213" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1623239509005">
+    <state x="498" y="213" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1624860999097">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="498" y="213" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1623239509005" />
+    <state x="498" y="213" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1624860999097" />
     <state x="547" y="110" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1620402766265">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -274,67 +281,71 @@
     </state>
     <state x="531" y="234" width="473" height="344" key="#com.intellij.tools.ToolEditorDialog/0.0.1536.824@0.0.1536.824" timestamp="1620406114413" />
     <state x="531" y="245" key="#com.intellij.tools.ToolEditorDialog/0.0.1536.864@0.0.1536.864" timestamp="1617210106461" />
-    <state x="503" y="335" key="FileChooserDialogImpl" timestamp="1623939281048">
+    <state x="503" y="307" key="FileChooserDialogImpl" timestamp="1624783905294">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="503" y="335" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1623939281048" />
-    <state width="1515" height="2" key="GridCell.Tab.0.bottom" timestamp="1624010905605">
+    <state x="503" y="307" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1624783905294" />
+    <state width="1515" height="2" key="GridCell.Tab.0.bottom" timestamp="1624948476841">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1345" height="2" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1617202008165" />
-    <state width="1515" height="2" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1624010905605" />
+    <state width="1515" height="2" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1624948476841" />
     <state width="1515" height="189" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1617213788844" />
-    <state width="1515" height="2" key="GridCell.Tab.0.center" timestamp="1624010905605">
+    <state width="1515" height="2" key="GridCell.Tab.0.center" timestamp="1624948476841">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1345" height="2" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1617202008165" />
-    <state width="1515" height="2" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1624010905605" />
+    <state width="1515" height="2" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1624948476841" />
     <state width="1515" height="189" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1617213788844" />
-    <state width="1515" height="2" key="GridCell.Tab.0.left" timestamp="1624010905605">
+    <state width="1515" height="2" key="GridCell.Tab.0.left" timestamp="1624948476840">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1345" height="2" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1617202008165" />
-    <state width="1515" height="2" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1624010905605" />
+    <state width="1515" height="2" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1624948476840" />
     <state width="1515" height="189" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1617213788844" />
-    <state width="1515" height="2" key="GridCell.Tab.0.right" timestamp="1624010905605">
+    <state width="1515" height="2" key="GridCell.Tab.0.right" timestamp="1624948476841">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1345" height="2" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1617202008165" />
-    <state width="1515" height="2" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1624010905605" />
+    <state width="1515" height="2" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1624948476841" />
     <state width="1515" height="189" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1617213788844" />
-    <state width="1515" height="224" key="GridCell.Tab.1.bottom" timestamp="1623939428021">
+    <state width="1515" height="146" key="GridCell.Tab.1.bottom" timestamp="1624886477472">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="224" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1623939428021" />
+    <state width="1515" height="146" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1624886477472" />
     <state width="1515" height="261" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1617208372395" />
-    <state width="1515" height="224" key="GridCell.Tab.1.center" timestamp="1623939428021">
+    <state width="1515" height="146" key="GridCell.Tab.1.center" timestamp="1624886477472">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="224" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1623939428021" />
+    <state width="1515" height="146" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1624886477472" />
     <state width="1515" height="261" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1617208372395" />
-    <state width="1515" height="224" key="GridCell.Tab.1.left" timestamp="1623939428021">
+    <state width="1515" height="146" key="GridCell.Tab.1.left" timestamp="1624886477472">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="224" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1623939428021" />
+    <state width="1515" height="146" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1624886477472" />
     <state width="1515" height="261" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1617208372395" />
-    <state width="1515" height="224" key="GridCell.Tab.1.right" timestamp="1623939428021">
+    <state width="1515" height="146" key="GridCell.Tab.1.right" timestamp="1624886477472">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="224" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1623939428021" />
+    <state width="1515" height="146" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1624886477472" />
     <state width="1515" height="261" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1617208372395" />
-    <state x="270" y="57" key="SettingsEditor" timestamp="1623837469550">
+    <state x="270" y="57" key="SettingsEditor" timestamp="1624783664076">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1623837469550" />
+    <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1624783664076" />
     <state x="270" y="60" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1617210107760" />
-    <state width="498" height="446" key="SwitcherDM" timestamp="1617114040475">
+    <state width="498" height="446" key="SwitcherDM" timestamp="1624869456907">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="498" height="446" key="SwitcherDM/0.0.1536.824@0.0.1536.824" timestamp="1617114040475" />
-    <state x="468" y="115" width="600" height="594" key="find.popup" timestamp="1624009651610">
+    <state width="498" height="446" key="SwitcherDM/0.0.1536.824@0.0.1536.824" timestamp="1624869456907" />
+    <state x="468" y="115" width="600" height="618" key="find.popup" timestamp="1624949572826">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="468" y="115" width="600" height="594" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1624009651610" />
+    <state x="468" y="115" width="600" height="618" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1624949572826" />
+    <state x="410" y="139" width="700" height="530" key="recent.locations.popup" timestamp="1624949550420">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="410" y="139" width="700" height="530" key="recent.locations.popup/0.0.1536.824@0.0.1536.824" timestamp="1624949550420" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1623056849801">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -351,11 +362,5 @@
         </breakpoint>
       </default-breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="PythonConfigurationType">
-        <watch expression="sheet.row(i)[0].value" language="Python" />
-        <watch expression="sheet.row(i)[5].value" language="Python" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>

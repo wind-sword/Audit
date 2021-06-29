@@ -1,75 +1,97 @@
-2021-06-17 09:48:34,975 - E:\GitHub repository\Audit\logis_fir\tools.py[line:45] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 42, in copyFile
-    shutil.copy(source, target)
-  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
-    copyfile(src, dst, follow_symlinks=follow_symlinks)
-  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
-    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
-FileNotFoundError: [Errno 2] No such file or directory: ''
-
-2021-06-17 11:18:04,719 - E:\GitHub repository\Audit\logis_fir\tools.py[line:45] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 42, in copyFile
-    shutil.copy(source, target)
-  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
-    copyfile(src, dst, follow_symlinks=follow_symlinks)
-  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
-    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
-FileNotFoundError: [Errno 2] No such file or directory: ''
-
-2021-06-17 11:38:40,926 - E:\GitHub repository\Audit\logis_fir\tools.py[line:45] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 42, in copyFile
-    shutil.copy(source, target)
-  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
-    copyfile(src, dst, follow_symlinks=follow_symlinks)
-  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
-    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
-FileNotFoundError: [Errno 2] No such file or directory: ''
-
-2021-06-17 15:24:42,575 - E:\GitHub repository\Audit\logis_fir\tools.py[line:45] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 42, in copyFile
-    shutil.copy(source, target)
-  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
-    copyfile(src, dst, follow_symlinks=follow_symlinks)
-  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
-    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
-FileNotFoundError: [Errno 2] No such file or directory: ''
-
-2021-06-17 20:33:59,837 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+2021-06-28 14:05:49,509 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
   File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
     cur.execute(sql)
-sqlite3.OperationalError: no such column: sjyjword.审计意见文号
+sqlite3.OperationalError: no such column: 委办主任签批意见
 
-2021-06-17 20:34:08,702 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+2021-06-28 14:12:27,377 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
   File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
     cur.execute(sql)
-sqlite3.OperationalError: no such column: sjyjword.审计意见文号
+sqlite3.OperationalError: no such column: corfile.起草处室
 
-2021-06-17 21:57:09,964 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+2021-06-28 15:01:57,914 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
   File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
     cur.execute(sql)
-sqlite3.OperationalError: no such column: 审计意见文号
+sqlite3.OperationalError: DISTINCT aggregates must have exactly one argument
 
-2021-06-17 21:57:15,542 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+2021-06-28 15:02:51,848 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
   File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
     cur.execute(sql)
-sqlite3.OperationalError: no such column: 审计意见文号
+sqlite3.OperationalError: near ",": syntax error
 
-2021-06-18 15:46:32,353 - E:\GitHub repository\Audit\logis_fir\tools.py[line:46] - ERROR: 错误:Traceback (most recent call last):
+2021-06-28 15:12:42,061 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: DISTINCT aggregates must have exactly one argument
+
+2021-06-28 15:17:03,140 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: DISTINCT aggregates must have exactly one argument
+
+2021-06-28 15:17:15,685 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "'
+'": syntax error
+
+2021-06-28 15:18:24,601 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: DISTINCT aggregates must have exactly one argument
+
+2021-06-28 15:20:34,368 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "[,'
+']": syntax error
+
+2021-06-28 15:22:19,228 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 
+'
+
+2021-06-28 15:34:39,872 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near ")": syntax error
+
+2021-06-28 15:34:58,201 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near ")": syntax error
+
+2021-06-28 15:35:16,113 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: wrong number of arguments to function replace()
+
+2021-06-28 15:35:37,629 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: wrong number of arguments to function replace()
+
+2021-06-28 15:37:27,609 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: wrong number of arguments to function replace()
+
+2021-06-28 15:40:16,261 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "FROM": syntax error
+
+2021-06-28 15:42:01,779 - E:\GitHub repository\Audit\logis_fir\tools.py[line:46] - ERROR: 错误:Traceback (most recent call last):
   File "E:\GitHub repository\Audit\logis_fir\tools.py", line 43, in copyFile
     shutil.copy(source, target)
   File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
     copyfile(src, dst, follow_symlinks=follow_symlinks)
   File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
     with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
-PermissionError: [Errno 13] Permission denied: './jz_excel\\11.xlsx'
+FileNotFoundError: [Errno 2] No such file or directory: ''
 
-2021-06-18 17:05:43,618 - E:\GitHub repository\Audit\logis_fir\tools.py[line:77] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 70, in openFile
-    os.startfile(path)
-FileNotFoundError: [WinError 2] 系统找不到指定的文件。: './project_word/2021年收文登记表2.xls'
-
-2021-06-18 17:37:36,775 - E:\GitHub repository\Audit\logis_fir\tools.py[line:47] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 44, in copyFile
+2021-06-28 17:09:13,000 - E:\GitHub repository\Audit\logis_fir\tools.py[line:46] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 43, in copyFile
     shutil.copy(source, target)
   File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
     copyfile(src, dst, follow_symlinks=follow_symlinks)
@@ -77,8 +99,30 @@ FileNotFoundError: [WinError 2] 系统找不到指定的文件。: './project_wo
     with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
 FileNotFoundError: [Errno 2] No such file or directory: ''
 
-2021-06-18 18:06:04,234 - E:\GitHub repository\Audit\logis_fir\tools.py[line:88] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 85, in deleteFile
-    os.remove(path)
-PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: './jz_excel/经责汇总表示范说明.xls'
+2021-06-28 17:30:46,432 - E:\GitHub repository\Audit\logis_fir\tools.py[line:46] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 43, in copyFile
+    shutil.copy(source, target)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: ''
+
+2021-06-28 18:29:05,419 - E:\GitHub repository\Audit\logis_fir\tools.py[line:46] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 43, in copyFile
+    shutil.copy(source, target)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: ''
+
+2021-06-28 20:05:22,252 - E:\GitHub repository\Audit\logis_fir\tools.py[line:46] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 43, in copyFile
+    shutil.copy(source, target)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: ''
 
