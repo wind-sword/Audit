@@ -296,7 +296,7 @@
       <widget class="QLabel" name="label_head">
        <property name="font">
         <font>
-         <pointsize>12</pointsize>
+         <pointsize>14</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -310,10 +310,10 @@
       <widget class="QLabel" name="label_title">
        <property name="font">
         <font>
-         <pointsize>12</pointsize>
+         <pointsize>14</pointsize>
          <weight>75</weight>
          <bold>true</bold>
-         <underline>true</underline>
+         <underline>false</underline>
         </font>
        </property>
        <property name="text">
@@ -332,7 +332,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>6</number>
      </property>
      <widget class="QWidget" name="page_zb">
       <layout class="QGridLayout" name="gridLayout_13" rowstretch="1,2,18">
@@ -556,7 +556,7 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>300</width>
+                <width>16777215</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -580,7 +580,7 @@
              <widget class="QLabel" name="label_22">
               <property name="minimumSize">
                <size>
-                <width>125</width>
+                <width>180</width>
                 <height>0</height>
                </size>
               </property>
@@ -631,7 +631,7 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>225</width>
+                <width>16777215</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -760,7 +760,7 @@
              <widget class="QLabel" name="label_18">
               <property name="minimumSize">
                <size>
-                <width>125</width>
+                <width>180</width>
                 <height>0</height>
                </size>
               </property>
@@ -985,7 +985,7 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>300</width>
+                <width>16777215</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -1036,7 +1036,7 @@
              <widget class="QLabel" name="label_23">
               <property name="minimumSize">
                <size>
-                <width>125</width>
+                <width>180</width>
                 <height>0</height>
                </size>
               </property>
@@ -1087,7 +1087,7 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>125</width>
+                <width>16777215</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -1930,7 +1930,7 @@
                </property>
                <property name="font">
                 <font>
-                 <pointsize>12</pointsize>
+                 <pointsize>14</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
@@ -2006,180 +2006,8 @@
               <enum>QAbstractScrollArea::AdjustToContents</enum>
              </property>
              <property name="columnCount">
-              <number>17</number>
+              <number>0</number>
              </property>
-             <column>
-              <property name="text">
-               <string>主键</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>问题顺序号</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>被审计对象</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>所在地方或单位</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>报送专报期号</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>审计报告文号</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>出具审计专报时间</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>审计组组长</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>审计组主审</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>问题描述</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>问题一级分类</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>问题二级分类</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>问题三级分类</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>问题四级分类</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>备注</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>问题金额</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>移送及处理情况</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-             </column>
             </widget>
            </item>
            <item row="4" column="0" colspan="2">
@@ -3599,196 +3427,9 @@
        </item>
        <item row="2" column="0">
         <widget class="QTableWidget" name="tableWidget_2">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="sizeAdjustPolicy">
-          <enum>QAbstractScrollArea::AdjustToContents</enum>
-         </property>
-         <property name="columnCount">
-          <number>17</number>
-         </property>
-         <column>
-          <property name="text">
-           <string>整改上报批次</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>问题顺序号</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>被审计对象</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-            <weight>50</weight>
-            <bold>false</bold>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>所在地方或单位</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>报送专报期号</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>审计报告文号</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>出具审计专报时间</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>审计组组长</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>审计组主审</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>问题描述</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>问题一级分类</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>问题二级分类</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>问题三级分类</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>问题四级分类</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>备注</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>问题金额</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>移送及处理情况</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QTableWidget" name="tableWidget_4">
          <property name="minimumSize">
           <size>
-           <width>685</width>
+           <width>700</width>
            <height>0</height>
           </size>
          </property>
@@ -3801,158 +3442,30 @@
           <enum>QAbstractScrollArea::AdjustToContents</enum>
          </property>
          <property name="columnCount">
-          <number>15</number>
+          <number>0</number>
          </property>
-         <column>
-          <property name="text">
-           <string>主键</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>整改责任部门</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>应上报整改报告时间</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>实际上报整改报告时间</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>整改情况</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>已整改金额</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>追责问责人数</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>推动制度建设数目</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>推动制度建设文件</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>部分整改情况具体描述</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>未整改原因说明</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>下一步整改措施及时限</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>认定整改情况</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>认定整改金额</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>整改率</string>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </column>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QTableWidget" name="tableWidget_4">
+         <property name="minimumSize">
+          <size>
+           <width>600</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <kerning>true</kerning>
+          </font>
+         </property>
+         <property name="sizeAdjustPolicy">
+          <enum>QAbstractScrollArea::AdjustToContents</enum>
+         </property>
+         <property name="columnCount">
+          <number>0</number>
+         </property>
         </widget>
        </item>
        <item row="3" column="0" colspan="2">

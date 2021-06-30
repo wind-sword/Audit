@@ -97,6 +97,12 @@ QPushButton:pressed{
        <layout class="QHBoxLayout" name="horizontalLayout_14">
         <item>
          <widget class="QLabel" name="label_3">
+          <property name="minimumSize">
+           <size>
+            <width>253</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -223,6 +229,12 @@ QPushButton:pressed{
        <layout class="QHBoxLayout" name="horizontalLayout_7">
         <item>
          <widget class="QLabel" name="label_6">
+          <property name="minimumSize">
+           <size>
+            <width>253</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -248,6 +260,12 @@ QPushButton:pressed{
        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,1,5">
         <item>
          <widget class="QLabel" name="label_7">
+          <property name="minimumSize">
+           <size>
+            <width>253</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -262,7 +280,7 @@ QPushButton:pressed{
          <widget class="QLineEdit" name="lineEdit_3">
           <property name="maximumSize">
            <size>
-            <width>130</width>
+            <width>200</width>
             <height>16777215</height>
            </size>
           </property>
@@ -292,6 +310,12 @@ QPushButton:pressed{
        <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="1,0,5">
         <item>
          <widget class="QLabel" name="label_8">
+          <property name="minimumSize">
+           <size>
+            <width>253</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -304,6 +328,12 @@ QPushButton:pressed{
         </item>
         <item>
          <widget class="QSpinBox" name="spinBox">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -330,6 +360,12 @@ QPushButton:pressed{
        <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,0,5">
         <item>
          <widget class="QLabel" name="label_9">
+          <property name="minimumSize">
+           <size>
+            <width>253</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -342,6 +378,12 @@ QPushButton:pressed{
         </item>
         <item>
          <widget class="QSpinBox" name="spinBox_2">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -393,6 +435,12 @@ QPushButton:pressed{
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QLabel" name="label_11">
+          <property name="minimumSize">
+           <size>
+            <width>368</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -418,6 +466,12 @@ QPushButton:pressed{
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
          <widget class="QLabel" name="label_12">
+          <property name="minimumSize">
+           <size>
+            <width>368</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -443,6 +497,12 @@ QPushButton:pressed{
        <layout class="QHBoxLayout" name="horizontalLayout_6">
         <item>
          <widget class="QLabel" name="label_13">
+          <property name="minimumSize">
+           <size>
+            <width>368</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -488,6 +548,12 @@ QPushButton:pressed{
        <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="1,1,5">
         <item>
          <widget class="QLabel" name="label_14">
+          <property name="minimumSize">
+           <size>
+            <width>253</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -502,7 +568,7 @@ QPushButton:pressed{
          <widget class="QLineEdit" name="lineEdit_10">
           <property name="maximumSize">
            <size>
-            <width>130</width>
+            <width>200</width>
             <height>16777215</height>
            </size>
           </property>
@@ -546,7 +612,7 @@ QPushButton:pressed{
          <widget class="QLineEdit" name="lineEdit_11">
           <property name="maximumSize">
            <size>
-            <width>130</width>
+            <width>200</width>
             <height>16777215</height>
            </size>
           </property>
@@ -576,6 +642,12 @@ QPushButton:pressed{
        <layout class="QHBoxLayout" name="horizontalLayout_16">
         <item>
          <widget class="QLabel" name="label_16">
+          <property name="minimumSize">
+           <size>
+            <width>253</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <pointsize>14</pointsize>

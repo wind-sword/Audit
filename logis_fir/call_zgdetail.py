@@ -2,7 +2,7 @@ import traceback
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QDate
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtGui import QFont
 
 from uipy_dir.zgdetail import Ui_Form
 from logis_fir.call_quedetail import Call_quedetail
@@ -62,9 +62,6 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
         # 初始化页面展示
         self.initView()
-
-        # 初始化页面数据
-        self.displaySendDetail()
 
     # 流程跳转
     def btjump(self, btname):
@@ -159,33 +156,61 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
     def initVar(self, key):
         # 整改序号
         self.xh = key
-        # 初始化流程序号,发文序号,收文序号
-        sql = "select bwprocess.序号,bwprocess.发文序号,bwprocess.收文序号 from bwprocess,zgprocess where " \
-              "bwprocess.序号 = zgprocess.流程序号 and zgprocess.序号 = %s" % key
-        data = tools.executeSql(sql)
-        # print(data)
-        self.xh_lc = data[0][0]
-        self.xh_send = data[0][1]
-        self.xh_rev = data[0][2]
 
-        # 初始化批文序号列表
-        sql = 'select bw_cast_cor.批文序号 from bw_cast_cor where bw_cast_cor.流程序号 = %s' % self.xh_lc
-        result = tools.executeSql(sql)
-        if len(result) != 0:
-            for i in result:
-                for j in i:
-                    self.xh_cor_list.append(j)
+        # 初始化流程序号
+        sql = "select 流程序号 from zgprocess where 序号 = %s" % self.xh
+        self.xh_lc = tools.executeSql(sql)[0][0]
 
-        # 初始化发文类型
-        sql = "select projectType from sendfile where 序号 = %s" % self.xh_send
-        result = tools.executeSql(sql)
-        self.send_type = result[0][0]
+        # 流程序号不为-1表示这是一个办文整改流程
+        if self.xh_lc != -1:
+            # 初始化发文序号,收文序号
+            sql = "select bwprocess.发文序号,bwprocess.收文序号 from bwprocess,zgprocess where " \
+                  "bwprocess.序号 = zgprocess.流程序号 and zgprocess.序号 = %s" % self.xh
+            data = tools.executeSql(sql)
+            # print(data)
+            self.xh_send = data[0][0]
+            self.xh_rev = data[0][1]
 
-        # 初始化问题表状态
-        sql = "select * from problem where 发文序号 = %s" % self.xh_send
-        result = tools.executeSql(sql)
-        if len(result) != 0:
-            self.pro_tag = 1
+            # 初始化批文序号列表
+            sql = 'select 序号 from corfile where 流程序号 = %s' % self.xh_lc
+            result = tools.executeSql(sql)
+            if len(result) != 0:
+                for i in result:
+                    for j in i:
+                        self.xh_cor_list.append(j)
+
+            # 初始化发文类型
+            sql = "select projectType from sendfile where 序号 = %s" % self.xh_send
+            result = tools.executeSql(sql)
+            self.send_type = result[0][0]
+
+            # 初始化问题表状态
+            sql = "select * from problem where 发文序号 = %s" % self.xh_send
+            result = tools.executeSql(sql)
+            if len(result) != 0:
+                self.pro_tag = 1
+
+            # 初始化整改措施是否录入
+            sql = "select * from problem,rectification where problem.发文序号 = %s and problem.序号 = " \
+                  "rectification.问题序号" % self.xh_send
+            result = tools.executeSql(sql)
+            if len(result) != 0:
+                self.zglr_tag = 1
+
+        # 流程序号为-1表示这是一个经责自然资源整改流程
+        elif self.xh_lc == -1:
+            # 初始化问题表状态
+            sql = "select * from problem_jz where 整改序号 = %s" % self.xh
+            result = tools.executeSql(sql)
+            if len(result) != 0:
+                self.pro_tag = 1
+
+            # 初始化整改措施是否录入
+            sql = "select * from problem_jz,rectification_jz where problem_jz.整改序号 = %s and problem_jz.序号 = " \
+                  "rectification_jz.问题序号" % self.xh
+            result = tools.executeSql(sql)
+            if len(result) != 0:
+                self.zglr_tag = 1
 
         # 初始化整改发函状态
         sql = "select * from zgword where 整改序号 = %s" % self.xh
@@ -193,18 +218,28 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         if len(result) != 0:
             self.zgfh_tag = 1
 
-        # 初始化整改措施是否录入
-        sql = "select * from problem,rectification where problem.发文序号 = %s and problem.序号 = rectification.问题序号" % self.xh_send
-        result = tools.executeSql(sql)
-        if len(result) != 0:
-            self.zglr_tag = 1
+        # 初始化页面上方跳转按钮状态
+        if self.xh_send == -1:
+            self.commandLinkButton_1.setDescription("无")
+            self.commandLinkButton_1.setDisabled(True)
+        else:
+            self.commandLinkButton_1.setDescription("已完成")
 
-        # 初始化流程状态
-        self.commandLinkButton_1.setDescription("已完成")
-        self.commandLinkButton_3.setDescription("已完成")
-        self.commandLinkButton_4.setDescription("已完成")
         if self.pro_tag == 1:
             self.commandLinkButton_2.setDescription("已完成")
+
+        if self.xh_rev == -1:
+            self.commandLinkButton_3.setDescription("无")
+            self.commandLinkButton_3.setDisabled(True)
+        else:
+            self.commandLinkButton_3.setDescription("已完成")
+
+        if len(self.xh_cor_list) == 0:
+            self.commandLinkButton_4.setDescription("无")
+            self.commandLinkButton_4.setDisabled(True)
+        else:
+            self.commandLinkButton_3.setDescription("已完成")
+
         if self.zgfh_tag == 1:
             self.commandLinkButton_5.setDescription("已完成")
         if self.zglr_tag == 1:
@@ -212,40 +247,48 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 初始化整改界面显示
     def initView(self):
-        if self.send_type == 1:
-            self.stackedWidget.setCurrentIndex(0)
-        elif self.send_type == 2:
-            self.stackedWidget.setCurrentIndex(1)
+        # 经责的整改流程
+        if self.xh_lc == -1:
+            self.stackedWidget.setCurrentIndex(2)
+            # 初始化页面展示
+            self.displayQuestionTable()
 
-        # 设置整改流程标题为发文标题
-        sql = "select 发文标题 from sendfile where 序号 = %s" % self.xh_send
+        # 公文的整改流程
+        else:
+            if self.send_type == 1:
+                self.stackedWidget.setCurrentIndex(0)
+            elif self.send_type == 2:
+                self.stackedWidget.setCurrentIndex(1)
+            # 初始化页面展示
+            self.displaySendDetail()
+
+        # 设置文号为项目详情标题
+        sql = "select 标识文号 from zgprocess where 序号 = %s" % self.xh
         data = tools.executeSql(sql)
         self.label_title.setText(data[0][0])
 
     # 跳转问题详情
     def jumpQuestionDetail(self):
-
         row = self.tableWidget.currentRow()
         if row == -1:
             QtWidgets.QMessageBox.information(None, "提示", "请选择问题！")
         else:
             # 问题表主键,问题序号
             key = self.tableWidget.item(row, 0).text()
-            tab_new = Call_quedetail(key)
+            tab_new = Call_quedetail(key, self.xh_lc)
             tab_new.setObjectName('tab_new')
             tab_num = self.tabWidget.addTab(tab_new, "问题详情")
             self.tabWidget.setCurrentIndex(tab_num)
 
     # 打开整改详情修改框
     def reviseZgdetail(self):
-
         row = self.tableWidget_4.currentRow()
         if row == -1:
             QtWidgets.QMessageBox.information(None, "提示", "请选择整改措施！")
         else:
             # 整改表主键
             key = self.tableWidget_4.item(row, 0).text()
-            self.window = Call_zgrevise(key)
+            self.window = Call_zgrevise(key, self.xh_lc)
             self.window.setWindowTitle("整改详情")
             self.window.exec()
             self.displayQuestionOverview()
@@ -254,14 +297,39 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
     def displayQuestionTable(self):
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 表格不可修改
 
-        self.tableWidget.hideColumn(0)  # 将问题数据库主键隐藏起来
+        # 清空表格
+        self.tableWidget.clear()
+
+        font = QFont('Microsoft YaHei UI', 14, QFont.Black)
+        font.setBold(True)
+        # 设置表头字体
+        self.tableWidget.horizontalHeader().setFont(font)
 
         if self.pro_tag != -1:
-            # 选出该项目对应的所有问题
-            sql = 'select problem.序号,problem.问题顺序号,problem.被审计领导干部,problem.所在地方或单位,sendfile.发文字号,problem.审计报告文号,' \
-                  'problem.出具审计报告时间,problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,' \
-                  'problem.问题三级分类,problem.问题四级分类,problem.备注,problem.问题金额,problem.移送及处理情况 from problem,sendfile where ' \
-                  'problem.发文序号 = %s and sendfile.序号 = problem.发文序号' % self.xh_send
+            # 公文整改项目
+            if self.xh_lc != -1:
+                self.tableWidget.setColumnCount(17)
+                self.tableWidget.setHorizontalHeaderLabels(
+                    ['序号', '问题顺序号', '被审计领导干部', '所在地方或单位', '报送专报期号', '问题源自审计报告文号', '出具审计专报时间', '审计组组长',
+                     '审计组主审', '问题描述', '问题一级分类', '问题二级分类', '问题三级分类', '问题四级分类', '备注', '问题金额', '移送及处理情况'])
+
+                # 选出该项目对应的所有问题
+                sql = 'select problem.序号,problem.问题顺序号,problem.被审计领导干部,problem.所在地方或单位,sendfile.发文字号,problem.审计报告文号,' \
+                      'problem.出具审计报告时间,problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,' \
+                      'problem.问题三级分类,problem.问题四级分类,problem.备注,problem.问题金额,problem.移送及处理情况 from problem,sendfile ' \
+                      'where problem.发文序号 = %s and sendfile.序号 = problem.发文序号' % self.xh_send
+            # 经责整改项目
+            else:
+                self.tableWidget.setColumnCount(20)
+                self.tableWidget.setHorizontalHeaderLabels(
+                    ['序号', '问题顺序号', '被审计领导干部', '所在地方或单位', '报送文号', '审计报告（意见）文号', '经责结果报告文号', '出具审计专报时间', '审计组组长',
+                     '审计组主审', '问题描述', '是否在审计报告中反映', '是否在结果报告中反映', '审计对象分类', '问题类别', '问题定性', '问题表现形式', '备注',
+                     '问题金额（万元）', '移送及处理情况'])
+
+                # 选出该项目对应的所有问题
+                sql = "select 序号,问题顺序号,被审计领导干部,所在地方或单位,报送文号,审计意见或报告文号,经责结果报告文号,出具审计报告时间,审计组组长,审计组主审,问题描述,是否在审计报告中反映," \
+                      "是否在结果报告中反映,审计对象分类,问题类别,问题定性,问题表现形式,备注,问题金额,移送及处理情况 from problem_jz where 整改序号 = '%s'" % self.xh
+
             data = tools.executeSql(sql)
             # 打印结果
             # print(data)
@@ -281,6 +349,10 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                     y = y + 1
                 x = x + 1
 
+            font = QFont('Microsoft YaHei UI', 12, QFont.Black)
+            font.setBold(False)
+            self.tableWidget.hideColumn(0)  # 将问题数据库主键隐藏起来
+            self.tableWidget.setFont(font)  # 设置表格内容字体大小
             self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
             self.tableWidget.resizeRowsToContents()  # 根据行调整框大小
             self.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)  # 表格只可选中行
@@ -448,8 +520,7 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             self.comboBox.disconnect()  # 先断开comboBox,防止绑定函数出错
             self.comboBox.clear()  # 清空复选框
 
-            sql = "select corfile.序号,corfile.批文字号 from corfile,bw_cast_cor where bw_cast_cor.流程序号 = %s and corfile.序号 " \
-                  "= bw_cast_cor.批文序号" % self.xh_lc
+            sql = "select 序号,批文字号 from corfile where corfile.流程序号 = %s " % self.xh_lc
             result = tools.executeSql(sql)
             index = 0
             if len(result) != 0:
@@ -527,19 +598,46 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
     def displayQuestionOverview(self):
         self.lineEdit_2.setReadOnly(True)
 
+        font = QFont('Microsoft YaHei UI', 14, QFont.Black)
+        font.setBold(True)
+        # 设置表头字体
+        self.tableWidget_4.horizontalHeader().setFont(font)
+        self.tableWidget_4.setColumnCount(15)
+        self.tableWidget_4.setHorizontalHeaderLabels(
+            ['主键', '整改责任部门', '应上报整改报告时间', '实际上报整改报告时间', '整改情况', '已整改金额', '追责问责人数', '推动制度建设数目',
+             '推动制度建设文件', '部分整改情况具体描述', '未整改原因说明', '下一步整改措施及时限', '认定整改情况', '认定整改金额', '整改率'])
+
         self.tableWidget_4.hideColumn(0)  # 隐藏整改数据库主键
 
-        # 初始化整改措施是否录入
-        sql = "select * from problem,rectification where problem.发文序号 = %s and problem.序号 = rectification.问题序号" % self.xh_send
+        # 公文整改项目
+        if self.xh_lc != -1:
+            sql = "select * from problem,rectification where problem.发文序号 = %s and problem.序号 = " \
+                  "rectification.问题序号" % self.xh_send
+        # 经责整改项目
+        else:
+            sql = "select * from problem_jz,rectification_jz where problem_jz.整改序号 = %s and problem_jz.序号 = " \
+                  "rectification_jz.问题序号" % self.xh
         result = tools.executeSql(sql)
         if len(result) != 0:
             self.zglr_tag = 1
             self.commandLinkButton_6.setDescription("已完成")
+            self.pushButton_10.setEnabled(True)
         else:
             self.zglr_tag = -1
             self.commandLinkButton_6.setDescription("未完成")
+            self.pushButton_10.setDisabled(True)
 
-        if self.pro_tag != -1:
+        # 公文整改项目
+        if self.xh_lc != -1:
+            font = QFont('Microsoft YaHei UI', 14, QFont.Black)
+            font.setBold(True)
+            # 设置表头字体
+            self.tableWidget_2.horizontalHeader().setFont(font)
+            self.tableWidget_2.setColumnCount(17)
+            self.tableWidget_2.setHorizontalHeaderLabels(
+                ['整改上报次序', '问题顺序号', '被审计领导干部', '所在地方或单位', '报送专报期号', '问题源自审计报告文号', '出具审计专报时间', '审计组组长',
+                 '审计组主审', '问题描述', '问题一级分类', '问题二级分类', '问题三级分类', '问题四级分类', '备注', '问题金额', '移送及处理情况'])
+
             sql = 'select rectification.上报次序,problem.问题顺序号,problem.被审计领导干部,problem.所在地方或单位,sendfile.发文字号,' \
                   'problem.审计报告文号,problem.出具审计报告时间,problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,' \
                   'problem.问题二级分类,problem.问题三级分类,problem.问题四级分类,problem.备注,problem.问题金额,problem.移送及处理情况,' \
@@ -548,45 +646,76 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                   'rectification.推动制度建设文件,rectification.部分整改情况具体描述,rectification.未整改原因说明,rectification.下一步整改措施及时限,' \
                   'rectification.认定整改情况,rectification.认定整改金额,rectification.整改率 from sendfile left outer join problem ' \
                   'on sendfile.序号 = problem.发文序号 left outer join rectification on problem.序号 = rectification.问题序号 ' \
-                  'where sendfile.序号 = %s order by rectification.上报次序 desc,problem.问题顺序号 asc' % self.xh_send
-            data = tools.executeSql(sql)
+                  'where sendfile.序号 = %s order by problem.问题顺序号 asc,rectification.上报次序 desc' % self.xh_send
 
-            # 打印结果
-            # print(data)
+        # 经责整改项目
+        elif self.xh_lc == -1:
+            font = QFont('Microsoft YaHei UI', 14, QFont.Black)
+            font.setBold(True)
+            # 设置表头字体
+            self.tableWidget_2.horizontalHeader().setFont(font)
+            self.tableWidget_2.setColumnCount(20)
+            self.tableWidget_2.setHorizontalHeaderLabels(
+                ['整改上报次序', '问题顺序号', '被审计领导干部', '所在地方或单位', '报送文号', '审计报告（意见）文号', '经责结果报告文号', '出具审计专报时间', '审计组组长',
+                 '审计组主审', '问题描述', '是否在审计报告中反映', '是否在结果报告中反映', '审计对象分类', '问题类别', '问题定性', '问题表现形式', '备注',
+                 '问题金额（万元）', '移送及处理情况'])
 
-            size = len(data)
-            # print("项目数目为:"+str(size))
-            self.tableWidget_2.setRowCount(size)
-            self.tableWidget_4.setRowCount(size)
+            sql = 'select rectification_jz.上报次序,problem_jz.问题顺序号,problem_jz.被审计领导干部,problem_jz.所在地方或单位,' \
+                  'problem_jz.报送文号,problem_jz.审计意见或报告文号,problem_jz.经责结果报告文号,problem_jz.出具审计报告时间,problem_jz.审计组组长,' \
+                  'problem_jz.审计组主审,problem_jz.问题描述,problem_jz.是否在审计报告中反映,problem_jz.是否在结果报告中反映,problem_jz.审计对象分类,' \
+                  'problem_jz.问题类别,problem_jz.问题定性,problem_jz.问题表现形式,problem_jz.备注,problem_jz.问题金额,' \
+                  'problem_jz.移送及处理情况,rectification_jz.序号,rectification_jz.整改责任部门,rectification_jz.应上报整改报告时间,' \
+                  'rectification_jz.实际上报整改报告时间,rectification_jz.整改情况,rectification_jz.已整改金额,rectification_jz.追责问责人数,' \
+                  'rectification_jz.推动制度建设数目,rectification_jz.推动制度建设文件,rectification_jz.部分整改情况具体描述,' \
+                  'rectification_jz.未整改原因说明,rectification_jz.下一步整改措施及时限,rectification_jz.认定整改情况,' \
+                  'rectification_jz.认定整改金额,rectification_jz.整改率 from problem_jz left outer join ' \
+                  'rectification_jz on problem_jz.序号 = rectification_jz.问题序号 where problem_jz.整改序号 = %s order by ' \
+                  'problem_jz.问题顺序号 asc,rectification_jz.上报次序 desc' % self.xh
 
-            x = 0
-            for i in data:
-                y = 0
-                for j in i:
-                    if data[x][y] is None:
-                        if y < 17:
-                            self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
-                        else:
-                            self.tableWidget_4.setItem(x, y - 17, QtWidgets.QTableWidgetItem("/"))
+        data = tools.executeSql(sql)
+
+        # 打印结果
+        # print(data)
+
+        size = len(data)
+        # print("项目数目为:"+str(size))
+        self.tableWidget_2.setRowCount(size)
+        self.tableWidget_4.setRowCount(size)
+
+        # tableWidget_2和_4开始分割列数
+        if self.xh_lc != -1:
+            split = 17
+        else:
+            split = 20
+
+        x = 0
+        for i in data:
+            y = 0
+            for j in i:
+                if data[x][y] is None:
+                    if y < split:
+                        self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                     else:
-                        if y < 17:
-                            self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
-                        else:
-                            self.tableWidget_4.setItem(x, y - 17, QtWidgets.QTableWidgetItem(str(data[x][y])))
-                    y = y + 1
-                x = x + 1
+                        self.tableWidget_4.setItem(x, y - split, QtWidgets.QTableWidgetItem("/"))
+                else:
+                    if y < split:
+                        self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                    else:
+                        self.tableWidget_4.setItem(x, y - split, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                y = y + 1
+            x = x + 1
 
-            self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 表格不可修改
-            self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
-            self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
-            self.tableWidget_2.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)  # 表格只可选中行
-            self.tableWidget_2.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)  # 表格只可选中单行
+        self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 表格不可修改
+        self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
+        self.tableWidget_2.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)  # 表格只可选中行
+        self.tableWidget_2.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)  # 表格只可选中单行
 
-            self.tableWidget_4.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 表格不可修改
-            self.tableWidget_4.resizeColumnsToContents()  # 根据列调整框大小
-            self.tableWidget_4.resizeRowsToContents()  # 根据行调整框大小
-            self.tableWidget_4.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)  # 表格只可选中行
-            self.tableWidget_4.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)  # 表格只可选中单行
+        self.tableWidget_4.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # 表格不可修改
+        self.tableWidget_4.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget_4.resizeRowsToContents()  # 根据行调整框大小
+        self.tableWidget_4.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)  # 表格只可选中行
+        self.tableWidget_4.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)  # 表格只可选中单行
 
     # 问题表下的刷新按钮
     def refreshQuestionTable(self):
@@ -604,7 +733,6 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 保存整改发函文件
     def saveZgfh(self):
-
         input_file_path = self.lineEdit.text()
         if input_file_path != "":
             filename = tools.getFileName(input_file_path)  # 文件名
@@ -627,7 +755,6 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 打开选择的整改发函文件
     def openZgfh(self):
-
         row = self.listWidget_4.currentRow()
         if row == -1:
             QtWidgets.QMessageBox.information(None, "提示", "请选择整改发函文件！")
@@ -637,7 +764,6 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 删除选择的整改发函文件
     def deleteZgfh(self):
-
         row = self.listWidget_4.currentRow()
         if row == -1:
             QtWidgets.QMessageBox.information(None, "提示", "请选择整改发函文件！")
@@ -652,7 +778,6 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
     # 根据excel中的右边问题整改信息导入问题表
     def importExcel(self):
-
         path = self.lineEdit_2.text()
         path.replace('/', '\\\\')
         # 判断用户是否选择文件
@@ -672,42 +797,48 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
                 check_tag = 1  # excel输入合法检测标识,如果为1表示excel中所有数据合法,可以写入数据库
 
+                # excel表格分割列数
+                if self.xh_lc != -1:
+                    split = 15
+                else:
+                    split = 18
+
                 # 读取excel数据进行检测
                 for i in range(4, sheet_rows):
-                    # 问题顺序号,判断是否为整数
+                    # 判断问题顺序号是否为整数
                     if not tools.judgeInteger(sheet.row(i)[0].value):
                         check_tag = 0
                         QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 问题顺序号应为整数！" % str(i + 1))
                         break
                     # 出具审计专报时间,判断是否为合法时间
-                    if isinstance(sheet.row(i)[17].value, str):
+                    if isinstance(sheet.row(i)[2 + split].value, str):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 出具审计专报时间格式错误！" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行：出具审计专报时间格式错误！" % str(i + 1))
                         break
                     # 实际上报整改时间,判断是否为合法时间
-                    if isinstance(sheet.row(i)[18].value, str):
+                    if isinstance(sheet.row(i)[3 + split].value, str):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 实际上报整改时间格式错误！" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行：实际上报整改时间格式错误！" % str(i + 1))
                         break
                     # 已整改金额,判断是否为浮点数
-                    if not isinstance(sheet.row(i)[20].value, float):
+                    if not isinstance(sheet.row(i)[5 + split].value, float):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 已整改金额应为数字！" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行：已整改金额应为数字！" % str(i + 1))
                         break
                     # 追责问责人数,判断是否为整数
-                    if not tools.judgeInteger(sheet.row(i)[21].value):
+                    if not tools.judgeInteger(sheet.row(i)[6 + split].value):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 追责问责人数应为整数！" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行：追责问责人数应为整数！" % str(i + 1))
                         break
                     # 推动制度建设数目,判断是否为整数
-                    if not tools.judgeInteger(sheet.row(i)[22].value):
+                    if not tools.judgeInteger(sheet.row(i)[7 + split].value):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 推动制度建设数目应为整数！" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行：推动制度建设数目应为整数！" % str(i + 1))
                         break
                     # 认定整改金额,判断是否为浮点数
-                    if not isinstance(sheet.row(i)[28].value, float):
+                    if not isinstance(sheet.row(i)[13 + split].value, float):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 认定整改金额应为数字！" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行：认定整改金额应为数字！" % str(i + 1))
                         break
                 if sheet_rows == 4:
                     check_tag = 0
@@ -716,46 +847,75 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                 if check_tag == 1:
                     # 读取excel数据
                     for i in range(4, sheet_rows):
-                        cell_i_0 = int(sheet.row(i)[0].value)  # 问题顺序号
-                        # cell_i_3 = sheet.row(i)[3].value  # 报送专报期号
-                        cell_i_3 = self.xh_send  # 报送专报期号,忽略excel表中发文字号这一列,直接读入发文序号
-                        cell_i_16 = sheet.row(i)[16].value  # 整改责任部门
-                        cell_i_17 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 17).value, 0).strftime(
-                            "%Y/%m/%d")  # 应上报整改报告时间
-                        cell_i_18 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 18).value, 0).strftime(
-                            "%Y/%m/%d")  # 实际上报整改报告时间
-                        cell_i_19 = sheet.row(i)[19].value  # 整改情况
-                        cell_i_20 = sheet.row(i)[20].value  # 已整改金额
-                        cell_i_21 = int(sheet.row(i)[21].value)  # 追责问责人数
-                        cell_i_22 = int(sheet.row(i)[22].value)  # 推动制度建设数目
-                        cell_i_23 = sheet.row(i)[23].value  # 推动制度建设文件
-                        cell_i_24 = sheet.row(i)[24].value  # 部分整改情况具体描述
-                        cell_i_25 = sheet.row(i)[25].value  # 未整改原因说明
-                        cell_i_26 = sheet.row(i)[26].value  # 下一步整改措施及时限
-                        cell_i_27 = sheet.row(i)[27].value  # 认定整改情况
-                        cell_i_28 = sheet.row(i)[28].value  # 认定整改金额
-                        cell_i_29 = sheet.row(i)[29].value  # 整改率
-
-                        # 先找到问题序号,再确定整改措施对应的是哪个问题.这里的逻辑有待商榷,原因是要用用户在excel中输入的问题顺序号去寻找问题表主键
-                        sql = "select 序号 from problem where 问题顺序号 = %s and 发文序号 = %s" % (cell_i_0, cell_i_3)
-                        xh_pro = tools.executeSql(sql)[0][0]
-
-                        sql = "select max(上报次序) from rectification where 问题序号 = %s " % xh_pro
-                        data = tools.executeSql(sql)
-
-                        if data[0][0] is None:
-                            num = 1
+                        cell_problem_key1 = int(sheet.row(i)[0].value)  # 问题顺序号
+                        if self.xh_lc != -1:
+                            cell_problem_key2 = self.xh_send  # 发文序号,用来和问题顺序号一起唯一定位一个问题,直接读取变量,而非excel
                         else:
-                            num = data[0][0] + 1
+                            cell_problem_key2 = self.xh  # 整改序号,用来和问题顺序号一起唯一定位一个问题,直接读取变量,而非excel
+                        cell_right_i_1 = sheet.row(i)[1 + split].value  # 整改责任部门
+                        cell_right_i_2 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 2 + split).value, 0).strftime(
+                            "%Y/%m/%d")  # 应上报整改报告时间
+                        cell_right_i_3 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 3 + split).value, 0).strftime(
+                            "%Y/%m/%d")  # 实际上报整改报告时间
+                        cell_right_i_4 = sheet.row(i)[4 + split].value  # 整改情况
+                        cell_right_i_5 = sheet.row(i)[5 + split].value  # 已整改金额
+                        cell_right_i_6 = int(sheet.row(i)[6 + split].value)  # 追责问责人数
+                        cell_right_i_7 = int(sheet.row(i)[7 + split].value)  # 推动制度建设数目
+                        cell_right_i_8 = sheet.row(i)[8 + split].value  # 推动制度建设文件
+                        cell_right_i_9 = sheet.row(i)[9 + split].value  # 部分整改情况具体描述
+                        cell_right_i_10 = sheet.row(i)[10 + split].value  # 未整改原因说明
+                        cell_right_i_11 = sheet.row(i)[11 + split].value  # 下一步整改措施及时限
+                        cell_right_i_12 = sheet.row(i)[12 + split].value  # 认定整改情况
+                        cell_right_i_13 = sheet.row(i)[13 + split].value  # 认定整改金额
+                        cell_right_i_14 = sheet.row(i)[14 + split].value  # 整改率
 
-                        sql = "insert into rectification values(NULL,%s,'%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
-                              "'%s','%s','%s','%s','%s','%s')" % (
-                                  xh_pro, num, cell_i_16, cell_i_17, cell_i_18, cell_i_19, cell_i_20, cell_i_21,
-                                  cell_i_22, cell_i_23, cell_i_24, cell_i_25, cell_i_26, cell_i_27, cell_i_28,
-                                  cell_i_29)
+                        # 办文流程整改
+                        if self.xh_lc != -1:
+                            # 先找到问题序号,再确定整改措施对应的是哪个问题.这里的逻辑有待商榷,原因是要用用户在excel中输入的问题顺序号去寻找问题表主键
+                            sql = "select 序号 from problem where 问题顺序号 = %s and 发文序号 = %s" \
+                                  % (cell_problem_key1, cell_problem_key2)
+                            xh_pro = tools.executeSql(sql)[0][0]
+
+                            sql = "select max(上报次序) from rectification where 问题序号 = %s " % xh_pro
+                            data = tools.executeSql(sql)
+
+                            # 确认上报批次
+                            if data[0][0] is None:
+                                order = 1
+                            else:
+                                order = data[0][0] + 1
+
+                            table = "rectification"
+
+                        # 经责整改
+                        else:
+                            # 先找到问题序号,再确定整改措施对应的是哪个问题.这里的逻辑有待商榷,原因是要用用户在excel中输入的问题顺序号去寻找问题表主键
+                            sql = "select 序号 from problem_jz where 问题顺序号 = %s and 整改序号 = %s" \
+                                  % (cell_problem_key1, cell_problem_key2)
+                            xh_pro = tools.executeSql(sql)[0][0]
+
+                            sql = "select max(上报次序) from rectification_jz where 问题序号 = %s " % xh_pro
+                            data = tools.executeSql(sql)
+
+                            # 确认上报批次
+                            if data[0][0] is None:
+                                order = 1
+                            else:
+                                order = data[0][0] + 1
+
+                            table = "rectification_jz"
+
+                        sql = "insert into '%s' values(NULL,%s,'%s','%s','%s','%s','%s','%s','%s','%s'," \
+                              "'%s','%s','%s','%s','%s','%s','%s')" % (
+                                  table, xh_pro, order, cell_right_i_1, cell_right_i_2, cell_right_i_3, cell_right_i_4,
+                                  cell_right_i_5, cell_right_i_6, cell_right_i_7, cell_right_i_8, cell_right_i_9,
+                                  cell_right_i_10, cell_right_i_11, cell_right_i_12, cell_right_i_13,
+                                  cell_right_i_14)
                         tools.executeSql(sql)
 
                     QtWidgets.QMessageBox.information(None, "提示", "录入成功！")
+
+                    self.lineEdit_2.clear()
 
                     self.displayQuestionOverview()
                 else:

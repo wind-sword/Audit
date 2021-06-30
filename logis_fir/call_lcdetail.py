@@ -4,7 +4,7 @@ import traceback
 import xlrd
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QDate
-from PyQt5.QtWidgets import QWidget, QListWidgetItem
+from PyQt5.QtWidgets import QListWidgetItem
 from qtpy import QtCore
 
 from uipy_dir.lcdetail import Ui_Form
@@ -191,8 +191,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.xh_rev = data[0][1]
 
         # 初始化批文序号列表
-        sql = 'select bw_cast_cor.批文序号,corfile.批文字号 from bw_cast_cor,corfile where bw_cast_cor.流程序号 = %s and ' \
-              'bw_cast_cor.批文序号 = corfile.序号' % self.xh
+        sql = "select corfile.序号,corfile.批文字号 from corfile,bwprocess where bwprocess.序号 = %s and " \
+              "bwprocess.序号 = corfile.流程序号" % self.xh
         result = tools.executeSql(sql)
         # 如果有批文序号,那么初始化批文序号列表
         if len(result) != 0:
@@ -455,7 +455,6 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 展示所有批文页面
     def displayCorFile(self):
-
 
         # 设置不可修改,list默认不能修改
         self.dateEdit_4.setReadOnly(True)  # 收文时间
@@ -743,7 +742,6 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
     # 录入收文
     def insertRevFile(self):
 
-
         input1 = self.dateEdit_5.text()  # 收文时间
         input2 = self.lineEdit_14.text()  # 密级
         input3 = self.comboBox_6.currentText()  # 是否公开
@@ -822,7 +820,6 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 确认修改收文
     def updateRevFile(self):
-
 
         input1 = self.dateEdit_5.text()  # 收文时间
         input2 = self.lineEdit_14.text()  # 密级
@@ -998,10 +995,10 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                     QtWidgets.QMessageBox.critical(None, "录入失败", "批文字号已经存在！")
                 else:
                     # 插入corfile表中
-                    sql = "insert into corfile(收文时间,秘密等级,是否公开,紧急程度,批文标题,批文字号,内容摘要和拟办意见,领导批示,处理结果,审核,承办处室,承办人," \
-                          "联系电话,状态) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','red')" % (
-                              input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11,
-                              input12, input13)
+                    sql = "insert into corfile(流程序号,收文时间,秘密等级,是否公开,紧急程度,批文标题,批文字号,内容摘要和拟办意见,领导批示,处理结果,审核,承办处室,承办人," \
+                          "联系电话,状态) VALUES(%s,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','red')" % (
+                              self.xh, input1, input2, input3, input4, input5, input6, input7, input8, input9, input10,
+                              input11, input12, input13)
                     tools.executeSql(sql)
 
                     # 获取批文序号
@@ -1016,10 +1013,6 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                         sql = "insert into instruction(批文序号,领导来文单位,领导来文字号,领导内容摘要和领导批示) VALUES(%s,'%s','%s','%s')" % (
                             data[0][0], input14, input15, input16)
                         tools.executeSql(sql)
-
-                    # 插入映射表中
-                    sql = "insert into bw_cast_cor(流程序号,批文序号) VALUES(%s,%s)" % (self.xh, data[0][0])
-                    tools.executeSql(sql)
 
                     # 向xh_cor_list中插入新的元组
                     self.xh_cor_list.append((data[0][0], input6))

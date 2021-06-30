@@ -223,7 +223,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.bt_search_jz.clicked.connect(self.searchJzProject)
         self.pushButton_que_choose.clicked.connect(self.chooseProblemJzTable)
         self.pushButton_que_import.clicked.connect(
-            lambda: self.importExcelProblemJz(path=self.lineEdit_que_jz.text(), keyword=""))
+            lambda: self.importExcelProblemJz(path=self.lineEdit_que_jz.text(), keyword="multiple"))
 
         # 经责文件录入页面按钮功能
         self.pushButton_choose_excel.clicked.connect(self.choose_file_jz_excel)
@@ -260,15 +260,26 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         self.tableWidget_zgzl.hideColumn(0)  # 将流程数据库主键隐藏起来,作为传参,此处主键为整改序号
 
-        # sql由整改表的流程序号出发,通过多表查询获得整改所有字段
-        sql = "select zgprocess.序号,bwprocess.流程开始时间,sendfile.发文标题,sendfile.发文字号,revfile.收文标题,revfile.收文字号," \
-              "GROUP_CONCAT(corfile.批文标题,'\n'),GROUP_CONCAT(corfile.批文字号,'\n') from zgprocess join bwprocess on " \
-              "zgprocess.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join revfile on " \
-              "bwprocess.收文序号 = revfile.序号 join bw_cast_cor on bwprocess.序号 = bw_cast_cor.流程序号 join corfile on " \
-              "bw_cast_cor.批文序号 = corfile.序号 GROUP BY zgprocess.序号 "
-        data = tools.executeSql(sql)
-        # 打印结果
-        # print(data)
+        # sql由整改表的流程序号出发,通过多表查询获得办文流程类型整改的所有字段
+        sql = "select zgprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,revfile.收文字号,revfile.收文标题," \
+              "GROUP_CONCAT(corfile.批文字号,'\n'),GROUP_CONCAT(corfile.批文标题,'\n'),zgprocess.整改状态 from zgprocess join " \
+              "bwprocess on zgprocess.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join revfile " \
+              "on bwprocess.收文序号 = revfile.序号 join corfile on bwprocess.序号 = corfile.流程序号 GROUP BY zgprocess.序号 "
+        data1 = tools.executeSql(sql)
+
+        # sql由整改表的流程序号出发,通过多表查询获得经责项目类型整改的所有字段
+        sql = "select zgprocess.序号,problem_jz.出具审计报告时间,problem_jz.审计意见或报告文号,zgprocess.整改状态 from zgprocess join " \
+              "problem_jz on zgprocess.序号 = problem_jz.整改序号 group by zgprocess.序号"
+        temp_data2 = tools.executeSql(sql)
+        data2 = []
+
+        # 对temp_data2进行数据处理,使得data1和data2可以合并
+        for i in temp_data2:
+            temp_tuple = (i[0], i[1], i[2], None, None, None, None, None, i[3])
+            data2.append(temp_tuple)
+
+        # 合并两个列表
+        data = data1 + data2
 
         size = len(data)
         # print("项目数目为:"+str(size))
@@ -308,8 +319,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
               "revfile.收文标题,REPLACE(GROUP_CONCAT(distinct corfile.批文字号),',','\n'),REPLACE(GROUP_CONCAT(distinct " \
               "corfile.批文标题),',','\n'),bwprocess.是否加入整改 FROM bwprocess LEFT OUTER JOIN sendfile ON sendfile.序号 = " \
               "bwprocess.发文序号 LEFT OUTER JOIN problem ON sendfile.序号 = problem.发文序号 LEFT OUTER JOIN revfile ON " \
-              "revfile.序号 = bwprocess.收文序号 LEFT OUTER JOIN bw_cast_cor ON bw_cast_cor.流程序号 = bwprocess.序号 LEFT OUTER " \
-              "JOIN corfile ON corfile.序号 = bw_cast_cor.批文序号 GROUP BY bwprocess.序号 "
+              "revfile.序号 = bwprocess.收文序号 LEFT OUTER JOIN corfile ON bwprocess.序号 = corfile.流程序号 GROUP BY " \
+              "bwprocess.序号 "
         data = tools.executeSql(sql)
         # 打印结果
         # print(data)
@@ -405,9 +416,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             sql = "select sendfile.序号,sendfile.办文日期,sendfile.发文字号,sendfile.秘密等级,sendfile.标识,sendfile.发文标题," \
                   "sendfile.签发人,sendfile.份数,sendfile.公文运转情况,GROUP_CONCAT(instruction.领导内容摘要和领导批示,'\n')," \
                   "sendfile.批示办理情况,sendfile.起草处室,sendfile.状态 from sendfile left outer join bwprocess on " \
-                  "sendfile.序号 = bwprocess.发文序号 left outer join bw_cast_cor on bw_cast_cor.流程序号 = bwprocess.序号 left " \
-                  "outer join corfile on corfile.序号 = bw_cast_cor.批文序号 left outer join instruction on " \
-                  "instruction.批文序号 = corfile.序号 group by sendfile.序号" + rear
+                  "sendfile.序号 = bwprocess.发文序号 left outer join corfile on corfile.流程序号 = bwprocess.序号 left outer " \
+                  "join instruction on instruction.批文序号 = corfile.序号 group by sendfile.序号" + rear
             data = tools.executeSql(sql)
 
             if type2 == "审计专报":
@@ -460,10 +470,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                       "GROUP_CONCAT(instruction.领导来文单位,'\n'),GROUP_CONCAT(instruction.领导来文字号,'\n'),corfile.批文标题," \
                       "GROUP_CONCAT(instruction.领导内容摘要和领导批示,'\n'),corfile.内容摘要和拟办意见,corfile.领导批示,corfile.批示任务办理要求时间," \
                       "corfile.审计厅承办处室及承办人,corfile.办理结果,corfile.文件去向,corfile.状态 from corfile left outer join " \
-                      "instruction on corfile.序号 = instruction.批文序号 left outer join bw_cast_cor on bw_cast_cor.批文序号 = " \
-                      "corfile.序号 left outer join bwprocess on bwprocess.序号 = bw_cast_cor.流程序号 left outer join " \
-                      "sendfile on bwprocess.发文序号 = sendfile.序号 left outer join revfile on bwprocess.收文序号 = " \
-                      "revfile.序号 group by corfile.序号 "
+                      "instruction on corfile.序号 = instruction.批文序号 left outer join bwprocess on bwprocess.序号 = " \
+                      "corfile.流程序号 left outer join sendfile on bwprocess.发文序号 = sendfile.序号 left outer join revfile " \
+                      "on bwprocess.收文序号 = revfile.序号 group by corfile.序号 "
                 data = tools.executeSql(sql)
 
                 # 按照批文字号排序
@@ -487,9 +496,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 sql = "select instruction.序号,corfile.批文字号,corfile.秘密等级,sendfile.发文字号,sendfile.发文标题," \
                       "instruction.领导来文字号,corfile.批文标题,instruction.领导来文单位,revfile.收文字号,instruction.领导姓名," \
                       "instruction.领导职务,instruction.批示时间,instruction.领导内容摘要和领导批示 from instruction left outer join " \
-                      "corfile on instruction.批文序号 = corfile.序号 left outer join bw_cast_cor on corfile.序号 = " \
-                      "bw_cast_cor.批文序号 left outer join bwprocess on bw_cast_cor.流程序号 = bwprocess.序号 left outer join " \
-                      "sendfile on bwprocess.发文序号 = sendfile.序号 left outer join revfile on bwprocess.收文序号 = revfile.序号 "
+                      "corfile on instruction.批文序号 = corfile.序号 left outer join bwprocess on bwprocess.序号 = " \
+                      "corfile.流程序号 left outer join sendfile on bwprocess.发文序号 = sendfile.序号 left outer join revfile " \
+                      "on bwprocess.收文序号 = revfile.序号 "
                 data = tools.executeSql(sql)
 
                 # 按照批文字号排序
@@ -876,7 +885,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             key = self.tableWidget_zgzl.item(row, 0).text()
             tab_new = Call_zgdetail(key)
             tab_new.setObjectName('tab_new')
-            tab_num = self.tabWidget_zgzl.addTab(tab_new, self.tableWidget_zgzl.item(row, 3).text())
+            tab_num = self.tabWidget_zgzl.addTab(tab_new, self.tableWidget_zgzl.item(row, 2).text())
             self.tabWidget_zgzl.setCurrentIndex(tab_num)
 
     # 办文流程详情下的查看详情按钮
@@ -917,10 +926,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 xh = data[0][0]
 
                 # 将流程加入到整改中
-                sql = "insert into zgprocess(序号,流程序号,整改状态) VALUES(NULL,%s,'未整改')" % xh
+                sql = "insert into zgprocess(序号,流程序号,标识文号,整改状态) VALUES(NULL,%s,'%s','未整改')" % (xh, key1)
                 tools.executeSql(sql)
 
-                # 修改流程整改状态为1
+                # 修改流程为需要整改
                 sql = "update bwprocess set 是否加入整改 = '是' where 序号 = %s" % xh
                 tools.executeSql(sql)
 
@@ -1239,12 +1248,13 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                         check_tag = 0
                         QtWidgets.QMessageBox.information(self, "提示", "excel表格第%s行: 问题顺序号应为整数！" % str(i + 1))
                         break
-                    # 审计意见(报告)文号,判断是否与当前keyword一致
-                    if keyword != "" and sheet.row(i)[4].value != keyword:
+                    # 导入的是问题分表时,检测审计意见(报告)文号,判断是否与当前keyword一致(强约束)
+                    if keyword != "multiple" and sheet.row(i)[4].value != keyword:
                         check_tag = 0
                         QtWidgets.QMessageBox.information(self, "提示", "excel表格第%s行: 审计意见(报告)文号与输入文号不一致！" % str(i + 1))
                         break
-                    elif keyword == "" and sheet.row(i)[4].value == "":
+                    # 导入的是问题总表时,检测审计意见(报告)文号,判断是否为空(弱约束,以后可以考虑用文号的格式进行正则匹配约束输入)
+                    elif keyword == "multiple" and sheet.row(i)[4].value == "":
                         check_tag = 0
                         QtWidgets.QMessageBox.information(self, "提示", "excel表格第%s行: 审计意见(报告)文号为空！" % str(i + 1))
                         break
@@ -1264,38 +1274,91 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
                 # 写入经责问题表数据库
                 if check_tag == 1:
-                    # 写入数据库
-                    for i in range(4, sheet_rows):
-                        cell_i_0 = int(sheet.row(i)[0].value)  # 问题顺序号
-                        cell_i_1 = sheet.row(i)[1].value  # 被审计领导干部
-                        cell_i_2 = sheet.row(i)[2].value  # 所在地方或单位
-                        cell_i_3 = sheet.row(i)[3].value  # 报送专报期号,直接读取excel中的输入
-                        cell_i_4 = sheet.row(i)[4].value  # 审计报告（意见）文号
-                        cell_i_5 = sheet.row(i)[5].value  # 经责结果报告文号
-                        cell_i_6 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 6).value, 0).strftime(
-                            "%Y/%m/%d")  # 出具审计专报时间 Year/Month/Day
-                        cell_i_7 = sheet.row(i)[7].value  # 审计组组长
-                        cell_i_8 = sheet.row(i)[8].value  # 审计组主审
-                        cell_i_9 = sheet.row(i)[9].value  # 问题描述
-                        cell_i_10 = sheet.row(i)[10].value  # 是否在审计报告中反映
-                        cell_i_11 = sheet.row(i)[11].value  # 是否在结果报告中反映
-                        cell_i_12 = sheet.row(i)[12].value  # 审计对象分类
-                        cell_i_13 = sheet.row(i)[13].value  # 问题类别
-                        cell_i_14 = sheet.row(i)[14].value  # 问题定性
-                        cell_i_15 = sheet.row(i)[15].value  # 问题表现形式
-                        cell_i_16 = sheet.row(i)[16].value  # 备注
-                        cell_i_17 = sheet.row(i)[17].value  # 问题金额
-                        cell_i_18 = sheet.row(i)[18].value  # 移送及处理情况
-
-                        sql = "insert into problem_jz values(NULL,%s,'%s','%s','%s','%s','%s','%s','%s','%s','%s'," \
-                              "'%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
-                                  cell_i_0, cell_i_1, cell_i_2, cell_i_3, cell_i_4, cell_i_5, cell_i_6, cell_i_7,
-                                  cell_i_8, cell_i_9, cell_i_10, cell_i_11, cell_i_12, cell_i_13, cell_i_14, cell_i_15,
-                                  cell_i_16, cell_i_17, cell_i_18)
+                    # 表示导入的是问题分表,表中所有问题对应同一个审计意见(报告)文号,导入问题的同时还要对该文号对应的单个项目设置整改
+                    if keyword != "multiple":
+                        # 首先创建一个整改流程
+                        sql = "insert into zgprocess(序号,流程序号,标识文号,整改状态) values(NULL,-1,'%s','未整改')" % keyword
                         tools.executeSql(sql)
 
-                    # 经责问题表导入完成后需要自动设置整改,按照审计意见(报告)文号划分为一个整改项目或多个整改项目
-                    # if keyword != "": # 导入的是问题分表，划分为一个整改项目
+                        # 其次用标识文号查出刚刚创建的整改流程主键
+                        sql = "select 序号 from zgprocess where 标识文号 = '%s'" % keyword
+                        xh_zg = tools.executeSql(sql)[0][0]
+
+                        # 最后写入经责问题表数据库,将xh_zg作为经责问题表的外键,从而建立关联
+                        for i in range(4, sheet_rows):
+                            cell_i_0 = int(sheet.row(i)[0].value)  # 问题顺序号
+                            cell_i_1 = sheet.row(i)[1].value  # 被审计领导干部
+                            cell_i_2 = sheet.row(i)[2].value  # 所在地方或单位
+                            cell_i_3 = sheet.row(i)[3].value  # 报送专报期号,直接读取excel中的输入
+                            cell_i_4 = sheet.row(i)[4].value  # 审计报告（意见）文号
+                            cell_i_5 = sheet.row(i)[5].value  # 经责结果报告文号
+                            cell_i_6 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 6).value, 0).strftime(
+                                "%Y/%m/%d")  # 出具审计专报时间 Year/Month/Day
+                            cell_i_7 = sheet.row(i)[7].value  # 审计组组长
+                            cell_i_8 = sheet.row(i)[8].value  # 审计组主审
+                            cell_i_9 = sheet.row(i)[9].value  # 问题描述
+                            cell_i_10 = sheet.row(i)[10].value  # 是否在审计报告中反映
+                            cell_i_11 = sheet.row(i)[11].value  # 是否在结果报告中反映
+                            cell_i_12 = sheet.row(i)[12].value  # 审计对象分类
+                            cell_i_13 = sheet.row(i)[13].value  # 问题类别
+                            cell_i_14 = sheet.row(i)[14].value  # 问题定性
+                            cell_i_15 = sheet.row(i)[15].value  # 问题表现形式
+                            cell_i_16 = sheet.row(i)[16].value  # 备注
+                            cell_i_17 = sheet.row(i)[17].value  # 问题金额
+                            cell_i_18 = sheet.row(i)[18].value  # 移送及处理情况
+
+                            sql = "insert into problem_jz values(NULL,%s, %s,'%s','%s','%s','%s','%s','%s','%s','%s'," \
+                                  "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
+                                      xh_zg, cell_i_0, cell_i_1, cell_i_2, cell_i_3, cell_i_4, cell_i_5, cell_i_6,
+                                      cell_i_7, cell_i_8, cell_i_9, cell_i_10, cell_i_11, cell_i_12, cell_i_13,
+                                      cell_i_14, cell_i_15, cell_i_16, cell_i_17, cell_i_18)
+                            tools.executeSql(sql)
+
+                    # 表示导入的是问题总表,表中所有问题对应不同的审计意见(报告)文号,导入问题的同时还要对多文号对应的多个项目设置整改
+                    elif keyword == "multiple":
+                        # 首先从excel中解析出所有文号,放入keywords中存储
+                        keywords = set()
+                        for i in range(4, sheet_rows):
+                            keywords.add(sheet.row(i)[4].value)  # 审计报告（意见）文号
+
+                        # 其次对于keywords中的每一个文号,都要建立一个整改流程
+                        for i in keywords:
+                            sql = "insert into zgprocess(序号,流程序号,标识文号,整改状态) values(NULL,-1,'%s','未整改')" % i
+                            tools.executeSql(sql)
+
+                        # 最后写入经责问题表数据库,将xh_zg作为经责问题表的外键,从而建立关联
+                        for i in range(4, sheet_rows):
+                            cell_i_0 = int(sheet.row(i)[0].value)  # 问题顺序号
+                            cell_i_1 = sheet.row(i)[1].value  # 被审计领导干部
+                            cell_i_2 = sheet.row(i)[2].value  # 所在地方或单位
+                            cell_i_3 = sheet.row(i)[3].value  # 报送专报期号,直接读取excel中的输入
+                            cell_i_4 = sheet.row(i)[4].value  # 审计报告（意见）文号
+                            cell_i_5 = sheet.row(i)[5].value  # 经责结果报告文号
+                            cell_i_6 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 6).value, 0).strftime(
+                                "%Y/%m/%d")  # 出具审计专报时间 Year/Month/Day
+                            cell_i_7 = sheet.row(i)[7].value  # 审计组组长
+                            cell_i_8 = sheet.row(i)[8].value  # 审计组主审
+                            cell_i_9 = sheet.row(i)[9].value  # 问题描述
+                            cell_i_10 = sheet.row(i)[10].value  # 是否在审计报告中反映
+                            cell_i_11 = sheet.row(i)[11].value  # 是否在结果报告中反映
+                            cell_i_12 = sheet.row(i)[12].value  # 审计对象分类
+                            cell_i_13 = sheet.row(i)[13].value  # 问题类别
+                            cell_i_14 = sheet.row(i)[14].value  # 问题定性
+                            cell_i_15 = sheet.row(i)[15].value  # 问题表现形式
+                            cell_i_16 = sheet.row(i)[16].value  # 备注
+                            cell_i_17 = sheet.row(i)[17].value  # 问题金额
+                            cell_i_18 = sheet.row(i)[18].value  # 移送及处理情况
+
+                            # 用该问题的文号找出整改序号
+                            sql = "select 序号 from zgprocess where 标识文号 = '%s'" % cell_i_4
+                            xh_zg = tools.executeSql(sql)[0][0]
+
+                            sql = "insert into problem_jz values(NULL,%s, %s,'%s','%s','%s','%s','%s','%s','%s','%s'," \
+                                  "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % (
+                                      xh_zg, cell_i_0, cell_i_1, cell_i_2, cell_i_3, cell_i_4, cell_i_5, cell_i_6,
+                                      cell_i_7, cell_i_8, cell_i_9, cell_i_10, cell_i_11, cell_i_12, cell_i_13,
+                                      cell_i_14, cell_i_15, cell_i_16, cell_i_17, cell_i_18)
+                            tools.executeSql(sql)
 
                     QtWidgets.QMessageBox.information(self, "提示", "问题表导入完成！")
 

@@ -1,5 +1,4 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QWidget, QSizePolicy
 
 from uipy_dir.sendfilebq import Ui_Dialog
 from logis_fir.tools import tools

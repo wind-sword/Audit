@@ -330,7 +330,7 @@ QPushButton:pressed{
 } </string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>7</number>
          </property>
          <widget class="QWidget" name="page_lczl">
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -5646,7 +5646,7 @@ QRadioButton#radioButton_black{color:black;}</string>
               <attribute name="title">
                <string>Tab 1</string>
               </attribute>
-              <layout class="QVBoxLayout" name="verticalLayout_4" stretch="1,0,1,8,2">
+              <layout class="QVBoxLayout" name="verticalLayout_4" stretch="1,0,1,15,2">
                <item>
                 <widget class="QLabel" name="label_vhead">
                  <property name="font">
@@ -5868,7 +5868,7 @@ QRadioButton#radioButton_black{color:black;}</string>
                 <widget class="QTableWidget" name="tableWidget_zgzl">
                  <property name="font">
                   <font>
-                   <pointsize>14</pointsize>
+                   <pointsize>12</pointsize>
                    <weight>50</weight>
                    <bold>false</bold>
                   </font>
@@ -5911,6 +5911,18 @@ QRadioButton#radioButton_black{color:black;}</string>
                  </column>
                  <column>
                   <property name="text">
+                   <string>发文号</string>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
                    <string>发文标题</string>
                   </property>
                   <property name="font">
@@ -5923,7 +5935,7 @@ QRadioButton#radioButton_black{color:black;}</string>
                  </column>
                  <column>
                   <property name="text">
-                   <string>发文编号</string>
+                   <string>收文号</string>
                   </property>
                   <property name="font">
                    <font>
@@ -5947,7 +5959,7 @@ QRadioButton#radioButton_black{color:black;}</string>
                  </column>
                  <column>
                   <property name="text">
-                   <string>收文编号</string>
+                   <string>批文号</string>
                   </property>
                   <property name="font">
                    <font>
@@ -5960,18 +5972,6 @@ QRadioButton#radioButton_black{color:black;}</string>
                  <column>
                   <property name="text">
                    <string>批文标题</string>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>14</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
-                   </font>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>批文编号</string>
                   </property>
                   <property name="font">
                    <font>
