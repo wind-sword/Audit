@@ -678,6 +678,10 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                               input10, input11, input12, input13, input14, input15, input16, self.xh_send)
                     tools.executeSql(sql)
 
+                    # 更新流程开始时间
+                    sql = "update bwprocess set 流程开始时间 = '%s' where 序号 = %s" % (input16, self.xh)
+                    tools.executeSql(sql)
+
                     QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
 
                     self.displaySendFile()
@@ -726,6 +730,10 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                           "联系电话 = '%s',办文日期 = '%s' where 序号 = %s" % (
                               input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11,
                               input12, input13, input14, self.xh_send)
+                    tools.executeSql(sql)
+
+                    # 更新流程开始时间
+                    sql = "update bwprocess set 流程开始时间 = '%s' where 序号 = %s" % (input14, self.xh)
                     tools.executeSql(sql)
 
                     QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
@@ -820,7 +828,6 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 确认修改收文
     def updateRevFile(self):
-
         input1 = self.dateEdit_5.text()  # 收文时间
         input2 = self.lineEdit_14.text()  # 密级
         input3 = self.comboBox_6.currentText()  # 是否公开
@@ -856,6 +863,11 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                           input12, input13, input14, input15, self.xh_rev)
 
                 tools.executeSql(sql)
+
+                # 如果是收文开始的流程,更新流程开始时间
+                if self.xh_send == -1:
+                    sql = "update bwprocess set 流程开始时间 = '%s' where 序号 = %s" % (input1, self.xh)
+                    tools.executeSql(sql)
 
                 QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
 
@@ -970,7 +982,6 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 确认新增/修改批文
     def insertOrUpdateCorFile(self):
-
         input1 = self.dateEdit_4.text()  # 收文时间
         input2 = self.lineEdit_13.text()  # 密级
         input3 = self.comboBox_8.currentText()  # 是否公开
@@ -1018,6 +1029,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                     self.xh_cor_list.append((data[0][0], input6))
 
                     QtWidgets.QMessageBox.information(None, "提示", "录入成功！")
+
+                    # 重新展示批文界面
+                    self.displayCorFile()
             else:
                 QtWidgets.QMessageBox.critical(None, "录入失败", "批文标题不能为空！")
 
@@ -1059,11 +1073,10 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
                     QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
 
+                    # 重新展示批文界面
+                    self.displayCorFile()
             else:
                 QtWidgets.QMessageBox.critical(None, "修改失败", "批文标题不能为空！")
-
-        # 重新展示批文界面
-        self.displayCorFile()
 
     # 取消新增/修改批文
     def cancelCorFile(self):
@@ -1093,18 +1106,18 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 选择问题表
     def chooseProblemTable(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "xlsx(*.xlsx);;xls(*.xls)")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "xls(*.xls);;xlsx(*.xlsx)")
         self.lineEdit_3.setText(p[0])
 
     # 发文办理下的选择文件夹按钮(专报)
     def choose_file_zb(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Docx(*.docx);;Doc(*.doc)")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Doc(*.doc);;Docx(*.docx)")
         if p[0] != "":
             self.lineEdit_file.setText(p[0])
 
     # 发文办理下的选择文件夹按钮(公文)
     def choose_file_gw(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Docx(*.docx);;Doc(*.doc)")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Doc(*.doc);;Docx(*.docx)")
         if p[0] != "":
             self.lineEdit_file_3.setText(p[0])
 
@@ -1137,17 +1150,17 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                     # 问题顺序号,判断是否为整数
                     if not tools.judgeInteger(sheet.row(i)[0].value):
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 问题顺序号应为整数！" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行：问题顺序号应为整数！" % str(i + 1))
                         break
-                    # 出具审计专报时间,判断是否为合法时间
-                    if isinstance(sheet.row(i)[5].value, str):
+                    # 出具审计专报时间,判断是否为合法时间,可以为空
+                    if isinstance(sheet.row(i)[5].value, str) and sheet.row(i)[5].value != "":
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 出具审计专报时间格式错误！" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行：出具审计专报时间格式错误！" % str(i + 1))
                         break
                     # 认定整改金额,判断是否为浮点数
-                    if not isinstance(sheet.row(i)[14].value, float):
+                    if not isinstance(sheet.row(i)[14].value, float) and sheet.row(i)[14].value != "":
                         check_tag = 0
-                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行: 问题金额应为数字！" % str(i + 1))
+                        QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行：问题金额应为数字！" % str(i + 1))
                         break
                 if sheet_rows == 4:
                     check_tag = 0
@@ -1162,8 +1175,11 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                         # cell_i_3 = sheet.row(i)[3].value  # 报送专报期号
                         cell_i_3 = self.xh_send  # 报送专报期号,忽略excel表中发文字号这一列,直接读入发文序号
                         cell_i_4 = sheet.row(i)[4].value  # 审计报告（意见）文号
-                        cell_i_5 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 5).value, 0).strftime(
-                            "%Y/%m/%d")  # 出具审计专报时间 Year/Month/Day
+                        if sheet.cell(i, 5).value != "":
+                            cell_i_5 = xlrd.xldate.xldate_as_datetime(sheet.cell(i, 5).value, 0).strftime(
+                                "%Y/%m/%d")  # 出具审计专报时间 Year/Month/Day
+                        else:
+                            cell_i_5 = ""
                         cell_i_6 = sheet.row(i)[6].value  # 审计组组长
                         cell_i_7 = sheet.row(i)[7].value  # 审计组主审
                         cell_i_8 = sheet.row(i)[8].value  # 问题描述

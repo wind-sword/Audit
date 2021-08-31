@@ -167,5 +167,6 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "领导姓名："))
         self.label_3.setText(_translate("Dialog", "领导职务："))
         self.label_4.setText(_translate("Dialog", "批示时间："))
+        self.dateEdit.setDisplayFormat(_translate("Dialog", "yyyy/MM/dd"))
         self.pushButton_revise.setText(_translate("Dialog", "确认"))
         self.pushButton_quit.setText(_translate("Dialog", "退出"))

@@ -144,6 +144,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.label_1.setText(_translate("Dialog", "收文补全："))
         self.label_2.setText(_translate("Dialog", "要求时间："))
+        self.dateEdit_1.setDisplayFormat(_translate("Dialog", "yyyy/MM/dd"))
         self.label_3.setText(_translate("Dialog", "文件去向："))
         self.pushButton_revise.setText(_translate("Dialog", "确认"))
         self.pushButton_quit.setText(_translate("Dialog", "退出"))

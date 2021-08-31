@@ -185,6 +185,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.label_1.setText(_translate("Dialog", "批文补全："))
         self.label_4.setText(_translate("Dialog", "批示任务办理要求时间："))
+        self.dateEdit_1.setDisplayFormat(_translate("Dialog", "yyyy/MM/dd"))
         self.label_3.setText(_translate("Dialog", "审计厅承办处室及承办人："))
         self.label_5.setText(_translate("Dialog", "办理结果："))
         self.label_6.setText(_translate("Dialog", "文件去向："))

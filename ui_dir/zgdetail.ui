@@ -332,7 +332,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>6</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page_zb">
       <layout class="QGridLayout" name="gridLayout_13" rowstretch="1,2,18">
@@ -426,7 +426,10 @@
            </property>
            <property name="font">
             <font>
+             <family>Agency FB</family>
              <pointsize>14</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="focusPolicy">
@@ -461,6 +464,9 @@
             <font>
              <pointsize>14</pointsize>
             </font>
+           </property>
+           <property name="displayFormat">
+            <string>yyyy/MM/dd</string>
            </property>
           </widget>
          </item>
@@ -1179,6 +1185,9 @@
                 <pointsize>12</pointsize>
                </font>
               </property>
+              <property name="displayFormat">
+               <string>yyyy/MM/dd</string>
+              </property>
              </widget>
             </item>
            </layout>
@@ -1609,6 +1618,9 @@
                 <pointsize>12</pointsize>
                </font>
               </property>
+              <property name="displayFormat">
+               <string>yyyy/MM/dd</string>
+              </property>
              </widget>
             </item>
            </layout>
@@ -1891,7 +1903,10 @@
            </property>
            <property name="font">
             <font>
+             <family>Agency FB</family>
              <pointsize>14</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="focusPolicy">
@@ -2158,6 +2173,9 @@
                <font>
                 <pointsize>12</pointsize>
                </font>
+              </property>
+              <property name="displayFormat">
+               <string>yyyy/MM/dd</string>
               </property>
              </widget>
             </item>
@@ -2709,6 +2727,9 @@
                 <pointsize>12</pointsize>
                </font>
               </property>
+              <property name="displayFormat">
+               <string>yyyy/MM/dd</string>
+              </property>
              </widget>
             </item>
            </layout>
@@ -3205,10 +3226,10 @@
          <property name="font">
           <font>
            <pointsize>12</pointsize>
-           <weight>50</weight>
+           <weight>75</weight>
            <italic>false</italic>
-           <bold>false</bold>
-           <underline>true</underline>
+           <bold>true</bold>
+           <underline>false</underline>
           </font>
          </property>
         </widget>

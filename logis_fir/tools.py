@@ -40,7 +40,8 @@ class tools:
     @classmethod
     def copyFile(cls, source, target):
         try:
-            shutil.copy(source, target)
+            if source != "":
+                shutil.copy(source, target)
         except:
             log = Logger('./log/logfile.log', level='error')
             log.logger.error("错误:%s", traceback.format_exc())
@@ -105,10 +106,16 @@ class tools:
         if index != -1:
             return string[:index]
 
-    # 根据办文字号对数据库查询结果进行排序,data为sql查询结果,结构为元组列表[(),(),...,()],index1表示以元组第几个元素作为key,index2表示解析字符串得到第几个数字
+    # 根据办文字号对数据库查询结果进行排序,data为sql查询结果,结构为元组列表[(),(),...,()]
+    # @param index:表示以data中元组的哪一个下标的元素为依据进行排序
+    # @param numOfIndex:表示元素中有几个数字
     @classmethod
-    def sortByKey(cls, data, index1, index2):
-        data.sort(key=lambda x: (int(cls.getIntegerFromString(x[index1])[index2])))
+    def sortByKey(cls, data, index, numOfIndex):
+        if numOfIndex == 1:
+            data.sort(key=lambda x: (int(cls.getIntegerFromString(x[index])[0])))
+        elif numOfIndex == 2:
+            data.sort(key=lambda x: (-int(cls.getIntegerFromString(x[index])[0]),
+                                     int(cls.getIntegerFromString(x[index])[1])))
         return data
 
     # 判断excel单元格是否为整数

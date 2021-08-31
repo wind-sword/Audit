@@ -1,0 +1,80 @@
+2021-08-27 23:50:18,916 - E:\GitHub repository\Audit\logis_fir\call_index.py[line:1200] - ERROR: 错误:NoneType: None
+
+2021-08-27 23:50:23,234 - E:\GitHub repository\Audit\logis_fir\call_index.py[line:1200] - ERROR: 错误:NoneType: None
+
+2021-08-27 23:50:23,234 - E:\GitHub repository\Audit\logis_fir\call_index.py[line:1200] - ERROR: 错误:NoneType: None
+
+2021-08-28 17:37:54,136 - E:\GitHub repository\Audit\logis_fir\tools.py[line:46] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 43, in copyFile
+    shutil.copy(source, target)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 415, in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+  File "E:\Anaconda\envs\Audit problem rectification\lib\shutil.py", line 261, in copyfile
+    with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+FileNotFoundError: [Errno 2] No such file or directory: ''
+
+2021-08-28 19:05:32,180 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "(": syntax error
+
+2021-08-28 19:08:10,429 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 审计专报
+
+2021-08-28 19:09:08,535 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: row value misused
+
+2021-08-28 19:10:09,315 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 审计专报
+
+2021-08-28 19:12:07,138 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 审计专报
+
+2021-08-28 19:13:49,704 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 审计专报
+
+2021-08-28 19:16:34,610 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "and": syntax error
+
+2021-08-28 23:17:53,348 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "and": syntax error
+
+2021-08-28 23:24:00,887 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "and": syntax error
+
+2021-08-28 23:24:17,792 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "and": syntax error
+
+2021-08-28 23:26:03,233 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "and": syntax error
+
+2021-08-28 23:29:47,202 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "and": syntax error
+
+2021-08-28 23:38:25,786 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "GROUP": syntax error
+

@@ -45,9 +45,6 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.tabWidget.tabBar().setTabButton(0, QtWidgets.QTabBar.RightSide, None)
         self.tabWidget.tabCloseRequested.connect(self.closeTab)
 
-        # 绑定按钮或其他控件功能函数
-        self.initControlFunction()
-
         # 同步批文输入框的三个list高亮情况
         self.listWidget.currentRowChanged.connect(self.autoHighlight1)
         self.listWidget_2.currentRowChanged.connect(self.autoHighlight2)
@@ -56,6 +53,9 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         # 同步整改录入两个表的同步显示情况
         self.tableWidget_2.currentCellChanged.connect(self.autoHighlight4)
         self.tableWidget_4.currentCellChanged.connect(self.autoHighlight5)
+
+        # 绑定按钮或其他控件功能函数
+        self.initControlFunction()
 
         # 初始化流程变量
         self.initVar(key)
@@ -87,70 +87,33 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             self.stackedWidget.setCurrentIndex(6)
             self.displayQuestionOverview()
 
-    # 关闭tab
-    def closeTab(self, index):
-        self.tabWidget.removeTab(index)
-
     # 控件绑定功能函数
     def initControlFunction(self):
-        # 打开公文文件
+        # 发文登记
         self.pushButton_file.clicked.connect(
-            lambda: tools.openFile(file_folder="project_word", file=self.lineEdit_file_3.text()))
-
-        # 打开专报文件
+            lambda: tools.openFile(file_folder="project_word", file=self.lineEdit_file_3.text()))  # 打开公文文件
         self.pushButton_file_2.clicked.connect(
-            lambda: tools.openFile(file_folder="project_word", file=self.lineEdit_file.text()))
+            lambda: tools.openFile(file_folder="project_word", file=self.lineEdit_file.text()))  # 打开专报文件
 
-        # 问题详情查看
-        self.pushButton.clicked.connect(self.jumpQuestionDetail)
-        # 问题表刷新
-        self.pushButton_3.clicked.connect(self.refreshQuestionTable)
+        # 问题表查看
+        self.pushButton.clicked.connect(self.jumpQuestionDetail)  # 问题详情查看
+        self.pushButton_3.clicked.connect(self.refreshQuestionTable)  # 问题表刷新
 
-        # 打开整改详情修改框
-        self.pushButton_10.clicked.connect(self.reviseZgdetail)
-
-        # 打开整改发函文件
-        self.pushButton_4.clicked.connect(self.openZgfh)
-        # 选择发函文件
-        self.pushButton_5.clicked.connect(self.chooseFileZgfh)
-        # 保存发函文件
-        self.pushButton_6.clicked.connect(self.saveZgfh)
-        # 删除发函文件
-        self.pushButton_2.clicked.connect(self.deleteZgfh)
-
-        # 选择问题Excel表
-        self.pushButton_7.clicked.connect(self.chooseQuestionExcel)
-        # 导入问题整改情况
-        self.pushButton_8.clicked.connect(self.importExcel)
-
-        # 绑定下拉框切换
+        # 批文查看
         self.comboBox.currentIndexChanged.connect(
-            lambda: self.displayCorFileForIndex(xh_cur_cor=self.comboBox_dict[self.comboBox.currentIndex()]))
+            lambda: self.displayCorFileForIndex(xh_cur_cor=self.comboBox_dict[self.comboBox.currentIndex()]))  # 绑定下拉框切换
 
-    # 同步批文页面list高亮
-    def autoHighlight1(self):
-        index = self.listWidget.currentRow()
-        self.listWidget_2.setCurrentRow(index)
-        self.listWidget_3.setCurrentRow(index)
+        # 整改发函
+        self.pushButton_4.clicked.connect(self.openZgfh)  # 打开整改发函文件
+        self.pushButton_5.clicked.connect(self.chooseFileZgfh)  # 选择发函文件
+        self.pushButton_6.clicked.connect(self.saveZgfh)  # 保存发函文件
+        self.pushButton_2.clicked.connect(self.deleteZgfh)  # 删除发函文件
 
-    def autoHighlight2(self):
-        index = self.listWidget_2.currentRow()
-        self.listWidget.setCurrentRow(index)
-        self.listWidget_3.setCurrentRow(index)
-
-    def autoHighlight3(self):
-        index = self.listWidget_3.currentRow()
-        self.listWidget.setCurrentRow(index)
-        self.listWidget_2.setCurrentRow(index)
-
-    # 同步整改页面两个table高亮
-    def autoHighlight4(self):
-        row = self.tableWidget_2.currentRow()
-        self.tableWidget_4.setCurrentCell(row, 0)
-
-    def autoHighlight5(self):
-        row = self.tableWidget_4.currentRow()
-        self.tableWidget_2.setCurrentCell(row, 0)
+        # 整改录入
+        self.pushButton_7.clicked.connect(self.chooseQuestionExcel)  # 选择问题Excel表
+        self.pushButton_8.clicked.connect(self.importExcelProblemZg)  # 导入问题整改情况
+        # self.pushButton_9.clicked.connect(self.deleteRecentProblemZg)  # 删除最近一次整改记录
+        self.pushButton_10.clicked.connect(self.reviseZgdetail)  # 打开整改详情修改框
 
     # 用发文字号初始化变量
     def initVar(self, key):
@@ -267,6 +230,20 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         data = tools.executeSql(sql)
         self.label_title.setText(data[0][0])
 
+    """
+    @关闭子页面操作函数
+    @关闭tabWidget或者Window
+    """
+
+    # 关闭tab
+    def closeTab(self, index):
+        self.tabWidget.removeTab(index)
+
+    """
+    @新增子页面操作函数
+    主要是对表格某一行进行操作(修改或查看)生成新的子页面
+    """
+
     # 跳转问题详情
     def jumpQuestionDetail(self):
         row = self.tableWidget.currentRow()
@@ -292,6 +269,40 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             self.window.setWindowTitle("整改详情")
             self.window.exec()
             self.displayQuestionOverview()
+
+    """
+    @同步高亮显示
+    主要是对前端多个控件之间的内容进行同步高亮显示
+    """
+
+    # 同步批文页面list高亮
+    def autoHighlight1(self):
+        index = self.listWidget.currentRow()
+        self.listWidget_2.setCurrentRow(index)
+        self.listWidget_3.setCurrentRow(index)
+
+    def autoHighlight2(self):
+        index = self.listWidget_2.currentRow()
+        self.listWidget.setCurrentRow(index)
+        self.listWidget_3.setCurrentRow(index)
+
+    def autoHighlight3(self):
+        index = self.listWidget_3.currentRow()
+        self.listWidget.setCurrentRow(index)
+        self.listWidget_2.setCurrentRow(index)
+
+    # 同步整改页面两个table高亮
+    def autoHighlight4(self):
+        row = self.tableWidget_2.currentRow()
+        self.tableWidget_4.setCurrentCell(row, 0)
+
+    def autoHighlight5(self):
+        row = self.tableWidget_4.currentRow()
+        self.tableWidget_2.setCurrentCell(row, 0)
+
+    """
+    @页面展示函数
+    """
 
     # 展示问题表格
     def displayQuestionTable(self):
@@ -357,6 +368,10 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
             self.tableWidget.resizeRowsToContents()  # 根据行调整框大小
             self.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)  # 表格只可选中行
             self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)  # 表格只可选中单行
+
+    # 问题表下的刷新按钮
+    def refreshQuestionTable(self):
+        self.displayQuestionTable()
 
     # 显示公文详情
     def displaySendDetail(self):
@@ -717,9 +732,10 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         self.tableWidget_4.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)  # 表格只可选中行
         self.tableWidget_4.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)  # 表格只可选中单行
 
-    # 问题表下的刷新按钮
-    def refreshQuestionTable(self):
-        self.displayQuestionTable()
+    """
+    @文件选择按钮函数
+    弹出文件系统页面,选择相应类型文件
+    """
 
     # 选择整改发函文件
     def chooseFileZgfh(self):
@@ -730,6 +746,11 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
     def chooseQuestionExcel(self):
         p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Excel(*.xlsx);;Excel(*.xls)")
         self.lineEdit_2.setText(p[0])
+
+    """
+    @整改发函文件操作
+    增删查
+    """
 
     # 保存整改发函文件
     def saveZgfh(self):
@@ -776,8 +797,13 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
 
             self.displayZgfh()
 
+    """
+    @excel操作
+    input&output
+    """
+
     # 根据excel中的右边问题整改信息导入问题表
-    def importExcel(self):
+    def importExcelProblemZg(self):
         path = self.lineEdit_2.text()
         path.replace('/', '\\\\')
         # 判断用户是否选择文件

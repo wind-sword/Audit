@@ -118,6 +118,9 @@ QPushButton:pressed{
          <pointsize>14</pointsize>
         </font>
        </property>
+       <property name="displayFormat">
+        <string>yyyy/MM/dd</string>
+       </property>
        <property name="calendarPopup">
         <bool>true</bool>
        </property>
@@ -248,7 +251,10 @@ QPushButton:pressed{
        </property>
        <property name="font">
         <font>
+         <family>Agency FB</family>
          <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="focusPolicy">
@@ -275,7 +281,10 @@ QPushButton:pressed{
        </property>
        <property name="font">
         <font>
+         <family>Agency FB</family>
          <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="focusPolicy">

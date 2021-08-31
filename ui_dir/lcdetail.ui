@@ -278,6 +278,9 @@
              <pointsize>14</pointsize>
             </font>
            </property>
+           <property name="displayFormat">
+            <string>yyyy/MM/dd</string>
+           </property>
            <property name="calendarPopup">
             <bool>true</bool>
            </property>
@@ -1352,6 +1355,9 @@
                 <pointsize>12</pointsize>
                </font>
               </property>
+              <property name="displayFormat">
+               <string>yyyy/MM/dd</string>
+              </property>
               <property name="calendarPopup">
                <bool>true</bool>
               </property>
@@ -1958,6 +1964,9 @@
                <font>
                 <pointsize>12</pointsize>
                </font>
+              </property>
+              <property name="displayFormat">
+               <string>yyyy/MM/dd</string>
               </property>
               <property name="calendarPopup">
                <bool>true</bool>
@@ -3084,6 +3093,9 @@
                 <pointsize>12</pointsize>
                </font>
               </property>
+              <property name="displayFormat">
+               <string>yyyy/MM/dd</string>
+              </property>
               <property name="calendarPopup">
                <bool>true</bool>
               </property>
@@ -3326,6 +3338,9 @@
                <font>
                 <pointsize>12</pointsize>
                </font>
+              </property>
+              <property name="displayFormat">
+               <string>yyyy/MM/dd</string>
               </property>
               <property name="calendarPopup">
                <bool>true</bool>
