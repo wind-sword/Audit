@@ -1,10 +1,8 @@
 <RCC>
-  <qresource prefix="/res/image">
+  <qresource prefix="resource_dir">
+    <file>refresh.png</file>
+    <file>gwdarkhead.png</file>
     <file>logo.png</file>
-    <file>bg.jpg</file>
-  </qresource>
-  <qresource prefix="/resource_dir">
-    <file>bg.jpg</file>
-    <file>logo.png</file>
+    <file>zbhead.png</file>
   </qresource>
 </RCC>
