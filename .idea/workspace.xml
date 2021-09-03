@@ -2,9 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="127f078b-1751-4dc6-8762-4209feaeac78" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Audit.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Audit.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/log/logfile.log.2021-08-28" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/log/logfile.log.2021-08-30" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/log/logfile.log.2021-08-31" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/logfile.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/logfile.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logis_fir/call_index.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_index.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui_dir/index.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/index.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui_dir/lcdetail.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/lcdetail.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uipy_dir/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/index.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uipy_dir/lcdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/lcdetail.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
