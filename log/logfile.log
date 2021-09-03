@@ -1,97 +1,51 @@
-2021-06-30 22:05:35,692 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+2021-09-03 11:39:33,150 - D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\tools.py", line 29, in executeSql
     cur.execute(sql)
-sqlite3.OperationalError: near "/": syntax error
+sqlite3.OperationalError: no such column: None
 
-2021-07-01 00:18:16,386 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+2021-09-03 11:42:49,196 - D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\tools.py", line 29, in executeSql
     cur.execute(sql)
-sqlite3.OperationalError: no such column: 审计报告文号
+sqlite3.OperationalError: no such column: None
 
-2021-07-01 00:18:23,413 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: no such column: 审计报告文号
+2021-09-03 14:45:56,154 - D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\call_index.py[line:426] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\call_index.py", line 416, in zgExcelOutput
+    df = pd.read_excel(r'..\测试.xlsx')
+  File "D:\Anaconda3\lib\site-packages\pandas\util\_decorators.py", line 296, in wrapper
+    return func(*args, **kwargs)
+  File "D:\Anaconda3\lib\site-packages\pandas\io\excel\_base.py", line 304, in read_excel
+    io = ExcelFile(io, engine=engine)
+  File "D:\Anaconda3\lib\site-packages\pandas\io\excel\_base.py", line 867, in __init__
+    self._reader = self._engines[engine](self._io)
+  File "D:\Anaconda3\lib\site-packages\pandas\io\excel\_xlrd.py", line 22, in __init__
+    super().__init__(filepath_or_buffer)
+  File "D:\Anaconda3\lib\site-packages\pandas\io\excel\_base.py", line 353, in __init__
+    self.book = self.load_workbook(filepath_or_buffer)
+  File "D:\Anaconda3\lib\site-packages\pandas\io\excel\_xlrd.py", line 37, in load_workbook
+    return open_workbook(filepath_or_buffer)
+  File "D:\Anaconda3\lib\site-packages\xlrd\__init__.py", line 111, in open_workbook
+    with open(filename, "rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '..\\测试.xlsx'
 
-2021-07-01 01:29:37,435 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: near "set": syntax error
+2021-09-03 14:48:07,104 - D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\call_index.py[line:426] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\call_index.py", line 417, in zgExcelOutput
+    df = df.drop(['main_investigator_1'], axis=1).join(
+  File "D:\Anaconda3\lib\site-packages\pandas\core\frame.py", line 4163, in drop
+    return super().drop(
+  File "D:\Anaconda3\lib\site-packages\pandas\core\generic.py", line 3887, in drop
+    obj = obj._drop_axis(labels, axis, level=level, errors=errors)
+  File "D:\Anaconda3\lib\site-packages\pandas\core\generic.py", line 3921, in _drop_axis
+    new_axis = axis.drop(labels, errors=errors)
+  File "D:\Anaconda3\lib\site-packages\pandas\core\indexes\base.py", line 5282, in drop
+    raise KeyError(f"{labels[mask]} not found in axis")
+KeyError: "['main_investigator_1'] not found in axis"
 
-2021-07-01 01:29:46,727 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: near "set": syntax error
-
-2021-07-01 01:29:46,727 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: near "set": syntax error
-
-2021-07-01 01:30:27,940 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: near "set": syntax error
-
-2021-07-01 01:30:27,940 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: near "set": syntax error
-
-2021-07-01 01:30:27,940 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: near "set": syntax error
-
-2021-08-31 18:53:10,489 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: no such table: bw_cast_cor
-
-2021-08-31 18:53:22,753 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: no such table: bw_cast_cor
-
-2021-08-31 19:52:34,296 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: no such table: bw_cast_cor
-
-2021-08-31 20:21:19,936 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: no such table: bw_cast_cor
-
-2021-08-31 20:21:24,578 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: no such table: bw_cast_cor
-
-2021-08-31 21:33:49,995 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: no such table: bw_cast_cor
-
-2021-08-31 21:44:46,045 - E:\GitHub repository\Audit\logis_fir\call_index.py[line:1356] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\call_index.py", line 1342, in importExcelProblemJz
-    self.displayProblemJzPage()
-  File "E:\GitHub repository\Audit\logis_fir\call_index.py", line 666, in displayProblemJzPage
-    data = tools.sortByKey(data, 5, 2)
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 117, in sortByKey
-    data.sort(key=lambda x: (-int(cls.getIntegerFromString(x[index])[0]),
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 118, in <lambda>
-    int(cls.getIntegerFromString(x[index])[1])))
-IndexError: list index out of range
-
-2021-08-31 21:48:00,358 - E:\GitHub repository\Audit\logis_fir\call_index.py[line:1358] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\call_index.py", line 1344, in importExcelProblemJz
-    QtWidgets.QMessageBox.critical(self, "错误", "问题表导入失败！")
-  File "E:\GitHub repository\Audit\logis_fir\call_index.py", line 668, in displayProblemJzPage
-    # 已经完成录入
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 117, in sortByKey
-    data.sort(key=lambda x: (-int(cls.getIntegerFromString(x[index])[0]),
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 118, in <lambda>
-    int(cls.getIntegerFromString(x[index])[1])))
-IndexError: list index out of range
+2021-09-03 14:52:11,812 - D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\call_index.py[line:426] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\call_index.py", line 415, in zgExcelOutput
+    work_book.save(nowText + '.xls')
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+PermissionError: [Errno 13] Permission denied: '测试.xls'
 
