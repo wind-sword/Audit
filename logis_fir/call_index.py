@@ -50,11 +50,15 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tabWidget_zgzl.tabBar().setTabButton(0, QtWidgets.QTabBar.RightSide, None)
         self.tabWidget_zgzl.tabCloseRequested.connect(self.closeTab1)
 
+        self.lineEdit_6.mousePressEvent = lambda _: self.lineEdit_6.selectAll()  # 单击全选
+
         # 流程总览tab
         self.tabWidget_lczl.setTabText(0, "流程总览")
         self.tabWidget_lczl.setTabsClosable(1)
         self.tabWidget_lczl.tabBar().setTabButton(0, QtWidgets.QTabBar.RightSide, None)
         self.tabWidget_lczl.tabCloseRequested.connect(self.closeTab2)
+
+        self.lineEdit_4.mousePressEvent = lambda _: self.lineEdit_4.selectAll()  # 单击全选
 
         # 公文页面日期和办文编号同步;登记表页面下拉框内容同步;经责文件录入页面listWidget高亮同步;发文类型与页面同步
         self.dateEdit_5.dateChanged.connect(self.autoSyn1)
@@ -69,10 +73,15 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.listWidget_sjjg.currentRowChanged.connect(self.autoSyn9)
         self.listWidget_excel.currentRowChanged.connect(self.autoSyn10)
         self.comboBox_13.currentIndexChanged.connect(self.autoSyn11)
+        self.comboBox_16.currentIndexChanged.connect(self.autoSyn12)
+
         self.comboBox_type_fw.currentIndexChanged.connect(
             lambda: self.autoSynSendfileType(index=self.comboBox_type_fw.currentIndex()))
         self.dateEdit_8.dateChanged.connect(self.autoSynCancelCheck)
         self.dateEdit_10.dateChanged.connect(self.autoSynCancelCheck)
+
+        self.dateEdit_7.dateChanged.connect(self.autoSynCancelCheck_zg)
+        self.dateEdit_9.dateChanged.connect(self.autoSynCancelCheck_zg)
 
         # 绑定按钮或其他控件功能函数
         self.initControlFunction()
@@ -192,6 +201,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         # 整改总览下的按钮功能
         self.pushButton_zg_detail.clicked.connect(self.zg_detail)
+        self.comboBox_15.currentIndexChanged.connect(self.choose_sort_zg)  # 排序方法
+        self.checkBox_3.clicked.connect(self.tip_zg)  # 设置时间按钮提示
+        self.pushButton_4.clicked.connect(self.part_search_zg)
+        self.pushButton_refresh_lczl_2.clicked.connect(self.refreshZgprocessTable)
+        self.btlczg_3.clicked.connect(self.zgExcelOutput)  # 导出至Excel表格
 
     """
     @关闭子页面操作函数
@@ -222,6 +236,189 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             tab_new.setObjectName('tab_new')
             tab_num = self.tabWidget_zgzl.addTab(tab_new, self.tableWidget_zgzl.item(row, 2).text())
             self.tabWidget_zgzl.setCurrentIndex(tab_num)
+
+    def choose_sort_zg(self):
+        now = self.comboBox_15.currentText()
+        if now == "按流程开始时间由近及远排序":
+            self.tableWidget_zgzl.sortItems(1, Qt.DescendingOrder)  # 按照流程建立时间由近及远排序
+        elif now == "按流程开始时间由远及近排序":
+            self.tableWidget_zgzl.sortItems(1, Qt.AscendingOrder)  # 按照流程建立时间由近及远排序
+
+    def tip_zg(self):
+        if self.checkBox_3.property("checked"):
+            front = self.dateEdit_7.date()
+            behind = self.dateEdit_9.date()
+            if front <= behind:
+                QtWidgets.QMessageBox.information(self, "提示", "设置时间成功")
+            else:
+                QtWidgets.QMessageBox.warning(self, "提示", "设置时间不合法")
+                self.checkBox.setChecked(False)
+        else:
+            QtWidgets.QMessageBox.information(self, "提示", "取消时间设置")
+
+    def part_search_zg(self):
+        print("i")
+        firstNeed = self.comboBox_16.currentText()  # 第一个条件
+        secondNeed = '%' + self.comboBox_17.currentText() + '%'  # 第二个条件
+        condition_dict = {"发文类型": "sendfile.发文字号", "收文类型": "revfile.收文字号", "是否需要整改": "bwprocess.是否加入整改"}
+        if self.checkBox_3.property("checked"):  # 当设置时间时
+            frontTime = self.dateEdit_7.text()
+            behindTime = self.dateEdit_9.text()
+            if firstNeed == "不限制":
+                sql="select zgprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,revfile.收文字号,revfile.收文标题," \
+                      "GROUP_CONCAT(corfile.批文字号,'\n'),GROUP_CONCAT(corfile.批文标题,'\n'),zgprocess.整改状态 from zgprocess join " \
+                      "bwprocess on zgprocess.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join revfile " \
+                      "on bwprocess.收文序号 = revfile.序号 join corfile on bwprocess.序号 = corfile.流程序号 WHERE  bwprocess.流程开始时间 " \
+                    "BETWEEN '%s' AND '%s' GROUP BY zgprocess.序号 " % (frontTime, behindTime)
+
+            else:
+                sql = "select zgprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,revfile.收文字号,revfile.收文标题," \
+                      "GROUP_CONCAT(corfile.批文字号,'\n'),GROUP_CONCAT(corfile.批文标题,'\n'),zgprocess.整改状态 from zgprocess join " \
+                      "bwprocess on zgprocess.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join revfile " \
+                      "on bwprocess.收文序号 = revfile.序号 join corfile on bwprocess.序号 = corfile.流程序号  WHERE %s LIKE '%s' and " \
+                      "bwprocess.流程开始时间 BETWEEN '%s' AND '%s' GROUP BY zgprocess.序号 "% (condition_dict.get(firstNeed), secondNeed, frontTime, behindTime)
+
+        else:  # 当未设置时间
+            if firstNeed == "不限制":
+                sql = "select zgprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,revfile.收文字号,revfile.收文标题," \
+                      "GROUP_CONCAT(corfile.批文字号,'\n'),GROUP_CONCAT(corfile.批文标题,'\n'),zgprocess.整改状态 from zgprocess join " \
+                      "bwprocess on zgprocess.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join revfile " \
+                      "on bwprocess.收文序号 = revfile.序号 join corfile on bwprocess.序号 = corfile.流程序号 GROUP BY zgprocess.序号 "
+            else:
+                sql = "select zgprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,revfile.收文字号,revfile.收文标题," \
+                      "GROUP_CONCAT(corfile.批文字号,'\n'),GROUP_CONCAT(corfile.批文标题,'\n'),zgprocess.整改状态 from zgprocess join " \
+                      "bwprocess on zgprocess.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 join revfile " \
+                      "on bwprocess.收文序号 = revfile.序号 join corfile on bwprocess.序号 = corfile.流程序号 WHERE %s LIKE '%s' GROUP BY zgprocess.序号 "% \
+                      (condition_dict.get(firstNeed), secondNeed)
+
+        # 打印显示
+        data = tools.executeSql(sql)
+        size = len(data)
+        self.tableWidget_zgzl.setRowCount(size)
+        x = 0
+        for i in data:
+            y = 0
+            for j in i:
+                if data[x][y] is None:
+                    self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
+                else:
+                    self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                y = y + 1
+            x = x + 1
+
+        self.choose_sort_zg()
+
+    def refreshZgprocessTable(self):
+        self.showZgTable()
+
+    def zgExcelOutput(self):
+        nowText = self.lineEdit_6.text()
+        if nowText == "请在此输入表格名" or nowText == "":
+            QtWidgets.QMessageBox.warning(self, "提示", "请输入表格名")
+        else:
+            # 设置表头格式
+            style_head = xlwt.XFStyle()
+            font = xlwt.Font()
+            font.name = u'微软雅黑'
+            font.color = 'black'
+            font.height = 230  # 字体大小
+            style_head.font = font
+            # 设置表头字体在单元格的位置
+            alignment = xlwt.Alignment()
+            alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
+            alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
+            style_head.alignment = alignment
+            # 给表头单元格加框线
+            border = xlwt.Borders()
+            border.left = xlwt.Borders.THIN  # 左
+            border.top = xlwt.Borders.THIN  # 上
+            border.right = xlwt.Borders.THIN  # 右
+            border.bottom = xlwt.Borders.THIN  # 下
+            border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
+            border.right_colour = 0x40
+            border.top_colour = 0x40
+            border.bottom_colour = 0x40
+            style_head.borders = border
+
+            # 设置输出字体格式及大小
+            style = xlwt.XFStyle()
+            font1 = xlwt.Font()
+            font1.name = u'宋体'
+            font1.color = 'black'
+            font1.height = 220  # 字体大小，220就是11号字体
+            style.font = font1
+            # 设置输出字体在单元格的位置
+            alignment = xlwt.Alignment()
+            alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
+            alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
+            style.alignment = alignment
+            # 给输出单元格加框线
+            border = xlwt.Borders()
+            border.left = xlwt.Borders.THIN  # 左
+            border.top = xlwt.Borders.THIN  # 上
+            border.right = xlwt.Borders.THIN  # 右
+            border.bottom = xlwt.Borders.THIN  # 下
+            border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
+            border.right_colour = 0x40
+            border.top_colour = 0x40
+            border.bottom_colour = 0x40
+            style.borders = border
+
+            work_book = xlwt.Workbook(encoding='utf-8')
+            sheet = work_book.add_sheet(nowText, cell_overwrite_ok=True)
+
+            # 设置单元格宽度
+            time = sheet.col(0)  # 流程开始时间
+            time.width = 256 * 13
+            send_number = sheet.col(1)  # 发文号
+            send_number.width = 256 * 30
+            send_name = sheet.col(2)  # 发文标题
+            send_name.width = 256 * 100
+            receive_number = sheet.col(3)  # 收文号
+            receive_number.width = 256 * 30
+            receive_name = sheet.col(4)  # 收文标题
+            receive_name.width = 256 * 100
+            instruction_number = sheet.col(5)  # 批文号
+            instruction_number.width = 256 * 30
+            instruction_name = sheet.col(6)  # 批文标题
+            instruction_name.width = 256 * 100
+            if_change = sheet.col(7)  # 是否设置整改
+            if_change.width = 256 * 13
+
+            # 设置输出内容单元格高度
+            out_high_style = xlwt.easyxf('font:height 300')
+
+            # 设置列名,从流程开始时间这一列开始,序号不用显示
+            sheet.write(0, 0, '流程开始时间', style_head)
+            sheet.write(0, 1, '发文号', style_head)
+            sheet.write(0, 2, '发文标题', style_head)
+            sheet.write(0, 3, '收文号', style_head)
+            sheet.write(0, 4, '收文标题', style_head)
+            sheet.write(0, 5, '批文号', style_head)
+            sheet.write(0, 6, '批文标题', style_head)
+            sheet.write(0, 7, '是否完成整改', style_head)
+            rows = self.tableWidget_zgzl.rowCount()
+            for i in range(rows):
+                # 因为是边读边写，所以每次写完后，要把上次存储的数据清空，存储下一行读取的数据
+                mainList = []
+                # tableWidget一共有8列,去掉序号列
+                for j in range(0, 8):
+                    mainList.append(self.tableWidget_zgzl.item(i, j + 1).text())  # 添加到数组
+                    # 把mainList中的数据写入表格
+                    sheet.write(i + 1, j, mainList[j], style)
+                    # 设置当前列的高度
+                    sheet.row(i + 1).set_style(out_high_style)
+            # 设置表头单元格高度
+            head_high_style = xlwt.easyxf('font:height 400')
+            sheet.row(0).set_style(head_high_style)
+            # 保存
+            try:
+                work_book.save(nowText + '.xls')
+            except:
+                log = Logger('./log/logfile.log', level='error')
+                log.logger.error("错误:%s", traceback.format_exc())
+            else:
+                QtWidgets.QMessageBox.information(self, "提示", "导出成功")
 
     # 办文流程详情下的查看详情按钮
     def lc_detail(self):
@@ -341,6 +538,18 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.comboBox_14.addItems(["请字", "情字", "综字", "会字", "电字"])
         elif type_1 == "是否需要整改":
             self.comboBox_14.addItems(["否", "是"])
+        elif type_1=="不限制":
+            self.comboBox_14.addItems(["不限制"])
+
+    def autoSyn12(self):
+        type_1 = self.comboBox_16.currentText()
+        self.comboBox_17.clear()
+        if type_1 == "发文类型":
+            self.comboBox_17.addItems(["委文", "委发", "委办文", "委办发", "委函", "委办函", "委便签", "委办便签", "会议纪要", "审计专报"])
+        elif type_1 == "收文类型":
+            self.comboBox_17.addItems(["请字", "情字", "综字", "会字", "电字"])
+        elif type_1 == "不限制":
+            self.comboBox_17.addItems(["不限制"])
 
     # 发文办理下的公文类型同步
     def autoSynSendfileType(self, index):
@@ -349,6 +558,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     # 日期有变动就取消checkBox的选中
     def autoSynCancelCheck(self):
         self.checkBox.setChecked(False)
+
+    def autoSynCancelCheck_zg(self):
+        self.checkBox_3.setChecked(False)
 
     """
     @页面展示函数
@@ -1104,14 +1316,23 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.tableWidget_lczl.sortItems(4, Qt.AscendingOrder)  # 按照问题个数排序
 
     # 按照条件筛选
-    def part_search(self):  # 此处写的是整个页面的显示，并非筛选出来的，未开发
+    def part_search(self):
         firstNeed = self.comboBox_13.currentText()  # 第一个条件
         secondNeed = '%' + self.comboBox_14.currentText() + '%'  # 第二个条件
         condition_dict = {"发文类型": "sendfile.发文字号", "收文类型": "revfile.收文字号", "是否需要整改": "bwprocess.是否加入整改"}
         if self.checkBox.property("checked"):  # 当设置时间时
             frontTime = self.dateEdit_8.text()
             behindTime = self.dateEdit_10.text()
-            sql = "SELECT bwprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,count(distinct problem.序号)," \
+            if firstNeed=="不限制":
+                sql = "SELECT bwprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,count(distinct problem.序号)," \
+                      "revfile.收文字号,revfile.收文标题,REPLACE(GROUP_CONCAT(distinct corfile.批文字号),',','\n')," \
+                      "REPLACE(GROUP_CONCAT(distinct corfile.批文标题),',','\n'),bwprocess.是否加入整改 FROM bwprocess LEFT " \
+                      "OUTER JOIN sendfile ON sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN problem ON sendfile.序号 = " \
+                      "problem.发文序号 LEFT OUTER JOIN revfile ON revfile.序号 = bwprocess.收文序号 LEFT OUTER JOIN corfile ON " \
+                      "bwprocess.序号 = corfile.流程序号 WHERE  bwprocess.流程开始时间 BETWEEN '%s' AND '%s' GROUP BY " \
+                      "bwprocess.序号 " % (frontTime, behindTime)
+            else:
+                sql = "SELECT bwprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,count(distinct problem.序号)," \
                   "revfile.收文字号,revfile.收文标题,REPLACE(GROUP_CONCAT(distinct corfile.批文字号),',','\n')," \
                   "REPLACE(GROUP_CONCAT(distinct corfile.批文标题),',','\n'),bwprocess.是否加入整改 FROM bwprocess LEFT " \
                   "OUTER JOIN sendfile ON sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN problem ON sendfile.序号 = " \
@@ -1120,7 +1341,15 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                   "bwprocess.序号 " % (condition_dict.get(firstNeed), secondNeed, frontTime, behindTime)
 
         else:  # 当未设置时间
-            sql = "SELECT bwprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,count(distinct problem.序号), " \
+            if firstNeed=="不限制":
+                sql = "SELECT bwprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,count(distinct problem.序号)," \
+                      "revfile.收文字号,revfile.收文标题,REPLACE(GROUP_CONCAT(distinct corfile.批文字号),',','\n'),REPLACE(GROUP_CONCAT(" \
+                      "distinct corfile.批文标题),',','\n'),bwprocess.是否加入整改 FROM bwprocess LEFT OUTER JOIN sendfile ON " \
+                      "sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN problem ON sendfile.序号 = problem.发文序号 LEFT OUTER JOIN " \
+                      "revfile ON revfile.序号 = bwprocess.收文序号 LEFT OUTER JOIN corfile ON bwprocess.序号 = corfile.流程序号 GROUP BY " \
+                      "bwprocess.序号 "
+            else:
+                sql = "SELECT bwprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,count(distinct problem.序号), " \
                   "revfile.收文字号,revfile.收文标题,REPLACE(GROUP_CONCAT(distinct corfile.批文字号),',','\n')," \
                   "REPLACE(GROUP_CONCAT(distinct corfile.批文标题),',','\n'),bwprocess.是否加入整改  FROM bwprocess LEFT " \
                   "OUTER JOIN sendfile ON sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN problem ON sendfile.序号 = " \
