@@ -26,7 +26,7 @@ class Call_revfilebq(QtWidgets.QDialog, Ui_Dialog):
         if data[0][0] is None:
             self.dateEdit_1.setDate(datetime.datetime.now())
         else:
-            self.dateEdit_1.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))
+            self.dateEdit_1.setDate(QDate.fromString(data[0][0], 'yyyy/MM/dd'))
         self.lineEdit_1.setText(data[0][1])
 
     def reviseRevfilebqDetail(self):

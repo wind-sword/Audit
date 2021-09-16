@@ -1,5 +1,0 @@
-2021-08-30 15:10:38,182 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: near "/": syntax error
-

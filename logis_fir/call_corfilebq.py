@@ -26,7 +26,7 @@ class Call_corfilebq(QtWidgets.QDialog, Ui_Dialog):
         if data[0][0] is None:
             self.dateEdit_1.setDate(datetime.datetime.now())
         else:
-            self.dateEdit_1.setDate(QDate.fromString(data[0][0], 'yyyy/M/d'))  # 批示任务办理要求时间
+            self.dateEdit_1.setDate(QDate.fromString(data[0][0], 'yyyy/MM/dd'))  # 批示任务办理要求时间
         self.lineEdit_1.setText(data[0][1])  # 审计厅承办处室及承办人
         self.lineEdit_2.setText(data[0][2])  # 办理结果
         self.lineEdit_3.setText(data[0][3])  # 文件去向

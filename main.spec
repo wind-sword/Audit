@@ -1,6 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-# 此文件为打包配置文件
 
 block_cipher = None
 
@@ -8,7 +7,7 @@ block_cipher = None
 a = Analysis(['main.py'],
              pathex=['E:\\GitHub repository\\Audit'],
              binaries=[],
-             datas=[('db','db'),('project_word','project_word'),('resource_dir','resource_dir'),('zgfh_word','zgfh_word')],
+             datas=[],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -23,14 +22,12 @@ exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
-          name='审计整改管理系统1.0',
+          name='main',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
-          console=False,
-          icon='icon.ico')
-
+          console=True )
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
@@ -38,4 +35,4 @@ coll = COLLECT(exe,
                strip=False,
                upx=True,
                upx_exclude=[],
-               name='审计整改管理系统1.0')
+               name='main')
