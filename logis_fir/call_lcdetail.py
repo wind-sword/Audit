@@ -24,15 +24,13 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.xh_cor_list = []  # 批文序号列表,元素为(批文序号,批文字号)
         self.send_type = -1  # 发文类型
         self.pro_tag = -1  # 问题表是否导入
+        self.zg_tag = False  # 流程是否被加入整改
 
         # 页面上方流程按钮跳转
         self.commandLinkButton_1.clicked.connect(lambda: self.btjump(btname="1"))
         self.commandLinkButton_2.clicked.connect(lambda: self.btjump(btname="2"))
         self.commandLinkButton_3.clicked.connect(lambda: self.btjump(btname="3"))
         self.commandLinkButton_4.clicked.connect(lambda: self.btjump(btname="4"))
-
-        # 控件功能绑定相应功能函数
-        self.initControlFunction()
 
         # 同步公文页面输入框:日期和办文编号
         self.dateEdit_6.dateChanged.connect(self.autoSyn1)
@@ -45,24 +43,22 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.listWidget_2.currentRowChanged.connect(self.autoHighlight2)
         self.listWidget_3.currentRowChanged.connect(self.autoHighlight3)
 
+        # 控件功能绑定相应功能函数
+        self.initControlFunction()
+
         # 初始化流程变量
         self.initVar(key)
 
         # 初始化页面展示情况
         self.initView()
 
-        # 初始化页面数据
-        if self.xh_send != -1:
-            self.displaySendFile()
-        elif self.xh_send == -1 and self.xh_rev != -1:
-            self.displayRevFile()
-
         print("当前流程序号:%s" % self.xh)
         print("当前发文序号:%s" % self.xh_send)
         print("当前收文序号:%s" % self.xh_rev)
         print("当前批文序号列表:%s" % self.xh_cor_list)
         print("当前发文类型:%s" % self.send_type)
-        print("当前问题表导入情况:%s\n" % self.pro_tag)
+        print("当前问题表导入情况:%s" % self.pro_tag)
+        print("当前流程是否整改:%s\n" % self.zg_tag)
 
     # 页面上方流程按钮跳转,同时刷新页面
     def btjump(self, btname):
@@ -118,10 +114,13 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             lambda: self.displayCorFileForIndex(xh_cur_cor=self.xh_cor_list[self.comboBox.currentIndex()][0]))
 
         # 选择问题Excel表
-        self.pushButton_quechoose.clicked.connect(self.chooseProblemTable)
+        self.pushButton_que_choose.clicked.connect(self.chooseProblemTable)
 
         # 导入问题表
-        self.pushButton_queimport.clicked.connect(self.importExcelProblem)
+        self.pushButton_que_import.clicked.connect(self.importExcelProblem)
+
+        # 删除问题表
+        self.pushButton_que_delete.clicked.connect(self.deleteProblem)
 
         # 打开公文文件
         self.pushButton_opfile.clicked.connect(
@@ -136,6 +135,85 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
         # 选择专报文件
         self.pushButton_file_2.clicked.connect(self.choose_file_zb)
+
+    # 用流程表中的序号初始化各变量
+    def initVar(self, key):
+        self.xh = key
+        sql = "select 发文序号,收文序号 from bwprocess where 序号 = %s" % self.xh
+        data = tools.executeSql(sql)
+        # 判断收文号是否存在
+        if data[0][0] is not None:
+            self.xh_send = data[0][0]
+
+            # 初始化发文类型
+            sql = "select projectType from sendfile where 序号 = %s" % self.xh_send
+            result = tools.executeSql(sql)
+            self.send_type = result[0][0]
+
+            # 初始化问题表状态
+            sql = "select * from problem where 发文序号 = %s" % self.xh_send
+            result = tools.executeSql(sql)
+            if len(result) != 0:
+                self.pro_tag = 1
+
+        # 判断收文序号是否存在
+        if data[0][1] is not None:
+            # 初始化收文序号
+            self.xh_rev = data[0][1]
+
+        # 初始化批文序号列表
+        sql = "select corfile.序号,corfile.批文字号 from corfile,bwprocess where bwprocess.序号 = %s and " \
+              "bwprocess.序号 = corfile.流程序号" % self.xh
+        result = tools.executeSql(sql)
+        # 如果有批文序号,那么初始化批文序号列表
+        if len(result) != 0:
+            self.xh_cor_list = result
+
+        # 初始化整改标志
+        sql = "select 是否加入整改 from bwprocess where 序号 = %s" % self.xh
+        result = tools.executeSql(sql)
+        # 如果被加入了整改,初始化整改标志tag为True
+        if result[0][0] == "是":
+            self.zg_tag = True
+
+    # 从初始化的变量情况判断要展示的页面
+    def initView(self):
+        # 没有发文流程
+        if self.xh_send == -1:
+            self.commandLinkButton_1.setDisabled(True)
+            self.commandLinkButton_2.setDisabled(True)
+            # 没有收文流程
+            if self.xh_rev == -1:
+                self.commandLinkButton_3.setDisabled(True)
+                self.stackedWidget.setCurrentIndex(4)
+            else:
+                self.stackedWidget.setCurrentIndex(3)
+        # 有发文流程
+        else:
+            # 专报类型
+            if self.send_type == 1:
+                self.stackedWidget.setCurrentIndex(0)
+            # 公文类型
+            elif self.send_type == 2:
+                self.stackedWidget.setCurrentIndex(1)
+
+            # 当流程被加入整改后,如果此时不存在收文,则该流程不能再录入收文
+            if self.zg_tag is True and self.xh_rev == -1:
+                self.commandLinkButton_3.setDisabled(True)
+
+        # 初始化页面数据
+        if self.xh_send == -1:
+            if self.xh_rev == -1:
+                self.displayCorFile()
+            else:
+                self.displayRevFile()
+        else:
+            self.displaySendFile()
+
+    """
+    @同步高亮显示和不同控件的内容
+    主要是对前端多个控件之间的内容进行同步高亮显示和内容同步
+    """
 
     # 同步公文输入框内容
     def autoSyn1(self):
@@ -165,54 +243,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.listWidget.setCurrentRow(index)
         self.listWidget_2.setCurrentRow(index)
 
-    # 用流程表中的序号初始化各变量
-    def initVar(self, key):
-        self.xh = key
-        sql = "select 发文序号,收文序号 from bwprocess where 序号 = %s" % self.xh
-        data = tools.executeSql(sql)
-        # 表明发文字号不为空,对各状态变量初始化
-        if data[0][0] is not None:
-            self.xh_send = data[0][0]
-
-            # 初始化发文类型
-            sql = "select projectType from sendfile where 序号 = %s" % self.xh_send
-            result = tools.executeSql(sql)
-            self.send_type = result[0][0]
-
-            # 初始化问题表状态
-            sql = "select * from problem where 发文序号 = %s" % self.xh_send
-            result = tools.executeSql(sql)
-            if len(result) != 0:
-                self.pro_tag = 1
-
-        # 判断收文序号是否存在
-        if data[0][1] is not None:
-            # 初始化收文序号
-            self.xh_rev = data[0][1]
-
-        # 初始化批文序号列表
-        sql = "select corfile.序号,corfile.批文字号 from corfile,bwprocess where bwprocess.序号 = %s and " \
-              "bwprocess.序号 = corfile.流程序号" % self.xh
-        result = tools.executeSql(sql)
-        # 如果有批文序号,那么初始化批文序号列表
-        if len(result) != 0:
-            self.xh_cor_list = result
-
-    # 从初始化的变量情况判断要展示的页面
-    def initView(self):
-        # 没有发文流程
-        if self.xh_send == -1:
-            self.commandLinkButton_1.hide()
-            self.commandLinkButton_2.hide()
-            self.stackedWidget.setCurrentIndex(3)
-        # 有发文流程
-        else:
-            # 专报类型
-            if self.send_type == 1:
-                self.stackedWidget.setCurrentIndex(0)
-            # 公文类型
-            elif self.send_type == 2:
-                self.stackedWidget.setCurrentIndex(1)
+    """
+    @页面展示函数
+    """
 
     # 展示问题表格
     def displayQuestionDetail(self):
@@ -220,12 +253,20 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         # 文件路径不可编辑
         self.lineEdit_3.setReadOnly(True)
-        # 问题已导入时,隐藏相关信息
+        # 问题已导入时,隐藏相关信息,显示删除按钮
         if self.pro_tag != -1:
-            self.pushButton_quechoose.hide()
-            self.pushButton_queimport.hide()
+            self.pushButton_que_choose.hide()
+            self.pushButton_que_import.hide()
             self.lineEdit_3.hide()
             self.label_23.hide()
+            self.pushButton_que_delete.show()
+        else:
+            self.pushButton_que_choose.show()
+            self.pushButton_que_import.show()
+            self.lineEdit_3.show()
+            self.label_23.show()
+            self.pushButton_que_delete.hide()
+
         # 选出该项目对应的所有问题
         sql = 'select problem.问题顺序号,problem.被审计领导干部,problem.所在地方或单位,sendfile.发文字号,problem.审计报告文号,problem.出具审计报告时间,' \
               'problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类,problem.问题四级分类,' \
@@ -276,7 +317,8 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
                 self.lineEdit.setText(data[0][0])  # 发文标题
                 self.lineEdit_2.setText(data[0][1])  # 报送范围
-                self.spinBox.setValue(int(tools.getIntegerFromString(data[0][2])[0]))  # 发文字号
+                self.spinBox_8.setValue(int(tools.getIntegerFromString(data[0][2])[0]))  # 发文字号
+                self.spinBox.setValue(int(tools.getIntegerFromString(data[0][2])[1]))  # 发文字号
                 self.comboBox_2.setCurrentText(data[0][3])  # 紧急程度
                 self.lineEdit_5.setText(data[0][4])  # 秘密等级
                 self.comboBox_3.setCurrentText(data[0][5])  # 是否公开
@@ -300,6 +342,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 # 设置只读
                 self.lineEdit.setReadOnly(True)
                 self.lineEdit_2.setReadOnly(True)
+                self.spinBox_8.setReadOnly(True)
                 self.spinBox.setReadOnly(True)
                 self.comboBox_2.setDisabled(True)
                 self.lineEdit_5.setReadOnly(True)
@@ -434,28 +477,32 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.pushButton_3.show()
             self.pushButton_6.hide()
 
+            # 继承字段
             self.lineEdit_14.setText(data[0][3])  # 密级
             self.comboBox_6.setCurrentText(data[0][4])  # 是否公开
             self.lineEdit_68.setText(data[0][0])  # 文件标题
             self.comboBox_7.setCurrentText(data[0][2])  # 紧急程度
             self.lineEdit_67.setText(data[0][1])  # 来文字号
+
+            # 初始化字段
             self.dateEdit_5.setDate(datetime.datetime.now())  # 初始化时间时间默认值为当前时间
             self.comboBox_11.setCurrentIndex(0)  # 初始化收文类型
             self.spinBox_4.setValue(datetime.datetime.now().year)  # 初始化时间为当前系统时间
             self.spinBox_5.setValue(1)  # 初始化编号为1
 
+            """
             # 继承而来的字段不可改变
             self.lineEdit_14.setReadOnly(True)
             self.comboBox_6.setDisabled(True)
             self.lineEdit_68.setReadOnly(True)
             self.comboBox_7.setDisabled(True)
             self.lineEdit_67.setReadOnly(True)
+            """
 
         self.stackedWidget.setCurrentIndex(3)
 
     # 展示所有批文页面
     def displayCorFile(self):
-
         # 设置不可修改,list默认不能修改
         self.dateEdit_4.setReadOnly(True)  # 收文时间
         self.lineEdit_13.setText("")
@@ -481,11 +528,13 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.lineEdit_54.setReadOnly(True)  # 联系电话
 
         # 表示收文还没有录入,此时不允许录入批文,跳转到收文录入页面
+        """
         if self.xh_rev == -1:
             QtWidgets.QMessageBox.critical(None, "错误", "收文未录入！")
             self.stackedWidget.setCurrentIndex(3)
             self.displayRevFile()
             return
+        """
 
         # 获取批文数量
         cor_num = len(self.xh_cor_list)
@@ -510,7 +559,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
         # 表示收文已经完成批改,此时读取批文列表,显示新增和修改按钮
         if cor_num != 0:
-            self.comboBox.disconnect()  # 先断开comboBox,防止绑定函数出错
+            self.comboBox.disconnect()  # 先断开comboBox,防止下标改动触发绑定函数出错
             self.comboBox.clear()  # 清空复选框
 
             if len(self.xh_cor_list) != 0:
@@ -579,6 +628,10 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 self.listWidget_2.addItem(i[1])  # 来文字号
                 self.listWidget_3.addItem(i[2])  # 省领导内容摘要和拟办意见
 
+    """
+    @发文CURD
+    """
+
     # 修改发文按钮
     def reviseSendFile(self, btname):
         # 设置可写,确认和取消按钮可见,修改按钮不可见,替换文件按钮可见,打开文件按钮不可见
@@ -591,6 +644,7 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
             self.lineEdit.setReadOnly(False)
             self.lineEdit_2.setReadOnly(False)
+            self.spinBox_8.setReadOnly(False)
             self.spinBox.setReadOnly(False)
             self.comboBox_2.setEnabled(True)
             self.lineEdit_5.setReadOnly(False)
@@ -634,11 +688,10 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
     # 提交修改发文
     def updateSendFile(self, btname):
-
         if btname == "zb":
             input1 = self.lineEdit.text()  # 发文标题
             input2 = self.lineEdit_2.text()  # 报送范围
-            input3 = self.label_11.text() + self.spinBox.text() + self.label_12.text()  # 发文字号
+            input3 = "审计专报" + '〔' + self.spinBox_8.text() + '〕' + self.spinBox.text() + "号"  # 发文字号
             input4 = self.comboBox_2.currentText()  # 紧急程度
             input5 = self.lineEdit_5.text()  # 秘密等级
             input6 = self.comboBox_3.currentText()  # 是否公开
@@ -747,9 +800,12 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         # 回到展示页面
         self.displaySendFile()
 
+    """
+    @收文CURD
+    """
+
     # 录入收文
     def insertRevFile(self):
-
         input1 = self.dateEdit_5.text()  # 收文时间
         input2 = self.lineEdit_14.text()  # 密级
         input3 = self.comboBox_6.currentText()  # 是否公开
@@ -880,6 +936,10 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
     def cancelRevFile(self):
         self.displayRevFile()
 
+    """
+    @批文CURD
+    """
+
     # 新增批文
     def insertCorFile(self):
         # 显示确认和取消按钮,用确认按钮的name判断是新增还是修改
@@ -898,12 +958,23 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
 
         self.pushButton_13.setText("确认新增")
 
-        # 设置继承字段,从收文表中继承
-        sql = "select 秘密等级,是否公开,紧急程度 from revfile where 序号 = %s" % self.xh_rev
-        data = tools.executeSql(sql)
-        self.lineEdit_13.setText(data[0][0])  # 密级
-        self.comboBox_8.setCurrentText(data[0][1])  # 是否公开
-        self.comboBox_9.setCurrentText(data[0][2])  # 紧急程度
+        # 如果收文不为空,设置继承字段,从收文表中继承;如果收文为空发文不为空,则从发文中继承;如果收文发文都为空,则不继承任何字段值
+        if self.xh_rev != -1:
+            sql = "select 秘密等级,是否公开,紧急程度 from revfile where 序号 = %s" % self.xh_rev
+            data = tools.executeSql(sql)
+            self.lineEdit_13.setText(data[0][0])  # 密级
+            self.comboBox_8.setCurrentText(data[0][1])  # 是否公开
+            self.comboBox_9.setCurrentText(data[0][2])  # 紧急程度
+        elif self.xh_send != -1:
+            sql = "select 秘密等级,是否公开,紧急程度 from sendfile where 序号 = %s" % self.xh_send
+            data = tools.executeSql(sql)
+            self.lineEdit_13.setText(data[0][0])  # 密级
+            self.comboBox_8.setCurrentText(data[0][1])  # 是否公开
+            self.comboBox_9.setCurrentText(data[0][2])  # 紧急程度
+        else:
+            self.lineEdit_13.clear()  # 密级
+            self.comboBox_8.setCurrentIndex(0)  # 是否公开
+            self.comboBox_9.setCurrentIndex(0)  # 紧急程度
 
         self.dateEdit_4.setDate(QDate.currentDate())  # 收文时间
         self.listWidget.clear()  # 批文来文单位
@@ -920,9 +991,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.lineEdit_6.clear()  # 厅领导内容摘要和拟办意见
         self.textEdit_9.clear()  # 领导批示
 
-        # self.lineEdit_13.setReadOnly(False)  # 密级
-        # self.comboBox_8.setEnabled(True)  # 是否公开
-        # self.comboBox_9.setEnabled(True)  # 紧急程度
+        self.lineEdit_13.setReadOnly(False)  # 密级
+        self.comboBox_8.setEnabled(True)  # 是否公开
+        self.comboBox_9.setEnabled(True)  # 紧急程度
         self.dateEdit_4.setReadOnly(False)  # 收文时间
         self.listWidget.setEditTriggers(QtWidgets.QAbstractItemView.DoubleClicked)  # 批文来文单位
         self.listWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.DoubleClicked)  # 批文来文字号
@@ -1095,7 +1166,6 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
         self.listWidget_3.addItem(item3)
 
     def subTerm(self):
-
         row = self.listWidget.currentRow()
         if row == -1:
             QtWidgets.QMessageBox.information(None, "提示", "请选择要删除的条目！")
@@ -1104,26 +1174,35 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
             self.listWidget_2.takeItem(row)
             self.listWidget_3.takeItem(row)
 
+    """
+    @文件选择按钮函数
+    弹出文件系统页面,选择相应类型文件
+    """
+
     # 选择问题表
     def chooseProblemTable(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "xls(*.xls);;xlsx(*.xlsx)")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "xls(*.xls);;xlsx(*.xlsx);;ET(*.et)")
         self.lineEdit_3.setText(p[0])
 
     # 发文办理下的选择文件夹按钮(专报)
     def choose_file_zb(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Doc(*.doc);;Docx(*.docx)")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Doc(*.doc);;Docx(*.docx);;WPS(*.wps)")
         if p[0] != "":
             self.lineEdit_file.setText(p[0])
 
     # 发文办理下的选择文件夹按钮(公文)
     def choose_file_gw(self):
-        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Doc(*.doc);;Docx(*.docx)")
+        p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "Doc(*.doc);;Docx(*.docx);;WPS(*.wps)")
         if p[0] != "":
             self.lineEdit_file_3.setText(p[0])
 
+    """
+    @excel操作
+    input&output
+    """
+
     # 根据excel中的左边问题基本信息导入问题表
     def importExcelProblem(self):
-
         # 文件路径
         path = self.lineEdit_3.text()
         path.replace('/', '\\\\')
@@ -1202,6 +1281,9 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                     # 更新问题表状态
                     self.pro_tag = 1
 
+                    # 清空输入栏
+                    self.lineEdit_3.clear()
+
                     # 导入完成后更新表格
                     self.displayQuestionDetail()
                 else:
@@ -1211,3 +1293,24 @@ class Call_lcdetail(QtWidgets.QWidget, Ui_Form):
                 log.logger.error("错误:%s", traceback.format_exc())
         else:
             QtWidgets.QMessageBox.information(None, "提示", "请选择文件！")
+
+    """
+    @其他功能控件
+    """
+    def deleteProblem(self):
+        reply = QtWidgets.QMessageBox.question(None, '询问', '是否确认删除所有问题？', QtWidgets.QMessageBox.Yes,
+                                               QtWidgets.QMessageBox.No)  # 询问是否确认删除
+        if reply == QtWidgets.QMessageBox.Yes:  # 如果确认删除流程表的问题
+            # 如果设置了整改,则问题表不能删除
+            if self.zg_tag is True:
+                QtWidgets.QMessageBox.critical(None, "删除失败", "问题表已被加入整改！请先撤销整改！")
+            else:
+                sql = "delete from problem where problem.发文序号 = %s" % self.xh_send
+                tools.executeSql(sql)
+
+                self.pro_tag = -1
+
+                QtWidgets.QMessageBox.information(None, "提示", "删除成功！")
+
+                self.displayQuestionDetail()
+
