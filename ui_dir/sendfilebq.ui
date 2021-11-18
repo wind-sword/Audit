@@ -88,13 +88,15 @@ QPushButton:pressed{
        </property>
        <property name="minimumSize">
         <size>
-         <width>92</width>
+         <width>100</width>
          <height>0</height>
         </size>
        </property>
        <property name="font">
         <font>
          <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
@@ -137,13 +139,15 @@ QPushButton:pressed{
        </property>
        <property name="minimumSize">
         <size>
-         <width>92</width>
+         <width>100</width>
          <height>0</height>
         </size>
        </property>
        <property name="font">
         <font>
          <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
@@ -186,13 +190,15 @@ QPushButton:pressed{
        </property>
        <property name="minimumSize">
         <size>
-         <width>92</width>
+         <width>100</width>
          <height>0</height>
         </size>
        </property>
        <property name="font">
         <font>
          <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
@@ -204,7 +210,7 @@ QPushButton:pressed{
       <widget class="QSpinBox" name="spinBox">
        <property name="maximumSize">
         <size>
-         <width>60</width>
+         <width>100</width>
          <height>16777215</height>
         </size>
        </property>
@@ -229,13 +235,15 @@ QPushButton:pressed{
        </property>
        <property name="minimumSize">
         <size>
-         <width>161</width>
+         <width>168</width>
          <height>0</height>
         </size>
        </property>
        <property name="font">
         <font>
          <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
@@ -272,7 +280,7 @@ QPushButton:pressed{
        </property>
        <property name="minimumSize">
         <size>
-         <width>161</width>
+         <width>168</width>
          <height>0</height>
         </size>
        </property>
@@ -285,6 +293,8 @@ QPushButton:pressed{
        <property name="font">
         <font>
          <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
@@ -321,13 +331,15 @@ QPushButton:pressed{
        </property>
        <property name="minimumSize">
         <size>
-         <width>161</width>
+         <width>168</width>
          <height>0</height>
         </size>
        </property>
        <property name="font">
         <font>
          <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="styleSheet">
@@ -373,7 +385,10 @@ QPushButton:pressed{
        </property>
        <property name="font">
         <font>
+         <family>Agency FB</family>
          <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="focusPolicy">
@@ -400,7 +415,10 @@ QPushButton:pressed{
        </property>
        <property name="font">
         <font>
+         <family>Agency FB</family>
          <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="focusPolicy">
