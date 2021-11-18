@@ -1,0 +1,35 @@
+2021-10-23 13:36:39,939 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: sendfiel.序号
+
+2021-10-23 17:18:03,965 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 批字〔2021〕4号
+
+2021-10-23 18:13:27,787 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 承办处事
+
+2021-10-23 18:45:56,546 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 序号
+
+2021-10-23 18:46:52,578 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 来文字号
+
+2021-10-23 18:47:10,618 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 来文字号
+
+2021-10-23 18:50:15,497 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near ",": syntax error
+

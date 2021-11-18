@@ -1,51 +1,35 @@
-2021-09-03 11:39:33,150 - D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\tools.py", line 29, in executeSql
+2021-11-18 15:55:09,699 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "WHERE": syntax error
+
+2021-11-18 15:55:16,026 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "WHERE": syntax error
+
+2021-11-18 15:55:16,026 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "WHERE": syntax error
+
+2021-11-18 15:55:35,811 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "WHERE": syntax error
+
+2021-11-18 15:56:05,715 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: near "bwprocess": syntax error
+
+2021-11-18 16:06:01,066 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 测试
+
+2021-11-18 17:21:17,808 - D:\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\Audit\logis_fir\tools.py", line 29, in executeSql
     cur.execute(sql)
 sqlite3.OperationalError: no such column: None
-
-2021-09-03 11:42:49,196 - D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: no such column: None
-
-2021-09-03 14:45:56,154 - D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\call_index.py[line:426] - ERROR: 错误:Traceback (most recent call last):
-  File "D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\call_index.py", line 416, in zgExcelOutput
-    df = pd.read_excel(r'..\测试.xlsx')
-  File "D:\Anaconda3\lib\site-packages\pandas\util\_decorators.py", line 296, in wrapper
-    return func(*args, **kwargs)
-  File "D:\Anaconda3\lib\site-packages\pandas\io\excel\_base.py", line 304, in read_excel
-    io = ExcelFile(io, engine=engine)
-  File "D:\Anaconda3\lib\site-packages\pandas\io\excel\_base.py", line 867, in __init__
-    self._reader = self._engines[engine](self._io)
-  File "D:\Anaconda3\lib\site-packages\pandas\io\excel\_xlrd.py", line 22, in __init__
-    super().__init__(filepath_or_buffer)
-  File "D:\Anaconda3\lib\site-packages\pandas\io\excel\_base.py", line 353, in __init__
-    self.book = self.load_workbook(filepath_or_buffer)
-  File "D:\Anaconda3\lib\site-packages\pandas\io\excel\_xlrd.py", line 37, in load_workbook
-    return open_workbook(filepath_or_buffer)
-  File "D:\Anaconda3\lib\site-packages\xlrd\__init__.py", line 111, in open_workbook
-    with open(filename, "rb") as f:
-FileNotFoundError: [Errno 2] No such file or directory: '..\\测试.xlsx'
-
-2021-09-03 14:48:07,104 - D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\call_index.py[line:426] - ERROR: 错误:Traceback (most recent call last):
-  File "D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\call_index.py", line 417, in zgExcelOutput
-    df = df.drop(['main_investigator_1'], axis=1).join(
-  File "D:\Anaconda3\lib\site-packages\pandas\core\frame.py", line 4163, in drop
-    return super().drop(
-  File "D:\Anaconda3\lib\site-packages\pandas\core\generic.py", line 3887, in drop
-    obj = obj._drop_axis(labels, axis, level=level, errors=errors)
-  File "D:\Anaconda3\lib\site-packages\pandas\core\generic.py", line 3921, in _drop_axis
-    new_axis = axis.drop(labels, errors=errors)
-  File "D:\Anaconda3\lib\site-packages\pandas\core\indexes\base.py", line 5282, in drop
-    raise KeyError(f"{labels[mask]} not found in axis")
-KeyError: "['main_investigator_1'] not found in axis"
-
-2021-09-03 14:52:11,812 - D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\call_index.py[line:426] - ERROR: 错误:Traceback (most recent call last):
-  File "D:\学习\6.审计整改信息管理系统\提交版本\logis_fir\call_index.py", line 415, in zgExcelOutput
-    work_book.save(nowText + '.xls')
-  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
-    doc.save(filename_or_stream, self.get_biff_data())
-  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
-    f = open(file_name_or_filelike_obj, 'w+b')
-PermissionError: [Errno 13] Permission denied: '测试.xls'
 
