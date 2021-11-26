@@ -333,13 +333,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         #问题查询下的按钮及其他功能绑定
         self.pushButton_refresh_lczl_13.clicked.connect(self.refreshCxTable)    #刷新显示表格内容
 
-        self.comboBox_22.currentIndexChanged.connect(self.setLineEdit)  #设置lineEdit可用同步
-        self.comboBox_22.currentIndexChanged.connect(self.textOrNumber) #设置文本查询或是数值查询
+        self.listWidget_9.currentRowChanged.connect(self.autoHighlight_wtcx1)
+        self.listWidget_10.currentRowChanged.connect(self.autoHighlight_wtcx2)
+        self.pushButton_add_item_3.clicked.connect(self.addCondition) #添加搜索条件
+        self.pushButton_sub_item_3.clicked.connect(self.subCondition) #添加搜索条件
 
-        self.comboBox_31.setEditable(True)      #设置选择查询范围文字居中，且不可见
-        self.ledit = self.comboBox_31.lineEdit()
-        self.ledit.setAlignment(Qt.AlignCenter)
-        self.comboBox_31.setVisible(False)
 
         self.dateEdit_16.setDate(datetime.datetime.now())   #设置为当前时间
         self.dateEdit_17.setDate(datetime.datetime.now())
@@ -349,7 +347,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         self.checkBox_4.clicked.connect(self.tip_time_cx)  # 设置时间不合法提示
 
-        self.pushButton_part_search_lc_3.clicked.connect(self.part_search_cx)   #按条件筛选
         self.pushButton_2.clicked.connect(self.cxExcelOutput)   #导出至Excel表格
 
         #办文统计下的按钮及其他功能绑定
@@ -683,8 +680,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     #显示查询内容
     def showCxTable(self):
-        self.lineEdit_27.setText("当查询类型为不限制时，此处不可用")
-        self.lineEdit_27.setEnabled(False)  # 默认输入查询条件的lineEdit不可用
 
         self.checkBox_4.setChecked(False)   #默认时间checkBox不选中
         # 表格不可编辑
@@ -2330,11 +2325,49 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             else:
                 QtWidgets.QMessageBox.information(None, "提示", "导出成功")
 
+    def autoHighlight_wtcx1(self):
+        index = self.listWidget_9.currentRow()
+        self.listWidget_10.setCurrentRow(index)
+
+    def autoHighlight_wtcx2(self):
+        index = self.listWidget_10.currentRow()
+        self.listWidget_9.setCurrentRow(index)
+
+    def addCondition(self):
+        nowText = self.comboBox_22.currentText()
+        nowIndex = self.comboBox_22.currentIndex()
+        if(nowText == "选择查询类型"):
+            return
+        else:
+            item1 = QListWidgetItem(nowText)
+            item1.setFlags(item1.flags() | QtCore.Qt.ItemIsEditable)
+            self.listWidget_9.addItem(item1)
+            self.listWidget_9.setCurrentItem(item1)
+            self.comboBox_22.removeItem(nowIndex)   #从comboBox_22中移除所选条目
+
+            item2 = QListWidgetItem("请输入查询条件")
+            item2.setFlags(item1.flags() | QtCore.Qt.ItemIsEditable)
+            self.listWidget_10.addItem(item2)
+
+    def subCondition(self):
+        row = self.listWidget_9.currentRow()
+        if row == -1:
+            QtWidgets.QMessageBox.information(None, "提示", "请选择要删除的条目！")
+        else:
+            item = self.listWidget_9.currentItem()
+            nowText = item.text()
+            self.comboBox_22.addItem(nowText)  # 把删除的条目重新加入comboBox_22
+
+            self.listWidget_9.takeItem(row)
+            self.listWidget_10.takeItem(row)
+
 
     #刷新显示表格
     def refreshCxTable(self):
+        self.listWidget_9.clear()
+        self.listWidget_10.clear()
         self.comboBox_22.clear()
-        self.comboBox_22.addItems(["不限制", "按对应发文号查询", "按被审计领导干部查询", "按所在地方单位查询", "按审计组组长查询",
+        self.comboBox_22.addItems(["选择查询类型", "按对应发文号查询", "按被审计领导干部查询", "按所在地方单位查询", "按审计组组长查询",
                                    "按审计组主审查询", "按问题描述查询", "按问题一级分类查询", "按问题二级分类查询", "按问题三级分类查询",
                                    "按问题四级分类查询", "按问题金额查询", "按移送处理情况查询", "按整改责任部门查询", "按整改情况查询",
                                    "按已整改金额查询", "按追责人数查询", "按推动制度建设数目查询", "按推动制度建设文件查询", "按认定整改情况查询",
@@ -2342,26 +2375,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.lineEdit_43.setText("请输入表格名")
         self.showCxTable()
 
-    #设置lineEdit可用同步
-    def setLineEdit(self):
-        nowText = self.comboBox_22.currentText()
-        if(nowText == "不限制"):
-            self.lineEdit_27.setText("当查询类型为不限制时，此处不可用")
-            self.lineEdit_27.setEnabled(False)  # 设置查询条件的lineEdit不可用
-        else:
-            self.lineEdit_27.clear()
-            self.lineEdit_27.setEnabled(True)   #设置查询条件lineEdit可用
-
-    #设置数值查询或是文本查询
-    def textOrNumber(self):
-        nowText = self.comboBox_22.currentText()
-        if(nowText == "按问题金额查询" or nowText == "按已整改金额查询" or nowText == "按追责人数查询" or nowText == "按推动制度建设"
-                                                                                               "数目查询" or nowText == "按认定整改金额查询" or nowText == "按整改率查询"):
-            self.comboBox_31.setVisible(True)
-            self.label_120.setText("选择查询范围：")
-        else:
-            self.comboBox_31.setVisible(False)
-            self.label_120.setText("输入查询条件：")
 
     #设置只要时间变动就取消checkBox选中
     def synCx_1(self):
@@ -2375,56 +2388,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             if front > behind:
                 QtWidgets.QMessageBox.warning(None, "提示", "设置时间不合法")
                 self.checkBox_4.setChecked(False)
-
-    #条件筛选
-    def part_search_cx(self):
-        #先不考虑时间因素
-        nowText = self.comboBox_22.currentText()
-        input_Text = self.lineEdit_27.text()
-        decide = self.comboBox_31.currentText()
-        sql_original = "SELECT sendfile.发文字号,problem.被审计领导干部,problem.所在地方或单位,problem.审计报告文号,problem.出具审计报告时间," \
-              "problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类," \
-              "problem.问题四级分类,problem.备注,problem.问题金额,problem.移送及处理情况,rectification.上报次序,rectification." \
-              "整改责任部门,rectification.应上报整改报告时间,rectification.实际上报整改报告时间,rectification.整改情况,rectification." \
-              "已整改金额,rectification.追责问责人数,rectification.推动制度建设数目,rectification.推动制度建设文件,rectification." \
-              "部分整改情况具体描述,rectification.未整改原因说明,rectification.下一步整改措施及时限,rectification.认定整改情况," \
-              "rectification.认定整改金额,rectification.整改率 FROM problem LEFT OUTER JOIN rectification ON rectification." \
-              "问题序号 = problem.序号 LEFT OUTER JOIN sendfile ON sendfile.序号 = problem.发文序号"
-        if(nowText == "不限制"):
-            sql = sql_original
-        elif(nowText == "按对应发文号查询"):
-            sql = sql_original + " where sendfile.发文字号 like '%"+input_Text+"%'"
-        elif (nowText == "按被审计领导干部查询"):
-            sql = sql_original + " where problem.被审计领导干部 like '%" + input_Text + "%'"
-        elif (nowText == "按所在地方单位查询"):
-            sql = sql_original + " where problem.所在地方或单位 like '%" + input_Text + "%'"
-        elif (nowText == "按审计组组长查询"):
-            sql = sql_original + " where problem.审计组组长 like '%" + input_Text + "%'"
-        elif (nowText == "按审计组主审查询"):
-            sql = sql_original + " where problem.审计组主审 like '%" + input_Text + "%'"
-        elif (nowText == "按问题金额查询"):
-            if(decide == '='):
-                sql = sql_original + " where problem.问题金额 = '%s'" %(input_Text)
-            if (decide == '>'):
-                sql = sql_original + " where problem.问题金额 > '%s'" % (input_Text)
-            if (decide == '<'):
-                sql = sql_original + " where problem.问题金额 < '%s'" % (input_Text)
-        else:
-            sql = sql_original
-        data = tools.executeSql(sql)
-        # 打印结果
-        size = len(data)
-        self.tableWidget.setRowCount(size)
-        x = 0
-        for i in data:
-            y = 0
-            for j in i:
-                if data[x][y] is None:
-                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
-                else:
-                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
-                y = y + 1
-            x = x + 1
 
     def cxExcelOutput(self):
         print(23)
