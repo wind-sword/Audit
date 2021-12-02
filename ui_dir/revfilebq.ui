@@ -101,6 +101,8 @@ QPushButton:pressed{
        <property name="font">
         <font>
          <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
@@ -150,6 +152,8 @@ QPushButton:pressed{
        <property name="font">
         <font>
          <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
@@ -186,7 +190,10 @@ QPushButton:pressed{
        </property>
        <property name="font">
         <font>
+         <family>Agency FB</family>
          <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="focusPolicy">
@@ -213,7 +220,10 @@ QPushButton:pressed{
        </property>
        <property name="font">
         <font>
+         <family>Agency FB</family>
          <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="focusPolicy">

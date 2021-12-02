@@ -29,7 +29,7 @@ class Call_instbq(QtWidgets.QDialog, Ui_Dialog):
         if data[0][2] is None:
             self.dateEdit.setDate(datetime.datetime.now())
         else:
-            self.dateEdit.setDate(QDate.fromString(data[0][2], 'yyyy/M/d'))  # 批示时间
+            self.dateEdit.setDate(QDate.fromString(data[0][2], 'yyyy/MM/dd'))  # 批示时间
 
     def reviseInstbqDetail(self):
         input1 = self.lineEdit_1.text()  # 领导姓名
