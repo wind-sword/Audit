@@ -393,8 +393,8 @@ QPushButton:pressed{
           <number>10</number>
          </property>
          <widget class="QWidget" name="page_lczl">
-          <layout class="QGridLayout" name="gridLayout_13">
-           <item row="0" column="0">
+          <layout class="QVBoxLayout" name="verticalLayout_26">
+           <item>
             <widget class="QTabWidget" name="tabWidget_lczl">
              <widget class="QWidget" name="tab_lczl">
               <attribute name="title">
@@ -622,10 +622,25 @@ QPushButton:pressed{
                      <pointsize>10</pointsize>
                     </font>
                    </property>
+                   <property name="text">
+                    <string/>
+                   </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton_global_search_lc">
+                  <widget class="QPushButton" name="pushButton_type_search">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <family>Agency FB</family>
@@ -996,7 +1011,19 @@ QPushButton:pressed{
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton_part_search_lc">
+                  <widget class="QPushButton" name="pushButton_type_search_2">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <family>Agency FB</family>
@@ -6033,7 +6060,19 @@ QRadioButton#radioButton_black{color:black;}</string>
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_part_search_lc_2">
+              <widget class="QPushButton" name="pushButton_type_search_3">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <family>Agency FB</family>
@@ -6614,11 +6653,23 @@ QRadioButton#radioButton_black{color:black;}</string>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_7">
+              <widget class="QPushButton" name="bt_excel_output_lc_2">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>11</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
@@ -8892,7 +8943,13 @@ QRadioButton#radioButton_black{color:black;}</string>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_30">
                  <item>
-                  <widget class="QLabel" name="label_66">
+                  <widget class="QLabel" name="label_98">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <family>Agency FB</family>
@@ -8902,21 +8959,153 @@ QRadioButton#radioButton_black{color:black;}</string>
                     </font>
                    </property>
                    <property name="text">
-                    <string>全局搜索：</string>
+                    <string>搜索指定流程：</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_3">
+                  <widget class="QLabel" name="label_100">
+                   <property name="font">
+                    <font>
+                     <family>Agency FB</family>
+                     <pointsize>12</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>类别查询：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="comboBox_28">
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Agency FB</family>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color:rgb(85, 85, 0)</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>普通流程</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>经责流程</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_99">
+                   <property name="font">
+                    <font>
+                     <family>Agency FB</family>
+                     <pointsize>12</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>查询字段：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="comboBox_23">
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Agency FB</family>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color:rgb(85, 85, 0)</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>发文编号</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>发文标题</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>收文编号</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>收文标题</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>批文编号</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>批文标题</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>整改状态</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_global_2">
                    <property name="font">
                     <font>
                      <pointsize>10</pointsize>
                     </font>
                    </property>
+                   <property name="text">
+                    <string/>
+                   </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton_3">
+                  <widget class="QPushButton" name="pushButton_type_search_4">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <family>Agency FB</family>
@@ -8931,7 +9120,33 @@ QRadioButton#radioButton_black{color:black;}</string>
                   </widget>
                  </item>
                  <item>
+                  <spacer name="horizontalSpacer_228">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
                   <spacer name="horizontalSpacer_80">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_230">
                    <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>
@@ -8984,6 +9199,13 @@ QRadioButton#radioButton_black{color:black;}</string>
                   </widget>
                  </item>
                 </layout>
+               </item>
+               <item>
+                <widget class="Line" name="line_37">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
                </item>
                <item>
                 <spacer name="horizontalSpacer">
@@ -9246,7 +9468,19 @@ QRadioButton#radioButton_black{color:black;}</string>
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton_4">
+                  <widget class="QPushButton" name="pushButton_type_search_5">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <family>Agency FB</family>
@@ -9263,6 +9497,13 @@ QRadioButton#radioButton_black{color:black;}</string>
                 </layout>
                </item>
                <item>
+                <widget class="Line" name="line_27">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <spacer name="horizontalSpacer_12">
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
@@ -9274,13 +9515,6 @@ QRadioButton#radioButton_black{color:black;}</string>
                   </size>
                  </property>
                 </spacer>
-               </item>
-               <item>
-                <widget class="Line" name="line_27">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
                </item>
                <item>
                 <widget class="QTableWidget" name="tableWidget_zgzl">
@@ -10026,52 +10260,47 @@ QRadioButton#radioButton_black{color:black;}</string>
                </property>
                <item>
                 <property name="text">
-                 <string>不限制</string>
+                 <string>办文编号</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>按办文编号查询</string>
+                 <string>报送载体</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>按报送载体查询</string>
+                 <string>报送标题</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>按报送标题查询</string>
+                 <string>来文字号</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>按来文字号查询</string>
+                 <string>来文标题</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>按来文标题查询</string>
+                 <string>来文单位</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>按来文单位查询</string>
+                 <string>批示载体</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>按批示载体查询</string>
+                 <string>批示人</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>按批示人查询</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>按批示人职务查询</string>
+                 <string>批示人职务</string>
                 </property>
                </item>
               </widget>
@@ -10095,6 +10324,19 @@ QRadioButton#radioButton_black{color:black;}</string>
               <widget class="QLineEdit" name="lineEdit_28"/>
              </item>
              <item>
+              <spacer name="horizontalSpacer_227">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
               <spacer name="horizontalSpacer_90">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -10108,82 +10350,19 @@ QRadioButton#radioButton_black{color:black;}</string>
               </spacer>
              </item>
              <item>
-              <widget class="QCheckBox" name="checkBox_9">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+              <widget class="QPushButton" name="bt_excel_output_lc_4">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>28</height>
+                </size>
                </property>
-               <property name="font">
-                <font>
-                 <family>Arial</family>
-                 <pointsize>12</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>16777215</height>
+                </size>
                </property>
-               <property name="text">
-                <string>时间</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QDateEdit" name="dateEdit_26">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="displayFormat">
-                <string>yyyy/MM/dd </string>
-               </property>
-               <property name="calendarPopup">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_156">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Agency FB</family>
-                 <pointsize>12</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>至</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QDateEdit" name="dateEdit_27">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="displayFormat">
-                <string>yyyy/MM/dd </string>
-               </property>
-               <property name="calendarPopup">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_part_search_lc_8">
                <property name="font">
                 <font>
                  <family>Agency FB</family>
@@ -10425,11 +10604,23 @@ QRadioButton#radioButton_black{color:black;}</string>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_8">
+              <widget class="QPushButton" name="bt_excel_output_lc_5">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>11</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
@@ -10477,7 +10668,7 @@ QRadioButton#radioButton_black{color:black;}</string>
           </layout>
          </widget>
          <widget class="QWidget" name="page_cxfx">
-          <layout class="QVBoxLayout" name="verticalLayout_26">
+          <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_269">
              <item>
@@ -10628,8 +10819,8 @@ QRadioButton#radioButton_black{color:black;}</string>
                  </item>
                 </layout>
                </item>
-               <item row="0" column="5">
-                <widget class="QPushButton" name="bt_excel_output_lc_2">
+               <item row="0" column="4">
+                <widget class="QPushButton" name="part_search_wtcx">
                  <property name="minimumSize">
                   <size>
                    <width>150</width>
@@ -10652,21 +10843,6 @@ QRadioButton#radioButton_black{color:black;}</string>
                  </property>
                  <property name="text">
                   <string>查询</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QListWidget" name="listWidget_9">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                  </font>
                  </property>
                 </widget>
                </item>
@@ -10894,137 +11070,120 @@ QRadioButton#radioButton_black{color:black;}</string>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按对应发文号查询</string>
+                     <string>对应发文号</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按被审计领导干部查询</string>
+                     <string>被审计领导干部</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按所在地方单位查询</string>
+                     <string>所在地方单位</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按审计组组长查询</string>
+                     <string>审计报告文号</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按审计组主审查询</string>
+                     <string>审计组组长</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按问题描述查询</string>
+                     <string>审计组主审</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按问题一级分类查询</string>
+                     <string>问题描述</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按问题二级分类查询</string>
+                     <string>问题一级分类</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按问题三级分类查询</string>
+                     <string>问题二级分类</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按问题四级分类查询</string>
+                     <string>问题三级分类</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按问题金额查询</string>
+                     <string>问题四级分类</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按移送处理情况查询</string>
+                     <string>问题金额</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按整改责任部门查询</string>
+                     <string>移送及处理情况</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按整改情况查询</string>
+                     <string>整改责任部门</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按已整改金额查询</string>
+                     <string>整改情况</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按追责人数查询</string>
+                     <string>已整改金额</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按推动制度建设数目查询</string>
+                     <string>追责问责人数</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按推动制度建设文件查询</string>
+                     <string>推动制度建设数目</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按认定整改情况查询</string>
+                     <string>推动制度建设文件</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按认定整改金额查询</string>
+                     <string>认定整改情况</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>按整改率查询</string>
+                     <string>认定整改金额</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>整改率</string>
                     </property>
                    </item>
                   </widget>
                  </item>
                 </layout>
                </item>
-               <item row="0" column="4">
+               <item row="0" column="3">
                 <layout class="QFormLayout" name="formLayout_17">
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_145">
-                   <property name="font">
-                    <font>
-                     <family>Agency FB</family>
-                     <pointsize>12</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Agency FB'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;输入查询条件&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="0" column="1">
                   <widget class="QListWidget" name="listWidget_10">
                    <property name="sizePolicy">
@@ -11040,12 +11199,42 @@ p, li { white-space: pre-wrap; }
                    </property>
                   </widget>
                  </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_145">
+                   <property name="font">
+                    <font>
+                     <family>Agency FB</family>
+                     <pointsize>12</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Agency FB'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </item>
-               <item row="0" column="3">
-                <widget class="Line" name="line_37">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
+               <item row="0" column="1">
+                <widget class="QListWidget" name="listWidget_9">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
                  </property>
                 </widget>
                </item>
@@ -11112,7 +11301,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;时间：&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;排序方式：&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -11133,57 +11322,68 @@ p, li { white-space: pre-wrap; }
               </spacer>
              </item>
              <item>
-              <widget class="QDateEdit" name="dateEdit_16">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="displayFormat">
-                <string>yyyy/MM/dd </string>
-               </property>
-               <property name="calendarPopup">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_121">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
+              <widget class="QComboBox" name="comboBox_27">
                <property name="font">
                 <font>
                  <family>Agency FB</family>
-                 <pointsize>12</pointsize>
+                 <pointsize>10</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
-               <property name="text">
-                <string>至</string>
+               <property name="styleSheet">
+                <string notr="true">color:rgb(85, 85, 0)</string>
                </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QDateEdit" name="dateEdit_17">
-               <property name="font">
-                <font>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="displayFormat">
-                <string>yyyy/MM/dd </string>
-               </property>
-               <property name="calendarPopup">
-                <bool>true</bool>
-               </property>
+               <item>
+                <property name="text">
+                 <string>按出具审计报告时间</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>按应上报整改报告时间</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>按实际上报整改报告时间</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>按问题金额</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>按上报次序</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>按已整改金额</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>按追责问责人数</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>按推动制度建设数目</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>按认定整改金额</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>按整改率</string>
+                </property>
+               </item>
               </widget>
              </item>
              <item>
@@ -11416,17 +11616,12 @@ p, li { white-space: pre-wrap; }
                </property>
                <item>
                 <property name="text">
-                 <string>出具审计报告时间</string>
+                 <string>由近及远排序</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>应上报审计报告时间</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>实际上报审计报告时间</string>
+                 <string>由远及近排序</string>
                 </property>
                </item>
               </widget>
@@ -11601,6 +11796,33 @@ p, li { white-space: pre-wrap; }
               </spacer>
              </item>
              <item>
+              <widget class="QPushButton" name="sort_wtcx">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Agency FB</family>
+                 <pointsize>11</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>排序</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <spacer name="horizontalSpacer_133">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -11612,27 +11834,6 @@ p, li { white-space: pre-wrap; }
                 </size>
                </property>
               </spacer>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="checkBox_4">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Arial</family>
-                 <pointsize>12</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>设置时间</string>
-               </property>
-              </widget>
              </item>
             </layout>
            </item>
@@ -12249,11 +12450,23 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_2">
+              <widget class="QPushButton" name="sort_wtcx_2">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>11</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
