@@ -6,48 +6,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3d265c8-3ed3-4f5f-add3-e2b910427099" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2021_3_9_18_11__Default_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2021_3_9_18_11__Default_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/logfile.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/logfile.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/logfile.log.2021-06-25" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/logfile.log.2021-06-29" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/logfile.log.2021-07-20" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/logfile.log.2021-08-28" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/logfile.log.2021-08-30" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/logfile.log.2021-08-31" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/logis_fir/call_corfilebq.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_corfilebq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logis_fir/call_index.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_index.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logis_fir/call_instbq.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_instbq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logis_fir/call_lcdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_lcdetail.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logis_fir/call_revfilebq.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_revfilebq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logis_fir/call_zgdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_zgdetail.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logis_fir/call_zgrevise.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_zgrevise.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.spec" beforeDir="false" afterPath="$PROJECT_DIR$/main.spec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project_word/java教程.doc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sjyj_word/审计整改信息管理系统需求分析说明书.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/corfilebq.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/corfilebq.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/index.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/index.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/instbq.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/instbq.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/lcdetail.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/lcdetail.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/quedetail.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/quedetail.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/revfilebq.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/revfilebq.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/sendfilebq.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/sendfilebq.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/zgdetail.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/zgdetail.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/zgrevise.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/zgrevise.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/corfilebq.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/corfilebq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/index.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/instbq.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/instbq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/lcdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/lcdetail.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/quedetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/quedetail.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/revfilebq.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/revfilebq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/sendfilebq.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/sendfilebq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/zgdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/zgdetail.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/zgrevise.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/zgrevise.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zgfh_word/中标系统软件安装.docx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -281,10 +240,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="498" y="213" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1624860999097">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="498" y="213" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1624860999097" />
     <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1631689877612">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -297,26 +252,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1630406986829" />
-    <state x="503" y="307" key="FileChooserDialogImpl" timestamp="1630862534981">
+    <state x="503" y="307" key="FileChooserDialogImpl" timestamp="1637919100365">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="503" y="307" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1630862534981" />
-    <state width="1515" height="62" key="GridCell.Tab.0.bottom" timestamp="1631692987495">
+    <state x="503" y="307" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1637919100365" />
+    <state width="1515" height="40" key="GridCell.Tab.0.bottom" timestamp="1637867009938">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="62" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1631692987495" />
-    <state width="1515" height="62" key="GridCell.Tab.0.center" timestamp="1631692987495">
+    <state width="1515" height="40" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1637867009938" />
+    <state width="1515" height="40" key="GridCell.Tab.0.center" timestamp="1637867009938">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="62" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1631692987495" />
-    <state width="1515" height="62" key="GridCell.Tab.0.left" timestamp="1631692987495">
+    <state width="1515" height="40" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1637867009938" />
+    <state width="1515" height="40" key="GridCell.Tab.0.left" timestamp="1637867009938">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="62" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1631692987495" />
-    <state width="1515" height="62" key="GridCell.Tab.0.right" timestamp="1631692987495">
+    <state width="1515" height="40" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1637867009938" />
+    <state width="1515" height="40" key="GridCell.Tab.0.right" timestamp="1637867009938">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="62" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1631692987495" />
+    <state width="1515" height="40" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1637867009938" />
     <state width="1515" height="2" key="GridCell.Tab.1.bottom" timestamp="1631690491168">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -333,10 +288,6 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1515" height="2" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1631690491168" />
-    <state x="270" y="57" key="SettingsEditor" timestamp="1624783664076">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1624783664076" />
     <state width="498" height="446" key="SwitcherDM" timestamp="1631191563999">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -353,10 +304,6 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="838" y="171" width="600" height="601" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1631688878809" />
-    <state x="410" y="139" width="700" height="530" key="recent.locations.popup" timestamp="1624949550420">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="410" y="139" width="700" height="530" key="recent.locations.popup/0.0.1536.824@0.0.1536.824" timestamp="1624949550420" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1631690019669">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
