@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="resource_dir">
+    <file>background.PNG</file>
     <file>refresh.png</file>
     <file>gwdarkhead.png</file>
     <file>logo.png</file>

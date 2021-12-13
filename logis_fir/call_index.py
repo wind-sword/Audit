@@ -1,7 +1,6 @@
 import datetime
 import traceback
 
-
 import xlrd
 import xlwt
 
@@ -24,10 +23,8 @@ from logis_fir.logger import Logger
 
 from screen_shot import WScreenShot
 
-class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
-    #全局变量
-    tableWidget_lczl_row = 0    #流程总览表格的行数
 
+class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -54,10 +51,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.btswll.clicked.connect(lambda: self.btjump(btname="swll"))
         self.btzgzl.clicked.connect(lambda: self.btjump(btname="zgtz"))
         self.btcx.clicked.connect(lambda: self.btjump(btname="wtcx"))
-        self.btcx_2.clicked.connect(lambda: self.btjump(btname="pstj"))
+        self.btpstj.clicked.connect(lambda: self.btjump(btname="pstj"))
         self.btbwtj.clicked.connect(lambda: self.btjump(btname="bwtj"))
-        self.bttj.clicked.connect(lambda: self.btjump(btname="wttj"))
-        self.btlctj.clicked.connect(lambda: self.btjump(btname="lctj"))
+        self.btwttj.clicked.connect(lambda: self.btjump(btname="wttj"))
 
         # 整改总览tab
         font = QFont('Microsoft YaHei UI', 10, QFont.Black)
@@ -76,186 +72,126 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tabWidget_lczl.tabBar().setTabButton(0, QtWidgets.QTabBar.RightSide, None)
         self.tabWidget_lczl.tabCloseRequested.connect(self.closeTab2)
 
-        # 公文页面日期和办文编号同步;登记表页面下拉框内容同步;经责文件录入页面listWidget高亮同步;发文类型与页面同步
-        self.dateEdit_5.dateChanged.connect(self.autoSyn1)
-        self.dateEdit_6.dateChanged.connect(self.autoSyn2)
-        self.spinBox_2.valueChanged.connect(self.autoSyn3)
-        self.spinBox_3.valueChanged.connect(self.autoSyn3)
-        self.comboBox_9.currentIndexChanged.connect(self.autoSyn4)
-        self.listWidget_sjwh.currentRowChanged.connect(self.autoSyn6)
-        self.listWidget_sjyj.currentRowChanged.connect(self.autoSyn7)
-        self.listWidget_sjbg.currentRowChanged.connect(self.autoSyn8)
-        self.listWidget_sjjg.currentRowChanged.connect(self.autoSyn9)
-        self.listWidget_excel.currentRowChanged.connect(self.autoSyn10)
-        self.comboBox_13.currentIndexChanged.connect(self.autoSyn11)
-        self.comboBox_16.currentIndexChanged.connect(self.autoSyn12)
-
-        self.comboBox_type_fw.currentIndexChanged.connect(
-            lambda: self.autoSynSendfileType(index=self.comboBox_type_fw.currentIndex()))
-        self.dateEdit_8.dateChanged.connect(self.autoSynCancelCheck)
-        self.dateEdit_10.dateChanged.connect(self.autoSynCancelCheck)
-
-        self.dateEdit_7.dateChanged.connect(self.autoSynCancelCheck_zg)
-        self.dateEdit_9.dateChanged.connect(self.autoSynCancelCheck_zg)
-
-        # 同步批文输入框的三个list高亮情况
-        self.listWidget_4.currentRowChanged.connect(self.autoHighlight1)
-        self.listWidget_5.currentRowChanged.connect(self.autoHighlight2)
-        self.listWidget_6.currentRowChanged.connect(self.autoHighlight3)
-
         # 绑定按钮或其他控件功能函数
         self.initControlFunction()
 
         # 初始化显示
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(0)  # 初始显示为办文流程总览界面
+        self.setPushButton_backGround("lczl")  # 设置导航栏按钮背景状态
 
         # 初始化页面数据
-        self.dateEdit_8.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
-        self.dateEdit_10.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
-        self.showBwprocessTable()
-        self.setPushButton_backGround("lczl")   #设置导航栏按钮背景状态
+        self.initData()
 
     # 主页左侧按钮跳转
     def btjump(self, btname):
+        self.setPushButton_backGround(btname)  # 设置导航栏按钮背景状态
         if btname == "lczl":
-            self.setPushButton_backGround(btname)   #设置导航栏按钮背景状态
             self.stackedWidget.setCurrentIndex(0)
-            self.tabWidget_lczl.setCurrentIndex(0)
-            # 初始化显示
-            self.dateEdit_8.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
-            self.dateEdit_10.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
-            self.lineEdit_4.setText("请在此输入表格名")
-            self.showBwprocessTable()
+            # self.tabWidget_lczl.setCurrentIndex(0)
         elif btname == "fwbl":
-            self.setPushButton_backGround(btname)
             self.stackedWidget.setCurrentIndex(1)
             self.stackedWidget_new.setCurrentIndex(self.comboBox_type_fw.currentIndex())  # 初始化发文办理页面
-            # 公文页面初始化显示
-            self.lineEdit_file_3.setReadOnly(True)
-            self.lineEdit_18.setReadOnly(True)
-            self.lineEdit_19.setText("秘书处")
-            self.spinBox_2.setValue(datetime.datetime.now().year)
-            self.spinBox_3.setValue(1)
-            self.comboBox_9.setCurrentIndex(0)
-            self.dateEdit_6.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
-
-            # 专报页面初始化显示
-            self.lineEdit_file_zb.setReadOnly(True)
-            self.spinBox_6.setValue(datetime.datetime.now().year)  # 专报年号:[年]
-            self.spinBox.setValue(1)  # 专报编号:[编号]
-            self.dateEdit_zb.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
         elif btname == "swbl":
-            self.setPushButton_backGround(btname)
             self.stackedWidget.setCurrentIndex(2)
-            # 初始化显示
-            self.lineEdit_34.setText("秘书处")
-            self.comboBox_10.setCurrentIndex(0)  # 收文编号:[收文类型]
-            self.spinBox_4.setValue(datetime.datetime.now().year)  # 收文编号:[年]
-            self.spinBox_5.setValue(1)  # 收文编号:[编号]
-            self.dateEdit_4.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
         elif btname == "pwbl":
-            self.setPushButton_backGround(btname)
             self.stackedWidget.setCurrentIndex(3)
-            # 初始化显示
-            self.lineEdit_62.setText("秘书处")
-            self.comboBox_25.setCurrentIndex(0)  # 批文编号:[收文类型]
-            self.spinBox_8.setValue(datetime.datetime.now().year)  # 批文编号:[年]
-            self.spinBox_9.setValue(1)  # 批文编号:[编号]
-            self.dateEdit_14.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
         elif btname == "swll":
-            self.setPushButton_backGround(btname)
             self.stackedWidget.setCurrentIndex(4)
+            self.lineEdit_44.setText("请在此输入表格名")
         elif btname == "jzwtlr":
-            self.setPushButton_backGround(btname)
             self.stackedWidget.setCurrentIndex(5)
-            # 初始化显示
-            self.displayProblemJzPage()
         elif btname == "jzwjlr":
-            self.setPushButton_backGround(btname)
             self.stackedWidget.setCurrentIndex(6)
-            # 初始化显示
-            self.displayJzFileInsertPage()
         elif btname == "jzzl":
-            self.setPushButton_backGround(btname)
             self.stackedWidget.setCurrentIndex(7)
-            # 初始化显示
+            # 没有刷新按钮
             self.displayFileJzPage()
         elif btname == "zgtz":
-            self.setPushButton_backGround(btname)
             self.stackedWidget.setCurrentIndex(8)
-            self.tabWidget_zgzl.setCurrentIndex(0)
-            # 初始化显示
-            self.dateEdit_7.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
-            self.dateEdit_9.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
-            self.lineEdit_6.setText("请在此输入表格名")
-            self.showZgTable()
-        elif btname == "wtcx":
-            self.setPushButton_backGround(btname)
-            self.stackedWidget.setCurrentIndex(10)
-            self.showCxTable()
         elif btname == "pstj":
-            self.setPushButton_backGround(btname)
             self.stackedWidget.setCurrentIndex(9)
-            self.showPsTable()
+        elif btname == "wtcx":
+            self.stackedWidget.setCurrentIndex(10)
+            self.lineEdit_45.setText("请在此输入表格名")
         elif btname == "bwtj":
-            self.setPushButton_backGround(btname)
             self.stackedWidget.setCurrentIndex(11)
-            self.showBwTj()
         elif btname == "wttj":
-            self.setPushButton_backGround(btname)
             self.stackedWidget.setCurrentIndex(12)
-            self.showTjdata()
         elif btname == "lctj":
-            self.setPushButton_backGround(btname)
             self.stackedWidget.setCurrentIndex(13)
-            self.showLctj()
 
-    #设置导航栏按钮背景
+    # 设置导航栏按钮背景
     def setPushButton_backGround(self, btname):
-        type_1 = "QPushButton{font-size:20px}QPushButton{background-color:rgb(0,0,0)}"
-        type_2 = "QPushButton{font-size:25px}QPushButton{background-color:rgb(85,85,255)}"
-        self.btlczl.setStyleSheet(type_1)
-        self.btswll.setStyleSheet(type_1)
-        self.btfwbl.setStyleSheet(type_1)
-        self.btswbl.setStyleSheet(type_1)
-        self.btpwbl.setStyleSheet(type_1)
-        self.btjzwtlr.setStyleSheet(type_1)
-        self.btjzwjlr.setStyleSheet(type_1)
-        self.btjzzl.setStyleSheet(type_1)
-        self.btzgzl.setStyleSheet(type_1)
-        self.btcx.setStyleSheet(type_1)
-        self.btcx_2.setStyleSheet(type_1)
-        self.bttj.setStyleSheet(type_1)
-        self.btlctj.setStyleSheet(type_1)
-        self.btbwtj.setStyleSheet(type_1)
-        if(btname == "lczl"):
-            self.btlczl.setStyleSheet(type_2)
-        elif(btname == "swll"):
-            self.btswll.setStyleSheet(type_2)
-        elif(btname == "fwbl"):
-            self.btfwbl.setStyleSheet(type_2)
-        elif (btname == "swbl"):
-            self.btswbl.setStyleSheet(type_2)
-        elif (btname == "pwbl"):
-            self.btpwbl.setStyleSheet(type_2)
-        elif (btname == "jzwtlr"):
-            self.btjzwtlr.setStyleSheet(type_2)
-        elif (btname == "jzwjlr"):
-            self.btjzwjlr.setStyleSheet(type_2)
-        elif (btname == "jzzl"):
-            self.btjzzl.setStyleSheet(type_2)
-        elif (btname == "zgtz"):
-            self.btzgzl.setStyleSheet(type_2)
-        elif (btname == "wtcx"):
-            self.btcx.setStyleSheet(type_2)
-        elif (btname == "pstj"):
-            self.btcx_2.setStyleSheet(type_2)
-        elif (btname == "bwtj"):
-            self.btbwtj.setStyleSheet(type_2)
-        elif (btname == "wttj"):
-            self.bttj.setStyleSheet(type_2)
-        elif (btname == "lctj"):
-            self.btlctj.setStyleSheet(type_2)
+        type_1 = "QPushButton{border: 1px solid #00557f;border-left:4px solid rgb(0, 85, " \
+                 "127);font-weight:700;font-size:20px;} "
+        type_2 = "QPushButton{border: 1px solid #00557f;border-left:4px solid rgb(0, 85, " \
+                 "127);font-weight:700;font-size:25px;background-color:rgb(14 , 135 , 228);} "
+        btDict = {
+            "lczl": self.btlczl,
+            "swll": self.btswll,
+            "fwbl": self.btfwbl,
+            "swbl": self.btswbl,
+            "pwbl": self.btpwbl,
+            "jzwtlr": self.btjzwtlr,
+            "jzwjlr": self.btjzwjlr,
+            "jzzl": self.btjzzl,
+            "zgtz": self.btzgzl,
+            "wtcx": self.btcx,
+            "pstj": self.btpstj,
+            "bwtj": self.btbwtj,
+            "wttj": self.btwttj,
+        }
+        for button in btDict.values():
+            button.setStyleSheet(type_1)
+        btDict.get(btname).setStyleSheet(type_2)
+
+    # 初始化数据
+    def initData(self):
+        # 流程总览页面初始化显示
+        self.refreshBwprocessTable()
+
+        # 公文页面初始化显示
+        self.lineEdit_file_3.setReadOnly(True)
+        self.lineEdit_18.setReadOnly(True)
+        self.lineEdit_19.setText("秘书处")
+        self.spinBox_2.setValue(datetime.datetime.now().year)
+        self.spinBox_3.setValue(1)
+        self.comboBox_9.setCurrentIndex(0)
+        self.dateEdit_6.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
+
+        # 专报页面初始化显示
+        self.lineEdit_file_zb.setReadOnly(True)
+        self.spinBox_6.setValue(datetime.datetime.now().year)  # 专报年号:[年]
+        self.spinBox.setValue(1)  # 专报编号:[编号]
+        self.dateEdit_zb.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
+
+        # 收文办理初始化显示
+        self.lineEdit_34.setText("秘书处")
+        self.comboBox_10.setCurrentIndex(0)  # 收文编号:[收文类型]
+        self.spinBox_4.setValue(datetime.datetime.now().year)  # 收文编号:[年]
+        self.spinBox_5.setValue(1)  # 收文编号:[编号]
+        self.dateEdit_4.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
+
+        # 批文办理初始化显示
+        self.lineEdit_62.setText("秘书处")
+        self.comboBox_25.setCurrentIndex(0)  # 批文编号:[收文类型]
+        self.spinBox_8.setValue(datetime.datetime.now().year)  # 批文编号:[年]
+        self.spinBox_9.setValue(1)  # 批文编号:[编号]
+        self.dateEdit_14.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
+
+        # 初始化经责模块显示
+        self.displayProblemJzPage()
+        self.displayJzFileInsertPage()
+        self.displayFileJzPage()
+
+        # 整改总览初始化显示
+        self.refreshZgprocessTable()
+
+        # 统计分析初始化显示
+        self.showProblemSearchTable()
+        self.showRectificationTable()
+        self.showBwChart()
+        self.showProblemStatistics()
 
     # 控件绑定功能函数
     def initControlFunction(self):
@@ -263,18 +199,28 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.btlcxq.clicked.connect(self.lc_detail)
         self.btlczg.clicked.connect(self.lc_to_zg)
         self.pushButton_refresh_lczl.clicked.connect(self.refreshBwprocessTable)
-        self.pushButton_type_search.clicked.connect(self.global_search)  # 全局搜索按钮
-        self.comboBox_12.currentIndexChanged.connect(self.choose_sort)  # 排序方法
-        self.pushButton_type_search_2.clicked.connect(self.part_search)  # 筛选的搜索按钮
+        self.pushButton_type_search.clicked.connect(self.searchForLc)  # 办文流程搜索按钮
+        self.comboBox_12.currentIndexChanged.connect(self.sortForLc)  # 排序方法
+        self.pushButton_type_search_2.clicked.connect(self.selectForLc)  # 筛选的搜索按钮
         self.checkBox.clicked.connect(self.tip_lc)  # 设置时间按钮提示
         self.btdellc.clicked.connect(self.deleteLc)  # 删除流程
         self.bt_excel_output_lc.clicked.connect(self.lcExcelOutput)  # 导出至Excel表格
+        self.comboBox_13.currentIndexChanged.connect(self.autoSyn7)
+        self.dateEdit_8.dateChanged.connect(lambda: self.autoSynCancelTimeCheckBox(self.checkBox))
+        self.dateEdit_10.dateChanged.connect(lambda: self.autoSynCancelTimeCheckBox(self.checkBox))
 
         # 发文办理页面专报/公文按钮功能
         self.pushButton_choose_zb.clicked.connect(self.choose_file_zb)
         self.pushButton_choose_gw.clicked.connect(self.choose_file_gw)
         self.pushButton_add_zb.clicked.connect(self.add_zb)
         self.pushButton_add_gw.clicked.connect(self.add_gw)
+        self.dateEdit_5.dateChanged.connect(self.autoSyn1)
+        self.dateEdit_6.dateChanged.connect(self.autoSyn2)
+        self.spinBox_2.valueChanged.connect(self.autoSyn3)
+        self.spinBox_3.valueChanged.connect(self.autoSyn3)
+        self.comboBox_9.currentIndexChanged.connect(self.autoSyn3)
+        self.comboBox_type_fw.currentIndexChanged.connect(
+            lambda: self.autoSynSendfileType(index=self.comboBox_type_fw.currentIndex()))
 
         # 收文办理页面按钮功能
         self.pushButton_add_sw.clicked.connect(self.add_rev)
@@ -283,21 +229,29 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.pushButton_add_pw.clicked.connect(self.add_cor)
         self.pushButton_add_item.clicked.connect(self.addTerm)
         self.pushButton_sub_item.clicked.connect(self.subTerm)
+        self.listWidget_4.currentRowChanged.connect(lambda: self.autoSyn5(clickedListWidget=self.listWidget_4))
+        self.listWidget_5.currentRowChanged.connect(lambda: self.autoSyn5(clickedListWidget=self.listWidget_5))
+        self.listWidget_6.currentRowChanged.connect(lambda: self.autoSyn5(clickedListWidget=self.listWidget_6))
 
         # 办文登记表页面的按钮功能
-        self.pushButton_refresh_lczl_4.clicked.connect(self.refreshBwll)
-        self.comboBox_19.currentIndexChanged.connect(self.syncBwll_1)   #设置两个comboBox同步
-        self.pushButton_type_search_3.clicked.connect(self.searchBwll)   #筛选办文
+        self.comboBox_19.currentIndexChanged.connect(self.autoSyn4)  # 设置两个comboBox同步
+        self.pushButton_type_search_3.clicked.connect(lambda: self.showRegisTable(type1=self.comboBox_19.currentText(),
+                                                                                  type2=self.comboBox_20.currentText()))  # 筛选办文
         self.pushButton_supply_bw.clicked.connect(self.supplyRegisTable)
         self.pushButton_color.clicked.connect(self.setRegisTableRowStatus)
-        self.bt_excel_output_lc_2.clicked.connect(self.outPut_bw)
+        self.bt_excel_output_lc_2.clicked.connect(self.bwExcelOutput)
 
         # 经责问题总表录入页面按钮功能
-        self.bt_search_jz.clicked.connect(self.searchJzProject)
+        self.bt_search_jz.clicked.connect(self.searchForJzProblem)
         self.pushButton_que_choose.clicked.connect(self.chooseProblemJzTable)
         self.pushButton_que_import.clicked.connect(
             lambda: self.importExcelProblemJz(path=self.lineEdit_que_jz.text(), keyword="multiple",
                                               keyword2="multiple"))
+        self.listWidget_sjwh.currentRowChanged.connect(lambda: self.autoSyn6(clickedListWidget=self.listWidget_sjwh))
+        self.listWidget_sjyj.currentRowChanged.connect(lambda: self.autoSyn6(clickedListWidget=self.listWidget_sjyj))
+        self.listWidget_sjbg.currentRowChanged.connect(lambda: self.autoSyn6(clickedListWidget=self.listWidget_sjbg))
+        self.listWidget_sjjg.currentRowChanged.connect(lambda: self.autoSyn6(clickedListWidget=self.listWidget_sjjg))
+        self.listWidget_excel.currentRowChanged.connect(lambda: self.autoSyn6(clickedListWidget=self.listWidget_excel))
 
         # 经责文件录入页面按钮功能
         self.pushButton_choose_excel.clicked.connect(self.choose_file_jz_excel)
@@ -319,43 +273,144 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         # 整改总览下的按钮功能
         self.pushButton_zg_detail.clicked.connect(self.zg_detail)
-        self.comboBox_15.currentIndexChanged.connect(self.choose_sort_zg)  # 排序方法
+        self.comboBox_15.currentIndexChanged.connect(self.sortForZg)  # 排序方法
         self.checkBox_3.clicked.connect(self.tip_zg)  # 设置时间按钮提示
-        self.pushButton_type_search_5.clicked.connect(self.part_search_zg)  #条件筛选
+        self.pushButton_type_search_5.clicked.connect(self.selectForZg)  # 条件筛选
         self.pushButton_refresh_lczl_2.clicked.connect(self.refreshZgprocessTable)
-        self.comboBox_28.currentIndexChanged.connect(self.synComboBox)  # 设置复选框同步
-        self.pushButton_type_search_4.clicked.connect(self.part_search_zgzl)    #搜索指定流程
+        self.comboBox_28.currentIndexChanged.connect(self.autoSyn9)  # 设置复选框同步
+        self.pushButton_type_search_4.clicked.connect(self.searchForZg)  # 搜索指定流程
         self.btlczg_3.clicked.connect(self.zgExcelOutput)  # 导出至Excel表格
+        self.comboBox_16.currentIndexChanged.connect(self.autoSyn8)
+        self.dateEdit_7.dateChanged.connect(lambda: self.autoSynCancelTimeCheckBox(self.checkBox_3))
+        self.dateEdit_9.dateChanged.connect(lambda: self.autoSynCancelTimeCheckBox(self.checkBox_3))
 
-        #领导批示统计下的按钮及其他功能绑定
-        self.pushButton_refresh_lczl_5.clicked.connect(self.refreshPsTable)
-        self.bt_excel_output_lc_4.clicked.connect(self.part_search_Pstj)    #按条件查询
+        # 领导批示统计下的按钮及其他功能绑定
+        self.pushButton_refresh_lczl_5.clicked.connect(self.refreshRectificationTable)
+        self.bt_excel_output_lc_4.clicked.connect(self.searchForRectification)  # 按条件查询
 
-        #问题查询下的按钮及其他功能绑定
-        self.pushButton_refresh_lczl_13.clicked.connect(self.refreshCxTable)    #刷新显示表格内容
+        # 问题查询下的按钮及其他功能绑定
+        self.pushButton_refresh_lczl_13.clicked.connect(self.refreshProblemSearchTable)  # 刷新显示表格内容
+        self.pushButton_add_item_3.clicked.connect(self.addCondition)  # 添加搜索条件
+        self.pushButton_sub_item_3.clicked.connect(self.subCondition)  # 添加搜索条件
+        self.part_search_wtcx.clicked.connect(self.searchForProblem)  # 按条件进行多维查询
+        self.comboBox_27.currentIndexChanged.connect(self.autoSyn11)  # 两个comboBox同步
+        self.comboBox_18.currentIndexChanged.connect(self.sortForProblem)  # 排序
+        self.sort_wtcx_2.clicked.connect(self.cxExcelOutput)  # 导出至Excel表格
+        self.listWidget_9.currentRowChanged.connect(lambda: self.autoSyn10(clickedListWidget=self.listWidget_9))
+        self.listWidget_10.currentRowChanged.connect(lambda: self.autoSyn10(clickedListWidget=self.listWidget_10))
 
-        self.listWidget_9.currentRowChanged.connect(self.autoHighlight_wtcx1)   #高亮同步
-        self.listWidget_10.currentRowChanged.connect(self.autoHighlight_wtcx2)  #高亮同步
-        self.pushButton_add_item_3.clicked.connect(self.addCondition) #添加搜索条件
-        self.pushButton_sub_item_3.clicked.connect(self.subCondition) #添加搜索条件
-        self.part_search_wtcx.clicked.connect(self.part_search_wtcx_logic)    #按条件进行多维查询
-        self.comboBox_27.currentIndexChanged.connect(self.synComboBox_18)   #两个comboBox同步
-        self.sort_wtcx.clicked.connect(self.sort_wtcx_logic)    #排序
-
-        self.sort_wtcx_2.clicked.connect(self.cxExcelOutput)   #导出至Excel表格
-
-        #办文统计下的按钮及其他功能绑定
-        self.pushButton_11.clicked.connect(self.showPartChart)  #按条件显示图形
+        # 办文统计下的按钮及其他功能绑定
+        self.comboBox_35.currentIndexChanged.connect(self.showBwChart)  # 按条件显示图形
         self.pushButton_12.clicked.connect(self.screen_shot)
 
-        #问题统计下的按钮及其他功能绑定
-        self.pushButton_refresh_lczl_3.clicked.connect(self.refreshTjData)   #刷新显示数据
-        self.comboBox_37.currentIndexChanged.connect(self.syn_wttj)  #两个comboBox同步
-        self.pushButton_part_search_lc_7.clicked.connect(self.showWttjChart)   #显示问题统计图像
-        self.pushButton_6.clicked.connect(self.screen_shot_wttj)  #截屏功能
+        # 问题统计下的按钮及其他功能绑定
+        self.pushButton_part_search_lc_7.clicked.connect(self.showProblemStatistics)  # 显示问题统计图像
+        self.pushButton_6.clicked.connect(self.screen_shot_wttj)  # 截屏功能
 
-        # 流程统计下的按钮及其他功能绑定
+    """
+    @同步前端显示函数
+    主要是对前端多个控件之间的内容进行逻辑同步
+    """
 
+    # 同步输入框内容,autoSyn1、2为公文时间输入同步,3为公文编号输入同步,4为办文登记表两个下拉框内容同步
+    def autoSyn1(self):
+        self.dateEdit_6.setDate(self.dateEdit_5.date())
+
+    def autoSyn2(self):
+        self.dateEdit_5.setDate(self.dateEdit_6.date())
+
+    def autoSyn3(self):
+        cur = self.comboBox_9.currentText() + '〔' + self.spinBox_2.text() + '〕' + self.spinBox_3.text() \
+              + '号'
+        self.lineEdit_18.setText(cur)
+
+    def autoSyn4(self):
+        type1 = self.comboBox_19.currentText()
+        self.comboBox_20.clear()
+        if type1 == "发文登记表":
+            self.comboBox_20.addItems(["不限制", "委文", "委发", "委办文", "委办发", "委函", "委办函", "委便签", "委办便签", "会议纪要", "审计专报"])
+        elif type1 == "收文登记表":
+            self.comboBox_20.addItems(["请字", "情字", "综字", "会字", "电字"])
+        elif type1 == "批文登记表":
+            self.comboBox_20.addItems(["批字", "批示"])
+
+    # 批文页面listWidget高亮内容同步
+    def autoSyn5(self, clickedListWidget):
+        listWidgetSet = {self.listWidget_4, self.listWidget_5, self.listWidget_6}
+        listWidgetSet.remove(clickedListWidget)
+        for listWidget in listWidgetSet:
+            listWidget.setCurrentRow(clickedListWidget.currentRow())
+
+    # 经责文件总览listWidget高亮内容同步
+    def autoSyn6(self, clickedListWidget):
+        listWidgetSet = {self.listWidget_sjwh, self.listWidget_sjyj, self.listWidget_sjbg, self.listWidget_sjjg,
+                         self.listWidget_excel}
+        listWidgetSet.remove(clickedListWidget)
+        for listWidget in listWidgetSet:
+            listWidget.setCurrentRow(clickedListWidget.currentRow())
+
+    # 办文流程筛选栏同步
+    def autoSyn7(self):
+        type_1 = self.comboBox_13.currentText()
+        self.comboBox_14.clear()
+        if type_1 == "发文类型":
+            self.comboBox_14.addItems(["委文", "委发", "委办文", "委办发", "委函", "委办函", "委便签", "委办便签", "会议纪要", "审计专报"])
+        elif type_1 == "收文类型":
+            self.comboBox_14.addItems(["请字", "情字", "综字", "会字", "电字"])
+        elif type_1 == "是否加入整改":
+            self.comboBox_14.addItems(["否", "是"])
+        elif type_1 == "不限制":
+            self.comboBox_14.addItems(["不限制"])
+
+    # 整改流程筛选栏同步
+    def autoSyn8(self):
+        type_1 = self.comboBox_16.currentText()
+        self.comboBox_17.clear()
+        if type_1 == "发文类型":
+            self.comboBox_17.addItems(["委文", "委发", "委办文", "委办发", "委函", "委办函", "委便签", "委办便签", "会议纪要", "审计专报"])
+        elif type_1 == "收文类型":
+            self.comboBox_17.addItems(["请字", "情字", "综字", "会字", "电字"])
+        elif type_1 == "不限制":
+            self.comboBox_17.addItems(["不限制"])
+        elif type_1 == "整改状态":
+            self.comboBox_17.addItems(["未整改", "部分整改", "已整改"])
+
+    # 整改流程搜索栏同步
+    def autoSyn9(self):
+        nowText = self.comboBox_28.currentText()
+        self.comboBox_23.clear()
+        if nowText == "普通流程":
+            self.comboBox_23.addItems(["发文编号", "发文标题", "收文编号", "收文标题", "批文编号", "批文标题", "整改状态"])
+        else:
+            self.comboBox_23.addItems(["整改状态"])
+
+    # 批文页面listWidget高亮内容同步
+    def autoSyn10(self, clickedListWidget):
+        listWidgetSet = {self.listWidget_9, self.listWidget_10}
+        listWidgetSet.remove(clickedListWidget)
+        for listWidget in listWidgetSet:
+            listWidget.setCurrentRow(clickedListWidget.currentRow())
+
+    # 问题查询页面排序栏同步
+    def autoSyn11(self):
+        nowText = self.comboBox_27.currentText()
+        self.comboBox_18.clear()
+        if nowText == "按出具审计报告时间" or nowText == "按应上报整改报告时间" or nowText == "按实际上报整改报告时间":
+            self.comboBox_18.addItems(["由近及远排序", "由远及近排序"])
+        elif nowText == "按整改率":
+            self.comboBox_18.addItems(["由高至低排序", "由低至高排序"])
+        elif nowText == "按上报次序":
+            self.comboBox_18.addItems(["由大到小排序", "由小到大排序"])
+        else:
+            self.comboBox_18.addItems(["由多到少排序", "由少到多排序"])
+
+    # 发文办理下的公文类型同步
+    def autoSynSendfileType(self, index):
+        self.stackedWidget_new.setCurrentIndex(index)
+
+    # 日期有变动就取消checkBox的选中
+    def autoSynCancelTimeCheckBox(self, checkBox):
+        checkBox.setChecked(False)
 
     """
     @关闭子页面操作函数
@@ -386,55 +441,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     @新增子页面操作函数
     主要是对表格某一行进行操作(修改或查看)生成新的子页面
     """
-
-    #显示批示
-    def showPsTable(self):
-        # 表格不可编辑
-        self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-
-        # 表格只可选中行
-        self.tableWidget_2.setSelectionBehavior(QAbstractItemView.SelectRows)
-
-        # 表格只可选中单行
-        self.tableWidget_2.setSelectionMode(QAbstractItemView.SingleSelection)
-
-        # 清空表格
-        self.tableWidget_2.clear()
-
-        # 设置字体
-        self.tableWidget_2.horizontalHeader().setFont(QFont('Times', 14, QFont.Black))
-        self.tableWidget_2.setColumnCount(13)
-        self.tableWidget_2.horizontalHeader().setStyleSheet("QHeaderView::section{background:lightyellow;}")
-        self.tableWidget_2.setHorizontalHeaderLabels(
-            ['主键', '办文编号', '密级', '报送载体', '报送标题', '来文字号', '来文标题', '来文单位', '批示载体', '批示人',
-             '批示人职务', '批示时间', '批示内容'])
-
-        sql = "select instruction.序号,corfile.批文字号,corfile.秘密等级,sendfile.发文字号,sendfile.发文标题," \
-              "instruction.领导来文字号,corfile.批文标题,instruction.领导来文单位,revfile.收文字号,instruction.领导姓名," \
-              "instruction.领导职务,instruction.批示时间,instruction.领导内容摘要和领导批示 from instruction left outer join " \
-              "corfile on instruction.批文序号 = corfile.序号 left outer join bwprocess on bwprocess.序号 = " \
-              "corfile.流程序号 left outer join sendfile on bwprocess.发文序号 = sendfile.序号 left outer join revfile " \
-              "on bwprocess.收文序号 = revfile.序号 "
-        data = tools.executeSql(sql)
-        size = len(data)
-        # print("项目数目为:"+str(size))
-        self.tableWidget_2.setRowCount(size)
-
-        x = 0
-        for i in data:
-            for y in range(0, 13):
-                if data[x][y] is None:
-                    self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
-                else:
-                    self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
-            x = x + 1
-
-        self.tableWidget_2.setFont(QFont('Times', 14, QFont.Black))
-        self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
-        self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
-
-        self.tableWidget_2.hideColumn(0)
-        print(3)
 
     # 整改总览下的查看详情按钮
     def zg_detail(self):
@@ -515,297 +521,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.showRegisTable(type1=self.resType1, type2=self.resType2)
 
     """
-    @同步前端显示函数
-    主要是对前端多个控件之间的内容进行逻辑同步
-    """
-
-    # 同步输入框内容,autoSyn1、2为公文时间同步,3、4为公文编号同步,5为办文登记表两个下拉框内容同步
-    def autoSyn1(self):
-        self.dateEdit_6.setDate(self.dateEdit_5.date())
-
-    def autoSyn2(self):
-        self.dateEdit_5.setDate(self.dateEdit_6.date())
-
-    def autoSyn3(self):
-        cur = self.comboBox_9.currentText() + '〔' + self.spinBox_2.text() + '〕' + self.spinBox_3.text() \
-              + '号'
-        self.lineEdit_18.setText(cur)
-
-    def autoSyn4(self):
-        cur = self.comboBox_9.currentText() + '〔' + self.spinBox_2.text() + '〕' + self.spinBox_3.text() \
-              + '号'
-        self.lineEdit_18.setText(cur)
-
-    def autoSyn5(self):
-        type1 = self.comboBox_2.currentText()
-        self.comboBox.clear()
-        if type1 == "发文登记表":
-            self.comboBox.addItems(["委文", "委发", "委办文", "委办发", "委函", "委办函", "委便签", "委办便签", "会议纪要", "审计专报"])
-        elif type1 == "收文登记表":
-            self.comboBox.addItems(["请字", "情字", "综字", "会字", "电字"])
-        elif type1 == "批文登记表":
-            self.comboBox.addItems(["批字", "批示"])
-
-    # listWidget高亮内容同步
-    def autoSyn6(self):
-        self.listWidget_sjyj.setCurrentRow(self.listWidget_sjwh.currentRow())
-        self.listWidget_sjbg.setCurrentRow(self.listWidget_sjwh.currentRow())
-        self.listWidget_sjjg.setCurrentRow(self.listWidget_sjwh.currentRow())
-        self.listWidget_excel.setCurrentRow(self.listWidget_sjwh.currentRow())
-
-    def autoSyn7(self):
-        self.listWidget_sjwh.setCurrentRow(self.listWidget_sjyj.currentRow())
-        self.listWidget_sjbg.setCurrentRow(self.listWidget_sjyj.currentRow())
-        self.listWidget_sjjg.setCurrentRow(self.listWidget_sjyj.currentRow())
-        self.listWidget_excel.setCurrentRow(self.listWidget_sjyj.currentRow())
-
-    def autoSyn8(self):
-        self.listWidget_sjwh.setCurrentRow(self.listWidget_sjbg.currentRow())
-        self.listWidget_sjyj.setCurrentRow(self.listWidget_sjbg.currentRow())
-        self.listWidget_sjjg.setCurrentRow(self.listWidget_sjbg.currentRow())
-        self.listWidget_excel.setCurrentRow(self.listWidget_sjbg.currentRow())
-
-    def autoSyn9(self):
-        self.listWidget_sjwh.setCurrentRow(self.listWidget_sjjg.currentRow())
-        self.listWidget_sjyj.setCurrentRow(self.listWidget_sjjg.currentRow())
-        self.listWidget_sjbg.setCurrentRow(self.listWidget_sjjg.currentRow())
-        self.listWidget_excel.setCurrentRow(self.listWidget_sjjg.currentRow())
-
-    def autoSyn10(self):
-        self.listWidget_sjwh.setCurrentRow(self.listWidget_excel.currentRow())
-        self.listWidget_sjyj.setCurrentRow(self.listWidget_excel.currentRow())
-        self.listWidget_sjbg.setCurrentRow(self.listWidget_excel.currentRow())
-        self.listWidget_sjjg.setCurrentRow(self.listWidget_excel.currentRow())
-
-    # comboBox同步
-    def autoSyn11(self):
-        type_1 = self.comboBox_13.currentText()
-        self.comboBox_14.clear()
-        if type_1 == "发文类型":
-            self.comboBox_14.addItems(["委文", "委发", "委办文", "委办发", "委函", "委办函", "委便签", "委办便签", "会议纪要", "审计专报"])
-        elif type_1 == "收文类型":
-            self.comboBox_14.addItems(["请字", "情字", "综字", "会字", "电字"])
-        elif type_1 == "是否加入整改":
-            self.comboBox_14.addItems(["否", "是"])
-        elif type_1 == "不限制":
-            self.comboBox_14.addItems(["不限制"])
-
-    def autoSyn12(self):
-        type_1 = self.comboBox_16.currentText()
-        self.comboBox_17.clear()
-        if type_1 == "发文类型":
-            self.comboBox_17.addItems(["委文", "委发", "委办文", "委办发", "委函", "委办函", "委便签", "委办便签", "会议纪要", "审计专报"])
-        elif type_1 == "收文类型":
-            self.comboBox_17.addItems(["请字", "情字", "综字", "会字", "电字"])
-        elif type_1 == "不限制":
-            self.comboBox_17.addItems(["不限制"])
-        elif type_1 == "整改状态":
-            self.comboBox_17.addItems(["未整改", "部分整改", "已整改"])
-
-    # 发文办理下的公文类型同步
-    def autoSynSendfileType(self, index):
-        self.stackedWidget_new.setCurrentIndex(index)
-
-    # 日期有变动就取消checkBox的选中
-    def autoSynCancelCheck(self):
-        self.checkBox.setChecked(False)
-
-    def autoSynCancelCheck_zg(self):
-        self.checkBox_3.setChecked(False)
-
-    # 同步批文页面list高亮
-    def autoHighlight1(self):
-        index = self.listWidget_4.currentRow()
-        self.listWidget_5.setCurrentRow(index)
-        self.listWidget_6.setCurrentRow(index)
-
-    def autoHighlight2(self):
-        index = self.listWidget_5.currentRow()
-        self.listWidget_4.setCurrentRow(index)
-        self.listWidget_6.setCurrentRow(index)
-
-    def autoHighlight3(self):
-        index = self.listWidget_6.currentRow()
-        self.listWidget_4.setCurrentRow(index)
-        self.listWidget_5.setCurrentRow(index)
-
-    """
     @页面展示函数
     @页面初始化函数
+    @页面刷新功能
     """
-    #显示问题统计分析内容
-    def showTjdata(self):
-        self.label_27.setText("以认定整改情况为维度，统计问题金额")
-        #设置绘图区域
-        self.figure = pyplot.figure()  # 新建绘图区域
-        self.canvas = FigureCanvas(self.figure)  # 绘图区域放到图层canvas之中
-        self.gridLayout_3.addWidget(self.canvas, 1, 0, 2, 2)  # 图层放到pyqt布局之中（这个布局替代了之前设计时使用的graphicView）
-
-        beforeWt = 0   #未整改问题的总金额(已加入整改但未整改的)
-        partWt = 0
-        passWt = 0
-
-        sql_t = "select * from problem LEFT OUTER JOIN rectification ON rectification.问题序号 = problem.序号"
-        data_t = tools.executeSql(sql_t)
-        len_t = len(data_t)
-        for i in range(len_t):
-            if(data_t[i][31] is None or data_t[i] == "未整改"):
-                beforeWt += float(data_t[i][15])
-            if(data_t[i][31] == "部分整改"):
-                partWt += float(data_t[i][15])
-            if (data_t[i][31] == "已整改"):
-                passWt += float(data_t[i][15])
-
-        #绘制图形
-        pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
-        bar_width = 0.2
-        height = [beforeWt, partWt, passWt]
-        movie_name = ['已加入整改但未整改问题的总金额（'+str(beforeWt)+'）', '部分整改问题的总金额（'+str(partWt)+'）', '已整改问题的总金额（'+str(passWt)+'）']
-        x = list(range(len(movie_name)))  # 设置x轴的节点数
-        x_address = [i for i in x]  # 循环遍历，得到指定的节点数
-        pyplot.xticks(x_address, movie_name)  # 绘制x轴
-        pyplot.xticks(fontsize=15)  # 设置x轴字体大小
-        pyplot.yticks(fontsize=15)  # 设置y轴字体大小
-        pyplot.bar(x, height, width=bar_width, color=['Indigo', 'lightgreen', 'pink'])  # 三个柱子颜色
-        self.canvas.draw()  # 这是关键
-
-
-    #显示查询内容
-    def showCxTable(self):
-        # 表格不可编辑
-        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-
-        # 表格只可选中行
-        self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
-
-        # 表格只可选中单行
-        self.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.tableWidget.horizontalHeader().setStyleSheet("QHeaderView::section{background:lightyellow;}")
-
-        sql = "SELECT sendfile.发文字号,problem.被审计领导干部,problem.所在地方或单位,problem.审计报告文号,problem.出具审计报告时间," \
-              "problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类," \
-              "problem.问题四级分类,problem.备注,problem.问题金额,problem.移送及处理情况,rectification.上报次序,rectification." \
-              "整改责任部门,rectification.应上报整改报告时间,rectification.实际上报整改报告时间,rectification.整改情况,rectification." \
-              "已整改金额,rectification.追责问责人数,rectification.推动制度建设数目,rectification.推动制度建设文件,rectification." \
-              "部分整改情况具体描述,rectification.未整改原因说明,rectification.下一步整改措施及时限,rectification.认定整改情况," \
-              "rectification.认定整改金额,rectification.整改率 FROM problem LEFT OUTER JOIN rectification ON rectification." \
-              "问题序号 = problem.序号 LEFT OUTER JOIN sendfile ON sendfile.序号 = problem.发文序号"
-        data = tools.executeSql(sql)
-
-        # 打印结果
-        size = len(data)
-        self.tableWidget.setRowCount(size)
-
-        x = 0
-        for i in data:
-            y = 0
-            for j in i:
-                if data[x][y] is None:
-                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
-                else:
-                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
-                y = y + 1
-            x = x + 1
-
-        self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
-        self.tableWidget.resizeRowsToContents()  # 根据行调整框大小
-
-    #显示办文统计页面
-    def showBwTj(self):
-        self.label_78.setText("                 办文类型数量及比例如下：")
-        # 设置绘图区域
-        self.figure = pyplot.figure()  # 新建绘图区域
-        self.canvas = FigureCanvas(self.figure)  # 绘图区域放到图层canvas之中
-        self.gridLayout_15.addWidget(self.canvas, 1, 0, 2, 2)  # 图层放到pyqt布局之中（这个布局替代了之前设计时使用的graphicView）
-
-        # 发文条目
-        sql = "select sendfile.序号,sendfile.办文日期,sendfile.发文字号,sendfile.发文标题,sendfile.秘密等级,sendfile.是否公开,sendfile.紧急程度," \
-              "sendfile.审核,sendfile.承办处室,sendfile.承办人,sendfile.联系电话,sendfile.状态 from sendfile"
-        data_send = tools.executeSql(sql)
-        size_send = len(data_send)
-        # 收文条目
-        sql = "select revfile.序号,revfile.收文时间,revfile.收文字号,revfile.收文标题,revfile.秘密等级,revfile.是否公开,revfile.紧急程度," \
-              "revfile.审核,revfile.承办处室,revfile.承办人,revfile.联系电话,revfile.状态 from revfile"
-        data_rev = tools.executeSql(sql)
-        size_rev = len(data_rev)
-        # 批文条目
-        sql = "select corfile.序号,corfile.收文时间,corfile.批文字号,corfile.批文标题,corfile.秘密等级,corfile.是否公开,corfile.紧急程度," \
-              "corfile.审核,corfile.承办处室,corfile.承办人,corfile.联系电话,corfile.状态 from corfile"
-        data_cor = tools.executeSql(sql)
-        size_cor = len(data_cor)
-
-        pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
-        lab_1 = '发文登记表（' +str(size_send)+'）'
-        lab_2 = '收文登记表（' +str(size_rev)+'）'
-        lab_3 = '批文登记表（' +str(size_cor)+'）'
-        labels = [lab_1, lab_2, lab_3]
-        sizes = [size_send, size_rev, size_cor]
-        colors = ['yellowgreen', 'gold', 'lightskyblue']
-        explode = 0, 0, 0
-        patches, l_text, p_text = pyplot.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
-                                             shadow=True,
-                                             startangle=50)  # startangle表示饼图的起始角度
-        # pie函数返回值中，l_text代表饼状图外的文本，p_text代表饼状图内的文本
-        for t in l_text:
-            t.set_size(20)
-        for t in p_text:
-            t.set_size(15)
-
-    # 显示整改内容
-    def showZgTable(self):
-        # 表格不可编辑
-        self.tableWidget_zgzl.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-
-        # 表格只可选中行
-        self.tableWidget_zgzl.setSelectionBehavior(QAbstractItemView.SelectRows)
-
-        # 表格只可选中单行
-        self.tableWidget_zgzl.setSelectionMode(QAbstractItemView.SingleSelection)
-
-        self.tableWidget_zgzl.hideColumn(0)  # 将流程数据库主键隐藏起来,作为传参,此处主键为整改序号
-        self.tableWidget_zgzl.horizontalHeader().setStyleSheet("QHeaderView::section{background:lightyellow;}")
-
-        # sql由整改表的流程序号出发,通过多表查询获得办文流程类型整改的所有字段
-        sql = "select zgprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,revfile.收文字号,revfile.收文标题," \
-              "GROUP_CONCAT(corfile.批文字号,'\n'),GROUP_CONCAT(corfile.批文标题,'\n'),zgprocess.整改状态 from zgprocess join " \
-              "bwprocess on zgprocess.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 left outer " \
-              "join revfile on bwprocess.收文序号 = revfile.序号 join corfile on bwprocess.序号 = corfile.流程序号 GROUP BY " \
-              "zgprocess.序号 "
-        data1 = tools.executeSql(sql)
-
-        # sql由整改表的流程序号出发,通过多表查询获得经责项目类型整改的所有字段
-        sql = "select zgprocess.序号,problem_jz.出具审计报告时间,problem_jz.审计意见或报告文号,zgprocess.整改状态 from zgprocess join " \
-              "problem_jz on zgprocess.序号 = problem_jz.整改序号 group by zgprocess.序号"
-        temp_data2 = tools.executeSql(sql)
-        data2 = []
-
-        # 对temp_data2进行数据处理,使得data1和data2可以合并
-        for i in temp_data2:
-            temp_tuple = (i[0], i[1], i[2], None, None, None, None, None, i[3])
-            data2.append(temp_tuple)
-
-        # 合并两个列表
-        data = data1 + data2
-
-        size = len(data)
-        # print("项目数目为:"+str(size))
-        self.tableWidget_zgzl.setRowCount(size)
-
-        x = 0
-        for i in data:
-            y = 0
-            for j in i:
-                if data[x][y] is None:
-                    self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
-                else:
-                    self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
-                y = y + 1
-            x = x + 1
-
-        self.tableWidget_zgzl.resizeColumnsToContents()  # 根据列调整框大小
-        self.tableWidget_zgzl.resizeRowsToContents()  # 根据行调整框大小
-
-        self.tableWidget_zgzl.sortItems(1, Qt.DescendingOrder)  # 按照流程建立时间排序
 
     # 显示发文流程内容
     def showBwprocessTable(self):
@@ -819,8 +538,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         self.tableWidget_lczl.hideColumn(0)  # 将流程数据库主键隐藏起来,作为传参,此处主键为流程序号
 
-        self.tableWidget_lczl.horizontalHeader().setStyleSheet("QHeaderView::section{background:lightyellow;}")
-
         # sql查询通过多表左外连接查询获取发文流程结果.并且根据流程序号这一唯一标识分组,将批文标题和字号用逗号连接起来
         sql = "SELECT bwprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,count(distinct problem.序号)," \
               "revfile.收文字号,revfile.收文标题,REPLACE(GROUP_CONCAT(distinct corfile.批文字号),',','\n'),REPLACE(GROUP_CONCAT(" \
@@ -832,8 +549,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         # 打印结果
         size = len(data)
-        self.tableWidget_lczl_row = len(data)
-        # print("项目数目为:"+str(size))
         self.tableWidget_lczl.setRowCount(size)
 
         x = 0
@@ -852,103 +567,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         self.tableWidget_lczl.sortItems(1, Qt.DescendingOrder)  # 按照流程建立时间排序
 
-    # 刷新发文流程页面
-    def refreshBwprocessTable(self):
-        #刷新控件
-        self.lineEdit_global.clear()
-        self.comboBox_13.clear()
-        self.comboBox_13.addItems(["不限制", "发文类型", "收文类型", "是否加入整改"])
-        self.comboBox_14.clear()
-        self.comboBox_14.addItem("不限制")
-        self.checkBox.setChecked(False)
-        self.lineEdit_4.setText("请在此输入表格名")
-        self.comboBox_12.clear()
-        self.comboBox_12.addItems(['按流程开始时间由近及远排序', '按流程开始时间由远及近排序', '按问题个数排序'])
-        self.comboBox_21.clear()
-        self.comboBox_21.addItems(['发文标题', '发文号', '收文标题', '收文号', '批文标题', '批文号'])
-        #刷新显示tableWidget
-        self.showBwprocessTable()
-
-    # 刷新整改流程页面
-    def refreshZgprocessTable(self):
-        # 刷新控件
-        self.comboBox_15.clear()
-        self.comboBox_15.addItems(["按流程开始时间由近及远排序", "按流程开始时间由远及近排序"])
-        self.comboBox_28.clear()
-        self.comboBox_28.addItems(["普通流程", "经责流程"])
-        self.comboBox_23.clear()
-        self.comboBox_23.addItems(["发文编号", "发文标题", "收文编号", "收文标题", "批文编号", "批文标题", "整改状态"])
-        self.comboBox_16.clear()
-        self.comboBox_16.addItems(["不限制", "发文类型", "收文类型"])
-        self.comboBox_17.clear()
-        self.comboBox_17.addItem("不限制")
-        self.checkBox_3.setChecked(False)
-        self.lineEdit_6.setText("请在此输入表格名")
-        # 刷新显示tableWidget
-        self.showZgTable()
-
-    def synComboBox(self):
-        nowText = self.comboBox_28.currentText()
-        if(nowText == "普通流程"):
-            self.comboBox_23.clear()
-            self.comboBox_23.addItems(["发文编号", "发文标题", "收文编号", "收文标题", "批文编号", "批文标题", "整改状态"])
-        else:
-            self.comboBox_23.clear()
-            self.comboBox_23.addItems(["整改状态"])
-        print(3)
-
-    def part_search_zgzl(self):
-        if (self.lineEdit_global_2.text() == ""):
-            return
-        nowText = '%' + self.lineEdit_global_2.text() + '%'
-        if(self.comboBox_28.currentText() == "普通流程"):
-            dic = {
-                "发文编号": 'sendfile.发文字号',
-                '发文标题': 'sendfile.发文标题',
-                '收文标题': 'revfile.收文标题',
-                '收文编号': 'revfile.收文字号',
-                '批文标题': "corfile.批文标题",
-                '批文编号': "corfile.批文字号",
-                '整改状态': 'zgprocess.整改状态'
-            }
-            print(dic.get(self.comboBox_23.currentText()))
-            sql = "select zgprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,revfile.收文字号,revfile.收文标题," \
-              "GROUP_CONCAT(corfile.批文字号,'\n'),GROUP_CONCAT(corfile.批文标题,'\n'),zgprocess.整改状态 from zgprocess join " \
-              "bwprocess on zgprocess.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 left outer " \
-              "join revfile on bwprocess.收文序号 = revfile.序号 join corfile on bwprocess.序号 = corfile.流程序号 WHERE %s LIKE '%s' GROUP BY " \
-              "zgprocess.序号" % (dic.get(self.comboBox_23.currentText()), nowText)
-            data = tools.executeSql(sql)
-        else:
-            dic = {
-                '整改状态': 'zgprocess.整改状态'
-            }
-            # sql由整改表的流程序号出发,通过多表查询获得经责项目类型整改的所有字段
-            sql = "select zgprocess.序号,problem_jz.出具审计报告时间,problem_jz.审计意见或报告文号,zgprocess.整改状态 from zgprocess join " \
-                  "problem_jz on zgprocess.序号 = problem_jz.整改序号 WHERE %s LIKE '%s' group by zgprocess.序号 " % (dic.get(self.comboBox_23.currentText()), nowText)
-            data = tools.executeSql(sql)
-            # 对temp_data2进行数据处理,使得data1和data2可以合并
-            for i in data:
-                temp_tuple = (i[0], i[1], i[2], None, None, None, None, None, i[3])
-                data.append(temp_tuple)
-
-        size = len(data)    #行数
-        self.tableWidget_zgzl.setRowCount(size)
-        #打印显示
-        x = 0
-        for i in data:
-            y = 0
-            for j in i:
-                if data[x][y] is None:
-                    self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
-                else:
-                    self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
-                y = y + 1
-            x = x + 1
-
-    #办文浏览刷新
-    def refreshBwll(self):
-        print(23)
-
     # 显示各种类型登记表总览
     def showRegisTable(self, type1, type2):
         # 清空表格
@@ -960,7 +578,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # 表格只可选中单行
         self.tableWidget_bwzl.setSelectionMode(QAbstractItemView.SingleSelection)
         # 设置字体
-        self.tableWidget_bwzl.horizontalHeader().setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_bwzl.horizontalHeader().setFont(QFont('Microsoft YaHei UI', 14, QFont.Black))
+
         self.resType1 = type1  # 标识当前访问的登记表类型1
         self.resType2 = type2  # 标识当前访问的登记表类型2
         # 设置状态按钮可用
@@ -1128,23 +747,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.tableWidget_bwzl.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget_bwzl.resizeRowsToContents()  # 根据行调整框大小
 
-    def syncBwll_1(self):
-        type_1 = self.comboBox_19.currentText()
-        self.comboBox_20.clear()
-        if type_1 == "发文登记表":
-            self.comboBox_20.addItems(["委文", "委发", "委办文", "委办发", "委函", "委办函", "委便签", "委办便签", "会议纪要", "审计专报"])
-        elif type_1 == "收文登记表":
-            self.comboBox_20.addItems(["请字", "情字", "综字", "会字", "电字"])
-        elif type_1 == "批文登记表":
-            self.comboBox_20.addItems(["批字", "批示"])
-
-    #办文浏览页面筛选
-    def searchBwll(self):
-        first_condition = self.comboBox_19.currentText()    #获取第一个条件
-        second_condition = self.comboBox_20.currentText()   #获取第二个条件
-        self.showRegisTable(first_condition,second_condition)
-
-
     # 初始化经责问题总表页面
     def displayProblemJzPage(self):
         # 表格不可编辑
@@ -1266,89 +868,341 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.listWidget_sjjg.addItem(i[3])
             self.listWidget_excel.addItem(str(i[4]))
 
+    # 显示整改内容
+    def showZgTable(self):
+        # 表格不可编辑
+        self.tableWidget_zgzl.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
+        # 表格只可选中行
+        self.tableWidget_zgzl.setSelectionBehavior(QAbstractItemView.SelectRows)
+
+        # 表格只可选中单行
+        self.tableWidget_zgzl.setSelectionMode(QAbstractItemView.SingleSelection)
+
+        self.tableWidget_zgzl.hideColumn(0)  # 将流程数据库主键隐藏起来,作为传参,此处主键为整改序号
+
+        # sql由整改表的流程序号出发,通过多表查询获得办文流程类型整改的所有字段
+        sql = "select zgprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,revfile.收文字号,revfile.收文标题," \
+              "GROUP_CONCAT(corfile.批文字号,'\n'),GROUP_CONCAT(corfile.批文标题,'\n'),zgprocess.整改状态 from zgprocess join " \
+              "bwprocess on zgprocess.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 left outer " \
+              "join revfile on bwprocess.收文序号 = revfile.序号 join corfile on bwprocess.序号 = corfile.流程序号 GROUP BY " \
+              "zgprocess.序号 "
+        data1 = tools.executeSql(sql)
+
+        # sql由整改表的流程序号出发,通过多表查询获得经责项目类型整改的所有字段
+        sql = "select zgprocess.序号,problem_jz.出具审计报告时间,problem_jz.审计意见或报告文号,zgprocess.整改状态 from zgprocess join " \
+              "problem_jz on zgprocess.序号 = problem_jz.整改序号 group by zgprocess.序号"
+        temp_data2 = tools.executeSql(sql)
+        data2 = []
+
+        # 对temp_data2进行数据处理,使得data1和data2可以合并
+        for i in temp_data2:
+            temp_tuple = (i[0], i[1], i[2], None, None, None, None, None, i[3])
+            data2.append(temp_tuple)
+
+        # 合并两个列表
+        data = data1 + data2
+
+        size = len(data)
+        # print("项目数目为:"+str(size))
+        self.tableWidget_zgzl.setRowCount(size)
+
+        x = 0
+        for i in data:
+            y = 0
+            for j in i:
+                if data[x][y] is None:
+                    self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
+                else:
+                    self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                y = y + 1
+            x = x + 1
+
+        self.tableWidget_zgzl.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget_zgzl.resizeRowsToContents()  # 根据行调整框大小
+
+        self.tableWidget_zgzl.sortItems(1, Qt.DescendingOrder)  # 按照流程建立时间排序
+
+    # 显示问题查询内容
+    def showProblemSearchTable(self):
+        # 表格不可编辑
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
+        # 表格只可选中行
+        self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
+
+        # 表格只可选中单行
+        self.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
+
+        sql = "SELECT sendfile.发文字号,problem.被审计领导干部,problem.所在地方或单位,problem.审计报告文号,problem.出具审计报告时间," \
+              "problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类," \
+              "problem.问题四级分类,problem.备注,problem.问题金额,problem.移送及处理情况,rectification.上报次序,rectification." \
+              "整改责任部门,rectification.应上报整改报告时间,rectification.实际上报整改报告时间,rectification.整改情况,rectification." \
+              "已整改金额,rectification.追责问责人数,rectification.推动制度建设数目,rectification.推动制度建设文件,rectification." \
+              "部分整改情况具体描述,rectification.未整改原因说明,rectification.下一步整改措施及时限,rectification.认定整改情况," \
+              "rectification.认定整改金额,rectification.整改率 FROM problem LEFT OUTER JOIN rectification ON rectification." \
+              "问题序号 = problem.序号 LEFT OUTER JOIN sendfile ON sendfile.序号 = problem.发文序号"
+        data = tools.executeSql(sql)
+
+        # 打印结果
+        size = len(data)
+        self.tableWidget.setRowCount(size)
+
+        x = 0
+        for i in data:
+            y = 0
+            for j in i:
+                if data[x][y] is None:
+                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
+                else:
+                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                y = y + 1
+            x = x + 1
+
+        self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget.resizeRowsToContents()  # 根据行调整框大小
+
+    # 显示所有领导批示
+    def showRectificationTable(self):
+        # 表格不可编辑
+        self.tableWidget_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
+        # 表格只可选中行
+        self.tableWidget_2.setSelectionBehavior(QAbstractItemView.SelectRows)
+
+        # 表格只可选中单行
+        self.tableWidget_2.setSelectionMode(QAbstractItemView.SingleSelection)
+
+        # 清空表格
+        self.tableWidget_2.clear()
+
+        # 设置字体
+        self.tableWidget_2.horizontalHeader().setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_2.setColumnCount(13)
+        self.tableWidget_2.horizontalHeader().setStyleSheet("QHeaderView::section{background:lightyellow;}")
+        self.tableWidget_2.setHorizontalHeaderLabels(
+            ['主键', '办文编号', '密级', '报送载体', '报送标题', '来文字号', '来文标题', '来文单位', '批示载体', '批示人',
+             '批示人职务', '批示时间', '批示内容'])
+
+        sql = "select instruction.序号,corfile.批文字号,corfile.秘密等级,sendfile.发文字号,sendfile.发文标题," \
+              "instruction.领导来文字号,corfile.批文标题,instruction.领导来文单位,revfile.收文字号,instruction.领导姓名," \
+              "instruction.领导职务,instruction.批示时间,instruction.领导内容摘要和领导批示 from instruction left outer join " \
+              "corfile on instruction.批文序号 = corfile.序号 left outer join bwprocess on bwprocess.序号 = " \
+              "corfile.流程序号 left outer join sendfile on bwprocess.发文序号 = sendfile.序号 left outer join revfile " \
+              "on bwprocess.收文序号 = revfile.序号 "
+        data = tools.executeSql(sql)
+        size = len(data)
+        # print("项目数目为:"+str(size))
+        self.tableWidget_2.setRowCount(size)
+
+        x = 0
+        for i in data:
+            for y in range(0, 13):
+                if data[x][y] is None:
+                    self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
+                else:
+                    self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+            x = x + 1
+
+        self.tableWidget_2.setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
+
+        self.tableWidget_2.hideColumn(0)
+
+    # 显示办文流程饼状图统计
+    def showBwChart(self):
+        nowText = self.comboBox_35.currentText()
+        # 设置绘图区域
+        figure = pyplot.figure()  # 新建绘图区域
+        canvas = FigureCanvas(figure)  # 绘图区域放到图层canvas之中
+        self.gridLayout_15.addWidget(canvas, 1, 0, 2, 2)  # 图层放到pyqt布局之中（这个布局替代了之前设计时使用的graphicView）
+        self.label_78.setText("%s情况的数量及比例如下：" % nowText)
+        pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
+        if nowText == "办文类型":
+            # 发文条目
+            sql = "select * from sendfile"
+            size_send = len(tools.executeSql(sql))
+
+            # 收文条目
+            sql = "select * from revfile"
+            size_rev = len(tools.executeSql(sql))
+
+            # 批文条目
+            sql = "select * from corfile"
+            size_cor = len(tools.executeSql(sql))
+
+            lab_1 = '发文登记表（' + str(size_send) + '）'
+            lab_2 = '收文登记表（' + str(size_rev) + '）'
+            lab_3 = '批文登记表（' + str(size_cor) + '）'
+            labels = [lab_1, lab_2, lab_3]
+            sizes = [size_send, size_rev, size_cor]
+            colors = ['yellowGreen', 'Gold', 'lightSkyBlue']
+            explode = 0, 0, 0
+        elif nowText == "是否公开":
+            # 发文条目
+            sql_send = "select * from sendfile"
+
+            # 收文条目
+            sql_rev = "select * from revfile"
+
+            # 批文条目
+            sql_cor = "select * from corfile"
+
+            sql_send_pub = sql_send + " where sendfile.是否公开 = '是'"
+            len_send_pub = len(tools.executeSql(sql_send_pub))
+
+            sql_rev_pub = sql_rev + " where revfile.是否公开 = '是'"
+            len_rev_pub = len(tools.executeSql(sql_rev_pub))
+
+            sql_cor_pub = sql_cor + " where corfile.是否公开 = '是'"
+            len_cor_pub = len(tools.executeSql(sql_cor_pub))
+
+            size_pub = len_send_pub + len_rev_pub + len_cor_pub
+
+            sql_send_not_pub = sql_send + " where sendfile.是否公开 = '否'"
+            len_send_not_pub = len(tools.executeSql(sql_send_not_pub))
+
+            sql_rev_not_pub = sql_rev + " where revfile.是否公开 = '否'"
+            len_rev_not_pub = len(tools.executeSql(sql_rev_not_pub))
+
+            sql_cor_not_pub = sql_cor + " where corfile.是否公开 = '否'"
+            len_cor_not_pub = len(tools.executeSql(sql_cor_not_pub))
+
+            size_not_pub = len_send_not_pub + len_rev_not_pub + len_cor_not_pub
+
+            lab_1 = '公开办文（' + str(size_pub) + '）'
+            lab_2 = '不公开办文（' + str(size_not_pub) + '）'
+            labels = [lab_1, lab_2]
+            sizes = [size_pub, size_not_pub]
+            colors = ['yellowGreen', 'Gold']
+            explode = 0, 0
+
+        patches, l_text, p_text = pyplot.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
+                                             shadow=True,
+                                             startangle=50)  # startangle表示饼图的起始角度
+        # pie函数返回值中，l_text代表饼状图外的文本，p_text代表饼状图内的文本
+        for t in l_text:
+            t.set_size(20)
+        for t in p_text:
+            t.set_size(15)
+
+    # 显示问题整改柱状图统计
+    def showProblemStatistics(self):
+        Dict = {
+            "问题金额统计": "SUM(problem.问题金额)",
+            "认定整改金额统计": "SUM(rectification.认定整改金额)",
+            "问题数量统计": "COUNT(problem.序号)",
+            "认定整改情况": "rectification.认定整改情况",
+            "上报整改情况": "rectification.整改情况",
+            "审计组组长": "problem.审计组组长",
+            "审计组主审": "problem.审计组主审",
+        }
+        self.label_27.setText("以问题移送处理情况为维度，统计问题金额")
+        # 设置绘图区域
+        figure = pyplot.figure()  # 新建绘图区域
+        canvas = FigureCanvas(figure)  # 绘图区域放到图层canvas之中
+        self.gridLayout_3.addWidget(canvas, 1, 0, 2, 2)  # 图层放到pyqt布局之中（这个布局替代了之前设计时使用的graphicView）
+
+        aim = self.comboBox_37.currentText()  # 统计量
+        dim = self.comboBox_36.currentText()  # 统计维度
+
+        # 此处不需要左外连接,因为没有整改的问题不加入统计,选定最后一次上报数据作为分析数据
+        # 内层select用于过滤数据只保留最近一次上报的记录,外层用select用于对问题进行统计分析
+        sql = "select %s,%s,problem.序号,rectification.上报次序 from problem join rectification on problem.序号 = " \
+              "rectification.问题序号 where (problem.序号,rectification.上报次序) in (select problem.序号,MAX(rectification.上报次序) " \
+              "from problem join rectification on problem.序号 = rectification.问题序号 group by problem.序号) group by %s " \
+              % (Dict.get(dim), Dict.get(aim), Dict.get(dim))
+
+        # 得到绘图数据
+        data = tools.executeSql(sql)
+        print(data)
+
+        # 绘制图形
+        pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
+        bar_width = 0.1
+        x_name = []
+        y = []
+        for Tuple in data:
+            x_name.append(Tuple[0])
+            y.append(Tuple[1])
+
+        x = list(range(len(x_name)))  # 设置x轴的节点数
+        x_address = [i for i in x]  # 循环遍历，得到指定的节点数
+        pyplot.xticks(x_address, x_name)  # 绘制x轴
+        pyplot.xticks(fontsize=15)  # 设置x轴字体大小
+        pyplot.yticks(fontsize=15)  # 设置y轴字体大小
+        pyplot.bar(x, y, width=bar_width)  # 三个柱子颜色
+        canvas.draw()  # 这是关键
+
+    # 刷新发文流程页面
+    def refreshBwprocessTable(self):
+        # 刷新控件
+        self.lineEdit_global.clear()
+        self.comboBox_13.clear()
+        self.comboBox_13.addItems(["不限制", "发文类型", "收文类型", "是否加入整改"])
+        self.comboBox_14.clear()
+        self.comboBox_14.addItem("不限制")
+        self.checkBox.setChecked(False)
+        self.lineEdit_4.setText("请在此输入表格名")
+        self.comboBox_12.clear()
+        self.comboBox_12.addItems(['按流程开始时间由近及远排序', '按流程开始时间由远及近排序', '按问题个数排序'])
+        self.comboBox_21.clear()
+        self.comboBox_21.addItems(['发文标题', '发文号', '收文标题', '收文号', '批文标题', '批文号'])
+        self.dateEdit_8.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
+        self.dateEdit_10.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
+        # 刷新显示tableWidget
+        self.showBwprocessTable()
+
+    # 刷新整改流程页面
+    def refreshZgprocessTable(self):
+        # 刷新控件
+        self.comboBox_15.clear()
+        self.comboBox_15.addItems(["按流程开始时间由近及远排序", "按流程开始时间由远及近排序"])
+        self.comboBox_28.clear()
+        self.comboBox_28.addItems(["普通流程", "经责流程"])
+        self.comboBox_23.clear()
+        self.comboBox_23.addItems(["发文编号", "发文标题", "收文编号", "收文标题", "批文编号", "批文标题", "整改状态"])
+        self.comboBox_16.clear()
+        self.comboBox_16.addItems(["不限制", "发文类型", "收文类型"])
+        self.comboBox_17.clear()
+        self.comboBox_17.addItem("不限制")
+        self.checkBox_3.setChecked(False)
+        self.lineEdit_6.setText("请在此输入表格名")
+        self.dateEdit_7.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
+        self.dateEdit_9.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
+        # 刷新显示tableWidget
+        self.showZgTable()
+
+    # 刷新显示问题查询页面
+    def refreshProblemSearchTable(self):
+        self.comboBox_27.clear()
+        self.comboBox_27.addItems(["按出具审计报告时间", "按应上报整改报告时间", "按实际上报整改报告时间", "按问题金额", "按上报次序",
+                                   "按已整改金额", "按追责问责人数", "按推动制度建设数目", "按认定整改金额", "按整改率"])
+        self.comboBox_18.clear()
+        self.comboBox_18.addItems(["由近及远排序", "由远及近排序"])
+        self.listWidget_9.clear()
+        self.listWidget_10.clear()
+        self.comboBox_22.clear()
+        self.comboBox_22.addItems(["选择查询类型", "对应发文号", "被审计领导干部", "所在地方单位", "审计报告文号", "审计组组长",
+                                   "审计组主审", "问题描述", "问题一级分类", "问题二级分类", "问题三级分类",
+                                   "问题四级分类", "问题金额", "移送及处理情况", "整改责任部门", "整改情况",
+                                   "已整改金额", "追责问责人数", "推动制度建设数目", "推动制度建设文件", "认定整改情况",
+                                   "认定整改金额", "整改率"])
+        self.lineEdit_43.setText("请输入表格名")
+        self.showProblemSearchTable()
+
+    # 刷新显示批示统计
+    def refreshRectificationTable(self):
+        self.lineEdit_28.clear()
+        self.comboBox_32.clear()
+        self.comboBox_32.addItems(["办文编号", "报送载体", "报送标题", "来文字号", "来文标题", "来文单位", "批示载体", "批示人", "批示人职务"])
+        self.showRectificationTable()
 
     """
     @公文录入操作函数
     @word文档录入操作函数
     """
-
-    def showLctj(self):
-        self.label_32.setText("                                所有流程的数量及比例")
-        self.label_65.setText("                                已加入整改的流程数量及比例")
-
-        pyplot.close()  # 关闭别控件打开的pyplot弹窗
-
-        sql = "select zgprocess.序号 from zgprocess where zgprocess.整改状态 == '未整改'"
-        data = tools.executeSql(sql)
-        before_zg = len(data)  # 部分整改的流程数
-
-        sql = "select zgprocess.序号 from zgprocess where zgprocess.整改状态 == '部分整改'"
-        data = tools.executeSql(sql)
-        part_zg = len(data)  # 部分整改的流程数
-
-        sql = "select zgprocess.序号 from zgprocess where zgprocess.整改状态 == '已整改'"
-        data = tools.executeSql(sql)
-        pass_zg = len(data)  # 整改完成的流程数
-
-        sql = "select bwprocess.序号 from bwprocess where bwprocess.是否加入整改 == '否'"
-        data = tools.executeSql(sql)
-        bbefore = len(data)
-
-
-        # 设置绘图区域
-        self.figure = pyplot.figure()  # 新建绘图区域
-        self.canvas = FigureCanvas(self.figure)  # 绘图区域放到图层canvas之中
-        self.gridLayout_11.addWidget(self.canvas, 1, 1, 1, 1)  # 图层放到pyqt布局之中（这个布局替代了之前设计时使用的graphicView）
-
-        pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
-        lab_1 = '加入整改但未整改的流程（' + str(before_zg) + '）'
-        lab_2 = '部分整改的流程（' + str(part_zg) + '）'
-        lab_3 = '已完成整改的流程（' + str(pass_zg) + '）'
-        labels = [lab_1, lab_2, lab_3]
-        sizes = [before_zg, part_zg, pass_zg]
-        colors = ['yellowgreen', 'gold', 'lightskyblue']
-        explode = 0, 0, 0
-        patches, l_text, p_text = pyplot.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
-                                             shadow=True,
-                                             startangle=50)  # startangle表示饼图的起始角度
-        # pie函数返回值中，l_text代表饼状图外的文本，p_text代表饼状图内的文本
-        for t in l_text:
-            t.set_size(20)
-        for t in p_text:
-            t.set_size(15)
-        self.showLeft()
-
-    #显示左边图像
-    def showLeft(self):
-
-        sql = "select bwprocess.序号 from bwprocess where bwprocess.是否加入整改 == '否'"
-        data = tools.executeSql(sql)
-        bbefore = len(data)
-
-        sql_join = "select bwprocess.序号 from bwprocess where bwprocess.是否加入整改 == '是'"
-        data_join = tools.executeSql(sql_join)
-        join_zg = len(data_join)
-
-        # 设置绘图区域
-        self.figure = pyplot.figure()  # 新建绘图区域
-        self.canvas = FigureCanvas(self.figure)  # 绘图区域放到图层canvas之中
-        self.gridLayout_11.addWidget(self.canvas, 1, 0, 1, 1)  # 图层放到pyqt布局之中（这个布局替代了之前设计时使用的graphicView）
-
-        pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
-        lab_1 = '加入整改的流程（' + str(join_zg) + '）'
-        lab_2 = '未加入整改的流程（' + str(bbefore) + '）'
-        labels = [lab_1, lab_2]
-        sizes = [join_zg, bbefore]
-        colors = ['green','pink']
-        explode = 0, 0
-        patches, l_text, p_text = pyplot.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
-                                             shadow=True,
-                                             startangle=50)  # startangle表示饼图的起始角度
-        # pie函数返回值中，l_text代表饼状图外的文本，p_text代表饼状图内的文本
-        for t in l_text:
-            t.set_size(20)
-        for t in p_text:
-            t.set_size(15)
 
     # 发文办理下的确认按钮(专报)
     def add_zb(self):
@@ -1655,27 +1509,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         else:
             QtWidgets.QMessageBox.critical(None, "录入失败", "批文标题不能为空！")
 
-    # 批文界面下的add和sub按钮,用于增加和删除条目
-    def addTerm(self):
-        item1 = QListWidgetItem("请输入领导来文单位")
-        item1.setFlags(item1.flags() | QtCore.Qt.ItemIsEditable)
-        self.listWidget_5.addItem(item1)
-        item2 = QListWidgetItem("请输入领导来文字号")
-        item2.setFlags(item2.flags() | QtCore.Qt.ItemIsEditable)
-        self.listWidget_6.addItem(item2)
-        item3 = QListWidgetItem("请输入领导批示")
-        item3.setFlags(item3.flags() | QtCore.Qt.ItemIsEditable)
-        self.listWidget_4.addItem(item3)
-
-    def subTerm(self):
-        row = self.listWidget_5.currentRow()
-        if row == -1:
-            QtWidgets.QMessageBox.information(None, "提示", "请选择要删除的条目！")
-        else:
-            self.listWidget_5.takeItem(row)
-            self.listWidget_6.takeItem(row)
-            self.listWidget_4.takeItem(row)
-
     # 导入审计意见或问题表
     def add_sjyj(self):
         input_file_path_sjyj = self.lineEdit_file_sjyj.text()
@@ -1766,9 +1599,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     @表格排序功能函数
     """
 
-    # 全局搜索按钮
-    def global_search(self):
-        if (self.lineEdit_global.text() == ""):
+    # 办文流程搜索按钮
+    def searchForLc(self):
+        if self.lineEdit_global.text() == "":
+            QtWidgets.QMessageBox.warning(None, "提示", "输入不可为空！")
             return
         dic = {
             "发文标题": "sendfile.发文标题",
@@ -1779,18 +1613,15 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             '批文号': "corfile.批文字号"
         }
         nowText = '%' + self.lineEdit_global.text() + '%'
-        print(dic.get(self.comboBox_21.currentText()))
         sql = "SELECT bwprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,count(distinct problem.序号)," \
-              "revfile.收文字号,revfile.收文标题,REPLACE(GROUP_CONCAT(distinct corfile.批文字号),',','\n')," \
-              "REPLACE(GROUP_CONCAT(distinct corfile.批文标题),',','\n'),bwprocess.是否加入整改 FROM bwprocess LEFT " \
-              "OUTER JOIN sendfile ON sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN problem ON sendfile.序号 = " \
-              "problem.发文序号 LEFT OUTER JOIN revfile ON revfile.序号 = bwprocess.收文序号 LEFT OUTER JOIN corfile " \
-              "ON bwprocess.序号 = corfile.流程序号 WHERE %s LIKE '%s' " % (dic.get(self.comboBox_21.currentText()), nowText)
-        data = tools.executeSql(sql)
+              "revfile.收文字号,revfile.收文标题,REPLACE(GROUP_CONCAT(distinct corfile.批文字号),',','\n'),REPLACE(GROUP_CONCAT(" \
+              "distinct corfile.批文标题),',','\n'),bwprocess.是否加入整改 FROM bwprocess LEFT OUTER JOIN sendfile ON " \
+              "sendfile.序号 = bwprocess.发文序号 LEFT OUTER JOIN problem ON sendfile.序号 = problem.发文序号 LEFT OUTER JOIN " \
+              "revfile ON revfile.序号 = bwprocess.收文序号 LEFT OUTER JOIN corfile ON bwprocess.序号 = corfile.流程序号  WHERE " \
+              "%s LIKE '%s' GROUP BY bwprocess.序号 " % (dic.get(self.comboBox_21.currentText()), nowText)
         # 打印显示
         data = tools.executeSql(sql)
         size = len(data)
-        self.tableWidget_lczl_row = len(data)  # 流程总览行数
         self.tableWidget_lczl.setRowCount(size)
         x = 0
         for i in data:
@@ -1802,10 +1633,207 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_lczl.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
                 y = y + 1
             x = x + 1
-        print(3)
 
-    # 按照不同方式排序
-    def choose_sort(self):
+        self.sortForLc()
+
+    # 经责问题表中的搜索按钮
+    def searchForJzProblem(self):
+        keyword = self.comboBox_11.currentText()
+        sql = "select 序号,问题顺序号,被审计领导干部,所在地方或单位,报送文号,审计意见或报告文号,经责结果报告文号,出具审计报告时间,审计组组长,审计组主审,问题描述,是否在审计报告中反映," \
+              "是否在结果报告中反映,审计对象分类,问题类别,问题定性,问题表现形式,备注,问题金额,移送及处理情况 from problem_jz where 审计意见或报告文号 = '%s' " % keyword
+        data = tools.executeSql(sql)
+
+        data = tools.sortByKey(data, 5, 2)
+
+        size = len(data)
+        self.tableWidget_jz_pro.setRowCount(size)
+
+        x = 0
+        for i in data:
+            y = 0
+            for j in i:
+                if data[x][y] is None:
+                    self.tableWidget_jz_pro.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
+                else:
+                    self.tableWidget_jz_pro.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                y = y + 1
+            x = x + 1
+
+    # 整改流程搜索按钮
+    def searchForZg(self):
+        if self.lineEdit_global_2.text() == "":
+            QtWidgets.QMessageBox.warning(None, "提示", "输入不可为空！")
+            return
+        nowText = '%' + self.lineEdit_global_2.text() + '%'
+        if self.comboBox_28.currentText() == "普通流程":
+            dic = {
+                "发文编号": 'sendfile.发文字号',
+                '发文标题': 'sendfile.发文标题',
+                '收文标题': 'revfile.收文标题',
+                '收文编号': 'revfile.收文字号',
+                '批文标题': "corfile.批文标题",
+                '批文编号': "corfile.批文字号",
+                '整改状态': 'zgprocess.整改状态'
+            }
+            sql = "select zgprocess.序号,bwprocess.流程开始时间,sendfile.发文字号,sendfile.发文标题,revfile.收文字号,revfile.收文标题," \
+                  "GROUP_CONCAT(corfile.批文字号,'\n'),GROUP_CONCAT(corfile.批文标题,'\n'),zgprocess.整改状态 from zgprocess join " \
+                  "bwprocess on zgprocess.流程序号 = bwprocess.序号 join sendfile on bwprocess.发文序号 = sendfile.序号 left outer " \
+                  "join revfile on bwprocess.收文序号 = revfile.序号 join corfile on bwprocess.序号 = corfile.流程序号 WHERE %s " \
+                  "LIKE '%s' GROUP BY zgprocess.序号" % (dic.get(self.comboBox_23.currentText()), nowText)
+            data = tools.executeSql(sql)
+        else:
+            dic = {
+                '整改状态': 'zgprocess.整改状态'
+            }
+            # sql由整改表的流程序号出发,通过多表查询获得经责项目类型整改的所有字段
+            sql = "select zgprocess.序号,problem_jz.出具审计报告时间,problem_jz.审计意见或报告文号,zgprocess.整改状态 from zgprocess join " \
+                  "problem_jz on zgprocess.序号 = problem_jz.整改序号 WHERE %s LIKE '%s' group by zgprocess.序号 " % (
+                      dic.get(self.comboBox_23.currentText()), nowText)
+            temp_data = tools.executeSql(sql)
+            data = []
+            # 对temp_data2进行数据处理,使得data1和data2可以合并
+            for i in temp_data:
+                temp_tuple = (i[0], i[1], i[2], None, None, None, None, None, i[3])
+                data.append(temp_tuple)
+
+        size = len(data)  # 行数
+        self.tableWidget_zgzl.setRowCount(size)
+        # 打印显示
+        x = 0
+        for i in data:
+            y = 0
+            for j in i:
+                if data[x][y] is None:
+                    self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
+                else:
+                    self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                y = y + 1
+            x = x + 1
+
+        self.sortForZg()
+
+    # 问题表分析搜索按钮
+    def searchForProblem(self):
+        condition_dict = {
+            "对应发文号": "sendfile.发文字号",
+            "被审计领导干部": "problem.被审计领导干部",
+            "所在地方单位": "problem.所在地方或单位",
+            "审计报告文号": "problem.审计报告文号",
+            "审计组组长": "problem.审计组组长",
+            "审计组主审": "problem.审计组主审",
+            "问题描述": "problem.问题描述",
+            "问题一级分类": "problem.问题一级分类",
+            "问题二级分类": "problem.问题二级分类",
+            "问题三级分类": "problem.问题三级分类",
+            "问题四级分类": "problem.问题四级分类",
+            "问题金额": "problem.问题金额",
+            "移送及处理情况": "problem.移送及处理情况",
+            "整改责任部门": "rectification.整改责任部门",
+            "整改情况": "rectification.整改情况",
+            "已整改金额": "rectification.已整改金额",
+            "追责问责人数": "rectification.追责问责人数",
+            "推动制度建设数目": "rectification.推动制度建设数目",
+            "推动制度建设文件": "rectification.推动制度建设文件",
+            "认定整改情况": "rectification.认定整改情况",
+            "认定整改金额": "rectification.认定整改金额",
+            "整改率": "rectification.整改率"
+        }
+        numeric_condition_dict = {
+            "问题金额": "problem.问题金额",
+            "已整改金额": "rectification.已整改金额",
+            "追责问责人数": "rectification.追责问责人数",
+            "推动制度建设数目": "rectification.推动制度建设数目",
+            "认定整改金额": "rectification.认定整改金额",
+            "整改率": "rectification.整改率"
+        }
+
+        sql = "SELECT sendfile.发文字号,problem.被审计领导干部,problem.所在地方或单位,problem.审计报告文号,problem.出具审计报告时间," \
+              "problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类," \
+              "problem.问题四级分类,problem.备注,problem.问题金额,problem.移送及处理情况,rectification.上报次序,rectification." \
+              "整改责任部门,rectification.应上报整改报告时间,rectification.实际上报整改报告时间,rectification.整改情况,rectification." \
+              "已整改金额,rectification.追责问责人数,rectification.推动制度建设数目,rectification.推动制度建设文件,rectification." \
+              "部分整改情况具体描述,rectification.未整改原因说明,rectification.下一步整改措施及时限,rectification.认定整改情况," \
+              "rectification.认定整改金额,rectification.整改率 FROM problem LEFT OUTER JOIN rectification ON rectification." \
+              "问题序号 = problem.序号 LEFT OUTER JOIN sendfile ON sendfile.序号 = problem.发文序号"
+
+        rowCount = self.listWidget_9.count()
+
+        # 形成多维查询sql语句
+        for i in range(rowCount):
+            if i == 0:
+                sql = sql + " where"
+            else:
+                sql = sql + " and"
+            key = self.listWidget_9.item(i).text()
+            value = condition_dict.get(key)
+            if key in numeric_condition_dict.keys():
+                # 数值查询
+                item = self.listWidget_10.item(i)  # 获取条目对象
+                item_object = self.listWidget_10.itemWidget(item)  # 根据条目获取窗口对象
+                lineEdit = item_object.findChildren(QtWidgets.QLineEdit)  # 获取窗口对象包含的所有lineEdit
+                second_condition_before = lineEdit[0].text()
+                second_condition_behind = lineEdit[1].text()
+                add_condition = " %s between '%s' and '%s'" % (value, second_condition_before, second_condition_behind)
+            else:
+                # 文字查询
+                second_condition = '%' + self.listWidget_10.item(i).text() + '%'
+                add_condition = " %s like '%s'" % (value, second_condition)
+            sql = sql + add_condition
+
+        # 打印结果
+        data = tools.executeSql(sql)
+        size = len(data)
+        self.tableWidget.setRowCount(size)
+
+        x = 0
+        for i in data:
+            y = 0
+            for j in i:
+                if data[x][y] is None:
+                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
+                else:
+                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                y = y + 1
+            x = x + 1
+
+        self.sortForProblem()
+
+    # 领导批示统计分析按钮
+    def searchForRectification(self):
+        dic = {
+            "办文编号": "corfile.批文字号",
+            '报送载体': 'sendfile.发文字号',
+            '报送标题': 'sendfile.发文字号',
+            '来文字号': 'instruction.领导来文字号',
+            '来文标题': "corfile.批文标题",
+            '来文单位': "instruction.领导来文单位",
+            '批示载体': "revfile.收文字号",
+            '批示人': "instruction.领导姓名",
+            '批示人职务': "instruction.领导职务"
+        }
+        nowText = '%' + self.lineEdit_28.text() + '%'
+        sql = "select instruction.序号,corfile.批文字号,corfile.秘密等级,sendfile.发文字号,sendfile.发文标题," \
+              "instruction.领导来文字号,corfile.批文标题,instruction.领导来文单位,revfile.收文字号,instruction.领导姓名," \
+              "instruction.领导职务,instruction.批示时间,instruction.领导内容摘要和领导批示 from instruction left outer join " \
+              "corfile on instruction.批文序号 = corfile.序号 left outer join bwprocess on bwprocess.序号 = " \
+              "corfile.流程序号 left outer join sendfile on bwprocess.发文序号 = sendfile.序号 left outer join revfile " \
+              "on bwprocess.收文序号 = revfile.序号 WHERE %s LIKE '%s'" % (dic.get(self.comboBox_32.currentText()), nowText)
+        data = tools.executeSql(sql)
+        size = len(data)
+        # print("项目数目为:"+str(size))
+        self.tableWidget_2.setRowCount(size)
+
+        x = 0
+        for i in data:
+            for y in range(0, 13):
+                if data[x][y] is None:
+                    self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
+                else:
+                    self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+            x = x + 1
+
+    # 办文流程排序功能
+    def sortForLc(self):
         now = self.comboBox_12.currentText()
         if now == "按流程开始时间由近及远排序":
             self.tableWidget_lczl.sortItems(1, Qt.DescendingOrder)  # 按照流程建立时间由近及远排序
@@ -1814,8 +1842,71 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         else:
             self.tableWidget_lczl.sortItems(4, Qt.AscendingOrder)  # 按照问题个数排序
 
-    # 按照条件筛选
-    def part_search(self):
+    # 整改流程排序功能
+    def sortForZg(self):
+        now = self.comboBox_15.currentText()
+        if now == "按流程开始时间由近及远排序":
+            self.tableWidget_zgzl.sortItems(1, Qt.DescendingOrder)  # 按照流程建立时间由近及远排序
+        elif now == "按流程开始时间由远及近排序":
+            self.tableWidget_zgzl.sortItems(1, Qt.AscendingOrder)  # 按照流程建立时间由近及远排序
+
+    # 问题表分析排序功能
+    def sortForProblem(self):
+        sort_type = self.comboBox_27.currentText()
+        sort_style = self.comboBox_18.currentText()
+        if sort_type == "按出具审计报告时间":
+            if sort_style == "由近及远排序":
+                self.tableWidget.sortItems(5, Qt.DescendingOrder)
+            elif sort_style == "由远及近排序":
+                self.tableWidget.sortItems(5, Qt.AscendingOrder)
+        elif sort_type == "按应上报整改报告时间":
+            if sort_style == "由近及远排序":
+                self.tableWidget.sortItems(18, Qt.DescendingOrder)
+            elif sort_style == "由远及近排序":
+                self.tableWidget.sortItems(18, Qt.AscendingOrder)
+        elif sort_type == "按实际报整改报告时间":
+            if sort_style == "由近及远排序":
+                self.tableWidget.sortItems(19, Qt.DescendingOrder)
+            elif sort_style == "由远及近排序":
+                self.tableWidget.sortItems(19, Qt.AscendingOrder)
+        elif sort_type == "按问题金额":
+            if sort_style == "由多到少排序":
+                self.tableWidget.sortItems(14, Qt.DescendingOrder)
+            elif sort_style == "由少到多排序":
+                self.tableWidget.sortItems(14, Qt.AscendingOrder)
+        elif sort_type == "按上报次序":
+            if sort_style == "由大到小排序":
+                self.tableWidget.sortItems(16, Qt.DescendingOrder)
+            elif sort_style == "由小到大排序":
+                self.tableWidget.sortItems(16, Qt.AscendingOrder)
+        elif sort_type == "按已整改金额":
+            if sort_style == "由多到少排序":
+                self.tableWidget.sortItems(21, Qt.DescendingOrder)
+            elif sort_style == "由少到多排序":
+                self.tableWidget.sortItems(21, Qt.AscendingOrder)
+        elif sort_type == "按追责问责人数":
+            if sort_style == "由多到少排序":
+                self.tableWidget.sortItems(22, Qt.DescendingOrder)
+            elif sort_style == "由少到多排序":
+                self.tableWidget.sortItems(22, Qt.AscendingOrder)
+        elif sort_type == "按推动制度建设数目":
+            if sort_style == "由多到少排序":
+                self.tableWidget.sortItems(23, Qt.DescendingOrder)
+            elif sort_style == "由少到多排序":
+                self.tableWidget.sortItems(23, Qt.AscendingOrder)
+        elif sort_type == "按认定整改金额":
+            if sort_style == "由多到少排序":
+                self.tableWidget.sortItems(29, Qt.DescendingOrder)
+            elif sort_style == "由少到多排序":
+                self.tableWidget.sortItems(29, Qt.AscendingOrder)
+        elif sort_type == "按整改率":
+            if sort_style == "由高至低排序":
+                self.tableWidget.sortItems(0, Qt.DescendingOrder)
+            elif sort_style == "由低至高排序":
+                self.tableWidget.sortItems(0, Qt.AscendingOrder)
+
+    # 办文流程按照条件筛选
+    def selectForLc(self):
         firstNeed = self.comboBox_13.currentText()  # 第一个条件
         secondNeed = '%' + self.comboBox_14.currentText() + '%'  # 第二个条件
         condition_dict = {"发文类型": "sendfile.发文字号", "收文类型": "revfile.收文字号", "是否加入整改": "bwprocess.是否加入整改"}
@@ -1858,7 +1949,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # 打印显示
         data = tools.executeSql(sql)
         size = len(data)
-        self.tableWidget_lczl_row = len(data)   #流程总览行数
         self.tableWidget_lczl.setRowCount(size)
         x = 0
         for i in data:
@@ -1871,39 +1961,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 y = y + 1
             x = x + 1
 
-        self.choose_sort()
+        self.sortForLc()
 
-    # 经责问题表中的搜索按钮
-    def searchJzProject(self):
-        keyword = self.comboBox_11.currentText()
-        sql = "select 序号,问题顺序号,被审计领导干部,所在地方或单位,报送文号,审计意见或报告文号,经责结果报告文号,出具审计报告时间,审计组组长,审计组主审,问题描述,是否在审计报告中反映," \
-              "是否在结果报告中反映,审计对象分类,问题类别,问题定性,问题表现形式,备注,问题金额,移送及处理情况 from problem_jz where 审计意见或报告文号 = '%s' " % keyword
-        data = tools.executeSql(sql)
-
-        data = tools.sortByKey(data, 5, 2)
-
-        size = len(data)
-        self.tableWidget_jz_pro.setRowCount(size)
-
-        x = 0
-        for i in data:
-            y = 0
-            for j in i:
-                if data[x][y] is None:
-                    self.tableWidget_jz_pro.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
-                else:
-                    self.tableWidget_jz_pro.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
-                y = y + 1
-            x = x + 1
-
-    def choose_sort_zg(self):
-        now = self.comboBox_15.currentText()
-        if now == "按流程开始时间由近及远排序":
-            self.tableWidget_zgzl.sortItems(1, Qt.DescendingOrder)  # 按照流程建立时间由近及远排序
-        elif now == "按流程开始时间由远及近排序":
-            self.tableWidget_zgzl.sortItems(1, Qt.AscendingOrder)  # 按照流程建立时间由近及远排序
-
-    def part_search_zg(self):
+    # 整改流程按照条件筛选
+    def selectForZg(self):
         firstNeed = self.comboBox_16.currentText()  # 第一个条件
         secondNeed = '%' + self.comboBox_17.currentText() + '%'  # 第二个条件
         condition_dict = {"发文类型": "sendfile.发文字号", "收文类型": "revfile.收文字号", "整改状态": "zgprocess.整改状态"}
@@ -1938,7 +1999,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                       "left outer join revfile on bwprocess.收文序号 = revfile.序号 join corfile on bwprocess.序号 = " \
                       "corfile.流程序号 WHERE %s LIKE '%s' GROUP BY zgprocess.序号 " % (condition_dict.get(firstNeed),
                                                                                   secondNeed)
-
         # 打印显示
         data = tools.executeSql(sql)
         size = len(data)
@@ -1954,7 +2014,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 y = y + 1
             x = x + 1
 
-        self.choose_sort_zg()
+        self.sortForZg()
 
     """
     @excel操作
@@ -2265,11 +2325,15 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             else:
                 QtWidgets.QMessageBox.information(None, "提示", "导出成功")
 
+    # 将办文表导出至Excel
+    def bwExcelOutput(self):
+        print(2)
+
     def zgExcelOutput(self):
         nowText = self.lineEdit_6.text()
         if nowText == "":
             QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
-        #当没有输入表格名时提示并选中
+        # 当没有输入表格名时提示并选中
         elif nowText == "请在此输入表格名":
             QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
             self.lineEdit_6.selectAll()
@@ -2379,438 +2443,24 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             else:
                 QtWidgets.QMessageBox.information(None, "提示", "导出成功")
 
-    def autoHighlight_wtcx1(self):
-        index = self.listWidget_9.currentRow()
-        self.listWidget_10.setCurrentRow(index)
-
-    def autoHighlight_wtcx2(self):
-        index = self.listWidget_10.currentRow()
-        self.listWidget_9.setCurrentRow(index)
-
-    def addCondition(self):
-        nowText = self.comboBox_22.currentText()
-        nowIndex = self.comboBox_22.currentIndex()
-        if(nowText == "选择查询类型"):
-            return
-        else:
-            self.item1 = QListWidgetItem(nowText)
-            self.item1.setSizeHint(QtCore.QSize(50, 50))
-            self.listWidget_9.addItem(self.item1)
-            self.listWidget_9.setCurrentItem(self.item1)
-            self.comboBox_22.removeItem(nowIndex)   #从comboBox_22中移除所选条目
-            if(nowText == "问题金额" or nowText == "已整改金额" or nowText == "追责问责人数" or nowText == "推动制度建设数目" or nowText == "认定整改金额" or nowText == "整改率"):
-                self.widget2 = QtWidgets.QWidget()
-                self.edit1 = QtWidgets.QLineEdit("请输入数额")
-                self.label = QtWidgets.QLabel("至")
-                self.label.setEnabled(False)
-                self.edit2 = QtWidgets.QLineEdit("请输入数额")
-                self.grid = QtWidgets.QGridLayout()
-                self.grid.addWidget(self.edit1, 0, 1)
-                self.grid.addWidget(self.label, 0, 2)
-                self.grid.addWidget(self.edit2, 0, 3)
-                self.widget2.setLayout(self.grid)
-                self.listwidgetitem = QtWidgets.QListWidgetItem()
-                self.listwidgetitem.setSizeHint(QtCore.QSize(50, 50))
-                self.listWidget_10.addItem(self.listwidgetitem)
-                self.listWidget_10.setItemWidget(self.listwidgetitem, self.widget2)
-            else:
-                self.item2 = QListWidgetItem("请输入查询条件")
-                self.item2.setSizeHint(QtCore.QSize(50, 50))
-                self.item2.setFlags(self.item1.flags() | QtCore.Qt.ItemIsEditable)
-                self.listWidget_10.addItem(self.item2)
-    def subCondition(self):
-        row = self.listWidget_9.currentRow()
-        if row == -1:
-            QtWidgets.QMessageBox.information(None, "提示", "请选择要删除的条目！")
-        else:
-            item = self.listWidget_9.currentItem()
-            nowText = item.text()
-            self.comboBox_22.addItem(nowText)  # 把删除的条目重新加入comboBox_22
-
-            self.listWidget_9.takeItem(row)
-            self.listWidget_10.takeItem(row)
-
-    def part_search_wtcx_logic(self):
-        condition_dict = {
-            "对应发文号": "sendfile.发文字号",
-            "被审计领导干部": "problem.被审计领导干部",
-            "所在地方单位": "problem.所在地方或单位",
-            "审计报告文号": "problem.审计报告文号",
-            "审计组组长": "problem.审计组组长",
-            "审计组主审": "problem.审计组主审",
-            "问题描述": "problem.问题描述",
-            "问题一级分类": "problem.问题一级分类",
-            "问题二级分类": "problem.问题二级分类",
-            "问题三级分类": "problem.问题三级分类",
-            "问题四级分类": "problem.问题四级分类",
-            "问题金额": "problem.问题金额",
-            "移送及处理情况": "problem.移送及处理情况",
-            "整改责任部门": "rectification.整改责任部门",
-            "整改情况": "rectification.整改情况",
-            "已整改金额": "rectification.已整改金额",
-            "追责问责人数": "rectification.追责问责人数",
-            "推动制度建设数目": "rectification.推动制度建设数目",
-            "推动制度建设文件": "rectification.推动制度建设文件",
-            "认定整改情况": "rectification.认定整改情况",
-            "认定整改金额": "rectification.认定整改金额",
-            "整改率": "rectification.整改率"
-        }
-        sql = "SELECT sendfile.发文字号,problem.被审计领导干部,problem.所在地方或单位,problem.审计报告文号,problem.出具审计报告时间," \
-              "problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类," \
-              "problem.问题四级分类,problem.备注,problem.问题金额,problem.移送及处理情况,rectification.上报次序,rectification." \
-              "整改责任部门,rectification.应上报整改报告时间,rectification.实际上报整改报告时间,rectification.整改情况,rectification." \
-              "已整改金额,rectification.追责问责人数,rectification.推动制度建设数目,rectification.推动制度建设文件,rectification." \
-              "部分整改情况具体描述,rectification.未整改原因说明,rectification.下一步整改措施及时限,rectification.认定整改情况," \
-              "rectification.认定整改金额,rectification.整改率 FROM problem LEFT OUTER JOIN rectification ON rectification." \
-              "问题序号 = problem.序号 LEFT OUTER JOIN sendfile ON sendfile.序号 = problem.发文序号"
-        rowCount = self.listWidget_9.count()
-        for i in range(rowCount):
-            if (i == 0):
-                sql = sql + " where "
-            else:
-                sql = sql + " and "
-            first_condition = self.listWidget_9.item(i).text()
-            firt = condition_dict.get(first_condition)
-            if(first_condition == "问题金额" or first_condition == "已整改金额" or first_condition == "追责问责人数" or first_condition == "推动制度建设数目" or first_condition == "认定整改金额" or first_condition == "整改率"):
-                #数值查询
-                item = self.listWidget_10.item(i)   #获取条目对象
-                condition = self.listWidget_10.itemWidget(item) #根据条目获取窗口对象
-                second_condition = condition.findChildren(QtWidgets.QLineEdit)  #获取窗口对象包含的所有lineEdit
-                second_condition_before = second_condition[0].text()
-                second_condition_behind = second_condition[1].text()
-                add_condition = " %s between '%s' and '%s'" %(firt, second_condition_before, second_condition_behind)
-            else:
-                #文字查询
-                second_condition = '%' + self.listWidget_10.item(i).text() + '%'
-                add_condition = " %s like '%s'" %(firt, second_condition)
-            sql = sql + add_condition
-        # 打印结果
-        data = tools.executeSql(sql)
-        size = len(data)
-        self.tableWidget.setRowCount(size)
-
-        x = 0
-        for i in data:
-            y = 0
-            for j in i:
-                if data[x][y] is None:
-                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
-                else:
-                    self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
-                y = y + 1
-            x = x + 1
-
-        print(rowCount)
-
-    def synComboBox_18(self):
-        nowText = self.comboBox_27.currentText()
-        if(nowText == "按出具审计报告时间" or nowText == "按应上报整改报告时间" or nowText == "按实际上报整改报告时间"):
-            self.comboBox_18.clear()
-            self.comboBox_18.addItems(["由近及远排序", "由远及近排序"])
-        elif(nowText == "按整改率"):
-            self.comboBox_18.clear()
-            self.comboBox_18.addItems(["由高至低排序", "由低至高排序"])
-        elif (nowText == "按上报次序"):
-            self.comboBox_18.clear()
-            self.comboBox_18.addItems(["由大到小排序", "由小到大排序"])
-        else:
-            self.comboBox_18.clear()
-            self.comboBox_18.addItems(["由多到少排序", "由少到多排序"])
-        print(2)
-
-    def sort_wtcx_logic(self):
-        sort_type = self.comboBox_27.currentText()
-        sort_style = self.comboBox_18.currentText()
-        if(sort_type == "按出具审计报告时间"):
-            if(sort_style == "由近及远排序"):
-                self.tableWidget.sortItems(5, Qt.DescendingOrder)
-            elif(sort_style == "由远及近排序"):
-                self.tableWidget.sortItems(5, Qt.AscendingOrder)
-        elif(sort_type == "按应上报整改报告时间"):
-            if (sort_style == "由近及远排序"):
-                self.tableWidget.sortItems(18, Qt.DescendingOrder)
-            elif (sort_style == "由远及近排序"):
-                self.tableWidget.sortItems(18, Qt.AscendingOrder)
-        elif(sort_type == "按实际报整改报告时间"):
-            if (sort_style == "由近及远排序"):
-                self.tableWidget.sortItems(19, Qt.DescendingOrder)
-            elif (sort_style == "由远及近排序"):
-                self.tableWidget.sortItems(19, Qt.AscendingOrder)
-        elif (sort_type == "按问题金额"):
-            if (sort_style == "由多到少排序"):
-                self.tableWidget.sortItems(14, Qt.DescendingOrder)
-            elif (sort_style == "由少到多排序"):
-                self.tableWidget.sortItems(14, Qt.AscendingOrder)
-        elif (sort_type == "按上报次序"):
-            if (sort_style == "由大到小排序"):
-                self.tableWidget.sortItems(16, Qt.DescendingOrder)
-            elif (sort_style == "由小到大排序"):
-                self.tableWidget.sortItems(16, Qt.AscendingOrder)
-        elif (sort_type == "按已整改金额"):
-            if (sort_style == "由多到少排序"):
-                self.tableWidget.sortItems(21, Qt.DescendingOrder)
-            elif (sort_style == "由少到多排序"):
-                self.tableWidget.sortItems(21, Qt.AscendingOrder)
-        elif (sort_type == "按追责问责人数"):
-            if (sort_style == "由多到少排序"):
-                self.tableWidget.sortItems(22, Qt.DescendingOrder)
-            elif (sort_style == "由少到多排序"):
-                self.tableWidget.sortItems(22, Qt.AscendingOrder)
-        elif (sort_type == "按推动制度建设数目"):
-            if (sort_style == "由多到少排序"):
-                self.tableWidget.sortItems(23, Qt.DescendingOrder)
-            elif (sort_style == "由少到多排序"):
-                self.tableWidget.sortItems(23, Qt.AscendingOrder)
-        elif (sort_type == "按认定整改金额"):
-            if (sort_style == "由多到少排序"):
-                self.tableWidget.sortItems(29, Qt.DescendingOrder)
-            elif (sort_style == "由少到多排序"):
-                self.tableWidget.sortItems(29, Qt.AscendingOrder)
-        elif (sort_type == "按整改率"):
-            if (sort_style == "由高至低排序"):
-                self.tableWidget.sortItems(0, Qt.DescendingOrder)
-            elif (sort_style == "由低至高排序"):
-                self.tableWidget.sortItems(0, Qt.AscendingOrder)
-
-
-    #刷新显示表格
-    def refreshCxTable(self):
-        self.comboBox_27.clear()
-        self.comboBox_27.addItems(["按出具审计报告时间", "按应上报整改报告时间", "按实际上报整改报告时间", "按问题金额", "按上报次序",
-                                   "按已整改金额", "按追责问责人数", "按推动制度建设数目", "按认定整改金额", "按整改率"])
-        self.comboBox_18.clear()
-        self.comboBox_18.addItems(["由近及远排序", "由远及近排序"])
-        self.listWidget_9.clear()
-        self.listWidget_10.clear()
-        self.comboBox_22.clear()
-        self.comboBox_22.addItems(["选择查询类型", "对应发文号", "被审计领导干部", "所在地方单位", "审计报告文号", "审计组组长",
-                                   "审计组主审", "问题描述", "问题一级分类", "问题二级分类", "问题三级分类",
-                                   "问题四级分类", "问题金额", "移送及处理情况", "整改责任部门", "整改情况",
-                                   "已整改金额", "追责问责人数", "推动制度建设数目", "推动制度建设文件", "认定整改情况",
-                                   "认定整改金额", "整改率"])
-        self.lineEdit_43.setText("请输入表格名")
-        self.showCxTable()
-
-
     def cxExcelOutput(self):
         print(23)
 
-    def showPartChart(self):
-        nowText = self.comboBox_35.currentText();
-        if(nowText == "办文类型"):
-            self.showBwTj()
-        elif(nowText == "是否公开"):
-            self.showIsPublic() #调用绘制办文公开情况图像的函数
-
-    def showIsPublic(self):
-        self.label_78.setText("                 办文公开情况的数量及比例如下：")
-        # 设置绘图区域
-        self.figure = pyplot.figure()  # 新建绘图区域
-        self.canvas = FigureCanvas(self.figure)  # 绘图区域放到图层canvas之中
-        self.gridLayout_15.addWidget(self.canvas, 1, 0, 2, 2)  # 图层放到pyqt布局之中（这个布局替代了之前设计时使用的graphicView）
-
-        print(324)
-        # 发文条目
-        sql_send = "select sendfile.序号,sendfile.办文日期,sendfile.发文字号,sendfile.发文标题,sendfile.秘密等级,sendfile.是否公开,sendfile.紧急程度," \
-              "sendfile.审核,sendfile.承办处室,sendfile.承办人,sendfile.联系电话,sendfile.状态 from sendfile"
-
-        # 收文条目
-        sql_rev = "select revfile.序号,revfile.收文时间,revfile.收文字号,revfile.收文标题,revfile.秘密等级,revfile.是否公开,revfile.紧急程度," \
-              "revfile.审核,revfile.承办处室,revfile.承办人,revfile.联系电话,revfile.状态 from revfile"
-
-        # 批文条目
-        sql_cor = "select corfile.序号,corfile.收文时间,corfile.批文字号,corfile.批文标题,corfile.秘密等级,corfile.是否公开,corfile.紧急程度," \
-              "corfile.审核,corfile.承办处室,corfile.承办人,corfile.联系电话,corfile.状态 from corfile"
-
-        sql_send_pub = sql_send + " where sendfile.是否公开 = '是'"
-        data_send_pub = tools.executeSql(sql_send_pub)
-        len_send_pub = len(data_send_pub)
-
-        sql_rev_pub = sql_rev + " where revfile.是否公开 = '是'"
-        data_rev_pub = tools.executeSql(sql_rev_pub)
-        len_rev_pub = len(data_rev_pub)
-
-        sql_cor_pub = sql_cor + " where corfile.是否公开 = '是'"
-        data_cor_pub = tools.executeSql(sql_cor_pub)
-        len_cor_pub = len(data_cor_pub)
-
-        size_pub = len_send_pub + len_rev_pub + len_cor_pub
-
-
-        sql_send_unpub = sql_send + " where sendfile.是否公开 = '否'"
-        data_send_unpub = tools.executeSql(sql_send_unpub)
-        len_send_unpub = len(data_send_unpub)
-
-        sql_rev_unpub = sql_rev + " where revfile.是否公开 = '否'"
-        data_rev_unpub = tools.executeSql(sql_rev_unpub)
-        len_rev_unpub = len(data_rev_unpub)
-
-        sql_cor_unpub = sql_cor + " where corfile.是否公开 = '否'"
-        data_cor_unpub = tools.executeSql(sql_cor_unpub)
-        len_cor_unpub = len(data_cor_unpub)
-
-        size_unpub = len_send_unpub + len_rev_unpub + len_cor_unpub
-
-        pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
-        lab_1 = '公开办文（' + str(size_pub) + '）'
-        lab_2 = '不公开办文（' + str(size_unpub) + '）'
-        labels = [lab_1, lab_2]
-        sizes = [size_pub, size_unpub]
-        colors = ['yellowgreen', 'gold']
-        explode = 0, 0
-        patches, l_text, p_text = pyplot.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
-                                             shadow=True,
-                                             startangle=50)  # startangle表示饼图的起始角度
-        # pie函数返回值中，l_text代表饼状图外的文本，p_text代表饼状图内的文本
-        for t in l_text:
-            t.set_size(20)
-        for t in p_text:
-            t.set_size(15)
-
     def screen_shot(self):
         name = self.lineEdit_46.text()
-        if(name == "请输入图片名"):
+        if name == "请输入图片名":
             QtWidgets.QMessageBox.warning(None, "提示", "请输入图片名")
         else:
             win = WScreenShot(name=name)
             win.run(name=name)
-
-
-    def refreshTjData(self):
-        self.comboBox_37.clear()
-        self.comboBox_37.addItems(["问题金额统计", "认定整改金额统计", "问题数量统计"])
-        self.comboBox_36.clear()
-        self.comboBox_36.addItems(["认定整改情况", "移送处理情况", "审计组组长", "审计组主审"])
-        self.lineEdit_47.setText("请输入图片名")
-        self.showTjdata()
-
-    def syn_wttj(self):
-        type_1 = self.comboBox_37.currentText()
-        self.comboBox_36.clear()
-        if type_1 == "问题金额统计":
-            self.comboBox_36.addItems(["认定整改情况", "移送处理情况", "审计组组长", "审计组主审"])
-        elif type_1 == "认定整改金额统计":
-            self.comboBox_36.addItems(["审计组组长", "审计组主审"])
-        elif type_1 == "问题数量统计":
-            self.comboBox_36.addItems(["认定整改情况", "移送处理情况", "审计组组长", "审计组主审"])
-
-    def showWttjChart(self):
-        aim = self.comboBox_37.currentText()    #统计量
-        dim = self.comboBox_36.currentText()    #统计维度
-        if(aim == "问题金额统计"):
-            if(dim == "认定整改情况"):
-                self.showTjdata()
-            elif(dim == "移送处理情况"):
-                self.showSend_wtje()
-        if(aim == "问题数量统计"):
-            if(dim == "认定整改情况"):
-                self.showRdzg_wtsl()
-                print(3)
-        print(3)
-
-    #需要进一步完善
-    def showSend_wtje(self):
-        self.label_27.setText("以问题移送处理情况为维度，统计问题金额")
-        # 设置绘图区域
-        self.figure = pyplot.figure()  # 新建绘图区域
-        self.canvas = FigureCanvas(self.figure)  # 绘图区域放到图层canvas之中
-        self.gridLayout_3.addWidget(self.canvas, 1, 0, 2, 2)  # 图层放到pyqt布局之中（这个布局替代了之前设计时使用的graphicView）
-        sql = "select problem.移送及处理情况 FROM problem LEFT OUTER JOIN rectification ON rectification.问题序号 = problem.序号" \
-              " GROUP BY problem.移送及处理情况"
-        data = tools.executeSql(sql)
-        size = len(data)
-        print(size)
-        print(data)
-
-        sql = "select problem.问题金额 FROM problem LEFT OUTER JOIN rectification ON rectification.问题序号 = problem.序号 "
-
-        beforeWt = 0  # 未整改问题的总金额(已加入整改但未整改的)
-        partWt = 0
-        passWt = 0
-        sql_before = sql + " where rectification.认定整改情况 = '未整改'"
-        data_before = tools.executeSql(sql_before)
-        len_before = len(data_before)
-        for i in range(len_before):
-            beforeWt += float(data_before[i][0])
-
-        sql_t = "select * from problem LEFT OUTER JOIN rectification ON rectification.问题序号 = problem.序号"
-        data_t = tools.executeSql(sql_t)
-        len_t = len(data_t)
-        for i in range(len_t):
-            if (data_t[i][31] is None or data_t[i] == "未整改"):
-                beforeWt += float(data_t[i][15])
-            if (data_t[i][31] == "部分整改"):
-                partWt += float(data_t[i][15])
-            if (data_t[i][31] == "已整改"):
-                passWt += float(data_t[i][15])
-
-        # 绘制图形
-        pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
-        bar_width = 0.2
-        height = [beforeWt, partWt, passWt]
-        movie_name = ['已加入整改但未整改问题的总金额（' + str(beforeWt) + '）', '部分整改问题的总金额（' + str(partWt) + '）',
-                      '已整改问题的总金额（' + str(passWt) + '）']
-        x = list(range(len(movie_name)))  # 设置x轴的节点数
-        x_address = [i for i in x]  # 循环遍历，得到指定的节点数
-        pyplot.xticks(x_address, movie_name)  # 绘制x轴
-        pyplot.xticks(fontsize=15)  # 设置x轴字体大小
-        pyplot.yticks(fontsize=15)  # 设置y轴字体大小
-        pyplot.bar(x, height, width=bar_width, color=['Indigo', 'lightgreen', 'pink'])  # 三个柱子颜色
-        self.canvas.draw()  # 这是关键
-
-    def showRdzg_wtsl(self):
-        self.label_27.setText("以认定整改情况为维度，统计问题数量")
-        # 设置绘图区域
-        self.figure = pyplot.figure()  # 新建绘图区域
-        self.canvas = FigureCanvas(self.figure)  # 绘图区域放到图层canvas之中
-        self.gridLayout_3.addWidget(self.canvas, 1, 0, 2, 2)  # 图层放到pyqt布局之中（这个布局替代了之前设计时使用的graphicView）
-
-        beforeWt = 0  # 未整改问题数量(已加入整改但未整改的)
-        partWt = 0
-        passWt = 0
-
-        sql_t = "select * from problem LEFT OUTER JOIN rectification ON rectification.问题序号 = problem.序号"
-        data_t = tools.executeSql(sql_t)
-        len_t = len(data_t)
-        for i in range(len_t):
-            if (data_t[i][31] is None or data_t[i][31] == "未整改"):
-                beforeWt += 1
-            if (data_t[i][31] == "部分整改"):
-                partWt += 1
-            if (data_t[i][31] == "已整改"):
-                passWt += 1
-
-        # 设置绘图区域
-        self.figure = pyplot.figure()  # 新建绘图区域
-        self.canvas = FigureCanvas(self.figure)  # 绘图区域放到图层canvas之中
-        self.gridLayout_3.addWidget(self.canvas, 1, 0, 2, 2)  # 图层放到pyqt布局之中（这个布局替代了之前设计时使用的graphicView）
-
-        pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
-        lab_1 = '加入整改但未整改的问题（' + str(beforeWt) + '）'
-        lab_2 = '部分整改的问题（' + str(partWt) + '）'
-        lab_3 = '已完成整改的问题（' + str(passWt) + '）'
-        labels = [lab_1, lab_2, lab_3]
-        sizes = [beforeWt, partWt, passWt]
-        colors = ['yellowgreen', 'gold', 'lightskyblue']
-        explode = 0, 0, 0
-        patches, l_text, p_text = pyplot.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
-                                             shadow=True,
-                                             startangle=50)  # startangle表示饼图的起始角度
-        # pie函数返回值中，l_text代表饼状图外的文本，p_text代表饼状图内的文本
-        for t in l_text:
-            t.set_size(20)
-        for t in p_text:
-            t.set_size(15)
 
     def screen_shot_wttj(self):
         name = self.lineEdit_47.text()
-        if (name == "请输入图片名"):
+        if name == "请输入图片名":
             QtWidgets.QMessageBox.warning(None, "提示", "请输入图片名")
         else:
             win = WScreenShot(name=name)
             win.run(name=name)
-
-
 
     """
     @文件选择按钮函数
@@ -2964,89 +2614,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             # 重新显示
             self.showRegisTable(type1=self.resType1, type2=self.resType2)
 
-    #将办文表导出至Excel
-    def outPut_bw(self):
-        print(2)
-
-    #刷新显示批示统计
-    def refreshPsTable(self):
-        self.lineEdit_28.clear()
-        self.showPsTable()
-        self.comboBox_32.clear()
-        self.comboBox_32.addItems(["办文编号", "报送载体", "报送标题", "来文字号", "来文标题", "来文单位", "批示载体", "批示人", "批示人职务"])
-
-    def part_search_Pstj(self):
-        dic = {
-            "办文编号": "corfile.批文字号",
-            '报送载体': 'sendfile.发文字号',
-            '报送标题': 'sendfile.发文字号',
-            '来文字号': 'instruction.领导来文字号',
-            '来文标题': "corfile.批文标题",
-            '来文单位': "instruction.领导来文单位",
-            '批示载体': "revfile.收文字号",
-            '批示人': "instruction.领导姓名",
-            '批示人职务': "instruction.领导职务"
-        }
-        nowText = '%' + self.lineEdit_28.text() + '%'
-        sql = "select instruction.序号,corfile.批文字号,corfile.秘密等级,sendfile.发文字号,sendfile.发文标题," \
-              "instruction.领导来文字号,corfile.批文标题,instruction.领导来文单位,revfile.收文字号,instruction.领导姓名," \
-              "instruction.领导职务,instruction.批示时间,instruction.领导内容摘要和领导批示 from instruction left outer join " \
-              "corfile on instruction.批文序号 = corfile.序号 left outer join bwprocess on bwprocess.序号 = " \
-              "corfile.流程序号 left outer join sendfile on bwprocess.发文序号 = sendfile.序号 left outer join revfile " \
-              "on bwprocess.收文序号 = revfile.序号 WHERE %s LIKE '%s'" % (dic.get(self.comboBox_32.currentText()), nowText)
-        data = tools.executeSql(sql)
-        size = len(data)
-        # print("项目数目为:"+str(size))
-        self.tableWidget_2.setRowCount(size)
-
-        x = 0
-        for i in data:
-            for y in range(0, 13):
-                if data[x][y] is None:
-                    self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
-                else:
-                    self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
-            x = x + 1
-
-
-    def showTable_1(self, size, data, type_file):   #显示函数
-        self.tableWidget_2.clear()
-        self.tableWidget_2.setColumnCount(12)
-        self.tableWidget_2.setHorizontalHeaderLabels(
-            ['办文类型', '时间', '文号', '标题', '秘密等级', '是否公开', '紧急程度', '审核', '承办处室', '承办人', '联系电话', '状态'])
-        # 设置表格行数
-        self.tableWidget_2.setRowCount(size)
-        # 显示发文登记表条目
-        x = 0
-        for i in data:
-            for y in range(0, 12):
-                if (data[x][y] is None or data[x][y] == ""):
-                    self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
-                    if (str(data[x][11]) == "red"):
-                        self.tableWidget_2.item(x, y).setForeground(QBrush(QColor(255, 0, 0)))
-                    elif (str(data[x][11]) == "green"):
-                        self.tableWidget_2.item(x, y).setForeground(QBrush(QColor(85, 170, 0)))
-                    else:
-                        self.tableWidget_2.item(x, y).setForeground(QBrush(QColor(0, 0, 0)))
-                else:
-                    if y == 0:
-                        self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(type_file))
-                    else:
-                        self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
-                    if (str(data[x][11]) == "red"):
-                        self.tableWidget_2.item(x, y).setForeground(QBrush(QColor(255, 0, 0)))
-                    elif (str(data[x][11]) == "green"):
-                        self.tableWidget_2.item(x, y).setForeground(QBrush(QColor(85, 170, 0)))
-                    else:
-                        self.tableWidget_2.item(x, y).setForeground(QBrush(QColor(0, 0, 0)))
-            x = x + 1
-
-        self.tableWidget_2.setFont(QFont('Times', 14, QFont.Black))
-
-        self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
-        self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
-
-
     # 打开选择的经责文件
     def openSjFile(self, listType):
         row = self.listWidget_sjwh.currentRow()
@@ -3173,3 +2740,78 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
                     # 更新流程表
                     self.showBwprocessTable()
+
+    # 批文界面下的add和sub按钮,用于增加和删除条目
+    def addTerm(self):
+        item1 = QListWidgetItem("请输入领导来文单位")
+        item1.setFlags(item1.flags() | QtCore.Qt.ItemIsEditable)
+        self.listWidget_5.addItem(item1)
+        item2 = QListWidgetItem("请输入领导来文字号")
+        item2.setFlags(item2.flags() | QtCore.Qt.ItemIsEditable)
+        self.listWidget_6.addItem(item2)
+        item3 = QListWidgetItem("请输入领导批示")
+        item3.setFlags(item3.flags() | QtCore.Qt.ItemIsEditable)
+        self.listWidget_4.addItem(item3)
+
+    def subTerm(self):
+        row = self.listWidget_5.currentRow()
+        if row == -1:
+            QtWidgets.QMessageBox.information(None, "提示", "请选择要删除的条目！")
+        else:
+            self.listWidget_5.takeItem(row)
+            self.listWidget_6.takeItem(row)
+            self.listWidget_4.takeItem(row)
+
+    # 问题查询增加删除条件
+    def addCondition(self):
+        nowText = self.comboBox_22.currentText()
+        nowIndex = self.comboBox_22.currentIndex()
+        numeric_condition_dict = {
+            "问题金额": "problem.问题金额",
+            "已整改金额": "rectification.已整改金额",
+            "追责问责人数": "rectification.追责问责人数",
+            "推动制度建设数目": "rectification.推动制度建设数目",
+            "认定整改金额": "rectification.认定整改金额",
+            "整改率": "rectification.整改率"
+        }
+        if nowText == "选择查询类型":
+            QtWidgets.QMessageBox.warning(None, "提示", "请选择查询类型！")
+            return
+        else:
+            item1 = QListWidgetItem(nowText)
+            item1.setSizeHint(QtCore.QSize(60, 60))
+            self.listWidget_9.addItem(item1)
+            self.listWidget_9.setCurrentItem(item1)
+            self.comboBox_22.removeItem(nowIndex)  # 从comboBox_22中移除所选条目
+            if nowText in numeric_condition_dict.keys():
+                widget2 = QtWidgets.QWidget()
+                edit1 = QtWidgets.QLineEdit("请输入数额")
+                label = QtWidgets.QLabel("至")
+                label.setEnabled(False)
+                edit2 = QtWidgets.QLineEdit("请输入数额")
+                grid = QtWidgets.QGridLayout()
+                grid.addWidget(edit1, 0, 1)
+                grid.addWidget(label, 0, 2)
+                grid.addWidget(edit2, 0, 3)
+                widget2.setLayout(grid)
+                listWidgetItem = QtWidgets.QListWidgetItem()
+                listWidgetItem.setSizeHint(QtCore.QSize(60, 60))
+                self.listWidget_10.addItem(listWidgetItem)
+                self.listWidget_10.setItemWidget(listWidgetItem, widget2)
+            else:
+                item2 = QListWidgetItem("请输入查询条件")
+                item2.setSizeHint(QtCore.QSize(60, 60))
+                item2.setFlags(item1.flags() | QtCore.Qt.ItemIsEditable)
+                self.listWidget_10.addItem(item2)
+
+    def subCondition(self):
+        row = self.listWidget_9.currentRow()
+        if row == -1:
+            QtWidgets.QMessageBox.information(None, "提示", "请选择要删除的条目！")
+        else:
+            item = self.listWidget_9.currentItem()
+            nowText = item.text()
+            self.comboBox_22.addItem(nowText)  # 把删除的条目重新加入comboBox_22
+
+            self.listWidget_9.takeItem(row)
+            self.listWidget_10.takeItem(row)
