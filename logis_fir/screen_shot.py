@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import *
 
 
 class WScreenShot(QWidget):
-
     @classmethod
     def run(cls, name):
         cls.win = cls(name)

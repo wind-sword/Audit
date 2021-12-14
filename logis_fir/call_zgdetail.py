@@ -383,7 +383,7 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                     y = y + 1
                 x = x + 1
 
-            font = QFont('Microsoft YaHei UI', 12, QFont.Black)
+            font = QFont('Microsoft YaHei UI', 14, QFont.Black)
             font.setBold(False)
             self.tableWidget.hideColumn(0)  # 将问题数据库主键隐藏起来
             self.tableWidget.setFont(font)  # 设置表格内容字体大小

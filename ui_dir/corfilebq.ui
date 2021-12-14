@@ -91,7 +91,7 @@ QPushButton:pressed{
        </property>
        <property name="minimumSize">
         <size>
-         <width>276</width>
+         <width>288</width>
          <height>0</height>
         </size>
        </property>
@@ -175,7 +175,7 @@ QPushButton:pressed{
        </property>
        <property name="minimumSize">
         <size>
-         <width>276</width>
+         <width>288</width>
          <height>0</height>
         </size>
        </property>
@@ -214,7 +214,7 @@ QPushButton:pressed{
        </property>
        <property name="minimumSize">
         <size>
-         <width>276</width>
+         <width>288</width>
          <height>0</height>
         </size>
        </property>
