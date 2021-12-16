@@ -1,5 +1,6 @@
 import datetime
 import traceback
+import sys
 
 import xlrd
 import xlwt
@@ -743,6 +744,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             x = x + 1
 
         self.tableWidget_bwzl.hideColumn(0)  # 将发文、收文、批文、批示数据库主键隐藏起来,作为传参
+        self.tableWidget_bwzl.setFont(QFont('Times', 14, QFont.Black))
         self.tableWidget_bwzl.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget_bwzl.resizeRowsToContents()  # 根据行调整框大小
 
@@ -972,6 +974,17 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # 表格只可选中单行
         self.tableWidget_2.setSelectionMode(QAbstractItemView.SingleSelection)
 
+        # 清空表格
+        self.tableWidget_2.clear()
+
+        # 设置字体
+        self.tableWidget_2.horizontalHeader().setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_2.setColumnCount(13)
+        self.tableWidget_2.horizontalHeader().setStyleSheet("QHeaderView::section{background:lightyellow;}")
+        self.tableWidget_2.setHorizontalHeaderLabels(
+            ['主键', '办文编号', '密级', '报送载体', '报送标题', '来文字号', '来文标题', '来文单位', '批示载体', '批示人',
+             '批示人职务', '批示时间', '批示内容'])
+
         sql = "select instruction.序号,corfile.批文字号,corfile.秘密等级,sendfile.发文字号,sendfile.发文标题," \
               "instruction.领导来文字号,corfile.批文标题,instruction.领导来文单位,revfile.收文字号,instruction.领导姓名," \
               "instruction.领导职务,instruction.批示时间,instruction.领导内容摘要和领导批示 from instruction left outer join " \
@@ -992,6 +1005,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
             x = x + 1
 
+        self.tableWidget_2.setFont(QFont('Times', 14, QFont.Black))
         self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
 
@@ -1006,18 +1020,23 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.gridLayout_15.addWidget(canvas, 1, 0, 2, 2)  # 图层放到pyqt布局之中（这个布局替代了之前设计时使用的graphicView）
         self.label_78.setText("%s情况的数量及比例如下：" % nowText)
         pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
+        # 发文条目
+        sql_send = "select * from sendfile"
+
+        # 收文条目
+        sql_rev = "select * from revfile"
+
+        # 批文条目
+        sql_cor = "select * from corfile"
         if nowText == "办文类型":
             # 发文条目
-            sql = "select * from sendfile"
-            size_send = len(tools.executeSql(sql))
+            size_send = len(tools.executeSql(sql_send))
 
             # 收文条目
-            sql = "select * from revfile"
-            size_rev = len(tools.executeSql(sql))
+            size_rev = len(tools.executeSql(sql_rev))
 
             # 批文条目
-            sql = "select * from corfile"
-            size_cor = len(tools.executeSql(sql))
+            size_cor = len(tools.executeSql(sql_cor))
 
             lab_1 = '发文登记表（' + str(size_send) + '）'
             lab_2 = '收文登记表（' + str(size_rev) + '）'
@@ -1027,35 +1046,21 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             colors = ['yellowGreen', 'Gold', 'lightSkyBlue']
             explode = 0, 0, 0
         elif nowText == "是否公开":
-            # 发文条目
-            sql_send = "select * from sendfile"
-
-            # 收文条目
-            sql_rev = "select * from revfile"
-
-            # 批文条目
-            sql_cor = "select * from corfile"
 
             sql_send_pub = sql_send + " where sendfile.是否公开 = '是'"
             len_send_pub = len(tools.executeSql(sql_send_pub))
-
             sql_rev_pub = sql_rev + " where revfile.是否公开 = '是'"
             len_rev_pub = len(tools.executeSql(sql_rev_pub))
-
             sql_cor_pub = sql_cor + " where corfile.是否公开 = '是'"
             len_cor_pub = len(tools.executeSql(sql_cor_pub))
-
             size_pub = len_send_pub + len_rev_pub + len_cor_pub
 
             sql_send_not_pub = sql_send + " where sendfile.是否公开 = '否'"
             len_send_not_pub = len(tools.executeSql(sql_send_not_pub))
-
             sql_rev_not_pub = sql_rev + " where revfile.是否公开 = '否'"
             len_rev_not_pub = len(tools.executeSql(sql_rev_not_pub))
-
             sql_cor_not_pub = sql_cor + " where corfile.是否公开 = '否'"
             len_cor_not_pub = len(tools.executeSql(sql_cor_not_pub))
-
             size_not_pub = len_send_not_pub + len_rev_not_pub + len_cor_not_pub
 
             lab_1 = '公开办文（' + str(size_pub) + '）'
@@ -1064,6 +1069,116 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             sizes = [size_pub, size_not_pub]
             colors = ['yellowGreen', 'Gold']
             explode = 0, 0
+
+        elif nowText == "秘密等级":
+            sql_send_pub = sql_send + " where sendfile.秘密等级 = '' or sendfile.秘密等级 = '不加密' or sendfile.秘密等级 = '公开'"
+            len_send_pub = len(tools.executeSql(sql_send_pub))
+            sql_rev_pub = sql_rev + " where revfile.秘密等级 = '' or revfile.秘密等级 = '不加密' or revfile.秘密等级 = '公开'"
+            len_rev_pub = len(tools.executeSql(sql_rev_pub))
+            sql_cor_pub = sql_cor + " where corfile.秘密等级 = '' or corfile.秘密等级 = '不加密' or corfile.秘密等级 = '公开'"
+            len_cor_pub = len(tools.executeSql(sql_cor_pub))
+            size_pub = len_send_pub + len_rev_pub + len_cor_pub
+
+            sql_send_mm = sql_send + " where sendfile.秘密等级 like '%秘密%'"
+            len_send_mm = len(tools.executeSql(sql_send_mm))
+            sql_rev_mm = sql_rev + " where revfile.秘密等级 like '%秘密%'"
+            len_rev_mm = len(tools.executeSql(sql_rev_mm))
+            sql_cor_mm = sql_cor + " where corfile.秘密等级 like '%秘密%'"
+            len_cor_mm = len(tools.executeSql(sql_cor_mm))
+            size_mm = len_send_mm + len_rev_mm + len_cor_mm
+
+            sql_send_jm = sql_send + " where sendfile.秘密等级 like '%机密%'"
+            len_send_jm = len(tools.executeSql(sql_send_jm))
+            sql_rev_jm = sql_rev + " where revfile.秘密等级 like '%机密%'"
+            len_rev_jm = len(tools.executeSql(sql_rev_jm))
+            sql_cor_jm = sql_cor + " where corfile.秘密等级 like '%机密%'"
+            len_cor_jm = len(tools.executeSql(sql_cor_jm))
+            size_jm = len_send_jm + len_rev_jm + len_cor_jm
+
+            sql_send_juem = sql_send + " where sendfile.秘密等级 like '%绝密%'"
+            len_send_juem = len(tools.executeSql(sql_send_juem))
+            sql_rev_juem = sql_rev + " where revfile.秘密等级 like '%绝密%'"
+            len_rev_juem = len(tools.executeSql(sql_rev_juem))
+            sql_cor_juem = sql_cor + " where corfile.秘密等级 like '%绝密%'"
+            len_cor_juem = len(tools.executeSql(sql_cor_juem))
+            size_juem = len_send_juem + len_rev_juem + len_cor_juem
+
+            lab_1 = '不加密（' + str(size_pub) + '）'
+            lab_2 = '秘密（' + str(size_mm) + '）'
+            lab_3 = '机密（' + str(size_jm) + '）'
+            lab_4 = '绝密（' + str(size_juem) + '）'
+            labels = [lab_1, lab_2, lab_3, lab_4]
+            sizes = [size_pub, size_mm, size_jm, size_juem]
+            colors = ['yellowGreen', 'Gold', 'Pink', 'lightSkyBlue']
+            explode = 0, 0, 0, 0
+
+        elif nowText == "紧急程度":
+
+            sql_send_pt = sql_send + " where sendfile.紧急程度 = '' or sendfile.紧急程度 = '无'"
+            len_send_pt = len(tools.executeSql(sql_send_pt))
+            sql_rev_pt = sql_rev + " where revfile.紧急程度 = '' or revfile.紧急程度 = '无'"
+            len_rev_pt = len(tools.executeSql(sql_rev_pt))
+            sql_cor_pt = sql_cor + " where corfile.紧急程度 = '' or corfile.紧急程度 = '无'"
+            len_cor_pt = len(tools.executeSql(sql_cor_pt))
+            size_pt = len_send_pt + len_rev_pt + len_cor_pt
+
+            sql_send_jj = sql_send + " where sendfile.紧急程度 like '%加急%'"
+            len_send_jj = len(tools.executeSql(sql_send_jj))
+            sql_rev_jj = sql_rev + " where revfile.紧急程度 like '%加急%'"
+            len_rev_jj = len(tools.executeSql(sql_rev_jj))
+            sql_cor_jj = sql_cor + " where corfile.紧急程度 like '%加急%'"
+            len_cor_jj = len(tools.executeSql(sql_cor_jj))
+            size_jj = len_send_jj + len_rev_jj + len_cor_jj
+
+            sql_send_tj = sql_send + " where sendfile.紧急程度 like '%特急%'"
+            len_send_tj = len(tools.executeSql(sql_send_tj))
+            sql_rev_tj = sql_rev + " where revfile.紧急程度 like '%特急%'"
+            len_rev_tj = len(tools.executeSql(sql_rev_tj))
+            sql_cor_tj = sql_cor + " where corfile.紧急程度 like '%特急%'"
+            len_cor_tj = len(tools.executeSql(sql_cor_tj))
+            size_tj = len_send_tj + len_rev_tj + len_cor_tj
+
+            lab_1 = '普通（' + str(size_pt) + '）'
+            lab_2 = '加急（' + str(size_jj) + '）'
+            lab_3 = '特急（' + str(size_tj) + '）'
+            labels = [lab_1, lab_2, lab_3]
+            sizes = [size_pt, size_jj, size_tj]
+            colors = ['yellowGreen', 'Gold', 'Pink']
+            explode = 0, 0, 0
+
+        elif nowText == "办文状态":
+
+            sql_send_jwbj = sql_send + " where sendfile.状态 = 'red'"
+            len_send_jwbj = len(tools.executeSql(sql_send_jwbj))
+            sql_rev_jwbj = sql_rev + " where revfile.状态 = 'red'"
+            len_rev_jwbj = len(tools.executeSql(sql_rev_jwbj))
+            sql_cor_jwbj = sql_cor + " where corfile.状态 = 'red'"
+            len_cor_jwbj = len(tools.executeSql(sql_cor_jwbj))
+            size_jwbj = len_send_jwbj + len_rev_jwbj + len_cor_jwbj
+
+            sql_send_sxzb = sql_send + " where sendfile.状态 = 'green'"
+            len_send_sxzb = len(tools.executeSql(sql_send_sxzb))
+            sql_rev_sxzb = sql_rev + " where revfile.状态 = 'green'"
+            len_rev_sxzb = len(tools.executeSql(sql_rev_sxzb))
+            sql_cor_sxzb = sql_cor + " where corfile.状态 = 'green'"
+            len_cor_sxzb = len(tools.executeSql(sql_cor_sxzb))
+            size_sxzb = len_send_sxzb + len_rev_sxzb + len_cor_sxzb
+
+            sql_send_wqbj = sql_send + " where sendfile.状态 = 'black'"
+            len_send_wqbj = len(tools.executeSql(sql_send_wqbj))
+            sql_rev_wqbj = sql_rev + " where revfile.状态 = 'black'"
+            len_rev_wqbj = len(tools.executeSql(sql_rev_wqbj))
+            sql_cor_wqbj = sql_cor + " where corfile.状态 = 'black'"
+            len_cor_wqbj = len(tools.executeSql(sql_cor_wqbj))
+            size_wqbj = len_send_wqbj + len_rev_wqbj + len_cor_wqbj
+
+            lab_1 = '件未办结（' + str(size_jwbj) + '）'
+            lab_2 = '件已办结，事项在办（' + str(size_sxzb) + '）'
+            lab_3 = '件与事项完全办结并共同归档（' + str(size_wqbj) + '）'
+            labels = [lab_1, lab_2, lab_3]
+            sizes = [size_jwbj, size_sxzb, size_wqbj]
+            colors = ['yellowGreen', 'Gold', 'Pink']
+            explode = 0, 0, 0
 
         patches, l_text, p_text = pyplot.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
                                              shadow=True,
@@ -1085,7 +1200,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             "审计组组长": "problem.审计组组长",
             "审计组主审": "problem.审计组主审",
         }
-        self.label_27.setText("以问题移送处理情况为维度，统计问题金额")
+        tongjiliang = self.comboBox_37.currentText()
+        tongjiweidu = self.comboBox_36.currentText()
+        text_27 = "以" + tongjiweidu + "为维度进行" + tongjiliang
+        self.label_27.setText(text_27)
         # 设置绘图区域
         figure = pyplot.figure()  # 新建绘图区域
         canvas = FigureCanvas(figure)  # 绘图区域放到图层canvas之中
@@ -1103,7 +1221,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         # 得到绘图数据
         data = tools.executeSql(sql)
-        # print(data)
+        print(data)
 
         # 绘制图形
         pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
@@ -1760,6 +1878,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 lineEdit = item_object.findChildren(QtWidgets.QLineEdit)  # 获取窗口对象包含的所有lineEdit
                 second_condition_before = lineEdit[0].text()
                 second_condition_behind = lineEdit[1].text()
+                if(second_condition_before == "请输入数额" or second_condition_before == ""):
+                    second_condition_before = 0
+                if (second_condition_behind == "请输入数额" or second_condition_behind == ""):
+                    second_condition_behind = sys.maxsize
                 add_condition = " %s between '%s' and '%s'" % (value, second_condition_before, second_condition_behind)
             else:
                 # 文字查询
@@ -1787,9 +1909,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     # 领导批示统计分析按钮
     def searchForRectification(self):
-        if self.lineEdit_28.text() == "":
-            QtWidgets.QMessageBox.warning(None, "提示", "输入不可为空！")
-            return
         dic = {
             "办文编号": "corfile.批文字号",
             '报送载体': 'sendfile.发文字号',

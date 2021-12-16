@@ -467,16 +467,9 @@ QListWidget {
 QHeaderView::section{background:lightyellow;}z</string>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>11</number>
          </property>
          <widget class="QWidget" name="page_lczl">
-          <property name="styleSheet">
-           <string notr="true">QFrame#line_3,#line_5,#line_6,#line_25,#line_40,#line_41{
-	border:2px solid grey;
-	border-radius:4px;
-	padding:2px;
-}</string>
-          </property>
           <layout class="QVBoxLayout" name="verticalLayout_26">
            <item>
             <widget class="QTabWidget" name="tabWidget_lczl">
@@ -1488,13 +1481,6 @@ QHeaderView::section{background:lightyellow;}z</string>
           </layout>
          </widget>
          <widget class="QWidget" name="page_fwbl">
-          <property name="styleSheet">
-           <string notr="true">QFrame#line_2,#line_4{
-	border:2px solid rgb(128, 128, 0);
-	border-radius:4px;
-	padding:2px;
-}</string>
-          </property>
           <layout class="QGridLayout" name="gridLayout_2">
            <item row="6" column="0" colspan="3">
             <widget class="QStackedWidget" name="stackedWidget_new">
@@ -3546,13 +3532,6 @@ QHeaderView::section{background:lightyellow;}z</string>
           </layout>
          </widget>
          <widget class="QWidget" name="page_swbl">
-          <property name="styleSheet">
-           <string notr="true">QFrame#line_10{
-	border:2px solid rgb(171, 0, 0);
-	border-radius:4px;
-	padding:2px;
-}</string>
-          </property>
           <layout class="QGridLayout" name="gridLayout_23">
            <item row="0" column="0">
             <widget class="QLabel" name="label_26">
@@ -4474,13 +4453,6 @@ QHeaderView::section{background:lightyellow;}z</string>
           </layout>
          </widget>
          <widget class="QWidget" name="page_pwbl">
-          <property name="styleSheet">
-           <string notr="true">QFrame#line_53{
-	border:2px solid rgb(171, 0, 0);
-	border-radius:4px;
-	padding:2px;
-}</string>
-          </property>
           <layout class="QGridLayout" name="gridLayout_22">
            <item row="0" column="0">
             <widget class="QLabel" name="label_140">
@@ -5398,12 +5370,7 @@ QHeaderView::section{background:lightyellow;}z</string>
           <property name="styleSheet">
            <string notr="true">QRadioButton#radioButton_red{color:red;}
 QRadioButton#radioButton_green{color:green;}
-QRadioButton#radioButton_black{color:black;}
-QFrame#line_11,#line_58,#line_61,#line_62{
-	border:2px solid grey;
-	border-radius:4px;
-	padding:2px;
-}</string>
+QRadioButton#radioButton_black{color:black;}</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_11">
            <item>
@@ -5735,7 +5702,7 @@ QFrame#line_11,#line_58,#line_61,#line_62{
             <widget class="QTableWidget" name="tableWidget_bwzl">
              <property name="font">
               <font>
-               <pointsize>12</pointsize>
+               <pointsize>10</pointsize>
               </font>
              </property>
             </widget>
@@ -6066,13 +6033,6 @@ QFrame#line_11,#line_58,#line_61,#line_62{
           </layout>
          </widget>
          <widget class="QWidget" name="page_jzwtlr">
-          <property name="styleSheet">
-           <string notr="true">QFrame#line_12,#line_13{
-	border:2px solid grey;
-	border-radius:4px;
-	padding:2px;
-}</string>
-          </property>
           <layout class="QGridLayout" name="gridLayout_7">
            <item row="5" column="0">
             <widget class="QTableWidget" name="tableWidget_jz_pro">
@@ -6487,23 +6447,6 @@ QFrame#line_11,#line_58,#line_61,#line_62{
           </layout>
          </widget>
          <widget class="QWidget" name="page_jzwjlr">
-          <property name="styleSheet">
-           <string notr="true">QFrame#line_14{
-	border:2px solid rgb(170,0,0);
-	border-radius:4px;
-	padding:2px;
-}
-QFrame#line_15{
-	border:2px solid rgb(0,85,0);
-	border-radius:4px;
-	padding:2px;
-}
-QFrame#line_16{
-	border:2px solid rgb(0,0,130);
-	border-radius:4px;
-	padding:2px;
-}</string>
-          </property>
           <layout class="QGridLayout" name="gridLayout_12" rowstretch="0,2,3,1">
            <item row="0" column="0">
             <widget class="QLabel" name="label_69">
@@ -7637,7 +7580,7 @@ QFrame#line_16{
                 <item>
                  <widget class="QLabel" name="label_91">
                   <property name="styleSheet">
-                   <string notr="true">color:rgb(0, 0, 130)</string>
+                   <string notr="true">color:rgb(0, 0, 255)</string>
                   </property>
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;问题总表录入：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -7757,7 +7700,7 @@ QFrame#line_16{
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color:rgb(0, 0, 130)</string>
+                   <string notr="true">color:rgb(0, 0, 255)</string>
                   </property>
                   <property name="text">
                    <string>往年经责自然资源问题总表导入</string>
@@ -7811,11 +7754,7 @@ QFrame#line_16{
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QFrame#line_17{
-	border:2px solid grey;
-	border-radius:4px;
-	padding:2px;
-}</string>
+           <string notr="true"/>
           </property>
           <layout class="QGridLayout" name="gridLayout_10">
            <item row="2" column="0">
@@ -8235,13 +8174,6 @@ QFrame#line_16{
           </layout>
          </widget>
          <widget class="QWidget" name="page_zgzl">
-          <property name="styleSheet">
-           <string notr="true">QFrame#line,#line_27,#line_28,#line_37,#line_42,#line_43{
-	border:2px solid grey;
-	border-radius:4px;
-	padding:2px;
-}</string>
-          </property>
           <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0">
            <item>
             <widget class="QTabWidget" name="tabWidget_zgzl">
@@ -9264,13 +9196,6 @@ QFrame#line_16{
           </layout>
          </widget>
          <widget class="QWidget" name="page_bwcx">
-          <property name="styleSheet">
-           <string notr="true">QFrame#line,#line_29,#line_30,#line_31,#line_32{
-	border:2px solid grey;
-	border-radius:4px;
-	padding:2px;
-}</string>
-          </property>
           <layout class="QVBoxLayout" name="verticalLayout_19">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_52">
@@ -9537,165 +9462,9 @@ QFrame#line_16{
             <widget class="QTableWidget" name="tableWidget_2">
              <property name="font">
               <font>
-               <pointsize>12</pointsize>
+               <pointsize>10</pointsize>
               </font>
              </property>
-             <column>
-              <property name="text">
-               <string>主键</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>办文编号</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>密级</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>报送载体</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>报送标题</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>来文字号</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>来文标题</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>来文单位</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>批示载体</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>批示人</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>批示人职务</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>批示时间</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>批示内容</string>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
             </widget>
            </item>
            <item>
@@ -9830,13 +9599,6 @@ QFrame#line_16{
           </layout>
          </widget>
          <widget class="QWidget" name="page_cxfx">
-          <property name="styleSheet">
-           <string notr="true">QFrame#line,#line_33,#line_36,#line_47,#line_49,#line_54,#line_56{
-	border:2px solid grey;
-	border-radius:4px;
-	padding:2px;
-}</string>
-          </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_269">
@@ -9933,48 +9695,6 @@ QFrame#line_16{
             <layout class="QHBoxLayout" name="horizontalLayout_54">
              <item>
               <layout class="QGridLayout" name="gridLayout_24">
-               <item row="0" column="3">
-                <layout class="QFormLayout" name="formLayout_17">
-                 <item row="0" column="1">
-                  <widget class="QListWidget" name="listWidget_10">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>楷体</family>
-                     <pointsize>10</pointsize>
-                    </font>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_145">
-                   <property name="font">
-                    <font>
-                     <family>Agency FB</family>
-                     <pointsize>12</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Agency FB'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
                <item row="0" column="2">
                 <layout class="QVBoxLayout" name="verticalLayout_28">
                  <item>
@@ -10044,24 +9764,8 @@ p, li { white-space: pre-wrap; }
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QListWidget" name="listWidget_9">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>楷体</family>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                </widget>
-               </item>
                <item row="0" column="0">
-                <layout class="QVBoxLayout" name="verticalLayout_23">
+                <layout class="QVBoxLayout" name="verticalLayout_25">
                  <item>
                   <widget class="QLabel" name="label_141">
                    <property name="sizePolicy">
@@ -10224,6 +9928,64 @@ p, li { white-space: pre-wrap; }
                  </item>
                 </layout>
                </item>
+               <item row="0" column="3">
+                <layout class="QFormLayout" name="formLayout_17">
+                 <item row="0" column="1">
+                  <widget class="QListWidget" name="listWidget_10">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>楷体</family>
+                     <pointsize>12</pointsize>
+                    </font>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_145">
+                   <property name="font">
+                    <font>
+                     <family>Agency FB</family>
+                     <pointsize>12</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Agency FB'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="0" column="1">
+                <widget class="QListWidget" name="listWidget_9">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>楷体</family>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </item>
             </layout>
@@ -10257,6 +10019,19 @@ p, li { white-space: pre-wrap; }
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_66">
+             <item>
+              <spacer name="horizontalSpacer_79">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
              <item>
               <widget class="QLabel" name="label_143">
                <property name="sizePolicy">
@@ -10376,19 +10151,6 @@ p, li { white-space: pre-wrap; }
                 </property>
                </item>
               </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_79">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
              </item>
             </layout>
            </item>
@@ -10927,13 +10689,6 @@ p, li { white-space: pre-wrap; }
           </layout>
          </widget>
          <widget class="QWidget" name="page_bwtj">
-          <property name="styleSheet">
-           <string notr="true">QFrame#line,#line_55,#line_57,#line_59,#line_60{
-	border:2px solid grey;
-	border-radius:4px;
-	padding:2px;
-}</string>
-          </property>
           <layout class="QVBoxLayout" name="verticalLayout_24">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_270">
@@ -11042,6 +10797,21 @@ p, li { white-space: pre-wrap; }
                <item>
                 <property name="text">
                  <string>是否公开</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>秘密等级</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>紧急程度</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>办文状态</string>
                 </property>
                </item>
               </widget>
@@ -11232,13 +11002,6 @@ p, li { white-space: pre-wrap; }
           </layout>
          </widget>
          <widget class="QWidget" name="page_tjfx">
-          <property name="styleSheet">
-           <string notr="true">QFrame#line,#line_26,#line_34,#line_35,#line_38{
-	border:2px solid grey;
-	border-radius:4px;
-	padding:2px;
-}</string>
-          </property>
           <layout class="QVBoxLayout" name="verticalLayout_9">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_51">
