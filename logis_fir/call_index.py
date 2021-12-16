@@ -98,7 +98,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.stackedWidget.setCurrentIndex(3)
         elif btname == "swll":
             self.stackedWidget.setCurrentIndex(4)
-            self.lineEdit_44.setText("请在此输入表格名")
         elif btname == "jzwtlr":
             self.stackedWidget.setCurrentIndex(5)
         elif btname == "jzwjlr":
@@ -113,7 +112,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.stackedWidget.setCurrentIndex(9)
         elif btname == "wtcx":
             self.stackedWidget.setCurrentIndex(10)
-            self.lineEdit_45.setText("请在此输入表格名")
         elif btname == "bwtj":
             self.stackedWidget.setCurrentIndex(11)
         elif btname == "wttj":
@@ -206,6 +204,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.checkBox.clicked.connect(self.tip_lc)  # 设置时间按钮提示
         self.btdellc.clicked.connect(self.deleteLc)  # 删除流程
         self.bt_excel_output_lc.clicked.connect(self.lcExcelOutput)  # 导出至Excel表格
+
         self.comboBox_13.currentIndexChanged.connect(self.autoSyn7)
         self.dateEdit_8.dateChanged.connect(lambda: self.autoSynCancelTimeCheckBox(self.checkBox))
         self.dateEdit_10.dateChanged.connect(lambda: self.autoSynCancelTimeCheckBox(self.checkBox))
@@ -215,6 +214,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.pushButton_choose_gw.clicked.connect(self.choose_file_gw)
         self.pushButton_add_zb.clicked.connect(self.add_zb)
         self.pushButton_add_gw.clicked.connect(self.add_gw)
+
         self.dateEdit_5.dateChanged.connect(self.autoSyn1)
         self.dateEdit_6.dateChanged.connect(self.autoSyn2)
         self.spinBox_2.valueChanged.connect(self.autoSyn3)
@@ -230,17 +230,19 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.pushButton_add_pw.clicked.connect(self.add_cor)
         self.pushButton_add_item.clicked.connect(self.addTerm)
         self.pushButton_sub_item.clicked.connect(self.subTerm)
+
         self.listWidget_4.currentRowChanged.connect(lambda: self.autoSyn5(clickedListWidget=self.listWidget_4))
         self.listWidget_5.currentRowChanged.connect(lambda: self.autoSyn5(clickedListWidget=self.listWidget_5))
         self.listWidget_6.currentRowChanged.connect(lambda: self.autoSyn5(clickedListWidget=self.listWidget_6))
 
         # 办文登记表页面的按钮功能
-        self.comboBox_19.currentIndexChanged.connect(self.autoSyn4)  # 设置两个comboBox同步
         self.pushButton_type_search_3.clicked.connect(lambda: self.showRegisTable(type1=self.comboBox_19.currentText(),
                                                                                   type2=self.comboBox_20.currentText()))  # 筛选办文
         self.pushButton_supply_bw.clicked.connect(self.supplyRegisTable)
         self.pushButton_color.clicked.connect(self.setRegisTableRowStatus)
         self.bt_excel_output_lc_2.clicked.connect(self.bwExcelOutput)
+
+        self.comboBox_19.currentIndexChanged.connect(self.autoSyn4)  # 设置两个comboBox同步
 
         # 经责问题总表录入页面按钮功能
         self.bt_search_jz.clicked.connect(self.searchForJzProblem)
@@ -248,6 +250,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.pushButton_que_import.clicked.connect(
             lambda: self.importExcelProblemJz(path=self.lineEdit_que_jz.text(), keyword="multiple",
                                               keyword2="multiple"))
+        self.pushButton_refresh_jzzl.clicked.connect(self.refreshJzProblemTable)
+        self.pushButton_del_problem.clicked.connect(self.deleteJzProblem)
+
         self.listWidget_sjwh.currentRowChanged.connect(lambda: self.autoSyn6(clickedListWidget=self.listWidget_sjwh))
         self.listWidget_sjyj.currentRowChanged.connect(lambda: self.autoSyn6(clickedListWidget=self.listWidget_sjyj))
         self.listWidget_sjbg.currentRowChanged.connect(lambda: self.autoSyn6(clickedListWidget=self.listWidget_sjbg))
@@ -260,7 +265,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.pushButton_choose_sjyj.clicked.connect(self.choose_file_sjyj)
         self.pushButton_choose_sjbg.clicked.connect(self.choose_file_sjbg)
         self.pushButton_choose_sjjg.clicked.connect(self.choose_file_sjjg)
-
         self.pushButton_add_sjyj.clicked.connect(self.add_sjyj)
         self.pushButton_add_sjbg.clicked.connect(self.add_sjbg)
 
@@ -277,11 +281,13 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.comboBox_15.currentIndexChanged.connect(self.sortForZg)  # 排序方法
         self.checkBox_3.clicked.connect(self.tip_zg)  # 设置时间按钮提示
         self.pushButton_type_search_5.clicked.connect(self.selectForZg)  # 条件筛选
+        self.pushButton_cancel_zg.clicked.connect(self.cancelZg)
         self.pushButton_refresh_lczl_2.clicked.connect(self.refreshZgprocessTable)
-        self.comboBox_28.currentIndexChanged.connect(self.autoSyn9)  # 设置复选框同步
         self.pushButton_type_search_4.clicked.connect(self.searchForZg)  # 搜索指定流程
         self.btlczg_3.clicked.connect(self.zgExcelOutput)  # 导出至Excel表格
+
         self.comboBox_16.currentIndexChanged.connect(self.autoSyn8)
+        self.comboBox_28.currentIndexChanged.connect(self.autoSyn9)  # 设置复选框同步
         self.dateEdit_7.dateChanged.connect(lambda: self.autoSynCancelTimeCheckBox(self.checkBox_3))
         self.dateEdit_9.dateChanged.connect(lambda: self.autoSynCancelTimeCheckBox(self.checkBox_3))
 
@@ -294,19 +300,20 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.pushButton_add_item_3.clicked.connect(self.addCondition)  # 添加搜索条件
         self.pushButton_sub_item_3.clicked.connect(self.subCondition)  # 添加搜索条件
         self.part_search_wtcx.clicked.connect(self.searchForProblem)  # 按条件进行多维查询
-        self.comboBox_27.currentIndexChanged.connect(self.autoSyn11)  # 两个comboBox同步
         self.comboBox_18.currentIndexChanged.connect(self.sortForProblem)  # 排序
         self.sort_wtcx_2.clicked.connect(self.cxExcelOutput)  # 导出至Excel表格
+
+        self.comboBox_27.currentIndexChanged.connect(self.autoSyn11)  # 两个comboBox同步
         self.listWidget_9.currentRowChanged.connect(lambda: self.autoSyn10(clickedListWidget=self.listWidget_9))
         self.listWidget_10.currentRowChanged.connect(lambda: self.autoSyn10(clickedListWidget=self.listWidget_10))
 
         # 办文统计下的按钮及其他功能绑定
         self.comboBox_35.currentIndexChanged.connect(self.showBwChart)  # 按条件显示图形
-        self.pushButton_12.clicked.connect(self.screen_shot)
+        self.pushButton_12.clicked.connect(lambda: self.screen_shot(filename=self.lineEdit_46))
 
         # 问题统计下的按钮及其他功能绑定
         self.pushButton_part_search_lc_7.clicked.connect(self.showProblemStatistics)  # 显示问题统计图像
-        self.pushButton_6.clicked.connect(self.screen_shot_wttj)  # 截屏功能
+        self.pushButton_6.clicked.connect(lambda: self.screen_shot(filename=self.lineEdit_46)) # 截屏功能
 
     """
     @同步前端显示函数
@@ -449,21 +456,22 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # row为-1表示没有选中某一行,弹出提示信息
         if row == -1:
             QtWidgets.QMessageBox.information(None, "提示", "请选择整改项目！")
+            return
+
+        # 获取整改序号
+        key = self.tableWidget_zgzl.item(row, 0).text()
+        # 实例tab不存在
+        if self.tabWidget_zgzl_dict.get(key) is None:
+            tab_new = Call_zgdetail(key)
+            tab_new.setObjectName('tab_new')
+            tab_index = self.tabWidget_zgzl.addTab(tab_new, self.tableWidget_zgzl.item(row, 2).text())
+            self.tabWidget_zgzl.setCurrentIndex(tab_index)
+            self.tabWidget_zgzl_dict[key] = tab_new
+        # 实例tab已经存在
         else:
-            # 获取整改序号
-            key = self.tableWidget_zgzl.item(row, 0).text()
-            # 实例tab不存在
-            if self.tabWidget_zgzl_dict.get(key) is None:
-                tab_new = Call_zgdetail(key)
-                tab_new.setObjectName('tab_new')
-                tab_index = self.tabWidget_zgzl.addTab(tab_new, self.tableWidget_zgzl.item(row, 2).text())
-                self.tabWidget_zgzl.setCurrentIndex(tab_index)
-                self.tabWidget_zgzl_dict[key] = tab_new
-            # 实例tab已经存在
-            else:
-                cur_tab = self.tabWidget_zgzl_dict.get(key)
-                cur_index = self.tabWidget_zgzl.indexOf(cur_tab)
-                self.tabWidget_zgzl.setCurrentIndex(cur_index)
+            cur_tab = self.tabWidget_zgzl_dict.get(key)
+            cur_index = self.tabWidget_zgzl.indexOf(cur_tab)
+            self.tabWidget_zgzl.setCurrentIndex(cur_index)
 
     # 办文流程详情下的查看详情按钮
     def lc_detail(self):
@@ -471,27 +479,28 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # row为-1表示没有选中某一行,弹出提示信息
         if row == -1:
             QtWidgets.QMessageBox.information(None, "提示", "请选择流程！")
-        else:
-            key = self.tableWidget_lczl.item(row, 0).text()  # 流程序号
-            # 实例tab不存在
-            if self.tabWidget_lczl_dict.get(key) is None:
-                tab_new = Call_lcdetail(key)
-                tab_new.setObjectName('tab_new')
-                # 设置tab标题,有发文标题设置为发文编号,没有发文设置有收文设置为收文编号,没有发文没有收文设置为批文标题
-                if self.tableWidget_lczl.item(row, 2).text() != '/':
-                    tab_index = self.tabWidget_lczl.addTab(tab_new, self.tableWidget_lczl.item(row, 2).text())
-                elif self.tableWidget_lczl.item(row, 5).text() != '/':
-                    tab_index = self.tabWidget_lczl.addTab(tab_new, self.tableWidget_lczl.item(row, 5).text())
-                else:
-                    tab_index = self.tabWidget_lczl.addTab(tab_new,
-                                                           self.tableWidget_lczl.item(row, 7).text().replace("\n", ","))
-                self.tabWidget_lczl.setCurrentIndex(tab_index)
-                self.tabWidget_lczl_dict[key] = tab_new
-            # 实例tab已经存在
+            return
+
+        key = self.tableWidget_lczl.item(row, 0).text()  # 流程序号
+        # 实例tab不存在
+        if self.tabWidget_lczl_dict.get(key) is None:
+            tab_new = Call_lcdetail(key)
+            tab_new.setObjectName('tab_new')
+            # 设置tab标题,有发文标题设置为发文编号,没有发文设置有收文设置为收文编号,没有发文没有收文设置为批文标题
+            if self.tableWidget_lczl.item(row, 2).text() != '/':
+                tab_index = self.tabWidget_lczl.addTab(tab_new, self.tableWidget_lczl.item(row, 2).text())
+            elif self.tableWidget_lczl.item(row, 5).text() != '/':
+                tab_index = self.tabWidget_lczl.addTab(tab_new, self.tableWidget_lczl.item(row, 5).text())
             else:
-                cur_tab = self.tabWidget_lczl_dict.get(key)
-                cur_index = self.tabWidget_lczl.indexOf(cur_tab)
-                self.tabWidget_lczl.setCurrentIndex(cur_index)
+                tab_index = self.tabWidget_lczl.addTab(tab_new,
+                                                       self.tableWidget_lczl.item(row, 7).text().replace("\n", ","))
+            self.tabWidget_lczl.setCurrentIndex(tab_index)
+            self.tabWidget_lczl_dict[key] = tab_new
+        # 实例tab已经存在
+        else:
+            cur_tab = self.tabWidget_lczl_dict.get(key)
+            cur_index = self.tabWidget_lczl.indexOf(cur_tab)
+            self.tabWidget_lczl.setCurrentIndex(cur_index)
 
     # 补充发文登记表
     def supplyRegisTable(self):
@@ -499,27 +508,28 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # row为-1表示没有选中某一行,弹出提示信息
         if row == -1:
             QtWidgets.QMessageBox.information(None, "提示", "请选择表格中的一行！")
-        else:
-            key = self.tableWidget_bwzl.item(row, 0).text()
-            if self.resType1 == "发文登记表":
-                self.window = Call_sendfilebq(key)
-                self.window.setWindowTitle("发文补充")
+            return
 
-            elif self.resType1 == "收文登记表":
-                self.window = Call_revfilebq(key)
-                self.window.setWindowTitle("收文补充")
+        key = self.tableWidget_bwzl.item(row, 0).text()
+        if self.resType1 == "发文登记表":
+            self.window = Call_sendfilebq(key)
+            self.window.setWindowTitle("发文补充")
 
-            elif self.resType1 == "批文登记表":
-                if self.resType2 == "批字":
-                    self.window = Call_corfilebq(key)
-                    self.window.setWindowTitle("批文补充")
-                elif self.resType2 == "批示":
-                    self.window = Call_instbq(key)
-                    self.window.setWindowTitle("批示补充")
-            self.window.exec()
+        elif self.resType1 == "收文登记表":
+            self.window = Call_revfilebq(key)
+            self.window.setWindowTitle("收文补充")
 
-            # 重新展示
-            self.showRegisTable(type1=self.resType1, type2=self.resType2)
+        elif self.resType1 == "批文登记表":
+            if self.resType2 == "批字":
+                self.window = Call_corfilebq(key)
+                self.window.setWindowTitle("批文补充")
+            elif self.resType2 == "批示":
+                self.window = Call_instbq(key)
+                self.window.setWindowTitle("批示补充")
+        self.window.exec()
+
+        # 重新展示
+        self.showRegisTable(type1=self.resType1, type2=self.resType2)
 
     """
     @页面展示函数
@@ -974,17 +984,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # 表格只可选中单行
         self.tableWidget_2.setSelectionMode(QAbstractItemView.SingleSelection)
 
-        # 清空表格
-        self.tableWidget_2.clear()
-
-        # 设置字体
-        self.tableWidget_2.horizontalHeader().setFont(QFont('Times', 14, QFont.Black))
-        self.tableWidget_2.setColumnCount(13)
-        self.tableWidget_2.horizontalHeader().setStyleSheet("QHeaderView::section{background:lightyellow;}")
-        self.tableWidget_2.setHorizontalHeaderLabels(
-            ['主键', '办文编号', '密级', '报送载体', '报送标题', '来文字号', '来文标题', '来文单位', '批示载体', '批示人',
-             '批示人职务', '批示时间', '批示内容'])
-
         sql = "select instruction.序号,corfile.批文字号,corfile.秘密等级,sendfile.发文字号,sendfile.发文标题," \
               "instruction.领导来文字号,corfile.批文标题,instruction.领导来文单位,revfile.收文字号,instruction.领导姓名," \
               "instruction.领导职务,instruction.批示时间,instruction.领导内容摘要和领导批示 from instruction left outer join " \
@@ -1005,7 +1004,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
             x = x + 1
 
-        self.tableWidget_2.setFont(QFont('Times', 14, QFont.Black))
         self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
 
@@ -1069,7 +1067,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             sizes = [size_pub, size_not_pub]
             colors = ['yellowGreen', 'Gold']
             explode = 0, 0
-
         elif nowText == "秘密等级":
             sql_send_pub = sql_send + " where sendfile.秘密等级 = '' or sendfile.秘密等级 = '不加密' or sendfile.秘密等级 = '公开'"
             len_send_pub = len(tools.executeSql(sql_send_pub))
@@ -1111,7 +1108,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             sizes = [size_pub, size_mm, size_jm, size_juem]
             colors = ['yellowGreen', 'Gold', 'Pink', 'lightSkyBlue']
             explode = 0, 0, 0, 0
-
         elif nowText == "紧急程度":
 
             sql_send_pt = sql_send + " where sendfile.紧急程度 = '' or sendfile.紧急程度 = '无'"
@@ -1145,9 +1141,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             sizes = [size_pt, size_jj, size_tj]
             colors = ['yellowGreen', 'Gold', 'Pink']
             explode = 0, 0, 0
-
         elif nowText == "办文状态":
-
             sql_send_jwbj = sql_send + " where sendfile.状态 = 'red'"
             len_send_jwbj = len(tools.executeSql(sql_send_jwbj))
             sql_rev_jwbj = sql_rev + " where revfile.状态 = 'red'"
@@ -1179,7 +1173,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             sizes = [size_jwbj, size_sxzb, size_wqbj]
             colors = ['yellowGreen', 'Gold', 'Pink']
             explode = 0, 0, 0
-
         patches, l_text, p_text = pyplot.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
                                              shadow=True,
                                              startangle=50)  # startangle表示饼图的起始角度
@@ -1200,10 +1193,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             "审计组组长": "problem.审计组组长",
             "审计组主审": "problem.审计组主审",
         }
-        tongjiliang = self.comboBox_37.currentText()
-        tongjiweidu = self.comboBox_36.currentText()
-        text_27 = "以" + tongjiweidu + "为维度进行" + tongjiliang
-        self.label_27.setText(text_27)
+        self.label_27.setText("以" + self.comboBox_37.currentText() + "为维度进行" + self.comboBox_36.currentText())
         # 设置绘图区域
         figure = pyplot.figure()  # 新建绘图区域
         canvas = FigureCanvas(figure)  # 绘图区域放到图层canvas之中
@@ -1221,7 +1211,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         # 得到绘图数据
         data = tools.executeSql(sql)
-        print(data)
+        # print(data)
 
         # 绘制图形
         pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
@@ -1278,6 +1268,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.dateEdit_9.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
         # 刷新显示tableWidget
         self.showZgTable()
+
+    # 刷新整改流程页面
+    def refreshJzProblemTable(self):
+        # 刷新显示tableWidget
+        self.displayProblemJzPage()
 
     # 刷新显示问题查询页面
     def refreshProblemSearchTable(self):
@@ -1819,6 +1814,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     # 问题表分析搜索按钮
     def searchForProblem(self):
+        rowCount = self.listWidget_9.count()
+        if rowCount == 0:
+            QtWidgets.QMessageBox.warning(None, "提示", "输入不可为空！")
+            return
+
         condition_dict = {
             "对应发文号": "sendfile.发文字号",
             "被审计领导干部": "problem.被审计领导干部",
@@ -1851,7 +1851,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             "认定整改金额": "rectification.认定整改金额",
             "整改率": "rectification.整改率"
         }
-
         sql = "SELECT sendfile.发文字号,problem.被审计领导干部,problem.所在地方或单位,problem.审计报告文号,problem.出具审计报告时间," \
               "problem.审计组组长,problem.审计组主审,problem.问题描述,problem.问题一级分类,problem.问题二级分类,problem.问题三级分类," \
               "problem.问题四级分类,problem.备注,problem.问题金额,problem.移送及处理情况,rectification.上报次序,rectification." \
@@ -1860,8 +1859,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
               "部分整改情况具体描述,rectification.未整改原因说明,rectification.下一步整改措施及时限,rectification.认定整改情况," \
               "rectification.认定整改金额,rectification.整改率 FROM problem LEFT OUTER JOIN rectification ON rectification." \
               "问题序号 = problem.序号 LEFT OUTER JOIN sendfile ON sendfile.序号 = problem.发文序号"
-
-        rowCount = self.listWidget_9.count()
 
         # 形成多维查询sql语句
         for i in range(rowCount):
@@ -1878,9 +1875,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 lineEdit = item_object.findChildren(QtWidgets.QLineEdit)  # 获取窗口对象包含的所有lineEdit
                 second_condition_before = lineEdit[0].text()
                 second_condition_behind = lineEdit[1].text()
-                if(second_condition_before == "请输入数额" or second_condition_before == ""):
+                if second_condition_before == "请输入数额" or second_condition_before == "":
                     second_condition_before = 0
-                if (second_condition_behind == "请输入数额" or second_condition_behind == ""):
+                if second_condition_behind == "请输入数额" or second_condition_behind == "":
                     second_condition_behind = sys.maxsize
                 add_condition = " %s between '%s' and '%s'" % (value, second_condition_before, second_condition_behind)
             else:
@@ -1909,6 +1906,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     # 领导批示统计分析按钮
     def searchForRectification(self):
+        if self.lineEdit_28.text() == "":
+            QtWidgets.QMessageBox.warning(None, "提示", "输入不可为空！")
+            return
+
         dic = {
             "办文编号": "corfile.批文字号",
             '报送载体': 'sendfile.发文字号',
@@ -2127,6 +2128,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     """
     @excel操作
+    @图片截屏操作
     input&output
     """
 
@@ -2294,6 +2296,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                                       cell_i_14, cell_i_15, cell_i_16, cell_i_17, cell_i_18)
                             tools.executeSql(sql)
 
+                    self.refreshZgprocessTable() # 刷新整改总览页面
+
                     QtWidgets.QMessageBox.information(None, "提示", "问题表导入完成！")
 
                     # 导入完成后更新经责表录入界面
@@ -2318,258 +2322,242 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
     # 导出Excel表格
     def lcExcelOutput(self):
         nowText = self.lineEdit_4.text()
-        if nowText == "":
+        if nowText == "" or nowText == "请在此输入表格名":
             QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
-        # 当没有输入表格名时提示并选中
-        elif nowText == "请在此输入表格名":
-            QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
-            self.lineEdit_4.selectAll()
-            self.lineEdit_4.setFocus()
+            return
+
+        # 设置表头格式
+        style_head = xlwt.XFStyle()
+        font = xlwt.Font()
+        font.name = u'微软雅黑'
+        font.color = 'black'
+        font.height = 230  # 字体大小
+        style_head.font = font
+        # 设置表头字体在单元格的位置
+        alignment = xlwt.Alignment()
+        alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
+        alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
+        style_head.alignment = alignment
+        # 给表头单元格加框线
+        border = xlwt.Borders()
+        border.left = xlwt.Borders.THIN  # 左
+        border.top = xlwt.Borders.THIN  # 上
+        border.right = xlwt.Borders.THIN  # 右
+        border.bottom = xlwt.Borders.THIN  # 下
+        border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
+        border.right_colour = 0x40
+        border.top_colour = 0x40
+        border.bottom_colour = 0x40
+        style_head.borders = border
+
+        # 设置输出字体格式及大小
+        style = xlwt.XFStyle()
+        font1 = xlwt.Font()
+        font1.name = u'宋体'
+        font1.color = 'black'
+        font1.height = 220  # 字体大小，220就是11号字体
+        style.font = font1
+        # 设置输出字体在单元格的位置
+        alignment = xlwt.Alignment()
+        alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
+        alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
+        style.alignment = alignment
+        # 给输出单元格加框线
+        border = xlwt.Borders()
+        border.left = xlwt.Borders.THIN  # 左
+        border.top = xlwt.Borders.THIN  # 上
+        border.right = xlwt.Borders.THIN  # 右
+        border.bottom = xlwt.Borders.THIN  # 下
+        border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
+        border.right_colour = 0x40
+        border.top_colour = 0x40
+        border.bottom_colour = 0x40
+        style.borders = border
+
+        work_book = xlwt.Workbook(encoding='utf-8')
+        sheet = work_book.add_sheet(nowText, cell_overwrite_ok=True)
+
+        # 设置单元格宽度
+        time = sheet.col(0)  # 流程开始时间
+        time.width = 256 * 13
+        send_number = sheet.col(1)  # 发文号
+        send_number.width = 256 * 30
+        send_name = sheet.col(2)  # 发文标题
+        send_name.width = 256 * 100
+        q_number = sheet.col(3)  # 问题个数
+        q_number.width = 256 * 10
+        receive_number = sheet.col(4)  # 收文号
+        receive_number.width = 256 * 30
+        receive_name = sheet.col(5)  # 收文标题
+        receive_name.width = 256 * 100
+        instruction_number = sheet.col(6)  # 批文号
+        instruction_number.width = 256 * 30
+        instruction_name = sheet.col(7)  # 批文标题
+        instruction_name.width = 256 * 100
+        if_change = sheet.col(8)  # 是否设置整改
+        if_change.width = 256 * 13
+
+        # 设置输出内容单元格高度
+        out_high_style = xlwt.easyxf('font:height 300')
+
+        # 设置列名,从流程开始时间这一列开始,序号不用显示
+        sheet.write(0, 0, '流程开始时间', style_head)
+        sheet.write(0, 1, '发文号', style_head)
+        sheet.write(0, 2, '发文标题', style_head)
+        sheet.write(0, 3, '问题个数', style_head)
+        sheet.write(0, 4, '收文号', style_head)
+        sheet.write(0, 5, '收文标题', style_head)
+        sheet.write(0, 6, '批文号', style_head)
+        sheet.write(0, 7, '批文标题', style_head)
+        sheet.write(0, 8, '是否设置整改', style_head)
+
+        rows = self.tableWidget_lczl.rowCount()
+        for i in range(rows):
+            # 因为是边读边写，所以每次写完后，要把上次存储的数据清空，存储下一行读取的数据
+            mainList = []
+            # tableWidget一共有9列,去掉序号列
+            for j in range(0, 9):
+                mainList.append(self.tableWidget_lczl.item(i, j + 1).text())  # 添加到数组
+                # 把mainList中的数据写入表格
+                sheet.write(i + 1, j, mainList[j], style)
+                # 设置当前列的高度
+                sheet.row(i + 1).set_style(out_high_style)
+
+        # 设置表头单元格高度
+        head_high_style = xlwt.easyxf('font:height 400')
+        sheet.row(0).set_style(head_high_style)
+        # 保存
+        try:
+            work_book.save('/home/user/桌面/' + nowText + '.xls')
+        except:
+            log = Logger('./log/logfile.log', level='error')
+            log.logger.error("错误:%s", traceback.format_exc())
         else:
-            # 设置表头格式
-            style_head = xlwt.XFStyle()
-            font = xlwt.Font()
-            font.name = u'微软雅黑'
-            font.color = 'black'
-            font.height = 230  # 字体大小
-            style_head.font = font
-            # 设置表头字体在单元格的位置
-            alignment = xlwt.Alignment()
-            alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
-            alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
-            style_head.alignment = alignment
-            # 给表头单元格加框线
-            border = xlwt.Borders()
-            border.left = xlwt.Borders.THIN  # 左
-            border.top = xlwt.Borders.THIN  # 上
-            border.right = xlwt.Borders.THIN  # 右
-            border.bottom = xlwt.Borders.THIN  # 下
-            border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
-            border.right_colour = 0x40
-            border.top_colour = 0x40
-            border.bottom_colour = 0x40
-            style_head.borders = border
-
-            # 设置输出字体格式及大小
-            style = xlwt.XFStyle()
-            font1 = xlwt.Font()
-            font1.name = u'宋体'
-            font1.color = 'black'
-            font1.height = 220  # 字体大小，220就是11号字体
-            style.font = font1
-            # 设置输出字体在单元格的位置
-            alignment = xlwt.Alignment()
-            alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
-            alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
-            style.alignment = alignment
-            # 给输出单元格加框线
-            border = xlwt.Borders()
-            border.left = xlwt.Borders.THIN  # 左
-            border.top = xlwt.Borders.THIN  # 上
-            border.right = xlwt.Borders.THIN  # 右
-            border.bottom = xlwt.Borders.THIN  # 下
-            border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
-            border.right_colour = 0x40
-            border.top_colour = 0x40
-            border.bottom_colour = 0x40
-            style.borders = border
-
-            work_book = xlwt.Workbook(encoding='utf-8')
-            sheet = work_book.add_sheet(nowText, cell_overwrite_ok=True)
-
-            # 设置单元格宽度
-            time = sheet.col(0)  # 流程开始时间
-            time.width = 256 * 13
-            send_number = sheet.col(1)  # 发文号
-            send_number.width = 256 * 30
-            send_name = sheet.col(2)  # 发文标题
-            send_name.width = 256 * 100
-            q_number = sheet.col(3)  # 问题个数
-            q_number.width = 256 * 10
-            receive_number = sheet.col(4)  # 收文号
-            receive_number.width = 256 * 30
-            receive_name = sheet.col(5)  # 收文标题
-            receive_name.width = 256 * 100
-            instruction_number = sheet.col(6)  # 批文号
-            instruction_number.width = 256 * 30
-            instruction_name = sheet.col(7)  # 批文标题
-            instruction_name.width = 256 * 100
-            if_change = sheet.col(8)  # 是否设置整改
-            if_change.width = 256 * 13
-
-            # 设置输出内容单元格高度
-            out_high_style = xlwt.easyxf('font:height 300')
-
-            # 设置列名,从流程开始时间这一列开始,序号不用显示
-            sheet.write(0, 0, '流程开始时间', style_head)
-            sheet.write(0, 1, '发文号', style_head)
-            sheet.write(0, 2, '发文标题', style_head)
-            sheet.write(0, 3, '问题个数', style_head)
-            sheet.write(0, 4, '收文号', style_head)
-            sheet.write(0, 5, '收文标题', style_head)
-            sheet.write(0, 6, '批文号', style_head)
-            sheet.write(0, 7, '批文标题', style_head)
-            sheet.write(0, 8, '是否设置整改', style_head)
-
-            rows = self.tableWidget_lczl.rowCount()
-            for i in range(rows):
-                # 因为是边读边写，所以每次写完后，要把上次存储的数据清空，存储下一行读取的数据
-                mainList = []
-                # tableWidget一共有9列,去掉序号列
-                for j in range(0, 9):
-                    mainList.append(self.tableWidget_lczl.item(i, j + 1).text())  # 添加到数组
-                    # 把mainList中的数据写入表格
-                    sheet.write(i + 1, j, mainList[j], style)
-                    # 设置当前列的高度
-                    sheet.row(i + 1).set_style(out_high_style)
-            # 设置表头单元格高度
-            head_high_style = xlwt.easyxf('font:height 400')
-            sheet.row(0).set_style(head_high_style)
-            # 保存
-            try:
-                work_book.save('/home/user/桌面/' + nowText + '.xls')
-            except:
-                log = Logger('./log/logfile.log', level='error')
-                log.logger.error("错误:%s", traceback.format_exc())
-            else:
-                QtWidgets.QMessageBox.information(None, "提示", "导出成功")
+            QtWidgets.QMessageBox.information(None, "提示", "导出成功")
 
     # 将办文表导出至Excel
     def bwExcelOutput(self):
-        print(2)
+        print("待开发")
 
     def zgExcelOutput(self):
         nowText = self.lineEdit_6.text()
-        if nowText == "":
+        if nowText == "" or nowText == "请在此输入表格名":
             QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
-        # 当没有输入表格名时提示并选中
-        elif nowText == "请在此输入表格名":
-            QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
-            self.lineEdit_6.selectAll()
-            self.lineEdit_6.setFocus()
+            return
+
+        # 设置表头格式
+        style_head = xlwt.XFStyle()
+        font = xlwt.Font()
+        font.name = u'微软雅黑'
+        font.color = 'black'
+        font.height = 230  # 字体大小
+        style_head.font = font
+        # 设置表头字体在单元格的位置
+        alignment = xlwt.Alignment()
+        alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
+        alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
+        style_head.alignment = alignment
+        # 给表头单元格加框线
+        border = xlwt.Borders()
+        border.left = xlwt.Borders.THIN  # 左
+        border.top = xlwt.Borders.THIN  # 上
+        border.right = xlwt.Borders.THIN  # 右
+        border.bottom = xlwt.Borders.THIN  # 下
+        border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
+        border.right_colour = 0x40
+        border.top_colour = 0x40
+        border.bottom_colour = 0x40
+        style_head.borders = border
+
+        # 设置输出字体格式及大小
+        style = xlwt.XFStyle()
+        font1 = xlwt.Font()
+        font1.name = u'宋体'
+        font1.color = 'black'
+        font1.height = 220  # 字体大小，220就是11号字体
+        style.font = font1
+        # 设置输出字体在单元格的位置
+        alignment = xlwt.Alignment()
+        alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
+        alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
+        style.alignment = alignment
+        # 给输出单元格加框线
+        border = xlwt.Borders()
+        border.left = xlwt.Borders.THIN  # 左
+        border.top = xlwt.Borders.THIN  # 上
+        border.right = xlwt.Borders.THIN  # 右
+        border.bottom = xlwt.Borders.THIN  # 下
+        border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
+        border.right_colour = 0x40
+        border.top_colour = 0x40
+        border.bottom_colour = 0x40
+        style.borders = border
+
+        work_book = xlwt.Workbook(encoding='utf-8')
+        sheet = work_book.add_sheet(nowText, cell_overwrite_ok=True)
+
+        # 设置单元格宽度
+        time = sheet.col(0)  # 流程开始时间
+        time.width = 256 * 13
+        send_number = sheet.col(1)  # 发文号
+        send_number.width = 256 * 30
+        send_name = sheet.col(2)  # 发文标题
+        send_name.width = 256 * 100
+        receive_number = sheet.col(3)  # 收文号
+        receive_number.width = 256 * 30
+        receive_name = sheet.col(4)  # 收文标题
+        receive_name.width = 256 * 100
+        instruction_number = sheet.col(5)  # 批文号
+        instruction_number.width = 256 * 30
+        instruction_name = sheet.col(6)  # 批文标题
+        instruction_name.width = 256 * 100
+        if_change = sheet.col(7)  # 是否设置整改
+        if_change.width = 256 * 13
+
+        # 设置输出内容单元格高度
+        out_high_style = xlwt.easyxf('font:height 300')
+
+        # 设置列名,从流程开始时间这一列开始,序号不用显示
+        sheet.write(0, 0, '流程开始时间', style_head)
+        sheet.write(0, 1, '发文号', style_head)
+        sheet.write(0, 2, '发文标题', style_head)
+        sheet.write(0, 3, '收文号', style_head)
+        sheet.write(0, 4, '收文标题', style_head)
+        sheet.write(0, 5, '批文号', style_head)
+        sheet.write(0, 6, '批文标题', style_head)
+        sheet.write(0, 7, '是否完成整改', style_head)
+        rows = self.tableWidget_zgzl.rowCount()
+        for i in range(rows):
+            # 因为是边读边写，所以每次写完后，要把上次存储的数据清空，存储下一行读取的数据
+            mainList = []
+            # tableWidget一共有8列,去掉序号列
+            for j in range(0, 8):
+                mainList.append(self.tableWidget_zgzl.item(i, j + 1).text())  # 添加到数组
+                # 把mainList中的数据写入表格
+                sheet.write(i + 1, j, mainList[j], style)
+                # 设置当前列的高度
+                sheet.row(i + 1).set_style(out_high_style)
+        # 设置表头单元格高度
+        head_high_style = xlwt.easyxf('font:height 400')
+        sheet.row(0).set_style(head_high_style)
+        # 保存
+        try:
+            work_book.save('/home/user/桌面/' + nowText + '.xls')
+        except:
+            log = Logger('./log/logfile.log', level='error')
+            log.logger.error("错误:%s", traceback.format_exc())
         else:
-            # 设置表头格式
-            style_head = xlwt.XFStyle()
-            font = xlwt.Font()
-            font.name = u'微软雅黑'
-            font.color = 'black'
-            font.height = 230  # 字体大小
-            style_head.font = font
-            # 设置表头字体在单元格的位置
-            alignment = xlwt.Alignment()
-            alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
-            alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
-            style_head.alignment = alignment
-            # 给表头单元格加框线
-            border = xlwt.Borders()
-            border.left = xlwt.Borders.THIN  # 左
-            border.top = xlwt.Borders.THIN  # 上
-            border.right = xlwt.Borders.THIN  # 右
-            border.bottom = xlwt.Borders.THIN  # 下
-            border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
-            border.right_colour = 0x40
-            border.top_colour = 0x40
-            border.bottom_colour = 0x40
-            style_head.borders = border
-
-            # 设置输出字体格式及大小
-            style = xlwt.XFStyle()
-            font1 = xlwt.Font()
-            font1.name = u'宋体'
-            font1.color = 'black'
-            font1.height = 220  # 字体大小，220就是11号字体
-            style.font = font1
-            # 设置输出字体在单元格的位置
-            alignment = xlwt.Alignment()
-            alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
-            alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
-            style.alignment = alignment
-            # 给输出单元格加框线
-            border = xlwt.Borders()
-            border.left = xlwt.Borders.THIN  # 左
-            border.top = xlwt.Borders.THIN  # 上
-            border.right = xlwt.Borders.THIN  # 右
-            border.bottom = xlwt.Borders.THIN  # 下
-            border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
-            border.right_colour = 0x40
-            border.top_colour = 0x40
-            border.bottom_colour = 0x40
-            style.borders = border
-
-            work_book = xlwt.Workbook(encoding='utf-8')
-            sheet = work_book.add_sheet(nowText, cell_overwrite_ok=True)
-
-            # 设置单元格宽度
-            time = sheet.col(0)  # 流程开始时间
-            time.width = 256 * 13
-            send_number = sheet.col(1)  # 发文号
-            send_number.width = 256 * 30
-            send_name = sheet.col(2)  # 发文标题
-            send_name.width = 256 * 100
-            receive_number = sheet.col(3)  # 收文号
-            receive_number.width = 256 * 30
-            receive_name = sheet.col(4)  # 收文标题
-            receive_name.width = 256 * 100
-            instruction_number = sheet.col(5)  # 批文号
-            instruction_number.width = 256 * 30
-            instruction_name = sheet.col(6)  # 批文标题
-            instruction_name.width = 256 * 100
-            if_change = sheet.col(7)  # 是否设置整改
-            if_change.width = 256 * 13
-
-            # 设置输出内容单元格高度
-            out_high_style = xlwt.easyxf('font:height 300')
-
-            # 设置列名,从流程开始时间这一列开始,序号不用显示
-            sheet.write(0, 0, '流程开始时间', style_head)
-            sheet.write(0, 1, '发文号', style_head)
-            sheet.write(0, 2, '发文标题', style_head)
-            sheet.write(0, 3, '收文号', style_head)
-            sheet.write(0, 4, '收文标题', style_head)
-            sheet.write(0, 5, '批文号', style_head)
-            sheet.write(0, 6, '批文标题', style_head)
-            sheet.write(0, 7, '是否完成整改', style_head)
-            rows = self.tableWidget_zgzl.rowCount()
-            for i in range(rows):
-                # 因为是边读边写，所以每次写完后，要把上次存储的数据清空，存储下一行读取的数据
-                mainList = []
-                # tableWidget一共有8列,去掉序号列
-                for j in range(0, 8):
-                    mainList.append(self.tableWidget_zgzl.item(i, j + 1).text())  # 添加到数组
-                    # 把mainList中的数据写入表格
-                    sheet.write(i + 1, j, mainList[j], style)
-                    # 设置当前列的高度
-                    sheet.row(i + 1).set_style(out_high_style)
-            # 设置表头单元格高度
-            head_high_style = xlwt.easyxf('font:height 400')
-            sheet.row(0).set_style(head_high_style)
-            # 保存
-            try:
-                work_book.save('/home/user/桌面/' + nowText + '.xls')
-            except:
-                log = Logger('./log/logfile.log', level='error')
-                log.logger.error("错误:%s", traceback.format_exc())
-            else:
-                QtWidgets.QMessageBox.information(None, "提示", "导出成功")
+            QtWidgets.QMessageBox.information(None, "提示", "导出成功")
 
     def cxExcelOutput(self):
-        print(23)
+        print("待开发")
 
-    def screen_shot(self):
-        name = self.lineEdit_46.text()
-        if name == "请输入图片名":
+    def screen_shot(self, filename):
+        if filename == "请输入图片名" or filename == "":
             QtWidgets.QMessageBox.warning(None, "提示", "请输入图片名")
         else:
-            win = WScreenShot(name=name)
-            win.run(name=name)
-
-    def screen_shot_wttj(self):
-        name = self.lineEdit_47.text()
-        if name == "请输入图片名":
-            QtWidgets.QMessageBox.warning(None, "提示", "请输入图片名")
-        else:
-            win = WScreenShot(name=name)
-            win.run(name=name)
+            win = WScreenShot(name=filename)
+            win.run(name=filename)
 
     """
     @文件选择按钮函数
@@ -2617,238 +2605,8 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.lineEdit_file_excel_2.setText(p[0])
 
     """
-    @其他功能控件实现
+    @界面小控件触发事件
     """
-
-    # 办文流程下设置整改按钮
-    def lc_to_zg(self):
-        row = self.tableWidget_lczl.currentRow()
-        # row为-1表示没有选中某一行,弹出提示信息
-        if row == -1:
-            QtWidgets.QMessageBox.information(None, "提示", "请选择流程！")
-        else:
-            key = self.tableWidget_lczl.item(row, 0).text()  # 流程序号
-            key_zg = self.tableWidget_lczl.item(row, 9).text()  # 是否整改
-
-            sql = "select 发文序号,收文序号 from bwprocess where 序号 = %s" % key
-            xh_send = tools.executeSql(sql)[0][0]
-
-            sql = "select 序号 from corfile where 流程序号 = %s" % key
-            xh_cor = tools.executeSql(sql)
-
-            # 获取问题
-            if xh_send is not None:
-                sql = "select count(*) from problem where 发文序号 = %s" % xh_send
-                pro_num = tools.executeSql(sql)[0][0]
-
-            # 发文号批文号都不为空&&问题个数不为0&&办文流程没有设置整改;则表示办文流程可以设置整改了
-            if xh_send is not None and len(xh_cor) != 0 and pro_num != 0 and key_zg == "否":
-                reply = QtWidgets.QMessageBox.question(None, '询问', '是否确认设置整改？', QtWidgets.QMessageBox.Yes,
-                                                       QtWidgets.QMessageBox.No)  # 询问是否确认设置整改
-                if reply == QtWidgets.QMessageBox.Yes:  # 如果确认设置整改
-                    sql = "select 发文字号 from sendfile where 序号 = %s" % xh_send
-                    doc_num_send = tools.executeSql(sql)[0][0]
-
-                    # 将流程加入到整改中
-                    sql = "insert into zgprocess(序号,流程序号,标识文号,整改状态) VALUES(NULL,%s,'%s','未整改')" % (key, doc_num_send)
-                    tools.executeSql(sql)
-
-                    # 修改流程为需要整改
-                    sql = "update bwprocess set 是否加入整改 = '是' where 序号 = %s" % key
-                    tools.executeSql(sql)
-
-                    QtWidgets.QMessageBox.information(None, "提示", "添加成功！")
-
-                    # 更新tab映射情况,重新加载tab
-                    obj = self.tabWidget_lczl_dict.get(key)
-                    if obj is not None:
-                        index = self.tabWidget_lczl.indexOf(obj)
-                        self.tabWidget_lczl.removeTab(index)
-                        tab_new = Call_lcdetail(key)
-                        tab_new.setObjectName('tab_new')
-                        self.tabWidget_lczl.addTab(tab_new, doc_num_send)
-                        self.tabWidget_lczl_dict[key] = tab_new
-
-                    # 刷新流程页面
-                    self.showBwprocessTable()
-
-            # 否则不能整改
-            else:
-                QtWidgets.QMessageBox.warning(None, "设置失败", "无法设置整改！")
-
-    # 设置时间提示
-    def tip_lc(self):
-        if self.checkBox.property("checked"):
-            front = self.dateEdit_8.date()
-            behind = self.dateEdit_10.date()
-            if front > behind:
-                QtWidgets.QMessageBox.warning(None, "提示", "设置时间不合法")
-                self.checkBox.setChecked(False)
-
-    def tip_zg(self):
-        if self.checkBox_3.property("checked"):
-            front = self.dateEdit_7.date()
-            behind = self.dateEdit_9.date()
-            if front > behind:
-                QtWidgets.QMessageBox.warning(None, "提示", "设置时间不合法")
-                self.checkBox_3.setChecked(False)
-
-    # 设置办文登记表中办文的办理状态
-    def setRegisTableRowStatus(self):
-        row = self.tableWidget_bwzl.currentRow()
-        status = ""
-        if self.radioButton_red.isChecked():
-            status = "red"
-        elif self.radioButton_green.isChecked():
-            status = "green"
-        elif self.radioButton_black.isChecked():
-            status = "black"
-        # row为-1表示没有选中某一行,弹出提示信息
-        if row == -1:
-            QtWidgets.QMessageBox.information(None, "提示", "请选择表格中的一行！")
-        else:
-            key = self.tableWidget_bwzl.item(row, 0).text()
-            table = ""
-            if self.resType1 == "发文登记表":
-                table = "sendfile"
-            elif self.resType1 == "收文登记表":
-                table = "revfile"
-            elif self.resType1 == "批文登记表":
-                table = "corfile"
-            sql = "update '%s' set 状态 = '%s' where 序号 = %s" % (table, status, key)
-            tools.executeSql(sql)
-
-            QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
-
-            # 重新显示
-            self.showRegisTable(type1=self.resType1, type2=self.resType2)
-
-    # 打开选择的经责文件
-    def openSjFile(self, listType):
-        row = self.listWidget_sjwh.currentRow()
-        if row == -1:
-            QtWidgets.QMessageBox.information(None, "提示", "请选择对应文件！")
-        else:
-            filename = ""
-            file_folder = ""
-            if listType == "sjyj":
-                filename = self.listWidget_sjyj.currentItem().text()
-                file_folder = "sjyj_word"
-            elif listType == "sjbg":
-                filename = self.listWidget_sjbg.currentItem().text()
-                file_folder = "sjbg_word"
-            elif listType == "sjjg":
-                filename = self.listWidget_sjjg.currentItem().text()
-                file_folder = "sjjg_word"
-            if filename == '/':
-                QtWidgets.QMessageBox.information(None, "提示", "不存在对应文件！")
-            else:
-                tools.openFile(file_folder=file_folder, file=filename)
-
-    # 删除相关文件
-    def delSjFile(self, listType):
-        row = self.listWidget_sjwh.currentRow()
-        if row == -1:
-            QtWidgets.QMessageBox.information(None, "提示", "请选择对应文件！")
-        else:
-            keyword = self.listWidget_sjwh.currentItem().text()
-            filename = ""
-            file_folder = ""
-            file_folder_sjjg = ""
-            filename_sjjg = ""
-            sql = ""
-
-            if listType == "sjyj":
-                filename = self.listWidget_sjyj.currentItem().text()
-                file_folder = tools.sjyj_word_path
-                sql = "delete from sjyjword where 审计意见文号 = '%s'" % keyword
-            elif listType == "sjbg" or listType == "sjjg":
-                filename = self.listWidget_sjbg.currentItem().text()
-                file_folder = tools.sjbg_word_path
-                filename_sjjg = self.listWidget_sjjg.currentItem().text()
-                file_folder_sjjg = tools.sjjg_word_path
-                sql = "delete from sjbgword where 审计报告文号 = '%s'" % keyword
-            if filename == '/':
-                QtWidgets.QMessageBox.information(None, "提示", "不存在对应文件！")
-            else:
-                tools.executeSql(sql)
-                tools.deleteFile(file_folder, filename)
-
-                # 如果是删除审计报告或者审计结报,那么需要同时删除两个文件
-                if listType == "sjbg" or listType == "sjjg":
-                    tools.deleteFile(file_folder_sjjg, filename_sjjg)
-
-                QtWidgets.QMessageBox.information(None, "提示", "删除成功！")
-                self.displayFileJzPage()
-
-    # 删除流程
-    def deleteLc(self):
-        row = self.tableWidget_lczl.currentRow()
-        # row为-1表示没有选中某一行,弹出提示信息
-        if row == -1:
-            QtWidgets.QMessageBox.information(None, "提示", "请选择流程！")
-        else:
-            key = self.tableWidget_lczl.item(row, 0).text()  # 流程序号
-            key_zg = self.tableWidget_lczl.item(row, 9).text()  # 是否整改
-
-            sql = "select 发文序号,收文序号 from bwprocess where 序号 = %s" % key
-            xh_send = tools.executeSql(sql)[0][0]
-            xh_rev = tools.executeSql(sql)[0][1]
-
-            sql = "select 序号 from corfile where 流程序号 = %s" % key
-            xh_cor = tools.executeSql(sql)
-
-            if key_zg == "是":
-                QtWidgets.QMessageBox.warning(None, "删除失败", "请先撤销整改！")
-            else:
-                reply = QtWidgets.QMessageBox.question(None, '询问', '是否确认删除流程？', QtWidgets.QMessageBox.Yes,
-                                                       QtWidgets.QMessageBox.No)  # 询问是否确认删除
-                if reply == QtWidgets.QMessageBox.Yes:  # 如果确认删除
-                    # 批文不为空,首先删除流程对应批文和所有批示
-                    if len(xh_cor) != 0:
-                        # 删除批示
-                        sql = "delete from instruction where 序号 in (select instruction.序号 from instruction,corfile " \
-                              "where instruction.批文序号 = corfile.序号 and corfile.流程序号 = %s)" % key
-                        tools.executeSql(sql)
-                        # 删除批文
-                        sql = "delete from corfile where 流程序号 = %s " % key
-                        tools.executeSql(sql)
-
-                    # 删除流程
-                    sql = "delete from bwprocess where 序号 = %s" % key
-                    tools.executeSql(sql)
-
-                    # 删除收文
-                    if xh_rev is not None:
-                        sql = "delete from revfile where 序号 = %s" % xh_rev
-                        tools.executeSql(sql)
-
-                    # 删除发文和问题表
-                    if xh_send is not None:
-                        # 删除问题表
-                        sql = "delete from problem where problem.发文序号 = %s" % xh_send
-                        tools.executeSql(sql)
-
-                        # 删除发文绑定文件
-                        sql = "select 报文内容 from sendfile where 序号 = %s" % xh_send
-                        filename = tools.executeSql(sql)[0][0]
-                        tools.deleteFile(tools.project_word_path, filename)
-
-                        # 删除发文
-                        sql = "delete from sendfile where 序号 = %s" % xh_send
-                        tools.executeSql(sql)
-
-                    QtWidgets.QMessageBox.information(None, "提示", "删除成功！")
-
-                    # 删除映射和tab
-                    obj = self.tabWidget_lczl_dict.get(key)
-                    if obj is not None:
-                        index = self.tabWidget_lczl.indexOf(obj)
-                        self.tabWidget_lczl.removeTab(index)
-                        self.tabWidget_lczl_dict.pop(key)
-
-                    # 更新流程表
-                    self.showBwprocessTable()
 
     # 批文界面下的add和sub按钮,用于增加和删除条目
     def addTerm(self):
@@ -2924,3 +2682,326 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
             self.listWidget_9.takeItem(row)
             self.listWidget_10.takeItem(row)
+
+    # 设置时间提示
+    def tip_lc(self):
+        if self.checkBox.property("checked"):
+            front = self.dateEdit_8.date()
+            behind = self.dateEdit_10.date()
+            if front > behind:
+                QtWidgets.QMessageBox.warning(None, "提示", "设置时间不合法")
+                self.checkBox.setChecked(False)
+
+    def tip_zg(self):
+        if self.checkBox_3.property("checked"):
+            front = self.dateEdit_7.date()
+            behind = self.dateEdit_9.date()
+            if front > behind:
+                QtWidgets.QMessageBox.warning(None, "提示", "设置时间不合法")
+                self.checkBox_3.setChecked(False)
+
+    """
+    @其他功能控件实现
+    """
+
+    # 办文流程下设置整改按钮
+    def lc_to_zg(self):
+        row = self.tableWidget_lczl.currentRow()
+        # row为-1表示没有选中某一行,弹出提示信息
+        if row == -1:
+            QtWidgets.QMessageBox.information(None, "提示", "请选择流程！")
+            return
+
+        key = self.tableWidget_lczl.item(row, 0).text()  # 流程序号
+        key_zg = self.tableWidget_lczl.item(row, 9).text()  # 是否整改
+
+        sql = "select 发文序号,收文序号 from bwprocess where 序号 = %s" % key
+        xh_send = tools.executeSql(sql)[0][0]
+
+        sql = "select 序号 from corfile where 流程序号 = %s" % key
+        xh_cor = tools.executeSql(sql)
+
+        # 获取问题
+        if xh_send is not None:
+            sql = "select count(*) from problem where 发文序号 = %s" % xh_send
+            pro_num = tools.executeSql(sql)[0][0]
+
+        # 发文号批文号都不为空&&问题个数不为0&&办文流程没有设置整改;则表示办文流程可以设置整改了
+        if xh_send is not None and len(xh_cor) != 0 and pro_num != 0 and key_zg == "否":
+            reply = QtWidgets.QMessageBox.question(None, '询问', '是否确认设置整改？', QtWidgets.QMessageBox.Yes,
+                                                   QtWidgets.QMessageBox.No)  # 询问是否确认设置整改
+            if reply == QtWidgets.QMessageBox.Yes:  # 如果确认设置整改
+                sql = "select 发文字号 from sendfile where 序号 = %s" % xh_send
+                doc_num_send = tools.executeSql(sql)[0][0]
+
+                # 将流程加入到整改中
+                sql = "insert into zgprocess(序号,流程序号,标识文号,整改状态) VALUES(NULL,%s,'%s','未整改')" % (key, doc_num_send)
+                tools.executeSql(sql)
+
+                # 修改流程为需要整改
+                sql = "update bwprocess set 是否加入整改 = '是' where 序号 = %s" % key
+                tools.executeSql(sql)
+
+                QtWidgets.QMessageBox.information(None, "提示", "添加成功！")
+
+                # 更新tab映射情况,重新加载tab
+                obj = self.tabWidget_lczl_dict.get(key)
+                if obj is not None:
+                    index = self.tabWidget_lczl.indexOf(obj)
+                    self.tabWidget_lczl.removeTab(index)
+                    tab_new = Call_lcdetail(key)
+                    tab_new.setObjectName('tab_new')
+                    self.tabWidget_lczl.addTab(tab_new, doc_num_send)
+                    self.tabWidget_lczl_dict[key] = tab_new
+
+                # 刷新流程页面
+                self.showBwprocessTable()
+
+        # 否则不能整改
+        else:
+            QtWidgets.QMessageBox.warning(None, "设置失败", "无法设置整改！")
+
+    # 删除流程
+    def deleteLc(self):
+        row = self.tableWidget_lczl.currentRow()
+        # row为-1表示没有选中某一行,弹出提示信息
+        if row == -1:
+            QtWidgets.QMessageBox.information(None, "提示", "请选择流程！")
+            return
+
+        key = self.tableWidget_lczl.item(row, 0).text()  # 流程序号
+        key_zg = self.tableWidget_lczl.item(row, 9).text()  # 是否整改
+
+        sql = "select 发文序号,收文序号 from bwprocess where 序号 = %s" % key
+        xh_send = tools.executeSql(sql)[0][0]
+        xh_rev = tools.executeSql(sql)[0][1]
+
+        sql = "select 序号 from corfile where 流程序号 = %s" % key
+        xh_cor = tools.executeSql(sql)
+
+        if key_zg == "是":
+            QtWidgets.QMessageBox.warning(None, "删除失败", "请先撤销整改！")
+        else:
+            reply = QtWidgets.QMessageBox.question(None, '询问', '是否确认删除流程？', QtWidgets.QMessageBox.Yes,
+                                                   QtWidgets.QMessageBox.No)  # 询问是否确认删除
+            if reply == QtWidgets.QMessageBox.Yes:  # 如果确认删除
+                # 批文不为空,首先删除流程对应批文和所有批示
+                if len(xh_cor) != 0:
+                    # 删除批示
+                    sql = "delete from instruction where 序号 in (select instruction.序号 from instruction,corfile " \
+                          "where instruction.批文序号 = corfile.序号 and corfile.流程序号 = %s)" % key
+                    tools.executeSql(sql)
+                    # 删除批文
+                    sql = "delete from corfile where 流程序号 = %s " % key
+                    tools.executeSql(sql)
+
+                # 删除流程
+                sql = "delete from bwprocess where 序号 = %s" % key
+                tools.executeSql(sql)
+
+                # 删除收文
+                if xh_rev is not None:
+                    sql = "delete from revfile where 序号 = %s" % xh_rev
+                    tools.executeSql(sql)
+
+                # 删除发文和问题表
+                if xh_send is not None:
+                    # 删除问题表
+                    sql = "delete from problem where problem.发文序号 = %s" % xh_send
+                    tools.executeSql(sql)
+
+                    # 删除发文绑定文件
+                    sql = "select 报文内容 from sendfile where 序号 = %s" % xh_send
+                    filename = tools.executeSql(sql)[0][0]
+                    tools.deleteFile(tools.project_word_path, filename)
+
+                    # 删除发文
+                    sql = "delete from sendfile where 序号 = %s" % xh_send
+                    tools.executeSql(sql)
+
+                QtWidgets.QMessageBox.information(None, "提示", "删除成功！")
+
+                # 删除映射和tab
+                obj = self.tabWidget_lczl_dict.get(key)
+                if obj is not None:
+                    index = self.tabWidget_lczl.indexOf(obj)
+                    self.tabWidget_lczl.removeTab(index)
+                    self.tabWidget_lczl_dict.pop(key)
+
+                # 更新流程表
+                self.showBwprocessTable()
+
+    # 设置办文登记表中办文的办理状态
+    def setRegisTableRowStatus(self):
+        row = self.tableWidget_bwzl.currentRow()
+        # row为-1表示没有选中某一行,弹出提示信息
+        if row == -1:
+            QtWidgets.QMessageBox.information(None, "提示", "请选择表格中的一行！")
+            return
+
+        status = ""
+        if self.radioButton_red.isChecked():
+            status = "red"
+        elif self.radioButton_green.isChecked():
+            status = "green"
+        elif self.radioButton_black.isChecked():
+            status = "black"
+        key = self.tableWidget_bwzl.item(row, 0).text()
+        table = ""
+        if self.resType1 == "发文登记表":
+            table = "sendfile"
+        elif self.resType1 == "收文登记表":
+            table = "revfile"
+        elif self.resType1 == "批文登记表":
+            table = "corfile"
+
+        sql = "update '%s' set 状态 = '%s' where 序号 = %s" % (table, status, key)
+        tools.executeSql(sql)
+
+        QtWidgets.QMessageBox.information(None, "提示", "修改成功！")
+
+        # 重新显示
+        self.showRegisTable(type1=self.resType1, type2=self.resType2)
+
+    # 删除经责问题表
+    def deleteJzProblem(self):
+        self.searchForJzProblem()
+        keyword = self.comboBox_11.currentText()
+        reply = QtWidgets.QMessageBox.question(None, '询问', '是否确认删除？您将删除该文号对应的整改流程及所有数据！', QtWidgets.QMessageBox.Yes,
+                                               QtWidgets.QMessageBox.No)  # 询问是否确认删除问题
+        if reply == QtWidgets.QMessageBox.Yes:  # 如果确认删除问题
+            sql = "select 序号 from zgprocess where 标识文号 = '%s'" % keyword
+            xh_zg = tools.executeSql(sql)[0][0]  # 整改序号
+
+            # 删除整改发函
+            sql = "select 整改发函内容 from zgword where 整改序号 = %s" % xh_zg
+            filenames = tools.executeSql(sql)
+            for filename in filenames:
+                tools.deleteFile(tools.zgfh_word_path, filename[0])
+            sql = "delete from zgword where 整改序号 = %s" % xh_zg
+            tools.executeSql(sql)
+
+            # 删除所有整改措施
+            sql = "delete from rectification_jz where 序号 in (select rectification_jz.序号 from zgprocess,problem_jz," \
+                  "rectification_jz where zgprocess.序号 = problem_jz.整改序号 and problem_jz.序号 = rectification_jz.问题序号 " \
+                  "and zgprocess.序号 = %s) " % xh_zg
+            tools.executeSql(sql)
+
+            # 删除整改流程
+            sql = "delete from zgprocess where 序号 = %s" % xh_zg
+            tools.executeSql(sql)
+
+            # 删除所有对应问题
+            sql = "delete from problem_jz where 整改序号 = %s" % xh_zg
+            tools.executeSql(sql)
+
+            QtWidgets.QMessageBox.information(None, "提示", "删除成功！")
+
+            self.refreshZgprocessTable() # 此处要刷新整改流程总览
+            self.displayProblemJzPage()
+
+    # 打开选择的经责文件
+    def openSjFile(self, listType):
+        row = self.listWidget_sjwh.currentRow()
+        if row == -1:
+            QtWidgets.QMessageBox.information(None, "提示", "请选择对应文件！")
+            return
+
+        filename = ""
+        file_folder = ""
+
+        if listType == "sjyj":
+            filename = self.listWidget_sjyj.currentItem().text()
+            file_folder = "sjyj_word"
+        elif listType == "sjbg":
+            filename = self.listWidget_sjbg.currentItem().text()
+            file_folder = "sjbg_word"
+        elif listType == "sjjg":
+            filename = self.listWidget_sjjg.currentItem().text()
+            file_folder = "sjjg_word"
+        if filename == '/':
+            QtWidgets.QMessageBox.information(None, "提示", "不存在对应文件！")
+        else:
+            tools.openFile(file_folder=file_folder, file=filename)
+
+    # 删除相关文件
+    def delSjFile(self, listType):
+        row = self.listWidget_sjwh.currentRow()
+        if row == -1:
+            QtWidgets.QMessageBox.information(None, "提示", "请选择对应文件！")
+            return
+
+        keyword = self.listWidget_sjwh.currentItem().text()
+
+        filename = ""
+        file_folder = ""
+        file_folder_sjjg = ""
+        filename_sjjg = ""
+        sql = ""
+
+        if listType == "sjyj":
+            filename = self.listWidget_sjyj.currentItem().text()
+            file_folder = tools.sjyj_word_path
+            sql = "delete from sjyjword where 审计意见文号 = '%s'" % keyword
+        elif listType == "sjbg" or listType == "sjjg":
+            filename = self.listWidget_sjbg.currentItem().text()
+            file_folder = tools.sjbg_word_path
+            filename_sjjg = self.listWidget_sjjg.currentItem().text()
+            file_folder_sjjg = tools.sjjg_word_path
+            sql = "delete from sjbgword where 审计报告文号 = '%s'" % keyword
+
+        if filename == '/':
+            QtWidgets.QMessageBox.information(None, "提示", "不存在对应文件！")
+        else:
+            tools.executeSql(sql)
+            tools.deleteFile(file_folder, filename)
+
+            # 如果是删除审计报告或者审计结报,那么需要同时删除两个文件
+            if listType == "sjbg" or listType == "sjjg":
+                tools.deleteFile(file_folder_sjjg, filename_sjjg)
+
+            QtWidgets.QMessageBox.information(None, "提示", "删除成功！")
+            self.displayFileJzPage()
+
+    # 撤销整改
+    def cancelZg(self):
+        row = self.tableWidget_zgzl.currentRow()
+        if row == -1:
+            QtWidgets.QMessageBox.information(None, "提示", "请选择对应整改流程！")
+            return
+
+        key = self.tableWidget_zgzl.item(row, 0).text()  # 整改流程序号
+        sql = "select 流程序号 from zgprocess where 序号 = %s" % key
+        xh_lc = tools.executeSql(sql)[0][0]
+        if xh_lc == -1:
+            QtWidgets.QMessageBox.critical(None, "撤销失败", "经责整改无法撤销！")
+            return
+
+        reply = QtWidgets.QMessageBox.question(None, '询问', '是否确认撤销整改？您将删除该整改流程的所有整改信息！', QtWidgets.QMessageBox.Yes,
+                                               QtWidgets.QMessageBox.No)  # 询问是否确认撤销整改
+        if reply == QtWidgets.QMessageBox.Yes:  # 如果确认撤销
+            # 删除整改发函
+            sql = "select 整改发函内容 from zgword where 整改序号 = %s" % key
+            filenames = tools.executeSql(sql)
+            for filename in filenames:
+                tools.deleteFile(tools.zgfh_word_path, filename[0])
+            sql = "delete from zgword where 整改序号 = %s" % key
+            tools.executeSql(sql)
+
+            # 删除所有整改措施
+            sql = "delete from rectification where 序号 in (select rectification.序号 from zgprocess,bwprocess,problem," \
+                  "rectification where zgprocess.流程序号 = bwprocess.序号 and bwprocess.发文序号 = problem.发文序号 and problem.序号 " \
+                  "= rectification.问题序号 and zgprocess.序号 = %s) " % key
+            tools.executeSql(sql)
+
+            # 删除整改流程
+            sql = "delete from zgprocess where 序号 = %s" % key
+            tools.executeSql(sql)
+
+            # 设置办文流程为未整改
+            sql = "update bwprocess set 是否加入整改 = '否' where 序号 = %s" % xh_lc
+            tools.executeSql(sql)
+
+            QtWidgets.QMessageBox.information(None, "提示", "撤销成功！")
+
+            self.showZgTable()

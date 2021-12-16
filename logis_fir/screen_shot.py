@@ -56,5 +56,5 @@ class WScreenShot(QWidget):
             screenshot = QApplication.primaryScreen().grabWindow(QApplication.desktop().winId())
             rect = QRect(self.startPoint, self.endPoint)
             outputRegion = screenshot.copy(rect)
-            outputRegion.save('d:/'+self.name+'.jpg', format='JPG', quality=100)
+            outputRegion.save('/home/user/桌面/' + self.name + '.jpg', format='JPG', quality=100)
             self.close()

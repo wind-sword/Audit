@@ -70,7 +70,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>6</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page_zb">
       <layout class="QGridLayout" name="gridLayout_13" rowstretch="1,2,18">
@@ -1767,14 +1767,14 @@
                </property>
                <property name="font">
                 <font>
-                 <family>华文楷体</family>
+                 <family>Adobe Devanagari</family>
                  <pointsize>14</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
                <property name="text">
-                <string>问题总览表</string>
+                <string>问题基本信息</string>
                </property>
               </widget>
              </item>

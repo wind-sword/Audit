@@ -263,35 +263,37 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
         # row为-1表示没有选中某一行,弹出提示信息
         if row == -1:
             QtWidgets.QMessageBox.information(None, "提示", "请选择问题！")
+            return
+
+        # 问题表主键,问题序号
+        key = self.tableWidget.item(row, 0).text()
+        # 该问题的问题顺序号
+        key_num = self.tableWidget.item(row, 1).text()
+        # 实例tab不存在
+        if self.tabWidget_dict.get(key) is None:
+            tab_new = Call_quedetail(key, self.xh_lc)
+            tab_new.setObjectName('tab_new')
+            tab_num = self.tabWidget.addTab(tab_new, "问题%s详情" % key_num)
+            self.tabWidget.setCurrentIndex(tab_num)
+            self.tabWidget_dict[key] = tab_new
         else:
-            # 问题表主键,问题序号
-            key = self.tableWidget.item(row, 0).text()
-            # 该问题的问题顺序号
-            key_num = self.tableWidget.item(row, 1).text()
-            # 实例tab不存在
-            if self.tabWidget_dict.get(key) is None:
-                tab_new = Call_quedetail(key, self.xh_lc)
-                tab_new.setObjectName('tab_new')
-                tab_num = self.tabWidget.addTab(tab_new, "问题%s详情" % key_num)
-                self.tabWidget.setCurrentIndex(tab_num)
-                self.tabWidget_dict[key] = tab_new
-            else:
-                cur_tab = self.tabWidget_dict.get(key)
-                cur_index = self.tabWidget.indexOf(cur_tab)
-                self.tabWidget.setCurrentIndex(cur_index)
+            cur_tab = self.tabWidget_dict.get(key)
+            cur_index = self.tabWidget.indexOf(cur_tab)
+            self.tabWidget.setCurrentIndex(cur_index)
 
     # 打开整改详情修改框
     def reviseZgdetail(self):
         row = self.tableWidget_4.currentRow()
         if row == -1:
             QtWidgets.QMessageBox.information(None, "提示", "请选择整改措施！")
-        else:
-            # 整改表主键
-            key = self.tableWidget_4.item(row, 0).text()
-            self.window = Call_zgrevise(key, self.xh_lc)
-            self.window.setWindowTitle("整改详情")
-            self.window.exec()
-            self.displayQuestionOverview()
+            return
+
+        # 整改表主键
+        key = self.tableWidget_4.item(row, 0).text()
+        self.window = Call_zgrevise(key, self.xh_lc)
+        self.window.setWindowTitle("整改详情")
+        self.window.exec()
+        self.displayQuestionOverview()
 
     """
     @同步高亮显示
@@ -383,10 +385,7 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                     y = y + 1
                 x = x + 1
 
-            font = QFont('Microsoft YaHei UI', 14, QFont.Black)
-            font.setBold(False)
             self.tableWidget.hideColumn(0)  # 将问题数据库主键隐藏起来
-            self.tableWidget.setFont(font)  # 设置表格内容字体大小
             self.tableWidget.resizeColumnsToContents()  # 根据列调整框大小
             self.tableWidget.resizeRowsToContents()  # 根据行调整框大小
             self.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)  # 表格只可选中行
@@ -854,6 +853,10 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                 else:
                     split = 18
 
+                if sheet_rows == 4:
+                    check_tag = 0
+                    QtWidgets.QMessageBox.information(None, "提示", "表格数据为空！")
+
                 # 读取excel数据进行检测
                 for i in range(4, sheet_rows):
                     # 判断问题顺序号是否为整数
@@ -891,14 +894,11 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                         check_tag = 0
                         QtWidgets.QMessageBox.information(None, "提示", "excel表格第%s行：认定整改金额应为数字！" % str(i + 1))
                         break
-                if sheet_rows == 4:
-                    check_tag = 0
-                    QtWidgets.QMessageBox.information(None, "提示", "表格数据为空！")
 
                 if check_tag == 1:
-                    flag_beforZg = 0    #设置未整改标记
-                    flag_inZg = 0    #设置部分整改标记
-                    flag_passZg = 0    #设置已整改标记
+                    count_beforeZg = 0  # 设置未整改标记
+                    count_inZg = 0  # 设置部分整改标记
+                    count_passZg = 0  # 设置已整改标记
                     # 读取excel数据
                     for i in range(4, sheet_rows):
                         cell_problem_key1 = int(sheet.row(i)[0].value)  # 问题顺序号
@@ -922,13 +922,13 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                         cell_right_i_12 = sheet.row(i)[12 + split].value  # 认定整改情况
                         cell_right_i_13 = sheet.row(i)[13 + split].value  # 认定整改金额
                         cell_right_i_14 = sheet.row(i)[14 + split].value  # 整改率
-                        #根据认定整改情况对标记值进行自增
-                        if(cell_right_i_12 == "已整改"):
-                            flag_passZg = flag_passZg + 1
-                        elif(cell_right_i_12 == "未整改"):
-                            flag_beforZg = flag_beforZg + 1
-                        elif(cell_right_i_12 == "部分整改"):
-                            flag_inZg = flag_inZg + 1
+                        # 根据认定整改情况对标记值进行自增
+                        if cell_right_i_12 == "已整改":
+                            count_passZg = count_passZg + 1
+                        elif cell_right_i_12 == "未整改":
+                            count_beforeZg = count_beforeZg + 1
+                        elif cell_right_i_12 == "部分整改":
+                            count_inZg = count_inZg + 1
 
                         # 办文流程整改
                         if self.xh_lc != -1:
@@ -974,29 +974,17 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
                                   cell_right_i_14)
                         tools.executeSql(sql)
 
+                    if count_inZg != 0 or (count_beforeZg != 0 and count_passZg != 0):
+                        state = "部分整改"
+                    elif count_passZg != 0:
+                        state = "已整改"
+                    else:
+                        # 包含了所有问题没整改和整改未导入的情况
+                        state = "未整改"
+                    sql = "update zgprocess set 整改状态 = '%s' where 序号 = %s" % (state, self.xh)
+                    tools.executeSql(sql)
+
                     QtWidgets.QMessageBox.information(None, "提示", "录入成功！")
-                    #录入成功以后，进行整改总览表里面，是否整改完成字段的设置
-                    print(flag_beforZg)
-                    print(flag_inZg)
-                    print(flag_passZg)
-                    print(self.xh_send)
-
-                    sql = "select sendfile.发文字号 from sendfile where 序号 = %s" % (self.xh_send)   #根据发文序号找到发文字号
-                    data = tools.executeSql(sql)
-                    send_file_name = data[0][0]
-
-                    if(flag_inZg != 0):
-                        sql = "update zgprocess set 整改状态 = '部分整改' where 标识文号 = '%s'" % (send_file_name)
-                        tools.executeSql(sql)
-                    if((flag_beforZg != 0) and (flag_passZg != 0)):
-                        sql = "update zgprocess set 整改状态 = '部分整改' where 标识文号 = '%s'" % (send_file_name)
-                        tools.executeSql(sql)
-                    if((flag_beforZg == 0) and (flag_inZg == 0)):
-                        sql = "update zgprocess set 整改状态 = '已整改' where 标识文号 = '%s'" % (send_file_name)
-                        tools.executeSql(sql)
-                    if((flag_inZg == 0) and (flag_passZg == 0)):
-                        sql = "update zgprocess set 整改状态 = '未整改' where 标识文号 = '%s'" % (send_file_name)
-                        tools.executeSql(sql)
 
                     self.lineEdit_2.clear()
 
@@ -1012,86 +1000,54 @@ class Call_zgdetail(QtWidgets.QWidget, Ui_Form):
     """
     @其他功能
     """
+
     def deleteRecentProblemZg(self):
         reply = QtWidgets.QMessageBox.question(None, '询问', '是否确认删除最近一次整改上报？', QtWidgets.QMessageBox.Yes,
                                                QtWidgets.QMessageBox.No)  # 询问是否确认删除
         if reply == QtWidgets.QMessageBox.Yes:  # 如果确认删除
             # 公文整改
             if self.xh_lc != -1:
-                sql = "select max(rectification.上报次序) from sendfile,problem,rectification where sendfile.序号 = " \
-                      "problem.发文序号 and problem.序号 = rectification.问题序号 and sendfile.序号 = %s" % self.xh_send
-                max_num = tools.executeSql(sql)[0][0]
-                sql = "delete from rectification where 序号 in (select rectification.序号 from sendfile,problem," \
-                      "rectification where sendfile.序号 = problem.发文序号 and problem.序号 = rectification.问题序号 and " \
-                      "sendfile.序号 = %s) and 上报次序 = %s" % (self.xh_send, max_num)
-            # 经责整改
+                sql = "delete from rectification where (问题序号,上报次序) in (select rectification.问题序号," \
+                      "MAX(rectification.上报次序) from sendfile,problem,rectification where sendfile.序号 = problem.发文序号 " \
+                      "and problem.序号 = rectification.问题序号 and sendfile.序号 = %s group by problem.序号)" % self.xh_send
+                tools.executeSql(sql)
+                sql = "select rectification.认定整改情况,MAX(rectification.上报次序) from sendfile,problem,rectification where " \
+                      "sendfile.序号 = problem.发文序号 and problem.序号 = rectification.问题序号 and sendfile.序号 = %s group by " \
+                      "problem.序号" % self.xh
             else:
-                sql = "select max(rectification_jz.上报次序) from problem_jz,rectification_jz where problem_jz.序号 = " \
-                      "rectification_jz.问题序号 and problem_jz.整改序号 = %s" % self.xh
-                max_num = tools.executeSql(sql)[0][0]
-                sql = "delete from rectification_jz where 序号 in (select rectification_jz.序号 from problem_jz," \
-                      "rectification_jz where problem_jz.序号 = rectification_jz.问题序号 and problem_jz.整改序号 = %s) and " \
-                      "上报次序 = %s" % (self.xh, max_num)
+                sql = "delete from rectification_jz where (问题序号,上报次序) in (select rectification_jz.问题序号," \
+                      "MAX(rectification_jz.上报次序) from problem_jz,rectification_jz where problem_jz.序号 = " \
+                      "rectification_jz.问题序号 and problem_jz.整改序号 = %s group by problem_jz.序号)" % self.xh
+                tools.executeSql(sql)
 
+                sql = "select rectification_jz.认定整改情况,MAX(rectification_jz.上报次序) from problem_jz,rectification_jz " \
+                      "where problem_jz.序号 = rectification_jz.问题序号 and problem_jz.整改序号 = %s group by problem_jz.序号" % self.xh
+            data = tools.executeSql(sql)
+            # print(data)
+            count_passZg = 0  # 已整改流程计数
+            count_beforeZg = 0  # 未整改流程计数
+            count_inZg = 0  # 部分整改流程计数
+
+            for Tuple in data:
+                if Tuple[0] == "已整改":
+                    count_passZg = count_passZg + 1
+                elif Tuple[0] == "未整改":
+                    count_beforeZg = count_beforeZg + 1
+                elif Tuple[0] == "部分整改":
+                    count_inZg = count_inZg + 1
+
+            if count_inZg != 0 or (count_beforeZg != 0 and count_passZg != 0):
+                state = "部分整改"
+            elif count_passZg != 0:
+                state = "已整改"
+            else:
+                # 包含了所有问题没整改和整改未导入的情况
+                state = "未整改"
+
+            sql = "update zgprocess set 整改状态 = '%s' where 序号 = %s" % (state, self.xh)
             tools.executeSql(sql)
+
+            # 修改整改总览页面的整改字段值
             QtWidgets.QMessageBox.information(None, "提示", "删除成功！")
 
-            # 修改流程总览页面是否完成整改字段
-            sql = "select sendfile.发文字号 from sendfile where sendfile.序号 = %s" % (self.xh_send)  # 根据发文序号找到发文字号
-            data = tools.executeSql(sql)
-            send_file_name = data[0][0]
-
-            sql_findProblemId = "select problem.序号 from problem where problem.发文序号 = '%s'" % (self.xh_send)    #根据发文序号找到所有问题序号
-            data = tools.executeSql(sql_findProblemId)
-            problemId = data[0][0]
-
-            sql_len = "select rectification.序号 from rectification where rectification.问题序号 = '%s'" %(problemId) #根据问题序号找对应的整改序号有多少个
-            data = tools.executeSql(sql_len)
-            size = len(data)
-
-            if (size == 0): #如果问题序号没有对应的整改序号，说明整改上报已被删除干净，设置为未整改
-                sql = "update zgprocess set 整改状态 = '未整改' where 标识文号 = '%s'" % (send_file_name)
-                tools.executeSql(sql)
-                print("设置为未整改")
-            else:
-                sql_finMaxId = "select max(rectification.上报次序) from rectification where rectification.问题序号 = '%s'" % (
-                    problemId)  # 根据问题序号找到最大上报次序
-                data = tools.executeSql(sql_finMaxId)
-                maxId = data[0][0]
-                print(maxId)
-
-                sql_findProblemId = "select problem.序号 from problem where problem.发文序号 = '%s'" % (self.xh_send)  # 根据发文序号找到所有问题序号
-                data = tools.executeSql(sql_findProblemId)
-                leng = len(data)
-                print(data)
-                flag_passZg = 0     #已整改流程计数
-                flag_beforZg = 0    #未整改流程计数
-                flag_inZg = 0       #部分整改流程计数
-                for i in range(leng):
-                    sql = "select rectification.认定整改情况 from rectification where rectification.问题序号 = '%s' and rectification.上报次序 = '%s'" % (
-                    data[i][0], maxId)
-                    data_status = tools.executeSql(sql)
-                    # 根据认定整改情况对标记值进行自增
-                    if (data_status[0][0] == "已整改"):
-                        flag_passZg = flag_passZg + 1
-                    elif (data_status[0][0] == "未整改"):
-                        flag_beforZg = flag_beforZg + 1
-                    elif (data_status[0][0] == "部分整改"):
-                        flag_inZg = flag_inZg + 1
-
-                if (flag_inZg != 0):
-                    sql = "update zgprocess set 整改状态 = '部分整改' where 标识文号 = '%s'" % (send_file_name)
-                    tools.executeSql(sql)
-                if ((flag_beforZg != 0) and (flag_passZg != 0)):
-                    sql = "update zgprocess set 整改状态 = '部分整改' where 标识文号 = '%s'" % (send_file_name)
-                    tools.executeSql(sql)
-                if ((flag_beforZg == 0) and (flag_inZg == 0)):
-                    sql = "update zgprocess set 整改状态 = '已整改' where 标识文号 = '%s'" % (send_file_name)
-                    tools.executeSql(sql)
-                if ((flag_inZg == 0) and (flag_passZg == 0)):
-                    sql = "update zgprocess set 整改状态 = '未整改' where 标识文号 = '%s'" % (send_file_name)
-                    tools.executeSql(sql)
-
             self.displayQuestionOverview()
-
-

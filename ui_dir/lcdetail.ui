@@ -13,6 +13,13 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QFrame#line,#line_2{
+	border:2px solid grey;
+	border-radius:4px;
+	padding:2px;
+}</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout_6">
    <item row="3" column="0">
     <widget class="Line" name="line_2">
@@ -127,7 +134,7 @@
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page_zb">
       <layout class="QGridLayout" name="gridLayout_4" rowstretch="1,2,10,1">
@@ -1179,6 +1186,9 @@
       </layout>
      </widget>
      <widget class="QWidget" name="page_gw">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="1" column="0">
         <widget class="QWidget" name="widget_gwhead" native="true">
@@ -2345,7 +2355,7 @@
      <widget class="QWidget" name="page_que">
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="2" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="1,5,1,0,0">
+        <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="1,5,0,0">
          <item>
           <widget class="QLabel" name="label_23">
            <property name="font">
@@ -2369,19 +2379,6 @@
             </font>
            </property>
           </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_6">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_que_choose">
@@ -2458,7 +2455,7 @@
            <property name="font">
             <font>
              <family>Arial Narrow</family>
-             <pointsize>12</pointsize>
+             <pointsize>10</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -2697,6 +2694,9 @@
       </layout>
      </widget>
      <widget class="QWidget" name="page_sw">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <layout class="QGridLayout" name="gridLayout_10">
        <item row="1" column="0">
         <widget class="QFrame" name="frame">
