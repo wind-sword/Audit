@@ -743,7 +743,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             x = x + 1
 
         self.tableWidget_bwzl.hideColumn(0)  # 将发文、收文、批文、批示数据库主键隐藏起来,作为传参
-        self.tableWidget_bwzl.setFont(QFont('Times', 14, QFont.Black))
         self.tableWidget_bwzl.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget_bwzl.resizeRowsToContents()  # 根据行调整框大小
 
@@ -973,17 +972,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # 表格只可选中单行
         self.tableWidget_2.setSelectionMode(QAbstractItemView.SingleSelection)
 
-        # 清空表格
-        self.tableWidget_2.clear()
-
-        # 设置字体
-        self.tableWidget_2.horizontalHeader().setFont(QFont('Times', 14, QFont.Black))
-        self.tableWidget_2.setColumnCount(13)
-        self.tableWidget_2.horizontalHeader().setStyleSheet("QHeaderView::section{background:lightyellow;}")
-        self.tableWidget_2.setHorizontalHeaderLabels(
-            ['主键', '办文编号', '密级', '报送载体', '报送标题', '来文字号', '来文标题', '来文单位', '批示载体', '批示人',
-             '批示人职务', '批示时间', '批示内容'])
-
         sql = "select instruction.序号,corfile.批文字号,corfile.秘密等级,sendfile.发文字号,sendfile.发文标题," \
               "instruction.领导来文字号,corfile.批文标题,instruction.领导来文单位,revfile.收文字号,instruction.领导姓名," \
               "instruction.领导职务,instruction.批示时间,instruction.领导内容摘要和领导批示 from instruction left outer join " \
@@ -1004,7 +992,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
             x = x + 1
 
-        self.tableWidget_2.setFont(QFont('Times', 14, QFont.Black))
         self.tableWidget_2.resizeColumnsToContents()  # 根据列调整框大小
         self.tableWidget_2.resizeRowsToContents()  # 根据行调整框大小
 
@@ -1116,7 +1103,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         # 得到绘图数据
         data = tools.executeSql(sql)
-        print(data)
+        # print(data)
 
         # 绘制图形
         pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
@@ -1800,6 +1787,9 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     # 领导批示统计分析按钮
     def searchForRectification(self):
+        if self.lineEdit_28.text() == "":
+            QtWidgets.QMessageBox.warning(None, "提示", "输入不可为空！")
+            return
         dic = {
             "办文编号": "corfile.批文字号",
             '报送载体': 'sendfile.发文字号',

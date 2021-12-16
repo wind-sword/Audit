@@ -12,6 +12,11 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(1472, 1124)
+        Form.setStyleSheet("QFrame#line,#line_2{\n"
+"    border:2px solid rgb(75,0,0);\n"
+"    border-radius:4px;\n"
+"    padding:2px;\n"
+"}")
         self.gridLayout_6 = QtWidgets.QGridLayout(Form)
         self.gridLayout_6.setObjectName("gridLayout_6")
         self.line_2 = QtWidgets.QFrame(Form)

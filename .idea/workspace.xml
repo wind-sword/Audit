@@ -6,27 +6,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3d265c8-3ed3-4f5f-add3-e2b910427099" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2021_3_9_18_11__Default_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2021_3_9_18_11__Default_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/logfile.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/logfile.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/logfile.log.2021-10-21" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/logfile.log.2021-10-23" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/logfile.log.2021-11-04" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/logis_fir/call_index.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_index.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logis_fir/call_zgdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/call_zgdetail.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logis_fir/screen_shot.py" beforeDir="false" afterPath="$PROJECT_DIR$/logis_fir/screen_shot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource_dir/resource.qrc" beforeDir="false" afterPath="$PROJECT_DIR$/resource_dir/resource.qrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource_rc.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource_rc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sjyj_word/sjyj_word.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_dir/corfilebq.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/corfilebq.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sjbg_word" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ui_dir/index.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/index.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui_dir/lcdetail.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/lcdetail.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/corfilebq.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/corfilebq.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uipy_dir/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui_dir/zgdetail.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_dir/zgdetail.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uipy_dir/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/index.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uipy_dir/lcdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/lcdetail.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uipy_dir/zgdetail.py" beforeDir="false" afterPath="$PROJECT_DIR$/uipy_dir/zgdetail.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,8 +76,8 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\GitHub repository\Audit\uipy_dir" />
-      <recent name="E:\GitHub repository\Audit" />
       <recent name="E:\GitHub repository\Audit\logis_fir" />
+      <recent name="E:\GitHub repository\Audit" />
       <recent name="E:\GitHub repository\Audit\log" />
       <recent name="E:\GitHub repository\Audit\ui_dir" />
     </key>
@@ -272,22 +261,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="503" y="307" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1637919100365" />
-    <state width="1515" height="2" key="GridCell.Tab.0.bottom" timestamp="1639404302223">
+    <state width="1515" height="233" key="GridCell.Tab.0.bottom" timestamp="1639420278954">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="2" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1639404302223" />
-    <state width="1515" height="2" key="GridCell.Tab.0.center" timestamp="1639404302223">
+    <state width="1515" height="233" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1639420278954" />
+    <state width="1515" height="233" key="GridCell.Tab.0.center" timestamp="1639420278954">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="2" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1639404302223" />
-    <state width="1515" height="2" key="GridCell.Tab.0.left" timestamp="1639404302223">
+    <state width="1515" height="233" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1639420278954" />
+    <state width="1515" height="233" key="GridCell.Tab.0.left" timestamp="1639420278954">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="2" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1639404302223" />
-    <state width="1515" height="2" key="GridCell.Tab.0.right" timestamp="1639404302223">
+    <state width="1515" height="233" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1639420278954" />
+    <state width="1515" height="233" key="GridCell.Tab.0.right" timestamp="1639420278954">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="2" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1639404302223" />
+    <state width="1515" height="233" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1639420278954" />
     <state width="1515" height="82" key="GridCell.Tab.1.bottom" timestamp="1639315078356">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
