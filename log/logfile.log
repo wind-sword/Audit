@@ -1,25 +1,599 @@
-2021-12-12 20:43:56,228 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+2021-12-19 22:06:18,590 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py", line 29, in executeSql
     cur.execute(sql)
-sqlite3.OperationalError: no such column: 问题金额统计
+sqlite3.OperationalError: no such column: rectification.问题顺序号
 
-2021-12-12 20:46:17,585 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: no such column: 问题数量统计
+2021-12-20 14:09:50,886 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
 
-2021-12-12 20:46:17,585 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: no such column: 问题数量统计
+2021-12-20 14:09:52,526 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
 
-2021-12-12 20:55:16,516 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: misuse of aggregate function count()
+2021-12-20 14:09:52,526 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
 
-2021-12-14 16:26:29,411 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_2\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
-  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_2\logis_fir\tools.py", line 29, in executeSql
-    cur.execute(sql)
-sqlite3.OperationalError: no such column: sendfile.紧急程度
+2021-12-20 14:09:52,668 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:52,668 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:52,668 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:52,828 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:52,828 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:52,828 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:52,828 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,125 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,125 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,125 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,125 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,125 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,293 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,293 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,293 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,293 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,293 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,293 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,477 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,477 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,477 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,477 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,477 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,477 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,477 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,653 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,653 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,653 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,653 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,653 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,653 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,653 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,653 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,964 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,964 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,964 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,964 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,964 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,964 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,964 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,964 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:58,964 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:59,126 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:59,126 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:59,126 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:59,126 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:59,126 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:59,126 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:59,126 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:59,126 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:59,126 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:09:59,126 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2680] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2677, in lcExcelOutput
+    try:
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:49:56,595 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py[line:250] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py", line 247, in excelOut
+    work_book.save('/home/user/桌面/' + name + '.xls')
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:50:07,848 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py[line:250] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py", line 247, in excelOut
+    work_book.save('/home/user/桌面/' + name + '.xls')
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
+
+2021-12-20 14:53:31,601 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py[line:250] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py", line 247, in excelOut
+    work_book.save('/' + name + '.xls')
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+PermissionError: [Errno 13] Permission denied: '/测试.xls'
+
+2021-12-20 15:13:13,827 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py[line:224] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py", line 221, in excelOut
+    work_book.save('./' + name + '.xls')
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+PermissionError: [Errno 13] Permission denied: './测试dsd.xls'
+
+2021-12-20 15:24:52,195 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py[line:224] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py", line 221, in excelOut
+    work_book.save('./' + name + '.xls')
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+PermissionError: [Errno 13] Permission denied: './测试dsd.xls'
+
+2021-12-20 15:24:53,617 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py[line:224] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py", line 221, in excelOut
+    work_book.save('./' + name + '.xls')
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+PermissionError: [Errno 13] Permission denied: './测试dsd.xls'
+
+2021-12-20 15:24:53,617 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py[line:224] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py", line 221, in excelOut
+    work_book.save('./' + name + '.xls')
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+PermissionError: [Errno 13] Permission denied: './测试dsd.xls'
+
+2021-12-20 15:24:55,786 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py[line:224] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py", line 221, in excelOut
+    work_book.save('./' + name + '.xls')
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+PermissionError: [Errno 13] Permission denied: './测试dsd.xls'
+
+2021-12-20 15:24:55,786 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py[line:224] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py", line 221, in excelOut
+    work_book.save('./' + name + '.xls')
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+PermissionError: [Errno 13] Permission denied: './测试dsd.xls'
+
+2021-12-20 15:24:55,786 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py[line:224] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\tools.py", line 221, in excelOut
+    work_book.save('./' + name + '.xls')
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+PermissionError: [Errno 13] Permission denied: './测试dsd.xls'
+
+2021-12-20 15:35:59,071 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py[line:2695] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_3\logis_fir\call_index.py", line 2692, in lcExcelOutput
+    work_book.save('/home/user/桌面/' + nowText + '.xls')
+  File "D:\Anaconda3\lib\site-packages\xlwt\Workbook.py", line 710, in save
+    doc.save(filename_or_stream, self.get_biff_data())
+  File "D:\Anaconda3\lib\site-packages\xlwt\CompoundDoc.py", line 262, in save
+    f = open(file_name_or_filelike_obj, 'w+b')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/桌面/测试.xls'
 

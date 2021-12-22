@@ -1,0 +1,25 @@
+2021-12-12 20:43:56,228 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 问题金额统计
+
+2021-12-12 20:46:17,585 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 问题数量统计
+
+2021-12-12 20:46:17,585 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: 问题数量统计
+
+2021-12-12 20:55:16,516 - E:\GitHub repository\Audit\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "E:\GitHub repository\Audit\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: misuse of aggregate function count()
+
+2021-12-14 16:26:29,411 - D:\学习\8.审计整改信息管理系统\Audit-dev_team_2\logis_fir\tools.py[line:37] - ERROR: 错误:Traceback (most recent call last):
+  File "D:\学习\8.审计整改信息管理系统\Audit-dev_team_2\logis_fir\tools.py", line 29, in executeSql
+    cur.execute(sql)
+sqlite3.OperationalError: no such column: sendfile.紧急程度
+

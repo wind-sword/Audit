@@ -5,6 +5,8 @@ import re
 import subprocess
 import sys
 import traceback
+import xlwt
+from PyQt5 import QtWidgets
 
 from logis_fir.logger import Logger
 
@@ -137,3 +139,89 @@ class tools:
             return True
         else:
             return False
+
+    @classmethod
+    def excelOut(cls, name, tableWidget):
+        # 设置表头格式
+        style_head = xlwt.XFStyle()
+        font = xlwt.Font()
+        font.name = u'微软雅黑'
+        font.color = 'black'
+        font.height = 230  # 字体大小
+        style_head.font = font
+        # 设置表头字体在单元格的位置
+        alignment = xlwt.Alignment()
+        alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
+        alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
+        style_head.alignment = alignment
+        # 给表头单元格加框线
+        border = xlwt.Borders()
+        border.left = xlwt.Borders.THIN  # 左
+        border.top = xlwt.Borders.THIN  # 上
+        border.right = xlwt.Borders.THIN  # 右
+        border.bottom = xlwt.Borders.THIN  # 下
+        border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
+        border.right_colour = 0x40
+        border.top_colour = 0x40
+        border.bottom_colour = 0x40
+        style_head.borders = border
+
+        # 设置输出字体格式及大小
+        style = xlwt.XFStyle()
+        font1 = xlwt.Font()
+        font1.name = u'宋体'
+        font1.color = 'black'
+        font1.height = 220  # 字体大小，220就是11号字体
+        style.font = font1
+        # 设置输出字体在单元格的位置
+        alignment = xlwt.Alignment()
+        alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
+        alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
+        style.alignment = alignment
+        # 给输出单元格加框线
+        border = xlwt.Borders()
+        border.left = xlwt.Borders.THIN  # 左
+        border.top = xlwt.Borders.THIN  # 上
+        border.right = xlwt.Borders.THIN  # 右
+        border.bottom = xlwt.Borders.THIN  # 下
+        border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
+        border.right_colour = 0x40
+        border.top_colour = 0x40
+        border.bottom_colour = 0x40
+        style.borders = border
+        # 设置输出内容单元格高度
+        out_high_style = xlwt.easyxf('font:height 300')
+        work_book = xlwt.Workbook(encoding='utf-8')
+        sheet = work_book.add_sheet(name, cell_overwrite_ok=True)
+
+        #获取表格行数和列数
+        rows = tableWidget.rowCount()
+        cols = tableWidget.columnCount()
+
+        #设置表头
+        for i in range(cols):
+            sheet.write(0, i, tableWidget.horizontalHeaderItem(i).text(), style_head)
+
+        print(cols)
+        for i in range(rows):
+            # 因为是边读边写，所以每次写完后，要把上次存储的数据清空，存储下一行读取的数据
+            mainList = []
+            # tableWidget一共有9列,去掉序号列
+            for j in range(0, cols):
+                mainList.append(tableWidget.item(i, j).text())  # 添加到数组
+                # 把mainList中的数据写入表格
+                sheet.write(i + 1, j, mainList[j], style)
+                # 设置当前列的高度
+                sheet.row(i + 1).set_style(out_high_style)
+        # 设置表头单元格高度
+        head_high_style = xlwt.easyxf('font:height 400')
+        sheet.row(0).set_style(head_high_style)
+        # 保存
+        try:
+            work_book.save('./' + name + '.xls')
+        except:
+            log = Logger('./log/logfile.log', level='error')
+            log.logger.error("错误:%s", traceback.format_exc())
+        else:
+            QtWidgets.QMessageBox.information(None, "提示", "导出成功")
+        print(3)

@@ -467,7 +467,7 @@ QListWidget {
 QHeaderView::section{background:lightyellow;}z</string>
          </property>
          <property name="currentIndex">
-          <number>11</number>
+          <number>10</number>
          </property>
          <widget class="QWidget" name="page_lczl">
           <layout class="QVBoxLayout" name="verticalLayout_26">
@@ -6033,8 +6033,169 @@ QRadioButton#radioButton_black{color:black;}</string>
           </layout>
          </widget>
          <widget class="QWidget" name="page_jzwtlr">
-          <layout class="QGridLayout" name="gridLayout_7">
-           <item row="5" column="0">
+          <layout class="QVBoxLayout" name="verticalLayout_24">
+           <item>
+            <widget class="QLabel" name="label_29">
+             <property name="font">
+              <font>
+               <pointsize>24</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>经责自然资源问题总表浏览</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="Line" name="line_13">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_21">
+             <item>
+              <spacer name="horizontalSpacer_19">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_54">
+               <property name="font">
+                <font>
+                 <family>Calibri</family>
+                 <pointsize>16</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>经责自然资源问题总表</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_20">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="Line" name="line_12">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_17">
+             <item>
+              <widget class="QLabel" name="label_55">
+               <property name="font">
+                <font>
+                 <pointsize>14</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>请设置查询条件：</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_16">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_56">
+               <property name="font">
+                <font>
+                 <family>楷体</family>
+                 <pointsize>14</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>审计报告(意见)文号：</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboBox_11">
+               <property name="font">
+                <font>
+                 <family>楷体</family>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:rgb(85, 85, 0)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="bt_search_jz">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>100</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Agency FB</family>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>查询</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
             <widget class="QTableWidget" name="tableWidget_jz_pro">
              <property name="font">
               <font>
@@ -6283,31 +6444,17 @@ QRadioButton#radioButton_black{color:black;}</string>
              </column>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="Line" name="line_13">
+           <item>
+            <widget class="Line" name="line_19">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_17">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_77">
              <item>
-              <widget class="QLabel" name="label_55">
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>请设置查询条件：</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_16">
+              <spacer name="horizontalSpacer_85">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -6320,37 +6467,22 @@ QRadioButton#radioButton_black{color:black;}</string>
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="label_56">
+              <widget class="QLabel" name="label_120">
                <property name="font">
                 <font>
                  <family>楷体</family>
-                 <pointsize>14</pointsize>
+                 <pointsize>12</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
                <property name="text">
-                <string>审计报告(意见)文号：</string>
+                <string>将表格显示内容导出至桌面Excel：</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="comboBox_11">
-               <property name="font">
-                <font>
-                 <family>楷体</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:rgb(85, 85, 0)</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="bt_search_jz">
+              <widget class="QLineEdit" name="lineEdit_47">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -6359,7 +6491,34 @@ QRadioButton#radioButton_black{color:black;}</string>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>100</width>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>楷体</family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>请在此输入表格名</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="bt_excel_output_lc_3">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -6372,58 +6531,12 @@ QRadioButton#radioButton_black{color:black;}</string>
                 </font>
                </property>
                <property name="text">
-                <string>查询</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_29">
-             <property name="font">
-              <font>
-               <pointsize>24</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="text">
-              <string>经责自然资源问题总表浏览</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_21">
-             <item>
-              <spacer name="horizontalSpacer_19">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_54">
-               <property name="font">
-                <font>
-                 <family>Calibri</family>
-                 <pointsize>16</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>经责自然资源问题总表</string>
+                <string>导出</string>
                </property>
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer_20">
+              <spacer name="horizontalSpacer_89">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -6437,8 +6550,8 @@ QRadioButton#radioButton_black{color:black;}</string>
              </item>
             </layout>
            </item>
-           <item row="3" column="0">
-            <widget class="Line" name="line_12">
+           <item>
+            <widget class="Line" name="line_20">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -10689,7 +10802,7 @@ p, li { white-space: pre-wrap; }
           </layout>
          </widget>
          <widget class="QWidget" name="page_bwtj">
-          <layout class="QVBoxLayout" name="verticalLayout_24">
+          <layout class="QVBoxLayout" name="verticalLayout_9">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_270">
              <item>
@@ -10735,7 +10848,7 @@ p, li { white-space: pre-wrap; }
             </spacer>
            </item>
            <item>
-            <widget class="Line" name="line_55">
+            <widget class="Line" name="line_18">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -10744,7 +10857,28 @@ p, li { white-space: pre-wrap; }
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_84">
              <item>
+              <widget class="QDateEdit" name="dateEdit_26">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="displayFormat">
+                <string>yyyy/MM/dd </string>
+               </property>
+               <property name="calendarPopup">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QLabel" name="label_154">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="font">
                 <font>
                  <family>Agency FB</family>
@@ -10754,70 +10888,51 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>选择统计维度：</string>
+                <string>至</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="comboBox_35">
+              <widget class="QDateEdit" name="dateEdit_27">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="displayFormat">
+                <string>yyyy/MM/dd </string>
+               </property>
+               <property name="calendarPopup">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBox_9">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>29</height>
-                </size>
-               </property>
                <property name="font">
                 <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
-               <property name="styleSheet">
-                <string notr="true">color:rgb(85,85,0)</string>
+               <property name="text">
+                <string>设置时间</string>
                </property>
-               <item>
-                <property name="text">
-                 <string>办文类型</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>是否公开</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>秘密等级</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>紧急程度</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>办文状态</string>
-                </property>
-               </item>
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer_80">
+              <spacer name="horizontalSpacer_244">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -10832,7 +10947,7 @@ p, li { white-space: pre-wrap; }
             </layout>
            </item>
            <item>
-            <widget class="Line" name="line_57">
+            <widget class="Line" name="line_55">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -10868,8 +10983,30 @@ p, li { white-space: pre-wrap; }
                </property>
               </widget>
              </item>
+             <item row="1" column="0">
+              <widget class="QTableWidget" name="tableWidget_3">
+               <property name="font">
+                <font>
+                 <family>Arial Narrow</family>
+                 <pointsize>16</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </widget>
+             </item>
              <item row="1" column="1">
-              <widget class="QGraphicsView" name="graphicsView_6"/>
+              <spacer name="horizontalSpacer_80">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </item>
@@ -10919,7 +11056,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>截取屏幕内容：</string>
+                <string>导出表格内容：</string>
                </property>
               </widget>
              </item>
@@ -10946,7 +11083,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>请输入图片名</string>
+                <string>请输入表格名</string>
                </property>
               </widget>
              </item>
@@ -10973,7 +11110,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>截屏</string>
+                <string>导出</string>
                </property>
               </widget>
              </item>
@@ -11002,7 +11139,7 @@ p, li { white-space: pre-wrap; }
           </layout>
          </widget>
          <widget class="QWidget" name="page_tjfx">
-          <layout class="QVBoxLayout" name="verticalLayout_9">
+          <layout class="QVBoxLayout" name="verticalLayout_23">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_51">
              <item>
@@ -11043,139 +11180,6 @@ p, li { white-space: pre-wrap; }
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_83">
-             <item>
-              <widget class="QLabel" name="label_150">
-               <property name="font">
-                <font>
-                 <family>Agency FB</family>
-                 <pointsize>12</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>选择问题统计量：</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="comboBox_37">
-               <property name="maximumSize">
-                <size>
-                 <width>200</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:rgb(85, 85, 0)</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string>问题金额统计</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>认定整改金额统计</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>问题数量统计</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_233">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_151">
-               <property name="font">
-                <font>
-                 <family>Agency FB</family>
-                 <pointsize>12</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>选择流程统计维度：</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="comboBox_36">
-               <property name="maximumSize">
-                <size>
-                 <width>200</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color:rgb(85, 85, 0)</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string>认定整改情况</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>上报整改情况</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>审计组组长</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>审计组主审</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_242">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
              <item>
               <widget class="QDateEdit" name="dateEdit_24">
                <property name="font">
@@ -11264,27 +11268,6 @@ p, li { white-space: pre-wrap; }
                </property>
               </spacer>
              </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_part_search_lc_7">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>28</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Agency FB</family>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>查看</string>
-               </property>
-              </widget>
-             </item>
             </layout>
            </item>
            <item>
@@ -11324,8 +11307,98 @@ p, li { white-space: pre-wrap; }
                </property>
               </widget>
              </item>
+             <item row="2" column="1">
+              <widget class="QLabel" name="label_65">
+               <property name="font">
+                <font>
+                 <family>Agency FB</family>
+                 <pointsize>16</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>统计分析图像如下：</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_103">
+               <property name="font">
+                <font>
+                 <family>Agency FB</family>
+                 <pointsize>16</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>统计分析图像如下：</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_102">
+               <property name="font">
+                <font>
+                 <family>Agency FB</family>
+                 <pointsize>16</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>统计分析图像如下：</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QTableWidget" name="tableWidget_6">
+               <property name="font">
+                <font>
+                 <family>Arial Narrow</family>
+                 <pointsize>16</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </widget>
+             </item>
              <item row="1" column="0">
-              <widget class="QGraphicsView" name="graphicsView"/>
+              <widget class="QTableWidget" name="tableWidget_5">
+               <property name="font">
+                <font>
+                 <family>Arial Narrow</family>
+                 <pointsize>16</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QTableWidget" name="tableWidget_7">
+               <property name="font">
+                <font>
+                 <family>Arial Narrow</family>
+                 <pointsize>16</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QTableWidget" name="tableWidget_8">
+               <property name="font">
+                <font>
+                 <family>Arial Narrow</family>
+                 <pointsize>16</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -11375,35 +11448,43 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>截取屏幕内容：</string>
+                <string>导出表格内容：</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_47">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>28</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>16777215</height>
-                </size>
-               </property>
+              <widget class="QComboBox" name="comboBox_29">
                <property name="font">
                 <font>
-                 <family>楷体</family>
-                 <pointsize>12</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
+                 <family>Agency FB</family>
+                 <pointsize>10</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
                 </font>
                </property>
-               <property name="text">
-                <string>请输入图片名</string>
+               <property name="styleSheet">
+                <string notr="true">color:rgb(85, 85, 0)</string>
                </property>
+               <item>
+                <property name="text">
+                 <string>认定整改情况统计分析表</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>上报整改情况统计分析表</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>审计组组长统计分析表</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>审计组主审统计分析表</string>
+                </property>
+               </item>
               </widget>
              </item>
              <item>
@@ -11429,7 +11510,7 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="text">
-                <string>截屏</string>
+                <string>导出</string>
                </property>
               </widget>
              </item>

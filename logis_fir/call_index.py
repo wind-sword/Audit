@@ -1,6 +1,5 @@
 import datetime
 import traceback
-import sys
 
 import xlrd
 import xlwt
@@ -9,8 +8,6 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QColor, QBrush
 from PyQt5.QtWidgets import QAbstractItemView, QListWidgetItem
-from matplotlib import pyplot
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 from uipy_dir.index import Ui_indexWindow
 from logis_fir.call_lcdetail import Call_lcdetail
@@ -21,8 +18,6 @@ from logis_fir.call_corfilebq import Call_corfilebq
 from logis_fir.call_instbq import Call_instbq
 from logis_fir.tools import tools
 from logis_fir.logger import Logger
-
-from screen_shot import WScreenShot
 
 
 class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
@@ -253,6 +248,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.listWidget_sjbg.currentRowChanged.connect(lambda: self.autoSyn6(clickedListWidget=self.listWidget_sjbg))
         self.listWidget_sjjg.currentRowChanged.connect(lambda: self.autoSyn6(clickedListWidget=self.listWidget_sjjg))
         self.listWidget_excel.currentRowChanged.connect(lambda: self.autoSyn6(clickedListWidget=self.listWidget_excel))
+        self.bt_excel_output_lc_3.clicked.connect(self.jzwt_ExcelOut)
 
         # 经责文件录入页面按钮功能
         self.pushButton_choose_excel.clicked.connect(self.choose_file_jz_excel)
@@ -288,6 +284,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         # 领导批示统计下的按钮及其他功能绑定
         self.pushButton_refresh_lczl_5.clicked.connect(self.refreshRectificationTable)
         self.bt_excel_output_lc_4.clicked.connect(self.searchForRectification)  # 按条件查询
+        self.bt_excel_output_lc_5.clicked.connect(self.ldps_ExcelOut)   #导出Excel
 
         # 问题查询下的按钮及其他功能绑定
         self.pushButton_refresh_lczl_13.clicked.connect(self.refreshProblemSearchTable)  # 刷新显示表格内容
@@ -300,14 +297,11 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.listWidget_9.currentRowChanged.connect(lambda: self.autoSyn10(clickedListWidget=self.listWidget_9))
         self.listWidget_10.currentRowChanged.connect(lambda: self.autoSyn10(clickedListWidget=self.listWidget_10))
 
-        # 办文统计下的按钮及其他功能绑定
-        self.comboBox_35.currentIndexChanged.connect(self.showBwChart)  # 按条件显示图形
-        self.pushButton_12.clicked.connect(self.screen_shot)
+        # 办文统计下按钮及其他功能绑定
+        self.pushButton_12.clicked.connect(self.bwtj_Excel_Out)
 
         # 问题统计下的按钮及其他功能绑定
-        self.pushButton_part_search_lc_7.clicked.connect(self.showProblemStatistics)  # 显示问题统计图像
-        self.pushButton_6.clicked.connect(self.screen_shot_wttj)  # 截屏功能
-
+        self.pushButton_6.clicked.connect(self.tjfx_Excel_Out)
     """
     @同步前端显示函数
     主要是对前端多个控件之间的内容进行逻辑同步
@@ -560,6 +554,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_lczl.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                 else:
                     self.tableWidget_lczl.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                if y % 2 == 0:
+                    self.tableWidget_lczl.item(x, y).setBackground(QBrush(QColor(245, 245, 245)))
+                else:
+                    self.tableWidget_lczl.item(x, y).setBackground(QBrush(QColor(230, 230, 230)))
                 y = y + 1
             x = x + 1
 
@@ -741,6 +739,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_bwzl.item(x, y).setForeground(QBrush(QColor(0, 170, 0)))
                 elif status == "black":
                     self.tableWidget_bwzl.item(x, y).setForeground(QBrush(QColor(0, 0, 0)))
+                if y % 2 == 0:
+                    self.tableWidget_bwzl.item(x, y).setBackground(QBrush(QColor(245, 245, 245)))
+                else:
+                    self.tableWidget_bwzl.item(x, y).setBackground(QBrush(QColor(230, 230, 230)))
             x = x + 1
 
         self.tableWidget_bwzl.hideColumn(0)  # 将发文、收文、批文、批示数据库主键隐藏起来,作为传参
@@ -777,6 +779,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                         self.tableWidget_jz_pro.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                     else:
                         self.tableWidget_jz_pro.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                    if y % 2 == 0:
+                        self.tableWidget_jz_pro.item(x, y).setBackground(QBrush(QColor(245, 245, 245)))
+                    else:
+                        self.tableWidget_jz_pro.item(x, y).setBackground(QBrush(QColor(230, 230, 230)))
                     y = y + 1
                 x = x + 1
 
@@ -916,6 +922,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                 else:
                     self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                if y % 2 == 0:
+                    self.tableWidget_zgzl.item(x, y).setBackground(QBrush(QColor(245, 245, 245)))
+                else:
+                    self.tableWidget_zgzl.item(x, y).setBackground(QBrush(QColor(230, 230, 230)))
                 y = y + 1
             x = x + 1
 
@@ -957,6 +967,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                 else:
                     self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                if y % 2 == 0:
+                    self.tableWidget.item(x, y).setBackground(QBrush(QColor(245, 245, 245)))
+                else:
+                    self.tableWidget.item(x, y).setBackground(QBrush(QColor(230, 230, 230)))
                 y = y + 1
             x = x + 1
 
@@ -993,7 +1007,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
               "on bwprocess.收文序号 = revfile.序号 "
         data = tools.executeSql(sql)
         size = len(data)
-        # print("项目数目为:"+str(size))
         self.tableWidget_2.setRowCount(size)
 
         x = 0
@@ -1003,6 +1016,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                 else:
                     self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                if y % 2 == 0:
+                    self.tableWidget_2.item(x, y).setBackground(QBrush(QColor(245, 245, 245)))
+                else:
+                    self.tableWidget_2.item(x, y).setBackground(QBrush(QColor(230, 230, 230)))
             x = x + 1
 
         self.tableWidget_2.setFont(QFont('Times', 14, QFont.Black))
@@ -1011,183 +1028,170 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
         self.tableWidget_2.hideColumn(0)
 
-    # 显示办文流程饼状图统计
+    # 显示办文统计表
     def showBwChart(self):
-        nowText = self.comboBox_35.currentText()
-        # 设置绘图区域
-        figure = pyplot.figure()  # 新建绘图区域
-        canvas = FigureCanvas(figure)  # 绘图区域放到图层canvas之中
-        self.gridLayout_15.addWidget(canvas, 1, 0, 2, 2)  # 图层放到pyqt布局之中（这个布局替代了之前设计时使用的graphicView）
-        self.label_78.setText("%s情况的数量及比例如下：" % nowText)
-        pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
         # 发文条目
         sql_send = "select * from sendfile"
-
         # 收文条目
         sql_rev = "select * from revfile"
-
         # 批文条目
         sql_cor = "select * from corfile"
-        if nowText == "办文类型":
-            # 发文条目
-            size_send = len(tools.executeSql(sql_send))
 
-            # 收文条目
-            size_rev = len(tools.executeSql(sql_rev))
+        #办文类型表
+        # 表格不可编辑
+        self.tableWidget_3.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        # 设置字体
+        self.tableWidget_3.horizontalHeader().setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_3.verticalHeader().setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_3.horizontalHeader().setStyleSheet("QHeaderView::section{background:lightyellow;}")
+        # 清空表格
+        self.tableWidget_3.clear()
+        # 发文条目
+        size_send = len(tools.executeSql(sql_send))
+        # 收文条目
+        size_rev = len(tools.executeSql(sql_rev))
+        # 批文条目
+        size_cor = len(tools.executeSql(sql_cor))
+        #总数
+        size_all = size_send + size_rev + size_cor
+        #公开
+        sql_send_pub = sql_send + " where sendfile.是否公开 = '是'"
+        len_send_pub = len(tools.executeSql(sql_send_pub))
+        sql_rev_pub = sql_rev + " where revfile.是否公开 = '是'"
+        len_rev_pub = len(tools.executeSql(sql_rev_pub))
+        sql_cor_pub = sql_cor + " where corfile.是否公开 = '是'"
+        len_cor_pub = len(tools.executeSql(sql_cor_pub))
+        len_pub_all = len_send_pub + len_rev_pub + len_cor_pub
+        #不公开
+        sql_send_not_pub = sql_send + " where sendfile.是否公开 = '否'"
+        len_send_not_pub = len(tools.executeSql(sql_send_not_pub))
+        sql_rev_not_pub = sql_rev + " where revfile.是否公开 = '否'"
+        len_rev_not_pub = len(tools.executeSql(sql_rev_not_pub))
+        sql_cor_not_pub = sql_cor + " where corfile.是否公开 = '否'"
+        len_cor_not_pub = len(tools.executeSql(sql_cor_not_pub))
+        len_not_pub_all = len_send_not_pub + len_rev_not_pub + len_cor_not_pub
+        #不加密
+        sql_send_pub = sql_send + " where sendfile.秘密等级 = '' or sendfile.秘密等级 = '不加密' or sendfile.秘密等级 = '公开'"
+        len_sendsize_pub = len(tools.executeSql(sql_send_pub))
+        sql_rev_pub = sql_rev + " where revfile.秘密等级 = '' or revfile.秘密等级 = '不加密' or revfile.秘密等级 = '公开'"
+        len_revsize_pub = len(tools.executeSql(sql_rev_pub))
+        sql_cor_pub = sql_cor + " where corfile.秘密等级 = '' or corfile.秘密等级 = '不加密' or corfile.秘密等级 = '公开'"
+        len_corsize_pub = len(tools.executeSql(sql_cor_pub))
+        size_pub = len_sendsize_pub + len_revsize_pub + len_corsize_pub
+        #秘密
+        sql_send_mm = sql_send + " where sendfile.秘密等级 like '%秘密%'"
+        len_send_mm = len(tools.executeSql(sql_send_mm))
+        sql_rev_mm = sql_rev + " where revfile.秘密等级 like '%秘密%'"
+        len_rev_mm = len(tools.executeSql(sql_rev_mm))
+        sql_cor_mm = sql_cor + " where corfile.秘密等级 like '%秘密%'"
+        len_cor_mm = len(tools.executeSql(sql_cor_mm))
+        size_mm = len_send_mm + len_rev_mm + len_cor_mm
+        #机密
+        sql_send_jm = sql_send + " where sendfile.秘密等级 like '%机密%'"
+        len_send_jm = len(tools.executeSql(sql_send_jm))
+        sql_rev_jm = sql_rev + " where revfile.秘密等级 like '%机密%'"
+        len_rev_jm = len(tools.executeSql(sql_rev_jm))
+        sql_cor_jm = sql_cor + " where corfile.秘密等级 like '%机密%'"
+        len_cor_jm = len(tools.executeSql(sql_cor_jm))
+        size_jm = len_send_jm + len_rev_jm + len_cor_jm
+        #绝密
+        sql_send_juem = sql_send + " where sendfile.秘密等级 like '%绝密%'"
+        len_send_juem = len(tools.executeSql(sql_send_juem))
+        sql_rev_juem = sql_rev + " where revfile.秘密等级 like '%绝密%'"
+        len_rev_juem = len(tools.executeSql(sql_rev_juem))
+        sql_cor_juem = sql_cor + " where corfile.秘密等级 like '%绝密%'"
+        len_cor_juem = len(tools.executeSql(sql_cor_juem))
+        size_juem = len_send_juem + len_rev_juem + len_cor_juem
+        #不加急
+        sql_send_pt = sql_send + " where sendfile.紧急程度 = '' or sendfile.紧急程度 = '无'"
+        len_send_pt = len(tools.executeSql(sql_send_pt))
+        sql_rev_pt = sql_rev + " where revfile.紧急程度 = '' or revfile.紧急程度 = '无'"
+        len_rev_pt = len(tools.executeSql(sql_rev_pt))
+        sql_cor_pt = sql_cor + " where corfile.紧急程度 = '' or corfile.紧急程度 = '无'"
+        len_cor_pt = len(tools.executeSql(sql_cor_pt))
+        size_pt = len_send_pt + len_rev_pt + len_cor_pt
+        #加急
+        sql_send_jj = sql_send + " where sendfile.紧急程度 like '%加急%'"
+        len_send_jj = len(tools.executeSql(sql_send_jj))
+        sql_rev_jj = sql_rev + " where revfile.紧急程度 like '%加急%'"
+        len_rev_jj = len(tools.executeSql(sql_rev_jj))
+        sql_cor_jj = sql_cor + " where corfile.紧急程度 like '%加急%'"
+        len_cor_jj = len(tools.executeSql(sql_cor_jj))
+        size_jj = len_send_jj + len_rev_jj + len_cor_jj
+        #特急
+        sql_send_tj = sql_send + " where sendfile.紧急程度 like '%特急%'"
+        len_send_tj = len(tools.executeSql(sql_send_tj))
+        sql_rev_tj = sql_rev + " where revfile.紧急程度 like '%特急%'"
+        len_rev_tj = len(tools.executeSql(sql_rev_tj))
+        sql_cor_tj = sql_cor + " where corfile.紧急程度 like '%特急%'"
+        len_cor_tj = len(tools.executeSql(sql_cor_tj))
+        size_tj = len_send_tj + len_rev_tj + len_cor_tj
+        #件未办结
+        sql_send_jwbj = sql_send + " where sendfile.状态 = 'red'"
+        len_send_jwbj = len(tools.executeSql(sql_send_jwbj))
+        sql_rev_jwbj = sql_rev + " where revfile.状态 = 'red'"
+        len_rev_jwbj = len(tools.executeSql(sql_rev_jwbj))
+        sql_cor_jwbj = sql_cor + " where corfile.状态 = 'red'"
+        len_cor_jwbj = len(tools.executeSql(sql_cor_jwbj))
+        size_jwbj = len_send_jwbj + len_rev_jwbj + len_cor_jwbj
+        #件已办结，事项在办
+        sql_send_sxzb = sql_send + " where sendfile.状态 = 'green'"
+        len_send_sxzb = len(tools.executeSql(sql_send_sxzb))
+        sql_rev_sxzb = sql_rev + " where revfile.状态 = 'green'"
+        len_rev_sxzb = len(tools.executeSql(sql_rev_sxzb))
+        sql_cor_sxzb = sql_cor + " where corfile.状态 = 'green'"
+        len_cor_sxzb = len(tools.executeSql(sql_cor_sxzb))
+        size_sxzb = len_send_sxzb + len_rev_sxzb + len_cor_sxzb
+        #件与事项完全办结并共同归档
+        sql_send_wqbj = sql_send + " where sendfile.状态 = 'black'"
+        len_send_wqbj = len(tools.executeSql(sql_send_wqbj))
+        sql_rev_wqbj = sql_rev + " where revfile.状态 = 'black'"
+        len_rev_wqbj = len(tools.executeSql(sql_rev_wqbj))
+        sql_cor_wqbj = sql_cor + " where corfile.状态 = 'black'"
+        len_cor_wqbj = len(tools.executeSql(sql_cor_wqbj))
+        size_wqbj = len_send_wqbj + len_rev_wqbj + len_cor_wqbj
+        #比例
+        bl_send = "%.2f%%" % (size_send / size_all * 100)
+        bl_rev = "%.2f%%" % (size_rev / size_all * 100)
+        bl_cor = "%.2f%%" % (size_cor / size_all * 100)
 
-            # 批文条目
-            size_cor = len(tools.executeSql(sql_cor))
+        self.tableWidget_3.setColumnCount(5)
+        self.tableWidget_3.setHorizontalHeaderLabels(['', '发文登记表', '收文登记表', '批文登记表', '合计'])
+        data =[('公开', len_send_pub, len_rev_pub, len_cor_pub, len_pub_all),
+               ('不公开', len_send_not_pub, len_rev_not_pub, len_cor_not_pub, len_not_pub_all),
+               ('不加密', len_sendsize_pub, len_revsize_pub, len_corsize_pub, size_pub),
+               ('秘密', len_send_mm, len_rev_mm, len_cor_mm, size_mm),
+               ('机密', len_send_jm, len_rev_jm, len_cor_jm, size_jm),
+               ('绝密', len_send_juem, len_rev_juem, len_cor_juem, size_juem),
+               ('不加急', len_send_pt, len_rev_pt, len_cor_pt, size_pt),
+               ('加急', len_send_jj, len_rev_jj, len_cor_jj, size_jj),
+               ('特急', len_send_tj, len_rev_tj, len_cor_tj, size_tj),
+               ('件未办结', len_send_jwbj, len_rev_jwbj, len_cor_jwbj, size_jwbj),
+               ('件已办结 事项在办', len_send_sxzb, len_rev_sxzb, len_cor_sxzb, size_sxzb),
+               ('完全办结并归档', len_send_wqbj, len_rev_wqbj, len_cor_wqbj, size_wqbj),
+               ('总计', size_send, size_rev, size_cor, '')]
+        self.tableWidget_3.setRowCount(13)
+        self.label_78.setText("办文收文批文数量统计")
 
-            lab_1 = '发文登记表（' + str(size_send) + '）'
-            lab_2 = '收文登记表（' + str(size_rev) + '）'
-            lab_3 = '批文登记表（' + str(size_cor) + '）'
-            labels = [lab_1, lab_2, lab_3]
-            sizes = [size_send, size_rev, size_cor]
-            colors = ['yellowGreen', 'Gold', 'lightSkyBlue']
-            explode = 0, 0, 0
-        elif nowText == "是否公开":
+        x = 0
+        for i in data:
+            for y in range(0, 5):
+                self.tableWidget_3.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                if y == 0:
+                    self.tableWidget_3.item(x, y).setBackground(QBrush(QColor(255, 255, 224)))
+            x = x + 1
+        self.tableWidget_3.verticalHeader().setVisible(False)
+        self.tableWidget_3.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget_3.resizeRowsToContents()  # 根据行调整框大小
 
-            sql_send_pub = sql_send + " where sendfile.是否公开 = '是'"
-            len_send_pub = len(tools.executeSql(sql_send_pub))
-            sql_rev_pub = sql_rev + " where revfile.是否公开 = '是'"
-            len_rev_pub = len(tools.executeSql(sql_rev_pub))
-            sql_cor_pub = sql_cor + " where corfile.是否公开 = '是'"
-            len_cor_pub = len(tools.executeSql(sql_cor_pub))
-            size_pub = len_send_pub + len_rev_pub + len_cor_pub
-
-            sql_send_not_pub = sql_send + " where sendfile.是否公开 = '否'"
-            len_send_not_pub = len(tools.executeSql(sql_send_not_pub))
-            sql_rev_not_pub = sql_rev + " where revfile.是否公开 = '否'"
-            len_rev_not_pub = len(tools.executeSql(sql_rev_not_pub))
-            sql_cor_not_pub = sql_cor + " where corfile.是否公开 = '否'"
-            len_cor_not_pub = len(tools.executeSql(sql_cor_not_pub))
-            size_not_pub = len_send_not_pub + len_rev_not_pub + len_cor_not_pub
-
-            lab_1 = '公开办文（' + str(size_pub) + '）'
-            lab_2 = '不公开办文（' + str(size_not_pub) + '）'
-            labels = [lab_1, lab_2]
-            sizes = [size_pub, size_not_pub]
-            colors = ['yellowGreen', 'Gold']
-            explode = 0, 0
-
-        elif nowText == "秘密等级":
-            sql_send_pub = sql_send + " where sendfile.秘密等级 = '' or sendfile.秘密等级 = '不加密' or sendfile.秘密等级 = '公开'"
-            len_send_pub = len(tools.executeSql(sql_send_pub))
-            sql_rev_pub = sql_rev + " where revfile.秘密等级 = '' or revfile.秘密等级 = '不加密' or revfile.秘密等级 = '公开'"
-            len_rev_pub = len(tools.executeSql(sql_rev_pub))
-            sql_cor_pub = sql_cor + " where corfile.秘密等级 = '' or corfile.秘密等级 = '不加密' or corfile.秘密等级 = '公开'"
-            len_cor_pub = len(tools.executeSql(sql_cor_pub))
-            size_pub = len_send_pub + len_rev_pub + len_cor_pub
-
-            sql_send_mm = sql_send + " where sendfile.秘密等级 like '%秘密%'"
-            len_send_mm = len(tools.executeSql(sql_send_mm))
-            sql_rev_mm = sql_rev + " where revfile.秘密等级 like '%秘密%'"
-            len_rev_mm = len(tools.executeSql(sql_rev_mm))
-            sql_cor_mm = sql_cor + " where corfile.秘密等级 like '%秘密%'"
-            len_cor_mm = len(tools.executeSql(sql_cor_mm))
-            size_mm = len_send_mm + len_rev_mm + len_cor_mm
-
-            sql_send_jm = sql_send + " where sendfile.秘密等级 like '%机密%'"
-            len_send_jm = len(tools.executeSql(sql_send_jm))
-            sql_rev_jm = sql_rev + " where revfile.秘密等级 like '%机密%'"
-            len_rev_jm = len(tools.executeSql(sql_rev_jm))
-            sql_cor_jm = sql_cor + " where corfile.秘密等级 like '%机密%'"
-            len_cor_jm = len(tools.executeSql(sql_cor_jm))
-            size_jm = len_send_jm + len_rev_jm + len_cor_jm
-
-            sql_send_juem = sql_send + " where sendfile.秘密等级 like '%绝密%'"
-            len_send_juem = len(tools.executeSql(sql_send_juem))
-            sql_rev_juem = sql_rev + " where revfile.秘密等级 like '%绝密%'"
-            len_rev_juem = len(tools.executeSql(sql_rev_juem))
-            sql_cor_juem = sql_cor + " where corfile.秘密等级 like '%绝密%'"
-            len_cor_juem = len(tools.executeSql(sql_cor_juem))
-            size_juem = len_send_juem + len_rev_juem + len_cor_juem
-
-            lab_1 = '不加密（' + str(size_pub) + '）'
-            lab_2 = '秘密（' + str(size_mm) + '）'
-            lab_3 = '机密（' + str(size_jm) + '）'
-            lab_4 = '绝密（' + str(size_juem) + '）'
-            labels = [lab_1, lab_2, lab_3, lab_4]
-            sizes = [size_pub, size_mm, size_jm, size_juem]
-            colors = ['yellowGreen', 'Gold', 'Pink', 'lightSkyBlue']
-            explode = 0, 0, 0, 0
-
-        elif nowText == "紧急程度":
-
-            sql_send_pt = sql_send + " where sendfile.紧急程度 = '' or sendfile.紧急程度 = '无'"
-            len_send_pt = len(tools.executeSql(sql_send_pt))
-            sql_rev_pt = sql_rev + " where revfile.紧急程度 = '' or revfile.紧急程度 = '无'"
-            len_rev_pt = len(tools.executeSql(sql_rev_pt))
-            sql_cor_pt = sql_cor + " where corfile.紧急程度 = '' or corfile.紧急程度 = '无'"
-            len_cor_pt = len(tools.executeSql(sql_cor_pt))
-            size_pt = len_send_pt + len_rev_pt + len_cor_pt
-
-            sql_send_jj = sql_send + " where sendfile.紧急程度 like '%加急%'"
-            len_send_jj = len(tools.executeSql(sql_send_jj))
-            sql_rev_jj = sql_rev + " where revfile.紧急程度 like '%加急%'"
-            len_rev_jj = len(tools.executeSql(sql_rev_jj))
-            sql_cor_jj = sql_cor + " where corfile.紧急程度 like '%加急%'"
-            len_cor_jj = len(tools.executeSql(sql_cor_jj))
-            size_jj = len_send_jj + len_rev_jj + len_cor_jj
-
-            sql_send_tj = sql_send + " where sendfile.紧急程度 like '%特急%'"
-            len_send_tj = len(tools.executeSql(sql_send_tj))
-            sql_rev_tj = sql_rev + " where revfile.紧急程度 like '%特急%'"
-            len_rev_tj = len(tools.executeSql(sql_rev_tj))
-            sql_cor_tj = sql_cor + " where corfile.紧急程度 like '%特急%'"
-            len_cor_tj = len(tools.executeSql(sql_cor_tj))
-            size_tj = len_send_tj + len_rev_tj + len_cor_tj
-
-            lab_1 = '普通（' + str(size_pt) + '）'
-            lab_2 = '加急（' + str(size_jj) + '）'
-            lab_3 = '特急（' + str(size_tj) + '）'
-            labels = [lab_1, lab_2, lab_3]
-            sizes = [size_pt, size_jj, size_tj]
-            colors = ['yellowGreen', 'Gold', 'Pink']
-            explode = 0, 0, 0
-
-        elif nowText == "办文状态":
-
-            sql_send_jwbj = sql_send + " where sendfile.状态 = 'red'"
-            len_send_jwbj = len(tools.executeSql(sql_send_jwbj))
-            sql_rev_jwbj = sql_rev + " where revfile.状态 = 'red'"
-            len_rev_jwbj = len(tools.executeSql(sql_rev_jwbj))
-            sql_cor_jwbj = sql_cor + " where corfile.状态 = 'red'"
-            len_cor_jwbj = len(tools.executeSql(sql_cor_jwbj))
-            size_jwbj = len_send_jwbj + len_rev_jwbj + len_cor_jwbj
-
-            sql_send_sxzb = sql_send + " where sendfile.状态 = 'green'"
-            len_send_sxzb = len(tools.executeSql(sql_send_sxzb))
-            sql_rev_sxzb = sql_rev + " where revfile.状态 = 'green'"
-            len_rev_sxzb = len(tools.executeSql(sql_rev_sxzb))
-            sql_cor_sxzb = sql_cor + " where corfile.状态 = 'green'"
-            len_cor_sxzb = len(tools.executeSql(sql_cor_sxzb))
-            size_sxzb = len_send_sxzb + len_rev_sxzb + len_cor_sxzb
-
-            sql_send_wqbj = sql_send + " where sendfile.状态 = 'black'"
-            len_send_wqbj = len(tools.executeSql(sql_send_wqbj))
-            sql_rev_wqbj = sql_rev + " where revfile.状态 = 'black'"
-            len_rev_wqbj = len(tools.executeSql(sql_rev_wqbj))
-            sql_cor_wqbj = sql_cor + " where corfile.状态 = 'black'"
-            len_cor_wqbj = len(tools.executeSql(sql_cor_wqbj))
-            size_wqbj = len_send_wqbj + len_rev_wqbj + len_cor_wqbj
-
-            lab_1 = '件未办结（' + str(size_jwbj) + '）'
-            lab_2 = '件已办结，事项在办（' + str(size_sxzb) + '）'
-            lab_3 = '件与事项完全办结并共同归档（' + str(size_wqbj) + '）'
-            labels = [lab_1, lab_2, lab_3]
-            sizes = [size_jwbj, size_sxzb, size_wqbj]
-            colors = ['yellowGreen', 'Gold', 'Pink']
-            explode = 0, 0, 0
-
-        patches, l_text, p_text = pyplot.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%',
-                                             shadow=True,
-                                             startangle=50)  # startangle表示饼图的起始角度
-        # pie函数返回值中，l_text代表饼状图外的文本，p_text代表饼状图内的文本
-        for t in l_text:
-            t.set_size(20)
-        for t in p_text:
-            t.set_size(15)
+    def bwtj_Excel_Out(self):
+        name = self.lineEdit_46.text()
+        if(name == "请输入表格名" or name == ""):
+            QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
+            self.lineEdit_46.selectAll()
+            self.lineEdit_46.setFocus()
+            return
+        tools.excelOut(name, self.tableWidget_3)
 
     # 显示问题整改柱状图统计
     def showProblemStatistics(self):
@@ -1200,45 +1204,280 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             "审计组组长": "problem.审计组组长",
             "审计组主审": "problem.审计组主审",
         }
-        tongjiliang = self.comboBox_37.currentText()
-        tongjiweidu = self.comboBox_36.currentText()
-        text_27 = "以" + tongjiweidu + "为维度进行" + tongjiliang
-        self.label_27.setText(text_27)
-        # 设置绘图区域
-        figure = pyplot.figure()  # 新建绘图区域
-        canvas = FigureCanvas(figure)  # 绘图区域放到图层canvas之中
-        self.gridLayout_3.addWidget(canvas, 1, 0, 2, 2)  # 图层放到pyqt布局之中（这个布局替代了之前设计时使用的graphicView）
+        self.label_27.setText("以认定整改情况为维度统计分析")
+        self.label_103.setText("以上报整改情况为维度统计分析")
+        self.label_102.setText("以审计组组长为维度统计分析")
+        self.label_65.setText("以审计组主审为维度统计分析")
 
-        aim = self.comboBox_37.currentText()  # 统计量
-        dim = self.comboBox_36.currentText()  # 统计维度
-
+        #认定整改情况表格
+        dim = "认定整改情况"  # 统计维度
+        #查询问题金额
+        aim = "问题金额统计"  # 统计量
         # 此处不需要左外连接,因为没有整改的问题不加入统计,选定最后一次上报数据作为分析数据
         # 内层select用于过滤数据只保留最近一次上报的记录,外层用select用于对问题进行统计分析
-        sql = "select %s,%s,problem.序号,rectification.上报次序 from problem join rectification on problem.序号 = " \
+        sql = "select %s,%s from problem join rectification on problem.序号 = " \
               "rectification.问题序号 where (problem.序号,rectification.上报次序) in (select problem.序号,MAX(rectification.上报次序) " \
               "from problem join rectification on problem.序号 = rectification.问题序号 group by problem.序号) group by %s " \
               % (Dict.get(dim), Dict.get(aim), Dict.get(dim))
+        data1 = tools.executeSql(sql)
+        #查询认定整改金额
+        aim = "认定整改金额统计"  # 统计量
+        # 此处不需要左外连接,因为没有整改的问题不加入统计,选定最后一次上报数据作为分析数据
+        # 内层select用于过滤数据只保留最近一次上报的记录,外层用select用于对问题进行统计分析
+        sql = "select %s,rectification.序号,%s from problem join rectification on problem.序号 = " \
+              "rectification.问题序号 where (problem.序号,rectification.上报次序) in (select problem.序号,MAX(rectification.上报次序) " \
+              "from problem join rectification on problem.序号 = rectification.问题序号 group by problem.序号) group by %s " \
+              % (Dict.get(dim), Dict.get(aim), Dict.get(dim))
+        data2 = tools.executeSql(sql)
+        # 查询问题数量
+        aim = "问题数量统计"  # 统计量
+        # 此处不需要左外连接,因为没有整改的问题不加入统计,选定最后一次上报数据作为分析数据
+        # 内层select用于过滤数据只保留最近一次上报的记录,外层用select用于对问题进行统计分析
+        sql = "select %s,rectification.序号,rectification.整改责任部门,%s from problem join rectification on problem.序号 = " \
+              "rectification.问题序号 where (problem.序号,rectification.上报次序) in (select problem.序号,MAX(rectification.上报次序) " \
+              "from problem join rectification on problem.序号 = rectification.问题序号 group by problem.序号) group by %s " \
+              % (Dict.get(dim), Dict.get(aim), Dict.get(dim))
+        data3 = tools.executeSql(sql)
+        # 表格不可编辑
+        self.tableWidget_5.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        # 设置字体
+        self.tableWidget_5.horizontalHeader().setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_5.verticalHeader().setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_5.horizontalHeader().setStyleSheet("QHeaderView::section{background:lightyellow;}")
+        # 清空表格
+        self.tableWidget_5.clear()
+        self.tableWidget_5.setColumnCount(4)
+        self.tableWidget_5.setRowCount(3)
+        self.tableWidget_5.setHorizontalHeaderLabels(['', '问题金额', '认定整改金额', '问题数量'])
+        self.tableWidget_5.verticalHeader().setVisible(False)
+        #打印前两列
+        x = 0
+        for i in data1:
+            for y in range(0, 2):
+                self.tableWidget_5.setItem(x, y, QtWidgets.QTableWidgetItem(str(data1[x][y])))
+                if y == 0:
+                    self.tableWidget_5.item(x, y).setBackground(QBrush(QColor(255, 255, 224)))
+            x = x + 1
+        #打印第三列
+        x = 0
+        for i in data2:
+            for y in range(2, 3):
+                self.tableWidget_5.setItem(x, y, QtWidgets.QTableWidgetItem(str(data2[x][y])))
+            x = x + 1
+        #打印第四列
+        x = 0
+        for i in data3:
+            for y in range(3, 4):
+                self.tableWidget_5.setItem(x, y, QtWidgets.QTableWidgetItem(str(data3[x][y])))
+            x = x + 1
+        self.tableWidget_5.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget_5.resizeRowsToContents()  # 根据行调整框大小
 
-        # 得到绘图数据
-        data = tools.executeSql(sql)
-        print(data)
+        #上报整改情况表格
+        dim = "上报整改情况"  # 统计维度
+        # 查询问题金额
+        aim = "问题金额统计"  # 统计量
+        # 此处不需要左外连接,因为没有整改的问题不加入统计,选定最后一次上报数据作为分析数据
+        # 内层select用于过滤数据只保留最近一次上报的记录,外层用select用于对问题进行统计分析
+        sql = "select %s,%s from problem join rectification on problem.序号 = " \
+              "rectification.问题序号 where (problem.序号,rectification.上报次序) in (select problem.序号,MAX(rectification.上报次序) " \
+              "from problem join rectification on problem.序号 = rectification.问题序号 group by problem.序号) group by %s " \
+              % (Dict.get(dim), Dict.get(aim), Dict.get(dim))
+        data1 = tools.executeSql(sql)
+        # 查询认定整改金额
+        aim = "认定整改金额统计"  # 统计量
+        # 此处不需要左外连接,因为没有整改的问题不加入统计,选定最后一次上报数据作为分析数据
+        # 内层select用于过滤数据只保留最近一次上报的记录,外层用select用于对问题进行统计分析
+        sql = "select %s,rectification.序号,%s from problem join rectification on problem.序号 = " \
+              "rectification.问题序号 where (problem.序号,rectification.上报次序) in (select problem.序号,MAX(rectification.上报次序) " \
+              "from problem join rectification on problem.序号 = rectification.问题序号 group by problem.序号) group by %s " \
+              % (Dict.get(dim), Dict.get(aim), Dict.get(dim))
+        data2 = tools.executeSql(sql)
+        # 查询问题数量
+        aim = "问题数量统计"  # 统计量
+        # 此处不需要左外连接,因为没有整改的问题不加入统计,选定最后一次上报数据作为分析数据
+        # 内层select用于过滤数据只保留最近一次上报的记录,外层用select用于对问题进行统计分析
+        sql = "select %s,rectification.序号,rectification.整改责任部门,%s from problem join rectification on problem.序号 = " \
+              "rectification.问题序号 where (problem.序号,rectification.上报次序) in (select problem.序号,MAX(rectification.上报次序) " \
+              "from problem join rectification on problem.序号 = rectification.问题序号 group by problem.序号) group by %s " \
+              % (Dict.get(dim), Dict.get(aim), Dict.get(dim))
+        data3 = tools.executeSql(sql)
+        # 表格不可编辑
+        self.tableWidget_6.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        # 设置字体
+        self.tableWidget_6.horizontalHeader().setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_6.verticalHeader().setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_6.horizontalHeader().setStyleSheet("QHeaderView::section{background:lightyellow;}")
+        # 清空表格
+        self.tableWidget_6.clear()
+        self.tableWidget_6.setColumnCount(4)
+        self.tableWidget_6.setRowCount(3)
+        self.tableWidget_6.setHorizontalHeaderLabels(['', '问题金额', '认定整改金额', '问题数量'])
+        self.tableWidget_6.verticalHeader().setVisible(False)
+        # 打印前两列
+        x = 0
+        for i in data1:
+            for y in range(0, 2):
+                self.tableWidget_6.setItem(x, y, QtWidgets.QTableWidgetItem(str(data1[x][y])))
+                if y == 0:
+                    self.tableWidget_6.item(x, y).setBackground(QBrush(QColor(255, 255, 224)))
+            x = x + 1
+        # 打印第三列
+        x = 0
+        for i in data2:
+            for y in range(2, 3):
+                self.tableWidget_6.setItem(x, y, QtWidgets.QTableWidgetItem(str(data2[x][y])))
+            x = x + 1
+        # 打印第四列
+        x = 0
+        for i in data3:
+            for y in range(3, 4):
+                self.tableWidget_6.setItem(x, y, QtWidgets.QTableWidgetItem(str(data3[x][y])))
+            x = x + 1
+        self.tableWidget_6.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget_6.resizeRowsToContents()  # 根据行调整框大小
 
-        # 绘制图形
-        pyplot.rcParams['font.sans-serif'] = 'SimHei'  # 设置中文显示
-        bar_width = 0.1
-        x_name = []
-        y = []
-        for Tuple in data:
-            x_name.append(Tuple[0])
-            y.append(Tuple[1])
+        #审计组组长表格
+        dim = "审计组组长"  # 统计维度
+        # 查询问题金额
+        aim = "问题金额统计"  # 统计量
+        # 此处不需要左外连接,因为没有整改的问题不加入统计,选定最后一次上报数据作为分析数据
+        # 内层select用于过滤数据只保留最近一次上报的记录,外层用select用于对问题进行统计分析
+        sql = "select %s,%s from problem join rectification on problem.序号 = " \
+              "rectification.问题序号 where (problem.序号,rectification.上报次序) in (select problem.序号,MAX(rectification.上报次序) " \
+              "from problem join rectification on problem.序号 = rectification.问题序号 group by problem.序号) group by %s " \
+              % (Dict.get(dim), Dict.get(aim), Dict.get(dim))
+        data1 = tools.executeSql(sql)
+        # 查询认定整改金额
+        aim = "认定整改金额统计"  # 统计量
+        # 此处不需要左外连接,因为没有整改的问题不加入统计,选定最后一次上报数据作为分析数据
+        # 内层select用于过滤数据只保留最近一次上报的记录,外层用select用于对问题进行统计分析
+        sql = "select %s,rectification.序号,%s from problem join rectification on problem.序号 = " \
+              "rectification.问题序号 where (problem.序号,rectification.上报次序) in (select problem.序号,MAX(rectification.上报次序) " \
+              "from problem join rectification on problem.序号 = rectification.问题序号 group by problem.序号) group by %s " \
+              % (Dict.get(dim), Dict.get(aim), Dict.get(dim))
+        data2 = tools.executeSql(sql)
+        # 查询问题数量
+        aim = "问题数量统计"  # 统计量
+        # 此处不需要左外连接,因为没有整改的问题不加入统计,选定最后一次上报数据作为分析数据
+        # 内层select用于过滤数据只保留最近一次上报的记录,外层用select用于对问题进行统计分析
+        sql = "select %s,rectification.序号,rectification.整改责任部门,%s from problem join rectification on problem.序号 = " \
+              "rectification.问题序号 where (problem.序号,rectification.上报次序) in (select problem.序号,MAX(rectification.上报次序) " \
+              "from problem join rectification on problem.序号 = rectification.问题序号 group by problem.序号) group by %s " \
+              % (Dict.get(dim), Dict.get(aim), Dict.get(dim))
+        data3 = tools.executeSql(sql)
+        # 表格不可编辑
+        self.tableWidget_7.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        # 设置字体
+        self.tableWidget_7.horizontalHeader().setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_7.verticalHeader().setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_7.horizontalHeader().setStyleSheet("QHeaderView::section{background:lightyellow;}")
+        # 清空表格
+        self.tableWidget_7.clear()
+        self.tableWidget_7.setColumnCount(4)
+        row = len(data3)
+        self.tableWidget_7.setRowCount(row)
+        self.tableWidget_7.setHorizontalHeaderLabels(['', '问题金额', '认定整改金额', '问题数量'])
+        self.tableWidget_7.verticalHeader().setVisible(False)
+        # 打印前两列
+        x = 0
+        for i in data1:
+            for y in range(0, 2):
+                self.tableWidget_7.setItem(x, y, QtWidgets.QTableWidgetItem(str(data1[x][y])))
+                if y == 0:
+                    self.tableWidget_7.item(x, y).setBackground(QBrush(QColor(255, 255, 224)))
+            x = x + 1
+        # 打印第三列
+        x = 0
+        for i in data2:
+            for y in range(2, 3):
+                self.tableWidget_7.setItem(x, y, QtWidgets.QTableWidgetItem(str(data2[x][y])))
+            x = x + 1
+        # 打印第四列
+        x = 0
+        for i in data3:
+            for y in range(3, 4):
+                self.tableWidget_7.setItem(x, y, QtWidgets.QTableWidgetItem(str(data3[x][y])))
+            x = x + 1
+        self.tableWidget_7.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget_7.resizeRowsToContents()  # 根据行调整框大小
 
-        x = list(range(len(x_name)))  # 设置x轴的节点数
-        x_address = [i for i in x]  # 循环遍历，得到指定的节点数
-        pyplot.xticks(x_address, x_name)  # 绘制x轴
-        pyplot.xticks(fontsize=15)  # 设置x轴字体大小
-        pyplot.yticks(fontsize=15)  # 设置y轴字体大小
-        pyplot.bar(x, y, width=bar_width)  # 三个柱子颜色
-        canvas.draw()  # 这是关键
+        # 审计组主审表格
+        dim = "审计组主审"  # 统计维度
+        # 查询问题金额
+        aim = "问题金额统计"  # 统计量
+        # 此处不需要左外连接,因为没有整改的问题不加入统计,选定最后一次上报数据作为分析数据
+        # 内层select用于过滤数据只保留最近一次上报的记录,外层用select用于对问题进行统计分析
+        sql = "select %s,%s from problem join rectification on problem.序号 = " \
+              "rectification.问题序号 where (problem.序号,rectification.上报次序) in (select problem.序号,MAX(rectification.上报次序) " \
+              "from problem join rectification on problem.序号 = rectification.问题序号 group by problem.序号) group by %s " \
+              % (Dict.get(dim), Dict.get(aim), Dict.get(dim))
+        data1 = tools.executeSql(sql)
+        # 查询认定整改金额
+        aim = "认定整改金额统计"  # 统计量
+        # 此处不需要左外连接,因为没有整改的问题不加入统计,选定最后一次上报数据作为分析数据
+        # 内层select用于过滤数据只保留最近一次上报的记录,外层用select用于对问题进行统计分析
+        sql = "select %s,rectification.序号,%s from problem join rectification on problem.序号 = " \
+              "rectification.问题序号 where (problem.序号,rectification.上报次序) in (select problem.序号,MAX(rectification.上报次序) " \
+              "from problem join rectification on problem.序号 = rectification.问题序号 group by problem.序号) group by %s " \
+              % (Dict.get(dim), Dict.get(aim), Dict.get(dim))
+        data2 = tools.executeSql(sql)
+        # 查询问题数量
+        aim = "问题数量统计"  # 统计量
+        # 此处不需要左外连接,因为没有整改的问题不加入统计,选定最后一次上报数据作为分析数据
+        # 内层select用于过滤数据只保留最近一次上报的记录,外层用select用于对问题进行统计分析
+        sql = "select %s,rectification.序号,rectification.整改责任部门,%s from problem join rectification on problem.序号 = " \
+              "rectification.问题序号 where (problem.序号,rectification.上报次序) in (select problem.序号,MAX(rectification.上报次序) " \
+              "from problem join rectification on problem.序号 = rectification.问题序号 group by problem.序号) group by %s " \
+              % (Dict.get(dim), Dict.get(aim), Dict.get(dim))
+        data3 = tools.executeSql(sql)
+        # 表格不可编辑
+        self.tableWidget_8.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        # 设置字体
+        self.tableWidget_8.horizontalHeader().setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_8.verticalHeader().setFont(QFont('Times', 14, QFont.Black))
+        self.tableWidget_8.horizontalHeader().setStyleSheet("QHeaderView::section{background:lightyellow;}")
+        # 清空表格
+        self.tableWidget_8.clear()
+        self.tableWidget_8.setColumnCount(4)
+        row = len(data3)
+        self.tableWidget_8.setRowCount(row)
+        self.tableWidget_8.setHorizontalHeaderLabels(['', '问题金额', '认定整改金额', '问题数量'])
+        self.tableWidget_8.verticalHeader().setVisible(False)
+        # 打印前两列
+        x = 0
+        for i in data1:
+            for y in range(0, 2):
+                self.tableWidget_8.setItem(x, y, QtWidgets.QTableWidgetItem(str(data1[x][y])))
+                if y == 0:
+                    self.tableWidget_8.item(x, y).setBackground(QBrush(QColor(255, 255, 224)))
+            x = x + 1
+        # 打印第三列
+        x = 0
+        for i in data2:
+            for y in range(2, 3):
+                self.tableWidget_8.setItem(x, y, QtWidgets.QTableWidgetItem(str(data2[x][y])))
+            x = x + 1
+        # 打印第四列
+        x = 0
+        for i in data3:
+            for y in range(3, 4):
+                self.tableWidget_8.setItem(x, y, QtWidgets.QTableWidgetItem(str(data3[x][y])))
+            x = x + 1
+        self.tableWidget_8.resizeColumnsToContents()  # 根据列调整框大小
+        self.tableWidget_8.resizeRowsToContents()  # 根据行调整框大小
+
+    def tjfx_Excel_Out(self):
+        name = self.comboBox_29.currentText()
+        if(name == "认定整改情况统计分析表"):
+            tools.excelOut(name, self.tableWidget_5)
+        if(name == "上报整改情况统计分析表"):
+            tools.excelOut(name, self.tableWidget_6)
+        if(name == "审计组组长统计分析表"):
+            tools.excelOut(name, self.tableWidget_7)
+        if(name == "审计组主审统计分析表"):
+            tools.excelOut(name, self.tableWidget_8)
+        print(3)
 
     # 刷新发文流程页面
     def refreshBwprocessTable(self):
@@ -1276,6 +1515,7 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         self.lineEdit_6.setText("请在此输入表格名")
         self.dateEdit_7.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
         self.dateEdit_9.setDate(datetime.datetime.now())  # 初始化时间为当前系统时间
+        self.lineEdit_global_2.clear()
         # 刷新显示tableWidget
         self.showZgTable()
 
@@ -1736,6 +1976,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_lczl.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                 else:
                     self.tableWidget_lczl.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                if y % 2 == 0:
+                    self.tableWidget_lczl.item(x, y).setBackground(QBrush(QColor(245, 245, 245)))
+                else:
+                    self.tableWidget_lczl.item(x, y).setBackground(QBrush(QColor(230, 230, 230)))
                 y = y + 1
             x = x + 1
 
@@ -1761,6 +2005,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_jz_pro.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                 else:
                     self.tableWidget_jz_pro.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                if y % 2 == 0:
+                    self.tableWidget_jz_pro.item(x, y).setBackground(QBrush(QColor(245, 245, 245)))
+                else:
+                    self.tableWidget_jz_pro.item(x, y).setBackground(QBrush(QColor(230, 230, 230)))
                 y = y + 1
             x = x + 1
 
@@ -1812,6 +2060,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                 else:
                     self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                if y % 2 == 0:
+                    self.tableWidget_zgzl.item(x, y).setBackground(QBrush(QColor(245, 245, 245)))
+                else:
+                    self.tableWidget_zgzl.item(x, y).setBackground(QBrush(QColor(230, 230, 230)))
                 y = y + 1
             x = x + 1
 
@@ -1878,10 +2130,6 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                 lineEdit = item_object.findChildren(QtWidgets.QLineEdit)  # 获取窗口对象包含的所有lineEdit
                 second_condition_before = lineEdit[0].text()
                 second_condition_behind = lineEdit[1].text()
-                if(second_condition_before == "请输入数额" or second_condition_before == ""):
-                    second_condition_before = 0
-                if (second_condition_behind == "请输入数额" or second_condition_behind == ""):
-                    second_condition_behind = sys.maxsize
                 add_condition = " %s between '%s' and '%s'" % (value, second_condition_before, second_condition_behind)
             else:
                 # 文字查询
@@ -1902,6 +2150,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                 else:
                     self.tableWidget.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                if y % 2 == 0:
+                    self.tableWidget.item(x, y).setBackground(QBrush(QColor(245, 245, 245)))
+                else:
+                    self.tableWidget.item(x, y).setBackground(QBrush(QColor(230, 230, 230)))
                 y = y + 1
             x = x + 1
 
@@ -1939,7 +2191,22 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                 else:
                     self.tableWidget_2.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                if y % 2 == 0:
+                    self.tableWidget_2.item(x, y).setBackground(QBrush(QColor(245, 245, 245)))
+                else:
+                    self.tableWidget_2.item(x, y).setBackground(QBrush(QColor(230, 230, 230)))
             x = x + 1
+
+    #领导批示表格导出
+    def ldps_ExcelOut(self):
+        name = self.lineEdit_45.text()
+        if (name == "请输入表格名" or name == ""):
+            QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
+            self.lineEdit_45.selectAll()
+            self.lineEdit_45.setFocus()
+            return
+        tools.excelOut(name, self.tableWidget_2)
+
 
     # 办文流程排序功能
     def sortForLc(self):
@@ -2067,6 +2334,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_lczl.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                 else:
                     self.tableWidget_lczl.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                if y % 2 == 0:
+                    self.tableWidget_lczl.item(x, y).setBackground(QBrush(QColor(245, 245, 245)))
+                else:
+                    self.tableWidget_lczl.item(x, y).setBackground(QBrush(QColor(230, 230, 230)))
                 y = y + 1
             x = x + 1
 
@@ -2120,6 +2391,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
                     self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem("/"))
                 else:
                     self.tableWidget_zgzl.setItem(x, y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                if y % 2 == 0:
+                    self.tableWidget_zgzl.item(x, y).setBackground(QBrush(QColor(245, 245, 245)))
+                else:
+                    self.tableWidget_zgzl.item(x, y).setBackground(QBrush(QColor(230, 230, 230)))
                 y = y + 1
             x = x + 1
 
@@ -2317,259 +2592,43 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
 
     # 导出Excel表格
     def lcExcelOutput(self):
-        nowText = self.lineEdit_4.text()
-        if nowText == "":
-            QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
-        # 当没有输入表格名时提示并选中
-        elif nowText == "请在此输入表格名":
+        name = self.lineEdit_4.text()
+        if name == "" or name == "请在此输入表格名":
             QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
             self.lineEdit_4.selectAll()
             self.lineEdit_4.setFocus()
-        else:
-            # 设置表头格式
-            style_head = xlwt.XFStyle()
-            font = xlwt.Font()
-            font.name = u'微软雅黑'
-            font.color = 'black'
-            font.height = 230  # 字体大小
-            style_head.font = font
-            # 设置表头字体在单元格的位置
-            alignment = xlwt.Alignment()
-            alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
-            alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
-            style_head.alignment = alignment
-            # 给表头单元格加框线
-            border = xlwt.Borders()
-            border.left = xlwt.Borders.THIN  # 左
-            border.top = xlwt.Borders.THIN  # 上
-            border.right = xlwt.Borders.THIN  # 右
-            border.bottom = xlwt.Borders.THIN  # 下
-            border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
-            border.right_colour = 0x40
-            border.top_colour = 0x40
-            border.bottom_colour = 0x40
-            style_head.borders = border
-
-            # 设置输出字体格式及大小
-            style = xlwt.XFStyle()
-            font1 = xlwt.Font()
-            font1.name = u'宋体'
-            font1.color = 'black'
-            font1.height = 220  # 字体大小，220就是11号字体
-            style.font = font1
-            # 设置输出字体在单元格的位置
-            alignment = xlwt.Alignment()
-            alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
-            alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
-            style.alignment = alignment
-            # 给输出单元格加框线
-            border = xlwt.Borders()
-            border.left = xlwt.Borders.THIN  # 左
-            border.top = xlwt.Borders.THIN  # 上
-            border.right = xlwt.Borders.THIN  # 右
-            border.bottom = xlwt.Borders.THIN  # 下
-            border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
-            border.right_colour = 0x40
-            border.top_colour = 0x40
-            border.bottom_colour = 0x40
-            style.borders = border
-
-            work_book = xlwt.Workbook(encoding='utf-8')
-            sheet = work_book.add_sheet(nowText, cell_overwrite_ok=True)
-
-            # 设置单元格宽度
-            time = sheet.col(0)  # 流程开始时间
-            time.width = 256 * 13
-            send_number = sheet.col(1)  # 发文号
-            send_number.width = 256 * 30
-            send_name = sheet.col(2)  # 发文标题
-            send_name.width = 256 * 100
-            q_number = sheet.col(3)  # 问题个数
-            q_number.width = 256 * 10
-            receive_number = sheet.col(4)  # 收文号
-            receive_number.width = 256 * 30
-            receive_name = sheet.col(5)  # 收文标题
-            receive_name.width = 256 * 100
-            instruction_number = sheet.col(6)  # 批文号
-            instruction_number.width = 256 * 30
-            instruction_name = sheet.col(7)  # 批文标题
-            instruction_name.width = 256 * 100
-            if_change = sheet.col(8)  # 是否设置整改
-            if_change.width = 256 * 13
-
-            # 设置输出内容单元格高度
-            out_high_style = xlwt.easyxf('font:height 300')
-
-            # 设置列名,从流程开始时间这一列开始,序号不用显示
-            sheet.write(0, 0, '流程开始时间', style_head)
-            sheet.write(0, 1, '发文号', style_head)
-            sheet.write(0, 2, '发文标题', style_head)
-            sheet.write(0, 3, '问题个数', style_head)
-            sheet.write(0, 4, '收文号', style_head)
-            sheet.write(0, 5, '收文标题', style_head)
-            sheet.write(0, 6, '批文号', style_head)
-            sheet.write(0, 7, '批文标题', style_head)
-            sheet.write(0, 8, '是否设置整改', style_head)
-
-            rows = self.tableWidget_lczl.rowCount()
-            for i in range(rows):
-                # 因为是边读边写，所以每次写完后，要把上次存储的数据清空，存储下一行读取的数据
-                mainList = []
-                # tableWidget一共有9列,去掉序号列
-                for j in range(0, 9):
-                    mainList.append(self.tableWidget_lczl.item(i, j + 1).text())  # 添加到数组
-                    # 把mainList中的数据写入表格
-                    sheet.write(i + 1, j, mainList[j], style)
-                    # 设置当前列的高度
-                    sheet.row(i + 1).set_style(out_high_style)
-            # 设置表头单元格高度
-            head_high_style = xlwt.easyxf('font:height 400')
-            sheet.row(0).set_style(head_high_style)
-            # 保存
-            try:
-                work_book.save('/home/user/桌面/' + nowText + '.xls')
-            except:
-                log = Logger('./log/logfile.log', level='error')
-                log.logger.error("错误:%s", traceback.format_exc())
-            else:
-                QtWidgets.QMessageBox.information(None, "提示", "导出成功")
+            return
+        tools.excelOut(name, self.tableWidget_lczl)
 
     # 将办文表导出至Excel
     def bwExcelOutput(self):
+        name = self.lineEdit_44.text()
+        if (name == "请在此输入表格名" or name == ""):
+            QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
+            self.lineEdit_44.selectAll()
+            self.lineEdit_44.setFocus()
+            return
+        tools.excelOut(name, self.tableWidget_bwzl)
         print(2)
 
     def zgExcelOutput(self):
-        nowText = self.lineEdit_6.text()
-        if nowText == "":
+        name = self.lineEdit_6.text()
+        if (name == "请在此输入表格名" or name == ""):
             QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
-        # 当没有输入表格名时提示并选中
-        elif nowText == "请在此输入表格名":
-            QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
-            self.lineEdit_6.selectAll()
-            self.lineEdit_6.setFocus()
-        else:
-            # 设置表头格式
-            style_head = xlwt.XFStyle()
-            font = xlwt.Font()
-            font.name = u'微软雅黑'
-            font.color = 'black'
-            font.height = 230  # 字体大小
-            style_head.font = font
-            # 设置表头字体在单元格的位置
-            alignment = xlwt.Alignment()
-            alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
-            alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
-            style_head.alignment = alignment
-            # 给表头单元格加框线
-            border = xlwt.Borders()
-            border.left = xlwt.Borders.THIN  # 左
-            border.top = xlwt.Borders.THIN  # 上
-            border.right = xlwt.Borders.THIN  # 右
-            border.bottom = xlwt.Borders.THIN  # 下
-            border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
-            border.right_colour = 0x40
-            border.top_colour = 0x40
-            border.bottom_colour = 0x40
-            style_head.borders = border
+            self.lineEdit_44.selectAll()
+            self.lineEdit_44.setFocus()
+            return
+        tools.excelOut(name, self.tableWidget_zgzl)
 
-            # 设置输出字体格式及大小
-            style = xlwt.XFStyle()
-            font1 = xlwt.Font()
-            font1.name = u'宋体'
-            font1.color = 'black'
-            font1.height = 220  # 字体大小，220就是11号字体
-            style.font = font1
-            # 设置输出字体在单元格的位置
-            alignment = xlwt.Alignment()
-            alignment.horz = xlwt.Alignment.HORZ_CENTER  # 水平方向
-            alignment.vert = xlwt.Alignment.VERT_CENTER  # 竖直方向
-            style.alignment = alignment
-            # 给输出单元格加框线
-            border = xlwt.Borders()
-            border.left = xlwt.Borders.THIN  # 左
-            border.top = xlwt.Borders.THIN  # 上
-            border.right = xlwt.Borders.THIN  # 右
-            border.bottom = xlwt.Borders.THIN  # 下
-            border.left_colour = 0x40  # 设置框线颜色，0x40是黑色
-            border.right_colour = 0x40
-            border.top_colour = 0x40
-            border.bottom_colour = 0x40
-            style.borders = border
-
-            work_book = xlwt.Workbook(encoding='utf-8')
-            sheet = work_book.add_sheet(nowText, cell_overwrite_ok=True)
-
-            # 设置单元格宽度
-            time = sheet.col(0)  # 流程开始时间
-            time.width = 256 * 13
-            send_number = sheet.col(1)  # 发文号
-            send_number.width = 256 * 30
-            send_name = sheet.col(2)  # 发文标题
-            send_name.width = 256 * 100
-            receive_number = sheet.col(3)  # 收文号
-            receive_number.width = 256 * 30
-            receive_name = sheet.col(4)  # 收文标题
-            receive_name.width = 256 * 100
-            instruction_number = sheet.col(5)  # 批文号
-            instruction_number.width = 256 * 30
-            instruction_name = sheet.col(6)  # 批文标题
-            instruction_name.width = 256 * 100
-            if_change = sheet.col(7)  # 是否设置整改
-            if_change.width = 256 * 13
-
-            # 设置输出内容单元格高度
-            out_high_style = xlwt.easyxf('font:height 300')
-
-            # 设置列名,从流程开始时间这一列开始,序号不用显示
-            sheet.write(0, 0, '流程开始时间', style_head)
-            sheet.write(0, 1, '发文号', style_head)
-            sheet.write(0, 2, '发文标题', style_head)
-            sheet.write(0, 3, '收文号', style_head)
-            sheet.write(0, 4, '收文标题', style_head)
-            sheet.write(0, 5, '批文号', style_head)
-            sheet.write(0, 6, '批文标题', style_head)
-            sheet.write(0, 7, '是否完成整改', style_head)
-            rows = self.tableWidget_zgzl.rowCount()
-            for i in range(rows):
-                # 因为是边读边写，所以每次写完后，要把上次存储的数据清空，存储下一行读取的数据
-                mainList = []
-                # tableWidget一共有8列,去掉序号列
-                for j in range(0, 8):
-                    mainList.append(self.tableWidget_zgzl.item(i, j + 1).text())  # 添加到数组
-                    # 把mainList中的数据写入表格
-                    sheet.write(i + 1, j, mainList[j], style)
-                    # 设置当前列的高度
-                    sheet.row(i + 1).set_style(out_high_style)
-            # 设置表头单元格高度
-            head_high_style = xlwt.easyxf('font:height 400')
-            sheet.row(0).set_style(head_high_style)
-            # 保存
-            try:
-                work_book.save('/home/user/桌面/' + nowText + '.xls')
-            except:
-                log = Logger('./log/logfile.log', level='error')
-                log.logger.error("错误:%s", traceback.format_exc())
-            else:
-                QtWidgets.QMessageBox.information(None, "提示", "导出成功")
 
     def cxExcelOutput(self):
-        print(23)
-
-    def screen_shot(self):
-        name = self.lineEdit_46.text()
-        if name == "请输入图片名":
-            QtWidgets.QMessageBox.warning(None, "提示", "请输入图片名")
-        else:
-            win = WScreenShot(name=name)
-            win.run(name=name)
-
-    def screen_shot_wttj(self):
-        name = self.lineEdit_47.text()
-        if name == "请输入图片名":
-            QtWidgets.QMessageBox.warning(None, "提示", "请输入图片名")
-        else:
-            win = WScreenShot(name=name)
-            win.run(name=name)
+        name = self.lineEdit_43.text()
+        if (name == "请输入表格名" or name == ""):
+            QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
+            self.lineEdit_43.selectAll()
+            self.lineEdit_43.setFocus()
+            return
+        tools.excelOut(name, self.tableWidget)
 
     """
     @文件选择按钮函数
@@ -2616,6 +2675,15 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
         p = QtWidgets.QFileDialog.getOpenFileName(None, "选取文件夹", "C:/", "xls(*.xls);;xlsx(*.xlsx);;ET(*.et)")
         self.lineEdit_file_excel_2.setText(p[0])
 
+    def jzwt_ExcelOut(self):
+        name = self.lineEdit_47.text()
+        if (name == "请在此输入表格名" or name == ""):
+            QtWidgets.QMessageBox.warning(None, "提示", "请输入表格名")
+            self.lineEdit_47.selectAll()
+            self.lineEdit_47.setFocus()
+            return
+        tools.excelOut(name, self.tableWidget_jz_pro)
+        print(3)
     """
     @其他功能控件实现
     """
@@ -2894,10 +2962,10 @@ class Call_index(QtWidgets.QMainWindow, Ui_indexWindow):
             self.comboBox_22.removeItem(nowIndex)  # 从comboBox_22中移除所选条目
             if nowText in numeric_condition_dict.keys():
                 widget2 = QtWidgets.QWidget()
-                edit1 = QtWidgets.QLineEdit("请输入数额")
-                label = QtWidgets.QLabel("至")
+                edit1 = QtWidgets.QDoubleSpinBox()
+                label = QtWidgets.QLabel("        至")
                 label.setEnabled(False)
-                edit2 = QtWidgets.QLineEdit("请输入数额")
+                edit2 = QtWidgets.QDoubleSpinBox()
                 grid = QtWidgets.QGridLayout()
                 grid.addWidget(edit1, 0, 1)
                 grid.addWidget(label, 0, 2)
